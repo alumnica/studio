@@ -19,7 +19,7 @@ class LearnerMicroODARating:
         pass
 
     @property
-    def oda(self):
+    def microoda(self):
         pass
 
     @property
