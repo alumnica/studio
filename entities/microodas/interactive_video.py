@@ -1,12 +1,11 @@
 from abc import ABC
 
-from content_organization.structures import MicroODA
-from progress import LearnerProgressInMicroODA
+from entities.content_organization.structures import MicroODA
+from entities.progress import LearnerProgressInMicroODA
 
 
-class InteractiveVideo(MicroODA, ABC):
+class InteractiveVideo(MicroODA):
     @property
-
     def root_video_node(self):
         pass
 
@@ -25,7 +24,7 @@ class InteractiveVideoNode:
         pass
 
 
-class VideoNode(InteractiveVideoNode, ABC):
+class VideoNode(InteractiveVideoNode):
     @property
     def source(self):
         pass
@@ -39,7 +38,7 @@ class VideoNode(InteractiveVideoNode, ABC):
         pass
 
 
-class ForkNode(InteractiveVideoNode, ABC):
+class ForkNode(InteractiveVideoNode):
     @property
     def image(self):
         pass
@@ -73,7 +72,7 @@ class ExerciseNode(InteractiveVideoNode, ABC):
         pass
 
 
-class LearnerProgressInInteractiveVideo(LearnerProgressInMicroODA, ABC):
+class LearnerProgressInInteractiveVideo(LearnerProgressInMicroODA):
     @property
     def interactive_video(self):
         pass

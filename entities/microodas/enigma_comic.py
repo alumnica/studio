@@ -6,12 +6,10 @@ from progress import LearnerProgressInMicroODA
 
 class EnigmaComic(MicroODA, ABC):
     @property
-
     def exercise(self):
         pass
 
     @property
-
     def learners_progress_in_enigma_comic(self):
         pass
 

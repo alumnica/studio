@@ -1,4 +1,3 @@
-from abc import ABC
 from enum import Enum
 
 
@@ -31,7 +30,7 @@ class User:
         pass
 
 
-class Administrator(User, ABC):
+class Administrator(User):
     @property
     def name(self):
         pass
@@ -53,7 +52,7 @@ class Administrator(User, ABC):
         return UserType.ADMINISTRATOR
 
 
-class ContentCreator(User, ABC):
+class ContentCreator(User):
     @property
     def name(self):
         pass
@@ -75,7 +74,7 @@ class ContentCreator(User, ABC):
         return UserType.CONTENT_CREATOR
 
 
-class DataAnalyst(User, ABC):
+class DataAnalyst(User):
     @property
     def name(self):
         pass
@@ -97,7 +96,7 @@ class DataAnalyst(User, ABC):
         return UserType.DATA_ANALYST
 
 
-class Learner(User, ABC):
+class Learner(User):
     @property
     def name(self):
         pass
