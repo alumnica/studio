@@ -1,103 +1,96 @@
-from abc import ABC, abstractmethod
+from enum import Enum
 
 
-class World(ABC):
+class World:
     @property
-    @abstractmethod
     def name(self):
         pass
 
     @property
-    @abstractmethod
     def description(self):
         pass
 
     @property
-    @abstractmethod
     def subworlds(self):
         pass
 
 
-class Subworld(ABC):
+class Subworld:
     @property
-    @abstractmethod
     def name(self):
         pass
 
     @property
-    @abstractmethod
     def description(self):
         pass
 
     @property
-    @abstractmethod
     def theme(self):
         pass
 
     @property
-    @abstractmethod
     def world(self):
         pass
 
     @property
-    @abstractmethod
     def odas(self):
         pass
 
 
-class ODA(ABC):
+class ODA:
     @property
-    @abstractmethod
     def name(self):
         pass
 
     @property
-    @abstractmethod
     def description(self):
         pass
 
     @property
-    @abstractmethod
     def icon(self):
         pass
 
     @property
-    @abstractmethod
     def subworld(self):
         pass
 
     @property
-    @abstractmethod
     def micro_odas(self):
         pass
 
-    @abstractmethod
     def is_complete(self):
         pass
 
 
-class MicroODA(ABC):
+class MicroODAType(Enum):
+    INTERACTIVE_VIDEO = 'Video Interactivo'
+    WIKIRETO = 'WikiReto'
+    ENIGMA_COMIC = 'Enigma Comic'
+    MINI_JUEGO = 'MiniJuego'
+    ORGANIZADOR = 'organizador'
+
+
+class MicroODA:
     @property
-    @abstractmethod
     def name(self):
         pass
 
     @property
-    @abstractmethod
     def description(self):
         pass
 
     @property
-    @abstractmethod
     def type(self):
         pass
 
     @property
-    @abstractmethod
     def default_position(self):
         pass
 
     @property
-    @abstractmethod
     def learners_progress(self):
+        pass
+
+    @property
+    def oda(self):
         pass

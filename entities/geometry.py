@@ -1,13 +1,8 @@
-from abc import ABC, abstractmethod
-
-
-class Point2D(ABC):
+class Point2D:
     @property
-    @abstractmethod
     def x(self):
         pass
 
     @property
-    @abstractmethod
     def y(self):
         pass

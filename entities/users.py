@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from enum import Enum
 
 
@@ -9,51 +9,42 @@ class UserType(Enum):
     LEARNER = 'Learner'
 
 
-class User(ABC):
+class User:
     @property
-    @abstractmethod
     def name(self):
         pass
 
     @property
-    @abstractmethod
     def last_name(self):
         pass
 
     @property
-    @abstractmethod
     def email(self):
         pass
 
     @property
-    @abstractmethod
     def password(self):
         pass
 
     @property
-    @abstractmethod
     def type(self):
         pass
 
 
 class Administrator(User, ABC):
     @property
-    @abstractmethod
     def name(self):
         pass
 
     @property
-    @abstractmethod
     def last_name(self):
         pass
 
     @property
-    @abstractmethod
     def email(self):
         pass
 
     @property
-    @abstractmethod
     def password(self):
         pass
 
@@ -64,22 +55,18 @@ class Administrator(User, ABC):
 
 class ContentCreator(User, ABC):
     @property
-    @abstractmethod
     def name(self):
         pass
 
     @property
-    @abstractmethod
     def last_name(self):
         pass
 
     @property
-    @abstractmethod
     def email(self):
         pass
 
     @property
-    @abstractmethod
     def password(self):
         pass
 
@@ -90,22 +77,18 @@ class ContentCreator(User, ABC):
 
 class DataAnalyst(User, ABC):
     @property
-    @abstractmethod
     def name(self):
         pass
 
     @property
-    @abstractmethod
     def last_name(self):
         pass
 
     @property
-    @abstractmethod
     def email(self):
         pass
 
     @property
-    @abstractmethod
     def password(self):
         pass
 
@@ -116,22 +99,18 @@ class DataAnalyst(User, ABC):
 
 class Learner(User, ABC):
     @property
-    @abstractmethod
     def name(self):
         pass
 
     @property
-    @abstractmethod
     def last_name(self):
         pass
 
     @property
-    @abstractmethod
     def email(self):
         pass
 
     @property
-    @abstractmethod
     def password(self):
         pass
 

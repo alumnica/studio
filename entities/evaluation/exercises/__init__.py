@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 from enum import Enum
 
 
@@ -8,24 +7,21 @@ class ExerciseType(Enum):
     IMAGE_SORTING = 'Image Sorting'
 
 
-class Exercise(ABC):
+class Exercise:
     @property
-    @abstractmethod
+
     def name(self):
         pass
 
     @property
-    @abstractmethod
     def description(self):
         pass
 
     @property
-    @abstractmethod
     def type(self):
         pass
 
     @property
-    @abstractmethod
     def exercise_solutions(self):
         pass
 
@@ -36,18 +32,15 @@ class ExerciseSolutionType(Enum):
     IMAGE_SORTING_SOLUTION = 'Image Sorting Solution'
 
 
-class ExerciseSolution(ABC):
+class ExerciseSolution:
     @property
-    @abstractmethod
     def exercise(self):
         pass
 
     @property
-    @abstractmethod
     def type(self):
         pass
 
     @property
-    @abstractmethod
     def score(self):
         pass
