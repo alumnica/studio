@@ -1,1 +1,2 @@
 from .content_organization.structures import WorldModel, ThemeModel, SubworldModel, ODAModel, MicroODAModel
+from .users import UserModel, AdministratorModel, ContentCreatorModel, DataAnalystModel, LearnerModel
