@@ -12,12 +12,12 @@ class Point2DModel(Point2D, models.Model):
     def y(self):
         return self.y_field
 
-    x_field = models.DecimalField(verbose_name='coordenada x')
-    y_field = models.DecimalField(verbose_name='coordenada y')
+    x_field = models.DecimalField(max_digits=8, decimal_places=4, verbose_name='coordenada x')
+    y_field = models.DecimalField(max_digits=8, decimal_places=4, verbose_name='coordenada y')
 
     class Meta:
         verbose_name = 'coordenadas'
         verbose_name_plural = 'par de coordenadas'
 
     def __str__(self):
-        return str(self.name)
+        return '{0},{1}'.format(self.x_field, self.y_field)

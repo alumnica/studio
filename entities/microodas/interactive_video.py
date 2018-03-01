@@ -1,4 +1,5 @@
 from abc import ABC
+from enum import Enum
 
 from entities.content_organization.structures import MicroODA
 from entities.progress import LearnerProgressInMicroODA
@@ -8,6 +9,12 @@ class InteractiveVideo(MicroODA):
     @property
     def root_video_node(self):
         pass
+
+
+class InteractiveVideoNodeType(Enum):
+    VIDEO = 'Video'
+    FORK = 'Bifurcación'
+    EXERCISE = 'Ejercicio'
 
 
 class InteractiveVideoNode:

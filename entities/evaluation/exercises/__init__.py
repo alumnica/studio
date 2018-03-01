@@ -3,8 +3,8 @@ from enum import Enum
 
 class ExerciseType(Enum):
     CATEGORIZAR = 'Categorizar'
-    IMAGE_SELECTION = 'Image Selection'
-    IMAGE_SORTING = 'Image Sorting'
+    IMAGE_SELECTION = 'Selección de Imágenes'
+    IMAGE_SORTING = 'Ordenamiento de Imágenes'
 
 
 class Exercise:
@@ -27,9 +27,9 @@ class Exercise:
 
 
 class ExerciseSolutionType(Enum):
-    CATEGORIZAR_SOLUTION = 'Categorizar Solution'
-    IMAGE_SELECTION_SOLUTION = 'Image Selection Solution'
-    IMAGE_SORTING_SOLUTION = 'Image Sorting Solution'
+    CATEGORIZAR_SOLUTION = 'Categorizar'
+    IMAGE_SELECTION_SOLUTION = 'Selección de Imágenes'
+    IMAGE_SORTING_SOLUTION = 'Ordenamiento de Imágenes'
 
 
 class ExerciseSolution:

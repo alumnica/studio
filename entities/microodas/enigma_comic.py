@@ -1,10 +1,10 @@
-from abc import ABC
+from enum import Enum
 
-from content_organization.structures import MicroODA
-from progress import LearnerProgressInMicroODA
+from entities.content_organization.structures import MicroODA
+from entities.progress import LearnerProgressInMicroODA
 
 
-class EnigmaComic(MicroODA, ABC):
+class EnigmaComic(MicroODA):
     @property
     def exercise(self):
         pass
@@ -16,6 +16,11 @@ class EnigmaComic(MicroODA, ABC):
     @property
     def comic_scenes(self):
         pass
+
+
+class EnigmaComicSceneType(Enum):
+    STATIC_SCENE = 'Escena estática'
+    SCENE_360 = 'Escena 360'
 
 
 class EnigmaComicScene:
@@ -53,19 +58,19 @@ class EngimaComicClickableArea:
         pass
 
 
-class EnigmaComicStaticScene(EnigmaComicScene, ABC):
+class EnigmaComicStaticScene(EnigmaComicScene):
     @property
     def background_scene(self):
         pass
 
 
-class EnigmaComicS360Scene(EnigmaComicScene, ABC):
+class EnigmaComicS360Scene(EnigmaComicScene):
     @property
     def image_360(self):
         pass
 
 
-class LearnerProgressInEnigmaComic(LearnerProgressInMicroODA, ABC):
+class LearnerProgressInEnigmaComic(LearnerProgressInMicroODA):
     @property
     def enigma_comic(self):
         pass

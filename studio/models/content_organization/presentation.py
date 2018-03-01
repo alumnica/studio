@@ -28,3 +28,6 @@ class ThemeModel(Theme, models.Model):
     class Meta:
         verbose_name = 'tema'
         verbose_name_plural = 'temas'
+
+    def __str__(self):
+        return str(self.name)

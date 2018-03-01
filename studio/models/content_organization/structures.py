@@ -63,7 +63,6 @@ class SubworldModel(Subworld, models.Model):
 
 
 class ODAModel(ODA, models.Model):
-
     @property
     def name(self):
         return self.name_field
@@ -89,17 +88,24 @@ class ODAModel(ODA, models.Model):
     icon_field = models.ImageField(verbose_name='ícono')
     subworld_field = models.ForeignKey(SubworldModel, on_delete=models.CASCADE, verbose_name='submundo')
 
+    class Meta:
+        verbose_name = 'ODA'
+        verbose_name_plural = 'ODAs'
+
     def is_complete(self):
         return False
+
+    def __str__(self):
+        return str(self.name)
 
 
 class MicroODAModel(MicroODA, models.Model):
     MICROODA_TYPES = (
-        (MicroODAType.INTERACTIVE_VIDEO, MicroODAType.INTERACTIVE_VIDEO),
-        (MicroODAType.WIKIRETO, MicroODAType.WIKIRETO),
-        (MicroODAType.ENIGMA_COMIC, MicroODAType.ENIGMA_COMIC),
-        (MicroODAType.MINI_JUEGO, MicroODAType.MINI_JUEGO),
-        (MicroODAType.ORGANIZADOR, MicroODAType.ORGANIZADOR),
+        (MicroODAType.INTERACTIVE_VIDEO.value, MicroODAType.INTERACTIVE_VIDEO.value),
+        (MicroODAType.WIKIRETO.value, MicroODAType.WIKIRETO.value),
+        (MicroODAType.ENIGMA_COMIC.value, MicroODAType.ENIGMA_COMIC.value),
+        (MicroODAType.MINI_JUEGO.value, MicroODAType.MINI_JUEGO.value),
+        (MicroODAType.ORGANIZADOR.value, MicroODAType.ORGANIZADOR.value),
     )
 
     @property
@@ -128,7 +134,7 @@ class MicroODAModel(MicroODA, models.Model):
 
     name_field = models.CharField(max_length=100, verbose_name='nombre')
     description_field = models.TextField(blank=True, verbose_name='descripción')
-    type_field = models.CharField(max_length=10, choices=MICROODA_TYPES, verbose_name='tipo')
+    type_field = models.CharField(max_length=50, choices=MICROODA_TYPES, verbose_name='tipo')
     default_position_field = models.PositiveSmallIntegerField(default=0, verbose_name='posición por defecto')
     oda_field = models.ForeignKey(ODAModel, on_delete=models.CASCADE, verbose_name='ODA')
 

@@ -1,7 +1,8 @@
 from django.db import models
 
 from entities.content_organization.structures import MicroODAType
-from entities.microodas.interactive_video import InteractiveVideo, InteractiveVideoNode, VideoNode, NodeLink
+from entities.microodas.interactive_video import InteractiveVideo, InteractiveVideoNode, VideoNode, NodeLink, \
+    InteractiveVideoNodeType
 from studio.models import MicroODAModel
 
 
@@ -16,6 +17,12 @@ class InteractiveVideoModel(MicroODAModel, InteractiveVideo, models.Model):
 
 
 class InteractiveVideoNodeModel(InteractiveVideoNode, models.Model):
+    NODE_TYPES = (
+        (InteractiveVideoNodeType.VIDEO.value, InteractiveVideoNodeType.VIDEO.value),
+        (InteractiveVideoNodeType.FORK.value, InteractiveVideoNodeType.FORK.value),
+        (InteractiveVideoNodeType.EXERCISE.value, InteractiveVideoNodeType.EXERCISE.value),
+    )
+
     @property
     def name(self):
         return self.name_field
@@ -29,7 +36,8 @@ class InteractiveVideoNodeModel(InteractiveVideoNode, models.Model):
         return self.interactive_video_field
 
     name_field = models.CharField(max_length=100, verbose_name='nombre')
-    type_field = models.CharField(max_length=10, verbose_name='tipo de nodo')
+    type_field = models.CharField(max_length=50, choices=NODE_TYPES,
+                                  verbose_name='tipo de nodo')
     interactive_video_field = models.ForeignKey(InteractiveVideoModel, on_delete=models.CASCADE,
                                                 verbose_name='video interactivo')
 
@@ -59,6 +67,10 @@ class VideoNodeModel(InteractiveVideoNodeModel, VideoNode):
     close_captions_field = models.TextField(blank=True, verbose_name='subtítulos')
     duration_in_seconds_field = models.PositiveSmallIntegerField(default=0, verbose_name='duración en segundos')
 
+    class Meta:
+        verbose_name = 'nodo de video para Video Interactivo'
+        verbose_name_plural = 'nodos de video para Video Interactivo'
+
 
 class ForkNodeModel(InteractiveVideoNodeModel, VideoNode):
     @property
@@ -76,6 +88,10 @@ class ForkNodeModel(InteractiveVideoNodeModel, VideoNode):
     image_field = models.ImageField(verbose_name='imagen de fondo')
     selected_link_field = models.ForeignKey('NodeLinkModel', on_delete=models.SET_NULL, null=True, blank=True,
                                             verbose_name='nodo elegido')
+
+    class Meta:
+        verbose_name = 'nodo de bifurcación para Video Interactivo'
+        verbose_name_plural = 'nodos de bifurcación para Video Interactivo'
 
 
 class NodeLinkModel(NodeLink, models.Model):
@@ -96,6 +112,13 @@ class NodeLinkModel(NodeLink, models.Model):
                                         verbose_name='nodo de bifurcación')
     target_node_field = models.ForeignKey(ForkNodeModel, on_delete=models.CASCADE, related_name='incoming_links_set',
                                           verbose_name='siguiente nodo')
+
+    class Meta:
+        verbose_name = 'enlace de nodos'
+        verbose_name_plural = 'enlaces de nodos'
+
+    def __str__(self):
+        return '{} -> {}'.format(self.fork_node_field.name, self.target_node_field.name)
 
 # class ExerciseNodeModel(InteractiveVideoNodeModel, ExerciseNode):
 #     @property

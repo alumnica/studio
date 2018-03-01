@@ -67,7 +67,7 @@ class MicroODAType(Enum):
     WIKIRETO = 'WikiReto'
     ENIGMA_COMIC = 'Enigma Comic'
     MINI_JUEGO = 'MiniJuego'
-    ORGANIZADOR = 'organizador'
+    ORGANIZADOR = 'Organizador'
 
 
 class MicroODA:

@@ -5,9 +5,9 @@ from entities.evaluation.exercises import Exercise, ExerciseType, ExerciseSoluti
 
 class ExerciseModel(Exercise, models.Model):
     EXERCISE_TYPES = (
-        (ExerciseType.CATEGORIZAR, ExerciseType.CATEGORIZAR),
-        (ExerciseType.IMAGE_SELECTION, ExerciseType.IMAGE_SELECTION),
-        (ExerciseType.IMAGE_SORTING, ExerciseType.IMAGE_SORTING),
+        (ExerciseType.CATEGORIZAR.value, ExerciseType.CATEGORIZAR.value),
+        (ExerciseType.IMAGE_SELECTION.value, ExerciseType.IMAGE_SELECTION.value),
+        (ExerciseType.IMAGE_SORTING.value, ExerciseType.IMAGE_SORTING.value),
     )
 
     @property
@@ -28,21 +28,21 @@ class ExerciseModel(Exercise, models.Model):
 
     name_field = models.CharField(max_length=100, verbose_name='nombre')
     description_field = models.TextField(blank=True, verbose_name='descripción')
-    type_field = models.CharField(max_length=20, choices=EXERCISE_TYPES,verbose_name='tipo')
+    type_field = models.CharField(max_length=50, choices=EXERCISE_TYPES, verbose_name='tipo')
 
     class Meta:
         verbose_name = 'ejercicio'
         verbose_name_plural = 'ejercicios'
-        abstract = True
 
     def __str__(self):
-        return self.name
+        return str(self.name)
+
 
 class ExerciseSolutionModel(ExerciseSolution, models.Model):
-    EXERCISESOLUTION_TYPES = (
-        (ExerciseSolutionType.CATEGORIZAR_SOLUTION, ExerciseSolutionType.CATEGORIZAR_SOLUTION),
-        (ExerciseSolutionType.IMAGE_SELECTION_SOLUTION, ExerciseSolutionType.IMAGE_SELECTION_SOLUTION),
-        (ExerciseSolutionType.IMAGE_SORTING_SOLUTION, ExerciseSolutionType.IMAGE_SORTING_SOLUTION),
+    EXERCISE_SOLUTION_TYPES = (
+        (ExerciseSolutionType.CATEGORIZAR_SOLUTION.value, ExerciseSolutionType.CATEGORIZAR_SOLUTION.value),
+        (ExerciseSolutionType.IMAGE_SELECTION_SOLUTION.value, ExerciseSolutionType.IMAGE_SELECTION_SOLUTION.value),
+        (ExerciseSolutionType.IMAGE_SORTING_SOLUTION.value, ExerciseSolutionType.IMAGE_SORTING_SOLUTION.value),
     )
 
     @property
@@ -58,13 +58,12 @@ class ExerciseSolutionModel(ExerciseSolution, models.Model):
         return self.score_field
 
     exercise_field = models.ForeignKey(ExerciseModel, on_delete=models.CASCADE, verbose_name='ejercicio')
-    type_field = models.CharField(max_length=30, choices=EXERCISESOLUTION_TYPES,verbose_name='tipo de solución')
-    score_field = models.DecimalField(verbose_name='puntuación')
+    type_field = models.CharField(max_length=30, choices=EXERCISE_SOLUTION_TYPES, verbose_name='tipo de solución')
+    score_field = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='puntuación')
 
     class Meta:
         verbose_name = 'solución del ejercicio'
         verbose_name_plural = 'soluciones del ejercicio'
-        abstract = True
 
     def __str__(self):
-        return str(self.name)
+        return '{} {}'.format(self.exercise, self.score)

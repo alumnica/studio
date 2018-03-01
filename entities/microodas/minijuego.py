@@ -1,17 +1,13 @@
-from abc import ABC
-
-from content_organization.structures import MicroODA
-from progress import LearnerProgressInMicroODA
+from entities.content_organization.structures import MicroODA
+from entities.progress import LearnerProgressInMicroODA
 
 
-class MiniJuego(MicroODA, ABC):
+class MiniJuego(MicroODA):
     @property
-
     def game_scenes(self):
         pass
 
     @property
-
     def learners_progress_in_minijuego(self):
         pass
 
@@ -26,7 +22,7 @@ class MiniJuegoScene:
         pass
 
 
-class MiniJuegoSceneItems:
+class MiniJuegoSceneItem:
     @property
     def correct_positioning_message(self):
         pass
@@ -51,7 +47,7 @@ class MiniJuegoSceneItems:
         pass
 
 
-class LearnerProgressInMiniJuego(LearnerProgressInMicroODA, ABC):
+class LearnerProgressInMiniJuego(LearnerProgressInMicroODA):
     @property
     def minijuego(self):
         pass

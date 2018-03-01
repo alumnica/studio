@@ -23,6 +23,7 @@ class WikiRetoModel(WikiReto, models.Model):
     def __str__(self):
         return str(self.name)
 
+
 class LearnerProgressInWikiRetoModel(LearnerProgressInWikiReto, models.Model):
     @property
     def wikireto(self):

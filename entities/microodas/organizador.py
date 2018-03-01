@@ -1,17 +1,15 @@
 from abc import ABC
 
-from content_organization.structures import MicroODA
-from progress import LearnerProgressInMicroODA
+from entities.content_organization.structures import MicroODA
+from entities.progress import LearnerProgressInMicroODA
 
 
 class Organizador(MicroODA, ABC):
     @property
-
     def text(self):
         pass
 
     @property
-
     def learners_progress_in_organizador(self):
         pass
 
