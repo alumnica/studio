@@ -1,7 +1,7 @@
 from django.db import models
 
-from entities.ratings import LearnerODARating, LearnerMicroODARating
-from studio.models import LearnerModel, ODAModel
+from alumnica_entities.ratings import LearnerODARating, LearnerMicroODARating
+from studio.models import LearnerModel, ODAModel, MicroODAModel
 
 
 class LearnerODARatingModel(LearnerODARating, models.Model):
@@ -19,11 +19,12 @@ class LearnerODARatingModel(LearnerODARating, models.Model):
 
     learner_field = models.ForeignKey(LearnerModel, on_delete=models.CASCADE, verbose_name='alumno')
     oda_field = models.ForeignKey(ODAModel, on_delete=models.CASCADE, verbose_name='ODA')
-    rating_field = models.DemicalField(max_digits=100, decimal_places=2, verbose_name='calificación')
+    rating_field = models.DecimalField(max_digits=100, decimal_places=2, verbose_name='calificación')
 
     class Meta:
         verbose_name = 'calificación de ODA del alumno'
         verbose_name_plural = 'calificaciones de ODA del alumno'
+
 
 class LearnerMicroODARatingModel(LearnerMicroODARating, models.Model):
     @property
@@ -40,7 +41,7 @@ class LearnerMicroODARatingModel(LearnerMicroODARating, models.Model):
 
     learner_field = models.ForeignKey(LearnerModel, on_delete=models.CASCADE, verbose_name='alumno')
     microoda_field = models.ForeignKey(MicroODAModel, on_delete=models.CASCADE, verbose_name='microODA')
-    rating_field = models.DemicalField(max_digits=100, decimal_places=2, verbose_name='calificación')
+    rating_field = models.DecimalField(max_digits=100, decimal_places=2, verbose_name='calificación')
 
     class Meta:
         verbose_name = 'calificación de microODA del alumno'

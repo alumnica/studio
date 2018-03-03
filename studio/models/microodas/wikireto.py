@@ -1,12 +1,12 @@
 from django.db import models
 
-from entities.microodas.wikireto import WikiReto, LearnerProgressInWikiReto
+from alumnica_entities.microodas.wikireto import WikiReto, LearnerProgressInWikiReto
 
 
 class WikiRetoModel(WikiReto, models.Model):
     @property
     def learners_progress(self):
-        return microoda_set.all()
+        raise NotImplementedError()
 
     @property
     def positive_exercise(self):

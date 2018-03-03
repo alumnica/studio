@@ -1,9 +1,8 @@
 from django.db import models
 
-from entities.microodas.enigma_comic import EnigmaComic, EnigmaComicScene, EnigmaComicSceneType, \
+from alumnica_entities.microodas.enigma_comic import EnigmaComic, EnigmaComicScene, EnigmaComicSceneType, \
     EngimaComicClickableArea, EnigmaComicStaticScene, EnigmaComicS360Scene
-from studio.models import MicroODAModel
-from studio.models.evaluation.exercises import ExerciseModel
+from studio.models import MicroODAModel, ExerciseModel
 from studio.models.geometry import Point2DModel
 
 

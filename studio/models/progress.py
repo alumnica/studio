@@ -1,6 +1,6 @@
 from django.db import models
 
-from entities.progress import LearnerProgressInODA, LearnerProgressInMicroODA
+from alumnica_entities.progress import LearnerProgressInODA, LearnerProgressInMicroODA
 from studio.models import LearnerModel, MicroODAModel, ODAModel
 
 
@@ -36,9 +36,6 @@ class LearnerProgressInODAModel(LearnerProgressInODA, models.Model):
         verbose_name = 'progreso del alumno en ODA'
         verbose_name_plural = 'progresos del alumno en ODA'
 
-    def __str__(self):
-        return str(self.name)
-
 
 class LearnerProgressInMicroODAModel(LearnerProgressInMicroODA, models.Model):
     @property
@@ -65,6 +62,3 @@ class LearnerProgressInMicroODAModel(LearnerProgressInMicroODA, models.Model):
     class Meta:
         verbose_name = 'progreso del alumno en microODA'
         verbose_name_plural = 'progresos del alumno en microODA'
-
-    def __str__(self):
-        return str(self.name)

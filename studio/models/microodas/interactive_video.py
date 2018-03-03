@@ -1,8 +1,8 @@
 from django.db import models
 
-from entities.content_organization.structures import MicroODAType
-from entities.microodas.interactive_video import InteractiveVideo, InteractiveVideoNode, VideoNode, NodeLink, \
-    InteractiveVideoNodeType
+from alumnica_entities.content_organization.structures import MicroODAType
+from alumnica_entities.microodas.interactive_video import InteractiveVideo, InteractiveVideoNode, VideoNode, NodeLink, \
+    InteractiveVideoNodeType, ForkNode
 from studio.models import MicroODAModel
 
 
@@ -72,7 +72,7 @@ class VideoNodeModel(InteractiveVideoNodeModel, VideoNode):
         verbose_name_plural = 'nodos de video para Video Interactivo'
 
 
-class ForkNodeModel(InteractiveVideoNodeModel, VideoNode):
+class ForkNodeModel(InteractiveVideoNodeModel, ForkNode):
     @property
     def image(self):
         return self.image_field

@@ -1,6 +1,6 @@
 from django.db import models
 
-from entities.content_organization.presentation import Theme
+from alumnica_entities.content_organization.presentation import Theme
 
 
 class ThemeModel(Theme, models.Model):

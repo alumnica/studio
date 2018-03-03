@@ -1,6 +1,6 @@
 from django.db import models
 
-from entities.users import User, Administrator, ContentCreator, DataAnalyst, Learner
+from alumnica_entities.users import User, Administrator, ContentCreator, DataAnalyst, Learner
 
 
 class UserModel(User, models.Model):

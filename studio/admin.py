@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from studio.models import WorldModel, SubworldModel, ODAModel, ThemeModel, ExerciseModel, ExerciseSolutionModel, \
+from studio.models import WorldModel, SubworldModel, ODAModel, ThemeModel, \
     EnigmaComicModel, EnigmaComicClickableAreaModel, EngimaComicStaticSceneModel, \
     EnigmaComicS360SceneModel, InteractiveVideoModel, VideoNodeModel, ForkNodeModel, NodeLinkModel, \
     LearnerEvaluationModel, QuestionModel, PossibleAnswerModel, AnswerGivenByLearnerModel, AdministratorModel, \
-    ContentCreatorModel, DataAnalystModel, LearnerModel
+    ContentCreatorModel, DataAnalystModel, LearnerModel, ExerciseModel, ExerciseSolutionModel
 from studio.models.geometry import Point2DModel
 
 admin.site.register(WorldModel)

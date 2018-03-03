@@ -1,0 +1,4 @@
+[submodule "alumnica_entities"]
+	path = alumnica_entities
+	url = git@gitlab.com:code-ing/ti/fundacion-manuel-moreno/alumnica/alumnica_entities.git
+	branch = develop

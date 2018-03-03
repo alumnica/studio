@@ -1,6 +1,6 @@
 from django.db import models
 
-from entities.microodas.minijuego import MiniJuego, MiniJuegoScene, MiniJuegoSceneItem
+from alumnica_entities.microodas.minijuego import MiniJuego, MiniJuegoScene, MiniJuegoSceneItem
 from studio.models import MicroODAModel
 
 
@@ -53,7 +53,7 @@ class MiniJuegoSceneItemModel(MiniJuegoSceneItem, models.Model):
         return self.correct_column_index_field
 
     def is_correctly_positioned(self):
-        return False
+        raise NotImplementedError()
 
     correct_positioning_message_field = models.TextField(blank=True, verbose_name='mensaje de éxito')
     incorrect_positioning_message_field = models.TextField(blank=True, verbose_name='mensaje de error')

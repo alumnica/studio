@@ -1,6 +1,6 @@
 from django.db import models
 
-from entities.content_organization.structures import World, Subworld, ODA, MicroODA, MicroODAType
+from alumnica_entities.content_organization.structures import World, Subworld, MicroODAType, MicroODA, ODA
 from studio.models.content_organization.presentation import ThemeModel
 
 

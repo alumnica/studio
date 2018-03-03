@@ -1,6 +1,7 @@
 from django.db import models
 
-from entities.evaluation.quiz import LearnerEvaluation, QuestionTypes, PossibleAnswer, AnswerGivenByLearner, Question
+from alumnica_entities.evaluation.quiz import LearnerEvaluation, QuestionTypes, PossibleAnswer, AnswerGivenByLearner, \
+    Question
 
 
 class LearnerEvaluationModel(LearnerEvaluation, models.Model):
@@ -13,7 +14,7 @@ class LearnerEvaluationModel(LearnerEvaluation, models.Model):
         return self.score_field
 
     @property
-    def rating_given_by_leaner(self):
+    def rating_given_by_learner(self):
         return self.rating_given_by_leaner_field
 
     learner_field = models.ForeignKey('LearnerModel', on_delete=models.CASCADE, verbose_name='alumno')
@@ -47,7 +48,7 @@ class QuestionModel(Question, models.Model):
         return None
 
     @property
-    def evaulation(self):
+    def evaluation(self):
         return self.evaluation_field
 
     @property

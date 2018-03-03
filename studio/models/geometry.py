@@ -1,6 +1,6 @@
 from django.db import models
 
-from entities.geometry import Point2D
+from alumnica_entities.geometry import Point2D
 
 
 class Point2DModel(Point2D, models.Model):

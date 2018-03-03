@@ -1,6 +1,6 @@
 from .content_organization.presentation import ThemeModel
 from .content_organization.structures import WorldModel, ThemeModel, SubworldModel, ODAModel, MicroODAModel
-from .evaluation.exercises import ExerciseModel, ExerciseSolutionModel
+from .evaluation.exercises.base import ExerciseModel, ExerciseSolutionModel
 from .evaluation.quiz import LearnerEvaluationModel, QuestionModel, PossibleAnswerModel, AnswerGivenByLearnerModel
 from .microodas.enigma_comic import EnigmaComicModel, EnigmaComicSceneModel, EnigmaComicClickableAreaModel, \
     EngimaComicStaticSceneModel, \
