@@ -1,9 +1,12 @@
+from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
-from alumnica_entities.users import User, Administrator, ContentCreator, DataAnalyst, Learner
+from alumnica_entities.users import UserEntity, Administrator, ContentCreator, DataAnalyst, Learner
 
 
-class UserModel(User, models.Model):
+class UserModel(UserEntity,models.Model):
     @property
     def name(self):
         return self.name_field
@@ -24,19 +27,31 @@ class UserModel(User, models.Model):
     def type(self):
         return self.type_field
 
+    auth_user_field=models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     name_field = models.CharField(max_length=100, verbose_name='nombre')
     last_name_field = models.CharField(max_length=100, verbose_name='apellido')
     email_field = models.CharField(max_length=250, verbose_name='correo electrónico')
     password_field = models.CharField(max_length=100, verbose_name='contraseña')
     type_field = models.CharField(max_length=20, verbose_name='tipo')
 
+
+
     class Meta:
         verbose_name = 'usuario'
         verbose_name_plural = 'usuarios'
-        abstract = True
+
 
     def __str__(self):
         return str(self.name)
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserModel.objects.create(auth_user_field=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
 
 class AdministratorModel(Administrator, models.Model):
@@ -69,6 +84,15 @@ class AdministratorModel(Administrator, models.Model):
     def __str__(self):
         return str(self.name)
 
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            AdministratorModel.objects.create(auth_user_field=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
+
 
 class ContentCreatorModel(ContentCreator, models.Model):
     @property
@@ -98,6 +122,15 @@ class ContentCreatorModel(ContentCreator, models.Model):
 
     def __str__(self):
         return str(self.name)
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            ContentCreatorModel.objects.create(auth_user_field=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
 
 
 class DataAnalystModel(DataAnalyst, models.Model):
@@ -129,6 +162,15 @@ class DataAnalystModel(DataAnalyst, models.Model):
     def __str__(self):
         return str(self.name)
 
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            DataAnalystModel.objects.create(auth_user_field=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
+
 
 class LearnerModel(Learner, models.Model):
     @property
@@ -158,3 +200,12 @@ class LearnerModel(Learner, models.Model):
 
     def __str__(self):
         return str(self.name)
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            LearnerModel.objects.create(auth_user_field=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()

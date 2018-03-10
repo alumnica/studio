@@ -1,0 +1,15 @@
+{% block content %}
+<form class="userprofilefotrm" method="POST">
+    {% csrf_token %}
+
+    {{ user_form.as_p }}
+    {{ profile_form.as_p}}
+
+    <ul>
+        {% for publisher in object_list %}
+            <li>{{ publisher.name }}</li>
+        {% endfor %}
+    </ul>
+    <button name='action' value='signup' type="submit">Sign up</button>
+</form>
+{%endblock%}
