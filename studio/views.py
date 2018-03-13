@@ -7,9 +7,7 @@ from django.views.generic import FormView, RedirectView, DetailView
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.views.generic.base import View
-
-from alumnica_entities.users import UserType
-from studio.forms import UserProfileForm, UserForm
+from studio.forms import UserForm, AdministratorForm, LearnerForm
 
 
 class LoginView(FormView):
@@ -44,7 +42,7 @@ class UserProfile(LoginRequiredMixin, DetailView):
 
 class UserSignUp(View):
     user_form_class = UserForm
-    profile_form_class = UserProfileForm
+    profile_form_class = LearnerForm
     template_name = 'signup.html'
 
     def get(self, request):
@@ -54,9 +52,9 @@ class UserSignUp(View):
         # which tells them that there is no additional data to display (errors, for example)
         user_form = self.user_form_class(None)
         profile_form = self.profile_form_class(None)
-        typeUser=UserType.__members__
+        print("holi")
         # and then just pass them to my template
-        return render(request, self.template_name, {'user_form': user_form, 'profile_form': profile_form, 'object_list':typeUser})
+        return render(request, self.template_name, {'user_form': user_form, 'profile_form': profile_form})
 
 
 

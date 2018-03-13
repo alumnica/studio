@@ -1,20 +1,32 @@
 from django import forms
-from django.contrib.auth.models import User
 
-from alumnica_entities.users import UserType
-from studio.models.users import UserModel
+from alumnica_model.models import AuthUser, LearnerModel, DataAnalystModel, ContentCreatorModel, AdministratorModel
 
 
 class UserForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
+    password1 = forms.CharField(widget=forms.PasswordInput())
+    password2 = forms.CharField(widget=forms.PasswordInput())
     class Meta:
-        model = User
-        fields = ['username', 'email' ,'password']
+        model = AuthUser
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2','user_type']
 
 
-class UserProfileForm(forms.ModelForm):
-
+class LearnerForm(forms.ModelForm):
     class Meta:
-        model = UserModel
-        fields=['last_name_field']
+        model = LearnerModel
+        fields = ['experience_points_field']
 
+class DataAnalystForm(forms.ModelForm):
+    class Meta:
+        model = DataAnalystModel
+        exclude = ['auth_user_field']
+
+class ContentCreatorForm(forms.ModelForm):
+    class Meta:
+        model = ContentCreatorModel
+        exclude = ['auth_user_field']
+
+class AdministratorForm(forms.ModelForm):
+    class Meta:
+        model = AdministratorModel
+        exclude = ['auth_user_field']
