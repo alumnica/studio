@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'studio.apps.StudioConfig',
+    'alumnica_model.apps.AlumnicaModelConfig',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,5 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+AUTH_USER_MODEL = 'alumnica_model.AuthUser'
