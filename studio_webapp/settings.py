@@ -133,7 +133,6 @@ MEDIA_URL = '/media/'
 # noinspection PyUnresolvedReferences
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 AUTH_USER_MODEL = 'alumnica_model.AuthUser'
 
