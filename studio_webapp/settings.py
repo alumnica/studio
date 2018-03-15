@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import sys
 
 import dj_database_url
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -135,3 +136,56 @@ STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 AUTH_USER_MODEL = 'alumnica_model.AuthUser'
+
+admin_names = os.environ.get('ADMIN_NAMES')
+admin_emails = os.environ.get('ADMIN_EMAILS')
+
+if admin_names and admin_emails:
+    admin_names = admin_names.split(';')
+    admin_emails = admin_emails.split(';')
+
+    ADMINS = list(zip(admin_names, admin_emails))
+
+    print('ADMINS = {}'.format(ADMINS))
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': ('%(asctime)s [%(levelname)s] [%(module)s.%(funcName)s:%(lineno)s] %(message)s'),
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        }
+    },
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+            'stream': sys.stdout,
+        },
+        'mail': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+        'studio': {
+            'handlers': ['console', 'mail'],
+            'level': os.getenv('STUDIO_LOG_LEVEL', 'DEBUG'),
+            'propagate': False
+        }
+    }
+}
