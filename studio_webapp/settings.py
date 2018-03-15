@@ -92,6 +92,8 @@ if DEBUG:
 else:
     DATABASES['default'] = dj_database_url.config()
 
+DATABASES['default']['ATOMIC_REQUESTS'] = True
+
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
@@ -126,8 +128,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+# noinspection PyUnresolvedReferences
 MEDIA_ROOT = 'media'
 MEDIA_URL = '/media/'
+# noinspection PyUnresolvedReferences
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
