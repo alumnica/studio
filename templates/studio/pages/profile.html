@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="grid-container">
+        <div class="grid-x grid-margin-y grid-margin-x u-margin-bottom-small">
+            <div class="cell medium-2 small-4 text-center align-self-middle">
+                <img src="http://via.placeholder.com/100x100" alt="">
+            </div>
+            <div class="cell medium-8 small-6">
+                <p class="h3">{{ request.user.username }}</p>
+                <p class="h4">{{ request.user.profile.experience_points }}</p>
+            </div>
+            <div class="cell medium-2 small-2 text-right align-self-middle">
+                <img src="http://via.placeholder.com/20x20" alt="">
+            </div>
+        </div>
+        <div class="grid-x grid-x grid-margin-y grid-margin-x">
+            <div class="cell medium-6">
+                <h5>ENSIGNIAS</h5>
+            </div>
+            <div class="cell medium-6">
+                <h5>MAPA SELECCIÓN DE MATERIA</h5>
+            </div>
+        </div>
+    </div>
+    <input type="button" value="Salir" onclick="window.location.href ='/users/logout'" class="button login-btn"/>
+{% endblock %}

@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd4$itpp&epvrm)%4(dd&qox0$wwv21g!fo3c$^y8ta^e@d((bt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = not os.environ.get('ON_HEROKU', False)
 
 ALLOWED_HOSTS = ['*']
 
@@ -92,6 +92,8 @@ if DEBUG:
 else:
     DATABASES['default'] = dj_database_url.config()
 
+DATABASES['default']['ATOMIC_REQUESTS'] = True
+
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
@@ -126,8 +128,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+# noinspection PyUnresolvedReferences
 MEDIA_ROOT = 'media'
 MEDIA_URL = '/media/'
+# noinspection PyUnresolvedReferences
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

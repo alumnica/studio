@@ -1,0 +1,15 @@
+<h1>Bienvenido!</h1>
+{% block content %}
+    <div class="panel">
+        <form method="post">{% csrf_token %}
+            <label>Usuario </label>
+            {{ request.user.username }}
+            <div>
+
+                <input type="button" value="Salir" onclick="window.location.href ='/users/logout'"/>
+
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
