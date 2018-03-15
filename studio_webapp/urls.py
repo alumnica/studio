@@ -19,7 +19,7 @@ from django.urls import path, include
 from studio.views import IndexView
 
 urlpatterns = [
-    path('',IndexView.as_view(),name="index_view"),
-    path('users/',include('studio.urls')),
+    path('', IndexView.as_view(), name="index_view"),
+    path('users/', include('studio.urls')),
     path('admin/', admin.site.urls),
 ]

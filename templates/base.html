@@ -6,35 +6,35 @@
 <html class="no-js" lang="es">
 
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Foundation for Sites</title>
-  <link rel="stylesheet" href="{% static "/studio/css/app.css" %}">
-  {%block scripts %}{% endblock %}
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundation for Sites</title>
+    <link rel="stylesheet" href="{% static "/studio/css/app.css" %}">
+    {% block scripts %}{% endblock %}
 </head>
 
 <body>
-  <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
+<div class="off-canvas position-left" id="offCanvas" data-off-canvas>
 
-    
+
     {% include "studio/partials/menu.html" %}
-    
 
-  </div>
 
-  <div class="off-canvas-content" data-off-canvas-content>
+</div>
 
-    
+<div class="off-canvas-content" data-off-canvas-content>
+
+
     {% include "studio/partials/nav.html" %}
 
     {% block content %}
     {% endblock %}
-    
 
-  </div>
-  <script src="{% static "studio/js/app.js"%}"></script>
-  <script type="text/javascript" src="{% static "/studio/js/signUp.js" %}"></script>
+
+</div>
+<script src="{% static "studio/js/app.js" %}"></script>
+<script type="text/javascript" src="{% static "/studio/js/signUp.js" %}"></script>
 </body>
 
 </html>

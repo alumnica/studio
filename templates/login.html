@@ -1,22 +1,22 @@
-{% extend "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-<div class="login-panel">
+    <div class="login-panel">
         <form method="post" role="form">{% csrf_token %}
 
             {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                <li class="{{ message.tags }}">{{ message }}</li>
-                {% endfor %}
-            </ul>
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
             {% endif %}
             <label>Usuario</label>
-                {{ form.username }}
+            {{ form.username }}
             <label>Contraseña</label>
-                {{ form.password }}
-                <input type="submit" value="Login"/>
+            {{ form.password }}
+            <input type="submit" value="Login"/>
 
         </form>
-</div>
+    </div>
 {% endblock %}
