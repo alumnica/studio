@@ -101,19 +101,15 @@ class UserSignUp(View):
         password=request.POST['password1']
         user_form=UserForm(data=request.POST)
         user = user_form.save(commit=False)
+
         if user_form.is_valid:
             user.set_password(password)
             user.save()
-            if userType == UserType.LEARNER:
-                profile=user.profile
-                print(profile)
-                profile.experience_points_field=request.POST['experience_points_field']
-                profile.save()
+
+            if user_type == UserType.LEARNER:
+                profile = user.profile
+                profile.experience_points = request.POST['experience_points_field']
+                user.save()
+
             return redirect('/users/login_view')
-
-        return redirect(request, *args, **kwargs)
-
-
-
-
 
