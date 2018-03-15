@@ -93,6 +93,8 @@ if DEBUG:
 else:
     DATABASES['default'] = dj_database_url.config()
 
+DATABASES['default']['ATOMIC_REQUESTS'] = True
+
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
