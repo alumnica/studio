@@ -1,26 +1,32 @@
-
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
+from django.utils.decorators import method_decorator
 from django.views.generic import FormView, RedirectView, DetailView
 from django.contrib.auth import login, logout
-from django.views.generic.base import View
+from django.views.generic.base import View, TemplateView
 
 from alumnica_model.alumnica_entities.users import UserType
 from alumnica_model.models import AuthUser
 from studio.forms import UserForm, AdministratorForm, LearnerForm, ContentCreatorForm, DataAnalystForm, UserLoginForm
 
 
+class IndexView(TemplateView):
+    template_name = 'studio/pages/index.html'
+
+
+
 class LoginView(View):
     form_class = UserLoginForm
-    template_name = "login.html"
+    template_name = "studio/pages/login.html"
     success_url = '/users/profile/'
     def get(self,request):
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and not request.user.is_staff:
             return HttpResponseRedirect('/users/profile')
         else:
             form=UserLoginForm(None)
-            return render(request,"login.html",{'form':form})
+            return render(request,"studio/pages/login.html",{'form':form})
 
     def post(self,request):
         form=UserLoginForm(data=request.POST)
@@ -32,38 +38,38 @@ class LoginView(View):
                 print(username)
                 print(password)
 
-                if user.check_password(password):
+                if user.check_password(password) and not user.is_staff:
                     login(request,user)
                     return redirect('/users/profile')
-                else:
-                    print('password didnt match')
-                    form = UserLoginForm(None)
-                    return render(request, "login.html", {'form': form})
             except AuthUser.DoesNotExist:
                 form = UserLoginForm(None)
-                return render(request, "login.html", {'form': form})
+                return render(request, "studio/pages/login.html", {'form': form})
 
-        else:
-            print('form not valid')
-            form = UserLoginForm(None)
-            return render(request, "login.html", {'form': form})
+
+        print('form not valid')
+        form = UserLoginForm(None)
+        return render(request, "studio/pages/login.html", {'form': form})
 
 
 
 
 class LogoutView(RedirectView):
-    pattern_name = 'login'
+    pattern_name = 'login_view'
 
     def get(self, request, *args, **kwargs):
         logout(request)
         return super(LogoutView, self).get(request, *args, **kwargs)
 
 
-class UserProfile(LoginRequiredMixin, DetailView):
-    template_name = "profile.html"
+class UserProfile(TemplateView):
+    template_name = "studio/pages/profile.html"
 
-    def get_object(self, queryset=None):
-        return self.request.user
+    @method_decorator(login_required(login_url='/users/login_view/'))
+    def dispatch(self, *args,**kwargs):
+        if not self.request.user.is_staff:
+            return super(UserProfile,self).dispatch(*args,**kwargs)
+        else:
+            return redirect('/admin/')
 
 
 class UserSignUp(View):
@@ -74,7 +80,7 @@ class UserSignUp(View):
     contentCreator_form_class = ContentCreatorForm
     dataAnalyst_form_class = DataAnalystForm
 
-    template_name = 'signup.html'
+    template_name = 'studio/pages/signup.html'
 
     def get(self, request):
         if request.user.is_authenticated:
@@ -103,7 +109,7 @@ class UserSignUp(View):
                 print(profile)
                 profile.experience_points_field=request.POST['experience_points_field']
                 profile.save()
-            return redirect('/users/login')
+            return redirect('/users/login_view')
 
         return redirect(request, *args, **kwargs)
 

@@ -14,7 +14,7 @@ class UserForm(forms.ModelForm):
     password2 = forms.CharField(widget=forms.PasswordInput())
     class Meta:
         model = AuthUser
-        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2','user_type']
+        fields = ['username', 'email','password1', 'password2','user_type']
 
 
 class LearnerForm(forms.ModelForm):

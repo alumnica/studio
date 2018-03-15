@@ -1,11 +1,11 @@
-{% extend "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <section class="login-bg">
     <div class="grid-container">
         <div class="grid-y window-height grid-margin-y">
             <div class="cell medium-1 hide-for-small-only">
-                
+
             </div>
             <div class="cell medium-2 hide-for-small-only">
                 <!-- <div class="grid-x">
@@ -15,7 +15,7 @@
                             <div class="small-4 third"></div>
                             <div class="small-4 first"></div>
                             <div class="small-4 second"></div>
-                            
+
                         </div>
                     </div>
                 </div> -->
@@ -26,7 +26,10 @@
                     <div class="cell medium-4">
                         <h3>REGISTRO</h3>
                         <form method="POST" role="form" class="u-margin-bottom-small">{% csrf_token %}
-                            <label>E-MAIL
+                            <label>USUARIO
+                                {{ user_form.username }}
+                            </label>
+                            <label>CORREO
                                 {{ user_form.email }}
                             </label>
                             <label>CONTRASEÑA
@@ -35,6 +38,27 @@
                             <label>CONFIRMA TU CONTRASEÑA
                                 {{ user_form.password2 }}
                             </label>
+                            <label>TIPO DE USUARIO
+                                {{ user_form.user_type }}
+                            </label>
+                            <div>
+        <div id="Learner" class="profile"style="display: none">
+            Perfil
+            {{ learner_form }}
+        </div>
+        <div id="Administrador" class="profile" style="display: none">
+            Perfil
+            {{ admin_form }}
+        </div>
+        <div id="ContentCreator" class="profile" style="display: none">
+            Perfil
+            {{ contentCreator_form }}
+        </div>
+        <div id="DataAnalyst" class="profile" style="display: none">
+            Perfil
+            {{ dataAnalyst_form }}
+        </div>
+    </div>
                             <input type="submit" value="signup" class="button login-btn expanded" value="SIGUIENTE">
                         </form>
                         <div class="social-login">
@@ -48,6 +72,8 @@
         </div>
 
     </div>
+
+
 </section>
 
 {% endblock %}
