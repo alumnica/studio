@@ -83,14 +83,13 @@ class UserSignUp(View):
     def get(self, request):
         if request.user.is_authenticated:
             return redirect('/users/profile')
-        # Here I make instances of my form classes and pass them None
-        # which tells them that there is no additional data to display (errors, for example)
+
         user_form = self.user_form_class(None)
         admin_form = self.admin_form_class(None)
         learner_form = self.learner_form_class(None)
         content_creator_form = self.contentCreator_form_class(None)
         data_analyst_form = self.dataAnalyst_form_class(None)
-        # and then just pass them to my template
+
         return render(request, self.template_name,
                       {'user_form': user_form, 'admin_form': admin_form, 'learner_form': learner_form,
                        'content_creator_form': content_creator_form, 'data_analyst_form': data_analyst_form})
@@ -98,6 +97,19 @@ class UserSignUp(View):
     def post(self, request, *args, **kwargs):
         user_type = request.POST['user_type']
         password = request.POST['password1']
+        password2 = request.POST['password2']
+        print(password)
+        print(password2)
+        if password != password2:
+            user_form = self.user_form_class(data=request.POST)
+            admin_form = self.admin_form_class(data=request.POST)
+            learner_form = self.learner_form_class(data=request.POST)
+            content_creator_form = self.contentCreator_form_class(data=request.POST)
+            data_analyst_form = self.dataAnalyst_form_class(data=request.POST)
+            return render(request, "studio/pages/signup.html", {'user_form': user_form, 'admin_form': admin_form,
+                                                                'learner_form': learner_form,
+                                                                'content_creator_form': content_creator_form,
+                                                                'data_analyst_form': data_analyst_form})
         user_form = UserForm(data=request.POST)
         user = user_form.save(commit=False)
 
