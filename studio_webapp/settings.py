@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'studio.apps.StudioConfig',
     'alumnica_model.apps.AlumnicaModelConfig',
+    'sweetify',
 ]
 
 MIDDLEWARE = [

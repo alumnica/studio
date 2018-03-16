@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views.generic import RedirectView
 from django.views.generic.base import View, TemplateView
+from sweetify import sweetify
 
 from alumnica_model.alumnica_entities.users import UserType
 from alumnica_model.models import AuthUser
@@ -106,6 +107,7 @@ class UserSignUp(View):
             learner_form = self.learner_form_class(data=request.POST)
             content_creator_form = self.contentCreator_form_class(data=request.POST)
             data_analyst_form = self.dataAnalyst_form_class(data=request.POST)
+            sweetify.error(request,'Both passwords most be the same',button='OK',persistent=':(')
             return render(request, "studio/pages/signup.html", {'user_form': user_form, 'admin_form': admin_form,
                                                                 'learner_form': learner_form,
                                                                 'content_creator_form': content_creator_form,
