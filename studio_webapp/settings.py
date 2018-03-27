@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'studio.apps.StudioConfig',
+    'django_use_email_as_username.apps.DjangoUseEmailAsUsernameConfig',
     'alumnica_model.apps.AlumnicaModelConfig',
     'sweetify',
 ]
