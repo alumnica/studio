@@ -1,0 +1,37 @@
+<ul class="vertical menu sidebar-menu__ul">
+    <li id="dash-nav">
+        <a href="{% url 'dashboard-view' %}"><div class="menu-image fas fa-home"></div><div class="m-text">Dashboard</div></a>
+    </li>
+    <li>
+        &nbsp;
+    </li>
+    <li id="ambito-nav">
+        <a href="{% url 'ambitos_view' %}"><div class="menu-image fas fa-map"></div><div>Ámbitos</div></a>
+    </li>
+    <li id="materia-nav">
+        <a href="{% url 'materias-view' %}"><div class="menu-image fas fa-clone"></div><div>Materias</div></a>
+    </li>
+    <li id="oda-nav">
+        <a href="{% url 'oda_view' %}"><div class="menu-image fas fa-list-alt"></div><div>ODAs</div></a>
+    </li>
+    <li>
+        &nbsp;
+    </li>
+    <li id="momento-nav">
+        <a href="{% url 'momento_view' %}"><div class="menu-image fas fa-play-circle"></div><div>Momentos</div></a>
+    </li>
+    <li>
+        &nbsp;
+    </li>
+    <li id="bib-nav">
+        <a href="{% url 'bib_view' %}"><div class="menu-image fas fa-images"></div><div>Biblioteca de Imagenes</div></a>
+    </l>
+</ul>
+
+
+<ul class="vertical menu logout">
+        <li>
+            <a href="#"><div class="menu-image fas fa-times-circle"></div><div>Cerrar Sesión</div></a>
+        </li>
+        
+    </ul>
