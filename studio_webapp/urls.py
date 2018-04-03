@@ -21,5 +21,7 @@ from studio.views.user_views import IndexView
 urlpatterns = [
     path('', IndexView.as_view(), name="index_view"),
     path('users/', include('studio.urls.user_urls')),
+    path('ambits/', include('studio.urls.ambit_urls')),
+    path('subjects/', include('studio.urls.subject_urls')),
     path('admin/', admin.site.urls),
 ]

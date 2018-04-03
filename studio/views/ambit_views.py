@@ -1,14 +1,19 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView
 
-from studio.forms.ambit_forms import CreateAmbitoForm
+from studio.forms.ambit_forms import CreateAmbitForm
 
 
-class CreateAmbitoView(FormView):
-    template_name = ''
-    form_class = CreateAmbitoForm
+class CreateAmbitView(LoginRequiredMixin, CreateView):
+    login_url = 'login_view'
+    template_name = 'studio/pages/test.html'
+    form_class = CreateAmbitForm
 
     def form_valid(self, form):
-        color = self.request.POST.get('')
-        form.save_form(self.request.user, color)
-        return redirect(to = "")
+        form.save_form(self.request.user)
+        return redirect(to='thanks')
+
+
+class AmbitView(LoginRequiredMixin, CreateView):
+    login_url = 'login_view'

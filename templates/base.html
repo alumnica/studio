@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foundation for Sites</title>
     <link rel="stylesheet" href="{% static "/studio/css/app.css" %}">
-    {% block scripts %}{% endblock %}
+
 </head>
 
 <body>
@@ -35,7 +35,7 @@
 
 </div>
 <script src="{% static "studio/js/app.js" %}"></script>
-<script type="text/javascript" src="{% static "/studio/js/signUp.js" %}"></script>
+{% block scripts %}{% endblock %}
 </body>
 
 </html>
