@@ -1,0 +1,66 @@
+{# this is the base layout once you are logged in #}
+
+{% load sweetify %}
+{% sweetify %}
+{% load static %}
+
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alumnica Content Creation Studio</title>
+  <link rel="stylesheet" href="{% static "/studio/css/app.css" %}">
+
+  
+</head>
+
+<body>
+  <div class="off-canvas position-left" id="offCanvas" data-transition="detached" data-off-canvas>
+      <!-- Your menu or Off-canvas content goes here -->
+      {# mobile menu nav#}
+      {% include "studio/navigation/mobile-menu.html" %}
+
+  </div>
+  <div class="off-canvas-content" data-off-canvas-content>
+
+    <div class="grid-y grid-frame">
+      <div class="cell shrink cell-block-container hide-for-small-only">
+        {# top bar nav#}
+        {% include "studio/navigation/top-bar.html" %}
+
+      </div>
+      <div class="cell shrink cell-block-container show-for-small-only">
+        {#title bar nav for mobile#}
+        {% include "studio/navigation/top-bar-mobile.html" %}
+        
+      </div>
+      <div class="cell auto cell-block-container">
+        <div class="grid-x">
+          <div class="cell  cell-block-y hide-for-small-only sidebar-menu">
+            {# Side bar menu #}
+            {% include "studio/navigation/side-bar-menu.html" %}
+            
+          </div>
+          <div class="cell auto cell-block-y">
+            
+            {% block content %}
+            {% endblock %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {# app.js uncludes Jquery #}
+  <script  type="text/javascript"  src="{% static "studio/js/app.js" %}"></script>
+  <script  type="text/javascript"  src="{% static "studio/js/materias.js" %}"></script>
+  <script  type="text/javascript"  src="{% static "studio/js/tags.js" %}"></script>
+  <script  type="text/javascript"  src="{% static "studio/js/signUp.js" %}"></script>
+  
+</body>
+
+</html>

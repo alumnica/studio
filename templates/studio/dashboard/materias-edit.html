@@ -1,0 +1,83 @@
+{% extends "base-main.html" %}
+
+{% block content %}
+
+
+
+<div class="container dashboard">
+
+
+        <h1 class="title">
+            Crear nueva Materia
+        </h1>
+        <hr>
+    
+        <div class="grid-x">
+            <div class="cell medium-12">
+                <p class="h5">Instrucciones:</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt quas delectus obcaecati aspernatur? Quis mollitia
+                    repellendus, iste obcaecati unde aliquid sunt quia, vero magnam error soluta perferendis laboriosam dolore
+                    veritatis!
+                </p>
+                <hr>
+            </div>
+            <div class="cell medium-12">
+                <form method="POST">
+                    <div class="grid-x grid-margin-x">
+                        <div class="cell medium-5">
+                            <label for="titulo-materia">Titulo</label>
+                            <input name="titulo-materia" type="text" placeholder="titulo">
+                            <label for="seleccion-ambito">Selecciona Ámbito al que pertenece esta Materia</label>
+                            <select name="seleccion-ambito">
+                                    <option value="volvo">Propedeutico de Ciencias</option>
+                                    <option value="volvo">Propedeutico de Cosas</option>
+                                    <option value="volvo">Propedeutico de Magia</option>
+                                    <option value="volvo">Prop prop prop</option>
+                                    
+                                  </select>
+                                                        
+                            <!-- tags -->
+
+                            <label for="tags-materias">Tags</label>
+                            <input name="tags-materias" type="text" id="materias-tags">
+
+                            <!-- end tags -->
+
+                            <label>Número de secciones dentro de la materia
+                                <select class="position-ambito-size">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option selected value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </label>
+                           
+    
+                        </div>
+                        <div class="cell medium-4 medium-offset-1">
+                            
+                            <div class="panel">
+                                <div class="panel__title">Detalles de publicación</div>
+                                <p>
+                                    <strong>Estado:</strong>
+                                    {# Cambia dependiendo si estas editando o creando una nueva#}
+                                    <span id="estado">Sin Publicar</span>
+                                </p>
+                                <p>
+                                    <strong>Publicado:</strong>
+                                    {# Fecha #}
+                                    <span id="fecha-pub">N/A</span>
+                                </p>
+                                
+                                {#Este POST debe guardar como borrador #}
+                                <button type="submit" class="button secondary">Salvar como borrador</a>
+
+                                {#Este POST debe publicar el Ambito #}    
+                                <button type="submit" class="button primary publicar">Publicar</a> 
+                            </div>
+                        </div>
+                </form>
+                </div>
+            </div>
+
+{% endblock content %}
