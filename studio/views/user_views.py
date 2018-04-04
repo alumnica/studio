@@ -17,7 +17,7 @@ class LoginView(FormView):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             if not request.user.is_staff:
-                return redirect(to='profile_view')
+                return redirect(to='dashboard_view')
             else:
                 return redirect(to='/admin/')
         else:
@@ -25,7 +25,7 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         login(self.request, form.get_user())
-        return redirect(to='profile_view')
+        return redirect(to='dashboard_view')
 
 
 class LogoutView(RedirectView):
@@ -37,4 +37,4 @@ class LogoutView(RedirectView):
 
 
 class ProfileView(TemplateView):
-    template_name = 'studio/pages/profile.html'
+    template_name = 'studio/dashboard/dashboard.html'

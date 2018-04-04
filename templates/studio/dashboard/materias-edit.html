@@ -1,4 +1,4 @@
-{% extends "base-main.html" %}
+{% extends "studio/base-main.html" %}
 
 {% block content %}
 
@@ -23,24 +23,27 @@
             </div>
             <div class="cell medium-12">
                 <form method="POST">
+                    {% csrf_token %}
                     <div class="grid-x grid-margin-x">
                         <div class="cell medium-5">
                             <label for="titulo-materia">Titulo</label>
-                            <input name="titulo-materia" type="text" placeholder="titulo">
+                            {{ form.name_field }}
+                            <!--input name="titulo-materia" type="text" placeholder="titulo"-->
                             <label for="seleccion-ambito">Selecciona Ámbito al que pertenece esta Materia</label>
-                            <select name="seleccion-ambito">
-                                    <option value="volvo">Propedeutico de Ciencias</option>
-                                    <option value="volvo">Propedeutico de Cosas</option>
-                                    <option value="volvo">Propedeutico de Magia</option>
-                                    <option value="volvo">Prop prop prop</option>
-                                    
-                                  </select>
+                            {{ form.ambit_field }}
                                                         
                             <!-- tags -->
 
                             <label for="tags-materias">Tags</label>
                             <input name="tags-materias" type="text" id="materias-tags">
-
+                            <script type="text/javascript">
+                                var materiasList=[];
+                                var ambitoTags=[];
+                                var materiasTags = [];
+                                    {% for tag in tags %}
+                                        materiasTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
+                                    {% endfor %}
+                            </script>
                             <!-- end tags -->
 
                             <label>Número de secciones dentro de la materia

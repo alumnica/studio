@@ -1,4 +1,4 @@
-{% extends "base-main.html" %}
+{% extends "studio/base-main.html" %}
 
 {% block content %}
 
@@ -13,7 +13,7 @@
     
         <div class="grid-x">
             <div class="cell medium-6">
-                <a href="{% url 'materias-edit_view' %}" class="button">Crear nueva Materia</a>
+                <a href="{% url 'create_subject_view' %}" class="button">Crear nueva Materia</a>
             </div>
            
             <div class="cell medium-12">
@@ -30,13 +30,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                        {% for subject in subject_list %}
                             <tr>
                                 <td>
                                     {# Titulo de Ambito #}
                                     <div class="titulo_lista">
                                         {# Link a editar este ambito en especifico #}
                                         <a href="#">
-                                            <strong>Alquimia</strong>
+                                            {{ subject.name_field }}
                                         </a>
                                     </div>
                                     <div class="title-edit-menu">
@@ -56,24 +57,21 @@
                                 </td>
                                 {#Ambito al que a sifo asignada esta Materia#}
                                 <td>
-                                    Propedeutico de Ciencias
+                                    {{ subject.ambit }}
                                 </td> 
 
                                 {# Lista de Tags #}
                                 <td>
                                     <div class="tag-list">
-                                        <a href="#">Ex 1</a>
-                                        <a href="#">tag largo</a>
-                                        <a href="#">corto</a>
-                                        <a href="#">dos palabras</a>
-                                        <a href="#">dos palabras</a>
-                                        <a href="#">dos palabras</a>
+                                        {% for tag in subject.tags %}
+                                        <a href="#">{{ tag.name_field }}</a>
+                                    {% endfor %}
     
                                     </div>
                                 </td>
                                 <td>
                                     <div id="edit-date">
-                                        07/23/2018
+                                        {{ subject.created_at_field }}
                                     </div>
                                     <div id="edit-type">
                                         Editado
@@ -85,7 +83,7 @@
                                     </div>
                                 </td>
                             </tr>
-                           
+                           {% endfor %}
                         </tbody>
                     </table>
     

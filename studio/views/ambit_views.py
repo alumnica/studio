@@ -1,19 +1,32 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
-from django.views.generic import CreateView
+from django.shortcuts import redirect, render
+from django.views.generic import CreateView, ListView, FormView
 
+from alumnica_model.models import AmbitModel, SubjectModel, TagModel
 from studio.forms.ambit_forms import CreateAmbitForm
 
 
-class CreateAmbitView(LoginRequiredMixin, CreateView):
+class CreateAmbitView(LoginRequiredMixin, FormView):
     login_url = 'login_view'
-    template_name = 'studio/pages/test.html'
+    template_name = 'studio/dashboard/ambitos-edit.html'
     form_class = CreateAmbitForm
 
+    def get(self, request, *args, **kwargs):
+        subjects = SubjectModel.objects.all()
+        tags = TagModel.objects.all()
+        return render(request, self.template_name, {'form':self.form_class, 'subjects': subjects, 'tags': tags})
+
     def form_valid(self, form):
-        form.save_form(self.request.user)
-        return redirect(to='thanks')
+        subjects = self.request.POST.get('class_name')
+        tags = self.request.POST.get('tags-ambito').split(',')
+        color = self.request.POST.get('color')
+        image = self.request.FILES['image_file']
+        form.save_form(self.request.user, subjects, tags, color, image)
+        return redirect(to='ambitos_view')
 
 
-class AmbitView(LoginRequiredMixin, CreateView):
+class AmbitView(LoginRequiredMixin, ListView):
     login_url = 'login_view'
+    template_name = 'studio/dashboard/ambitos.html'
+    queryset = AmbitModel.objects.all()
+    context_object_name = 'ambit_list'

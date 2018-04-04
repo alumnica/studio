@@ -1,4 +1,4 @@
-{% extends "base-main.html" %}
+{% extends "studio/base-main.html" %}
 
 {% block content %}
 
@@ -14,7 +14,7 @@
     <div class="grid-x">
         <div class="cell medium-6">
             {# Crear nuevo ambito #}
-            <a href="{% url 'ambitos-edit_view' %}" class="button">Crear nuevo Ámbito</a>
+            <a href="{% url 'create_ambit_view' %}" class="button">Crear nuevo Ámbito</a>
         </div>
         
         <div class="cell medium-12">
@@ -32,14 +32,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                    {% for ambit in ambit_list %}
                         <tr>
                             <td>
+
                                 {# Titulo de Ambito #}
                                 <div class="titulo_lista">
-                                    {# Link a editar este ambito en especifico #}
-                                    <a href="#">
-                                        <strong>Propedeutico Ciencias</strong>
-                                    </a>
+                                    {{ ambit.name_field }}
                                 </div>
                                 <div class="title-edit-menu">
                                     <span class="editar">
@@ -64,23 +63,23 @@
                             
                             {# Materias asignadas a este Ambito #}
                             <td>
-                                Quimica, Biologia, Fisica
+                                {% for subject in ambit.subjects%}
+                                    {{ subject.name_field }}
+                                {% endfor %}
+
                             </td>
                             {# Lista de Tags#}
                             <td>
                                 <div class="tag-list">
-                                    <a href="#">Ex 1</a>
-                                    <a href="#">tag largo</a>
-                                    <a href="#">corto</a>
-                                    <a href="#">dos palabras</a>
-                                    <a href="#">dos palabras</a>
-                                    <a href="#">dos palabras</a>
+                                    {% for tag in ambit.tags %}
+                                        <a href="#">{{ tag.name_field }}</a>
+                                    {% endfor %}
 
                                 </div>
                             </td>
                             <td>
                                 <div id="edit-date">
-                                    07/23/2018
+                                    {{ ambit.created_at_field }}
                                 </div>
                                 <div id="edit-type">
                                     Editado
@@ -91,7 +90,8 @@
                                     Publicado
                                 </div>
                             </td>
-                        </tr>                        
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
 

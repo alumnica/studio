@@ -1,48 +1,45 @@
 from django import forms
-from django.core.exceptions import ValidationError
+from django.core.files.storage import default_storage
 
 from alumnica_model.models import AmbitModel
-from alumnica_model.models.content import ImageModel, TagModel, SubjectModel
+from alumnica_model.models.content import TagModel, SubjectModel, ImageModel, ProgramModel
 
 
 class CreateAmbitForm(forms.ModelForm):
-    background_image_field = forms.CharField()
     class Meta:
         model = AmbitModel
-        fields = ['is_published_field', 'name_field', 'position_field',
-                  'background_image_field']
+        fields = ['name_field', 'position_field']
 
-    def clean(self):
-        cleaned_data = super(CreateAmbitForm, self).clean()
-        subjects = cleaned_data.get('subjects')
-        for subject in subjects:
-            if not SubjectModel.objects.exists(name=subject):
-                error = ValidationError("Subject does not exist.", code='subject_error')
-                self.add_error('name_field', error)
-        return cleaned_data
-
-    def save_form(self, user):
-        cleaned_data = super(CreateAmbitForm, self).clean()
-        subjects = cleaned_data.get('subjects')
-        tags = cleaned_data.get('tags')
-        color = cleaned_data.get('colors')
+    def save_form(self, user, subjects, tags, color, image):
 
         ambit = super(CreateAmbitForm, self).save(commit=False)
-        ambit.created_by = user
+        ambit.created_by = user.profile
         ambit.color = color
-        for tag_name in tags:
-            tag_model = TagModel.objects.get(name=tag_name)
-            if not tag_model is None:
-                tag_model = TagModel.objects.create(name=tag_name, ambit=ambit)
-            ambit.tags.add(tag_model)
 
-        for subject_name in subjects:
-            subject_model = SubjectModel.objects.get(name=subject_name)
-            ambit.subjects.add(subject_model)
+        if image is not None:
+            with default_storage.open(image.name, 'wb+') as destination:
+                for chunk in image.chunks():
+                    destination.write(chunk)
+                destination.close()
+
+            image_model = ImageModel.objects.create(name_field=image.name, file_field=image.name)
+            ambit.background_image = image_model
+            ambit.program = ProgramModel.objects.get(name_field="Primaria")
+            ambit.save()
+
+        for tag_name in tags:
+            tag, created = TagModel.objects.get_or_create(name_field=tag_name)
+            # tag.ambits_field.add(ambit)
+            ambit.tags_field.add(tag)
+
+        if subjects is not None:
+            subjects = subjects.split(',')
+            for subject_name in subjects:
+                try:
+                    subject_model = SubjectModel.objects.get(name=subject_name)
+                    ambit.subjects.add(subject_model)
+                except SubjectModel.DoesNotExist:
+                    pass
 
         ambit.save()
 
-class AmbitForm(forms.ModelForm):
-    class Meta:
-        model = AmbitModel
-        fields = ['name_field', 'is_published_field', 'position_field', 'subjects_field', 'tags_field']
