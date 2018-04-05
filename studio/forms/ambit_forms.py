@@ -1,3 +1,5 @@
+import uuid
+
 from django import forms
 from django.core.files.storage import default_storage
 
@@ -22,10 +24,9 @@ class CreateAmbitForm(forms.ModelForm):
         ambit.color = color
 
         if image is not None:
-            with default_storage.open(image.name, 'wb+') as destination:
+            with default_storage.open('{}-{}'.format(uuid.uuid4(), image.name), 'wb+') as destination:
                 for chunk in image.chunks():
                     destination.write(chunk)
-                destination.close()
 
             image_model = ImageModel.objects.create(name_field=image.name, file_field=image.name)
             ambit.background_image = image_model
@@ -34,7 +35,6 @@ class CreateAmbitForm(forms.ModelForm):
 
         for tag_name in tags:
             tag, created = TagModel.objects.get_or_create(name_field=tag_name)
-            # tag.ambits_field.add(ambit)
             ambit.tags_field.add(tag)
 
         if subjects is not None:
