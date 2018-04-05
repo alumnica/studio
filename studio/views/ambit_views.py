@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
-from django.views.generic import CreateView, ListView, FormView
+from django.views.generic import ListView, FormView
 from sweetify import sweetify
 
 from alumnica_model.models import AmbitModel, SubjectModel, TagModel

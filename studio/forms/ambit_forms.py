@@ -1,6 +1,5 @@
 from django import forms
 from django.core.files.storage import default_storage
-from django.core.validators import RegexValidator
 
 from alumnica_model.models import AmbitModel
 from alumnica_model.models.content import TagModel, SubjectModel, ImageModel, ProgramModel

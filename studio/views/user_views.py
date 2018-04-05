@@ -1,7 +1,8 @@
 from django.contrib.auth import login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.views.generic import FormView
-from django.views.generic.base import TemplateView, RedirectView, View
+from django.views.generic.base import TemplateView, RedirectView
 from sweetify import sweetify
 
 from alumnica_model.models import AmbitModel, SubjectModel
@@ -44,9 +45,9 @@ class LogoutView(RedirectView):
         return super(LogoutView, self).get(request, *args, **kwargs)
 
 
-class ProfileView(FormView):
+class ProfileView(LoginRequiredMixin, FormView):
+    login_url = 'login_view'
     template_name = 'studio/dashboard/dashboard.html'
-
     def get(self, request, *args, **kwargs):
         ambits = AmbitModel.objects.all().count()
         subjects = SubjectModel.objects.all().count()
