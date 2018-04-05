@@ -18,17 +18,12 @@ class CreateAmbitForm(forms.ModelForm):
         fields = ['name_field', 'position_field']
 
     def save_form(self, user, subjects, tags, color, image):
-
         ambit = super(CreateAmbitForm, self).save(commit=False)
         ambit.created_by = user.profile
         ambit.color = color
 
         if image is not None:
-            with default_storage.open('{}-{}'.format(uuid.uuid4(), image.name), 'wb+') as destination:
-                for chunk in image.chunks():
-                    destination.write(chunk)
-
-            image_model = ImageModel.objects.create(name_field=image.name, file_field=image.name)
+            image_model = ImageModel.objects.create(name_field=image.name, file_field=image)
             ambit.background_image = image_model
             ambit.program = ProgramModel.objects.get(name_field="Primaria")
             ambit.save()
