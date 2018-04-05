@@ -1,14 +1,13 @@
 from django import forms
 from django.core.files.storage import default_storage
-from django.core.validators import RegexValidator
 
 from alumnica_model.models import AmbitModel
 from alumnica_model.models.content import TagModel, SubjectModel, ImageModel, ProgramModel
-from studio.validators import unique_ambit_name_validator
+from alumnica_model.validators import unique_ambit_name_validator
 
 
 class CreateAmbitForm(forms.ModelForm):
-    name_field = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class':'text_number'}),
+    name_field = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'text_number'}),
                                  validators=[unique_ambit_name_validator])
     position_field = forms.IntegerField(max_value=30)
 
@@ -48,4 +47,3 @@ class CreateAmbitForm(forms.ModelForm):
                     pass
 
         ambit.save()
-
