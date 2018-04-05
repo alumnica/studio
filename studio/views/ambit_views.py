@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
-from django.views.generic import CreateView, ListView, FormView
+from django.views.generic import ListView, FormView
+from sweetify import sweetify
 
 from alumnica_model.models import AmbitModel, SubjectModel, TagModel
 from studio.forms.ambit_forms import CreateAmbitForm
@@ -14,7 +15,7 @@ class CreateAmbitView(LoginRequiredMixin, FormView):
     def get(self, request, *args, **kwargs):
         subjects = SubjectModel.objects.all()
         tags = TagModel.objects.all()
-        return render(request, self.template_name, {'form':self.form_class, 'subjects': subjects, 'tags': tags})
+        return render(request, self.template_name, {'form': self.form_class, 'subjects': subjects, 'tags': tags})
 
     def form_valid(self, form):
         subjects = self.request.POST.get('class_name')
@@ -23,6 +24,17 @@ class CreateAmbitView(LoginRequiredMixin, FormView):
         image = self.request.FILES['image_file']
         form.save_form(self.request.user, subjects, tags, color, image)
         return redirect(to='ambitos_view')
+
+    def form_invalid(self, form):
+        if form['name_field'].errors:
+            sweetify.error(self.request, form.errors['name_field'][0], persistent='Ok')
+        if form['position_field'].errors:
+            sweetify.error(self.request, form.errors['position_field'][0], persistent='Ok')
+        subjects = SubjectModel.objects.all()
+        tags = TagModel.objects.all()
+        return render(self.request, self.template_name, {'form': self.form_class, 'subjects': subjects, 'tags': tags})
+
+
 
 
 class AmbitView(LoginRequiredMixin, ListView):

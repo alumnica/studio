@@ -163,7 +163,7 @@
                         <div class="panel">
                             <div class="panel__title">
                                 <i class="fas fa-clone"></i> Materias Asignadas
-                                <span class="add-materia" data-open="materiasModal">
+                                <span id="add-materia-button" class="add-materia" data-open="materiasModal">
                                     <i class="fas fa-plus-square"></i>
                                 </span>
                             </div>
@@ -185,7 +185,7 @@
                         <input type="hidden" name="class_name" id="class_name">
 
                         <br>
-                        <div class="panel">
+                        <div class="panel" id="last_panel">
                             <div class="panel__title">Detalles de publicación</div>
                             <p>
                                 <strong>Estado:</strong>
@@ -205,6 +205,7 @@
                             <button type="submit" class="button primary publicar">Publicar</button>
                         </div>
                     </div>
+                </div>
             </form>
             </div>
         </div>
@@ -229,7 +230,7 @@
             <br />
             <br>
             <br>
-            <input id="class-adder" class='button expanded' type='submit' value='Añadir' data-close/>
+            <input id="class-adder" class='button expanded' disabled type='submit' value='Añadir' data-close/>
 
             <button class="close-button" data-close aria-label="Close modal" type="button">
                 <span aria-hidden="true">&times;</span>
