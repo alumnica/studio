@@ -11,8 +11,8 @@
                         <div class="cell medium-4">
                             <h3>MI CUENTA</h3>
                             <form class="u-margin-bottom-small" method="POST" role="form">{% csrf_token %}
-                                <label>NOMBRE DE USUARIO
-                                    {{ form.username }}
+                                <label>CORREO
+                                    {{ form.email }}
                                 </label>
                                 <label>CONTRASEÑA
                                     {{ form.password }}

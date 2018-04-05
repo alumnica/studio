@@ -1,0 +1,87 @@
+{% extends "studio/base-main.html" %}
+
+{% block content %}
+
+
+
+<div class="container dashboard">
+
+
+        <h1 class="title">
+            Crear nueva Materia
+        </h1>
+        <hr>
+    
+        <div class="grid-x">
+            <div class="cell medium-12">
+                <p class="h5">Instrucciones:</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt quas delectus obcaecati aspernatur? Quis mollitia
+                    repellendus, iste obcaecati unde aliquid sunt quia, vero magnam error soluta perferendis laboriosam dolore
+                    veritatis!
+                </p>
+                <hr>
+            </div>
+            <div class="cell medium-12">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="grid-x grid-margin-x">
+                        <div class="cell medium-5">
+                            <label for="titulo-materia">Titulo</label>
+                            {{ form.name_field }}
+                            <!--input name="titulo-materia" type="text" placeholder="titulo"-->
+                            <label for="seleccion-ambito">Selecciona Ámbito al que pertenece esta Materia</label>
+                            {{ form.ambit_field }}
+                                                        
+                            <!-- tags -->
+
+                            <label for="tags-materias">Tags</label>
+                            <input name="tags-materias" type="text" id="materias-tags">
+                            <script type="text/javascript">
+                                var materiasList=[];
+                                var ambitoTags=[];
+                                var materiasTags = [];
+                                    {% for tag in tags %}
+                                        materiasTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
+                                    {% endfor %}
+                            </script>
+                            <!-- end tags -->
+
+                            <label>Número de secciones dentro de la materia
+                                <select class="position-ambito-size">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option selected value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </label>
+                           
+    
+                        </div>
+                        <div class="cell medium-4 medium-offset-1">
+                            
+                            <div class="panel">
+                                <div class="panel__title">Detalles de publicación</div>
+                                <p>
+                                    <strong>Estado:</strong>
+                                    {# Cambia dependiendo si estas editando o creando una nueva#}
+                                    <span id="estado">Sin Publicar</span>
+                                </p>
+                                <p>
+                                    <strong>Publicado:</strong>
+                                    {# Fecha #}
+                                    <span id="fecha-pub">N/A</span>
+                                </p>
+                                
+                                {#Este POST debe guardar como borrador #}
+                                <button type="submit" class="button secondary">Salvar como borrador</button>
+
+                                {#Este POST debe publicar el Ambito #}    
+                                <button type="submit" class="button primary publicar">Publicar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+
+{% endblock content %}

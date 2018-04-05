@@ -1,0 +1,88 @@
+{% extends "studio/base-main.html" %}
+
+{% block content %}
+
+
+
+<div class="container dashboard">
+
+
+    <h1 class="title">
+        <i class="fas fa-home"></i> Dashboard</h1>
+    <hr>
+    <div class="grid-x">
+        <div class="cell medium-6">
+            <div class="grid-x grid-margin-x grid-margin-y">
+                <div class="cell medium-12">
+                    <div class="panel">
+                        <div class="panel__title">
+                            <i class="fas fa-user"></i> {{ request.user.first_name }} </div>
+                        <div class="panel__content">
+                            <div class="last-login">
+                                <strong>Última sesión:</strong> {{ request.user.last_login }} </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell medium-12">
+                    <div class="panel">
+                        <div class="panel__title">
+                            Resumen de Educación Media Superior
+                        </div>
+                        <div class="panel__content">
+                            <div class="grid-x grid-margin-x grid-margin-y">
+
+                                {# Numero total de Ambitos#}
+                                
+                                <a href="{% url 'ambitos_view' %}" class="cell medium-3 small-6 d-box text-center">
+                                    <div class="d-box__number">
+                                        {{ ambits }}
+                                    </div>
+                                    <div class="d-box__title">
+                                        Ámbitos
+                                    </div>
+                                </a>
+
+                                {# Numero total de Materias#}
+
+                                <a href="{% url 'materias_view' %}" class="cell medium-3 small-6 d-box text-center">
+                                    <div class="d-box__number">
+                                        {{ subjects }}
+                                    </div>
+                                    <div class="d-box__title">
+                                        Materias
+                                    </div>
+                                </a>
+
+                                {#Numero total de ODAs#}
+
+                                <a href="" class="cell medium-3 small-6 d-box text-center">
+                                    <div class="d-box__number">
+                                        102
+                                    </div>
+                                    <div class="d-box__title">
+                                        ODAs
+                                    </div>
+                                </a>
+
+                                {# Numero total de Momentos#}
+
+                                <a href="" class="cell medium-3 small-6 d-box text-center">
+                                    <div class="d-box__number">
+                                        800
+                                    </div>
+                                    <div class="d-box__title">
+                                        Momentos
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+{% endblock content %}

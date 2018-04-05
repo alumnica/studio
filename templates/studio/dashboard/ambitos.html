@@ -1,0 +1,104 @@
+{% extends "studio/base-main.html" %}
+
+{% block content %}
+
+
+
+<div class="container dashboard">
+
+
+    <h1 class="title">
+        <i class="fas fa-map"></i> Ámbitos  </h1>
+    <hr>
+
+    <div class="grid-x">
+        <div class="cell medium-6">
+            {# Crear nuevo ambito #}
+            <a href="{% url 'create_ambit_view' %}" class="button">Crear nuevo Ámbito</a>
+        </div>
+        
+        <div class="cell medium-12">
+            <div class="panel">
+                <table id="tabla-ambitos" class=" no-wrap">
+                    <thead>
+                        <tr>
+                            <th id="titulo-ambito" class="all">Titulo</th>
+                            <th id="numero-ambtio" class="not-mobile">#</th>
+                            
+                            <th id="matiras-ambito" class="not-mobile">Materias</th>
+                            <th id="tags-ambito" class="not-mobile tag-length">Tags</th>
+                            <th id="fecha-ambito" class="not-mobile">Fecha</th>
+                            <th id="estado-ambito" class="not-mobile">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for ambit in ambit_list %}
+                        <tr>
+                            <td>
+
+                                {# Titulo de Ambito #}
+                                <div class="titulo_lista">
+                                    {{ ambit.name_field }}
+                                </div>
+                                <div class="title-edit-menu">
+                                    <span class="editar">
+                                        {# Link a editar este ambito en especifico #}
+                                        <a href="#">Editar</a>
+                                    </span> |
+                                    <span class="borrar">
+                                        {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
+                                        <a href="#">Borrar</a>
+                                    </span> |
+                                    <span class="editar-tag">
+                                        {# Falta #}
+                                        <a href="#">Editar Tags</a>
+                                    </span>
+                                </div>
+                            </td>
+
+                            {# Pocicion en el tablero de el estudiante #}
+                            <td>
+                                {{ ambit.position_field }}
+                            </td>
+                            
+                            {# Materias asignadas a este Ambito #}
+                            <td>
+                                {% for subject in ambit.subjects%}
+                                    {{ subject.name_field }}
+                                {% endfor %}
+
+                            </td>
+                            {# Lista de Tags#}
+                            <td>
+                                <div class="tag-list">
+                                    {% for tag in ambit.tags %}
+                                        <a href="#">{{ tag.name_field }}</a>
+                                    {% endfor %}
+
+                                </div>
+                            </td>
+                            <td>
+                                <div id="edit-date">
+                                    {{ ambit.created_at_field }}
+                                </div>
+                                <div id="edit-type">
+                                    Editado
+                                </div>
+                            </td>
+                            <td>
+                                <div class="estado">
+                                    Publicado
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

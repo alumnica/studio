@@ -1,0 +1,97 @@
+{% extends "studio/base-main.html" %}
+
+{% block content %}
+
+
+
+<div class="container dashboard">
+
+
+        <h1 class="title">
+            <i class="fas fa-clone"></i> Materias  </h1>
+        <hr>
+    
+        <div class="grid-x">
+            <div class="cell medium-6">
+                <a href="{% url 'create_subject_view' %}" class="button">Crear nueva Materia</a>
+            </div>
+           
+            <div class="cell medium-12">
+                <div class="panel">
+                    <table id="tabla-materias" class=" no-wrap">
+                        <thead>
+                            <tr>
+                                <th id="titulo-materia" class="all">Titulo</th>
+                                <th id="numero-materia" class="not-mobile">Ambito</th>
+                                
+                                <th id="tags-materia" class="not-mobile tag-length">Tags</th>
+                                <th id="fecha-materia" class="not-mobile">Fecha</th>
+                                <th id="estado-materia" class="not-mobile">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for subject in subject_list %}
+                            <tr>
+                                <td>
+                                    {# Titulo de Ambito #}
+                                    <div class="titulo_lista">
+                                        {# Link a editar este ambito en especifico #}
+                                        <a href="#">
+                                            {{ subject.name_field }}
+                                        </a>
+                                    </div>
+                                    <div class="title-edit-menu">
+                                            {# Link a editar este ambito en especifico #}
+                                        <span class="editar">
+                                            <a href="#">Editar</a>
+                                        </span> |
+                                        <span class="borrar">
+                                            {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
+                                            <a href="#">Borrar</a>
+                                        </span> |
+                                        <span class="editar-tag">
+                                            {# Falta #}
+                                            <a href="#">Editar Tags</a>
+                                        </span>
+                                    </div>
+                                </td>
+                                {#Ambito al que a sifo asignada esta Materia#}
+                                <td>
+                                    {{ subject.ambit }}
+                                </td> 
+
+                                {# Lista de Tags #}
+                                <td>
+                                    <div class="tag-list">
+                                        {% for tag in subject.tags %}
+                                        <a href="#">{{ tag.name_field }}</a>
+                                    {% endfor %}
+    
+                                    </div>
+                                </td>
+                                <td>
+                                    <div id="edit-date">
+                                        {{ subject.created_at_field }}
+                                    </div>
+                                    <div id="edit-type">
+                                        Editado
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="estado">
+                                        Publicado
+                                    </div>
+                                </td>
+                            </tr>
+                           {% endfor %}
+                        </tbody>
+                    </table>
+    
+    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock content %}
+   
