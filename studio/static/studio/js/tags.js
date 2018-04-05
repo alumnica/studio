@@ -15,7 +15,7 @@ $('#ambito-tags').selectize({
         }
     },
     options: ambitoTags,
-    preload: false,
+    preload: false
 });
 
 
@@ -35,5 +35,5 @@ $('#materias-tags').selectize({
         }
     },
     options: materiasTags,
-    preload: false,
+    preload: false
 });

@@ -1,8 +1,10 @@
 from django.contrib.auth import login, logout
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic import FormView
-from django.views.generic.base import TemplateView, RedirectView
+from django.views.generic.base import TemplateView, RedirectView, View
+from sweetify import sweetify
 
+from alumnica_model.models import AmbitModel, SubjectModel
 from studio.forms.user_forms import UserLoginForm
 
 
@@ -27,6 +29,12 @@ class LoginView(FormView):
         login(self.request, form.get_user())
         return redirect(to='dashboard_view')
 
+    def form_invalid(self, form):
+        sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
+        context = self.get_context_data()
+        return self.render_to_response(context)
+
+
 
 class LogoutView(RedirectView):
     pattern_name = 'login_view'
@@ -36,5 +44,10 @@ class LogoutView(RedirectView):
         return super(LogoutView, self).get(request, *args, **kwargs)
 
 
-class ProfileView(TemplateView):
+class ProfileView(FormView):
     template_name = 'studio/dashboard/dashboard.html'
+
+    def get(self, request, *args, **kwargs):
+        ambits = AmbitModel.objects.all().count()
+        subjects = SubjectModel.objects.all().count()
+        return render(request, self.template_name, {'form': self.form_class, 'ambits': ambits, 'subjects': subjects})
