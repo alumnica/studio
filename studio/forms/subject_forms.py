@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from alumnica_model.models import SubjectModel, TagModel
-from alumnica_model.models.content import ImageModel
+from alumnica_model.models.content import ImageModel, ODAModel
 
 
 class CreateSubjectForm(forms.ModelForm):
@@ -38,13 +38,30 @@ class CreateSubjectForm(forms.ModelForm):
 
 
 class SubjectSectionsForm(forms.Form):
-    def save_form(self, section1_img, section2_img, section3_img, subject_name):
-        subject = SubjectModel.objects.get(name=subject_name)
-        image_model_1 = ImageModel.objects.get_or_createc(name_field=section1_img.name, file_field=section1_img)
-        image_model_2 = ImageModel.objects.get_or_create(name_field=section2_img.name, file_field=section2_img)
-        image_model_3 = ImageModel.objects.get_or_create(name_field=section3_img.name, file_field=section3_img)
 
-        subject.sections_images_field.add(image_model_1, image_model_2, image_model_3)
+    def save_form(self, section_images, subject):
+
+        for section_image in section_images:
+            image_model = ImageModel.objects.get_or_create(name_field=section_image.name, file_field=section_image)
+            subject.sections_images_field.add(image_model)
+        subject.save()
+
+        return subject
+
+
+class ODAsSectionForm(forms.Form):
+
+    def save_form(self, user, subject_name, names_list, images_list):
+        subject = SubjectModel.objects.get(name=subject_name)
+
+        for i in range(0, len(names_list)):
+            image = images_list[i]
+            image_model = ImageModel.objects.get_or_create(name_field=image.name, file_field=image)
+            oda = ODAModel.objects.get_or_create(name_field= names_list[i], icon_field=image_model)
+            oda.created_by = user
+            oda.save()
+            subject.odas_field.add(oda)
+
         subject.save()
 
         return subject
