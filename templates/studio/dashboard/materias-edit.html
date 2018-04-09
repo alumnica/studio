@@ -37,9 +37,9 @@
                             <label for="tags-materias">Tags</label>
                             <input name="tags-materias" type="text" id="materias-tags">
                             <script type="text/javascript">
-                                var materiasList=[];
-                                var ambitoTags=[];
-                                var materiasTags = [];
+                                let materiasList=[];
+                                let ambitoTags=[];
+                                let materiasTags = [];
                                     {% for tag in tags %}
                                         materiasTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
                                     {% endfor %}
