@@ -8,7 +8,7 @@
     <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form }}
-
      <input type="submit" value="Guardar" class="button">
+    <img src="{{ MEDIA_URL }} {{ section_img.file_field.url}}">
     </form>
 {% endblock %}
