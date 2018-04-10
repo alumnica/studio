@@ -32,15 +32,13 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
 class SubjectSectionsView(LoginRequiredMixin, FormView):
     login_url = 'login_view'
     form_class = SubjectSectionsForm
+    template_name = 'studio/pages/test.html'
 
     def form_valid(self, form):
         subject_name = self.kwargs.get('subject_name', None)
-        subject = SubjectModel.objects.get(name=subject_name)
-        section_images = []
-        section = 0
-
-        for i in range(1,subject.number_of_sections):
-            section_images.extend(self.request.FILES['section%s_img' % i])
+        subject = SubjectModel.objects.get(name_field=subject_name)
+        section = 1
+        section_images = self.request.FILES.items()
 
         form.save_form(section_images, subject)
         return redirect(to='odas_section_view', section=section, subject_name=subject_name)
@@ -49,16 +47,22 @@ class SubjectSectionsView(LoginRequiredMixin, FormView):
 class ODAsSectionView(LoginRequiredMixin, FormView):
     login_url = 'login_view'
     form_class = ODAsSectionForm
+    template_name = 'studio/pages/test.html'
+
+    def get(self, request, *args, **kwargs):
+        subject_name = self.kwargs.get('subject_name', None)
+        section = int(self.kwargs.get('section', None))
+        form = ODAsSectionForm(initial={'section_field': section})
+        return render(request, self.template_name, {'form': form, 'subject_name': subject_name, 'section': section})
 
     def form_valid(self, form):
         subject_name = self.kwargs.get('subject_name', None)
-        section = self.kwargs.get('section', None)
+        section = int(self.kwargs.get('section', None))
 
         names_list = []
-        images_list = []
-        for i in range(1, 6):
+        images_list = self.request.FILES.items()
+        for i in range(1, 7):
             names_list.extend(self.request.POST.get('oda_name%s' % i))
-            images_list.extend(self.request.FILES['oda_image%s' % i])
 
         subject = form.save_form(self.request.user, subject_name, names_list, images_list)
 
