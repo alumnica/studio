@@ -17,14 +17,21 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
 
+from studio import api_viewsets
 from studio.views.user_views import IndexView
 
+router = routers.DefaultRouter()
+router.register(r'images', api_viewsets.ImageViewSet)
+
 urlpatterns = [
-    path('', IndexView.as_view(), name="index_view"),
-    path('users/', include('studio.urls.user_urls')),
-    path('ambits/', include('studio.urls.ambit_urls')),
-    path('subjects/', include('studio.urls.subject_urls')),
-    path('odas/', include('studio.urls.oda_urls')),
-    path('admin/', admin.site.urls),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path('', IndexView.as_view(), name="index_view"),
+                  path('users/', include('studio.urls.user_urls')),
+                  path('ambits/', include('studio.urls.ambit_urls')),
+                  path('subjects/', include('studio.urls.subject_urls')),
+                  path('odas/', include('studio.urls.oda_urls')),
+                  path('admin/', admin.site.urls),
+                  path('api/', include(router.urls)),
+                  path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
