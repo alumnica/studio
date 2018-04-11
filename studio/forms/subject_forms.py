@@ -26,13 +26,16 @@ class CreateSubjectForm(forms.ModelForm):
 
         return cleaned_data
 
-    def save_form(self, user, tags):
+    def save_form(self, user, tags, image):
         subject = super(CreateSubjectForm, self).save(commit=False)
         subject.created_by = user.profile
         subject.save()
         for tag_name in tags:
             tag, created = TagModel.objects.get_or_create(name_field=tag_name)
             subject.tags_field.add(tag)
+
+        if image is not None:
+            subject.background_image = image
 
         subject.save()
         return subject

@@ -53,3 +53,19 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
     login_url = 'login_view'
     form_class = ODAsPositionForm
     template_name = 'studio/pages/test.html'
+
+    def get(self, request, *args, **kwargs):
+        subject_name = self.kwargs.get('subject_name', None)
+        section = int(self.kwargs.get('section', None))
+        subject = SubjectModel.objects.get(name_field=subject_name)
+
+        if section <= 0:
+            return redirect(to='materias_view')
+
+        if section <= subject.number_of_sections:
+            section_img = subject.sections_images[section-1]
+            form = ODAsPositionForm(initial={'section_field': section, 'subject_field': subject_name})
+            return render(request, self.template_name, {'form': form, 'section_img': section_img, 'odas': subject.odas})
+        else:
+            return redirect(to='materias_view')
+

@@ -19,7 +19,8 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         tags = self.request.POST.get('tags-materias').split(',')
-        subject = form.save_form(self.request.user, tags)
+        image = self.request.FILES['image_file']
+        subject = form.save_form(self.request.user, tags, image)
         return redirect(to='materias_sections_view', subject_name=subject.name)
 
     def form_invalid(self, form):

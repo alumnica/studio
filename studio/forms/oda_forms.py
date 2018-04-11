@@ -57,4 +57,5 @@ class ODAsSectionForm(forms.Form):
 
 
 class ODAsPositionForm(forms.Form):
-    pass
+    section_field = forms.CharField()
+    subject_field = forms.CharField()
