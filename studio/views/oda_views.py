@@ -2,9 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views.generic import FormView
 from sweetify import sweetify
-
-from alumnica_model.models import SubjectModel
-from studio.forms.oda_forms import ODAsSectionForm
+from studio.forms.oda_forms import *
 
 
 class ODAsSectionView(LoginRequiredMixin, FormView):
@@ -49,3 +47,9 @@ class ODAsSectionView(LoginRequiredMixin, FormView):
         else:
             section += 1
             return redirect(to='odas_section_view', section=section, subject_name=subject_name)
+
+
+class ODAsPositionView(LoginRequiredMixin, FormView):
+    login_url = 'login_view'
+    form_class = ODAsPositionForm
+    template_name = 'studio/pages/test.html'

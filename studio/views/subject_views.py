@@ -35,6 +35,11 @@ class SubjectSectionsView(LoginRequiredMixin, FormView):
     form_class = SubjectSectionsForm
     template_name = 'studio/pages/test.html'
 
+    def get(self, request, *args, **kwargs):
+        subject_name = self.kwargs.get('subject_name', None)
+        form = SubjectSectionsForm(initial={'sections_field': 4, 'subject_field': subject_name})
+        return render(request, self.template_name, {'form': form})
+
     def form_valid(self, form):
         subject_name = self.kwargs.get('subject_name', None)
         subject = SubjectModel.objects.get(name_field=subject_name)
@@ -42,6 +47,11 @@ class SubjectSectionsView(LoginRequiredMixin, FormView):
         section_images = self.request.FILES.items()
         form.save_form(section_images, subject)
         return redirect(to='odas_section_view', section=section, subject_name=subject_name)
+
+    def form_invalid(self, form):
+        if form['subject_field'].errors:
+            sweetify.error(self.request, form.errors['subject_field'][0], persistent='Ok')
+        return render(self.request, self.template_name, {'form': form})
 
 
 class SubjectView(LoginRequiredMixin, ListView):

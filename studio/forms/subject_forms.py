@@ -40,12 +40,30 @@ class CreateSubjectForm(forms.ModelForm):
 
 class SubjectSectionsForm(forms.Form):
 
+    sections_field = forms.IntegerField(max_value=4)
+    subject_field = forms.CharField()
     section1_img = forms.ImageField()
     section2_img = forms.ImageField()
     section3_img = forms.ImageField()
 
-    def save_form(self, section_images, subject):
+    def clean(self):
+        clean_data = super(SubjectSectionsForm, self).clean()
+        sections = int(clean_data.get('sections_field'))
+        subject_name = clean_data.get('subject_field')
+        subject = SubjectModel.objects.get(name_field=subject_name)
+        sections_created = subject.number_of_sections
+        sections_available_to_create = 4 - sections_created
 
+        if sections_available_to_create == 0:
+            error = ValidationError("You can not create more sections in this subject Already has 4.", code='subject_error')
+            self.add_error('subject_field', error)
+
+        elif sections_available_to_create < sections:
+            error = ValidationError("You can create only %s sections more." % sections_available_to_create, code='subject_error')
+            self.add_error('subject_field', error)
+
+
+    def save_form(self, section_images, subject):
         for name, section_image in section_images:
             image_model, created = ImageModel.objects.get_or_create(name_field=name, file_field=section_image)
             subject.sections_images_field.add(image_model)

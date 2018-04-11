@@ -25,6 +25,7 @@ class ODAsSectionForm(forms.Form):
 
 
     def clean(self):
+
         cleaned_data = super(ODAsSectionForm, self).clean()
         section = int(cleaned_data.get('section_field'))
         subject_name = cleaned_data.get('subject_field')
@@ -53,3 +54,7 @@ class ODAsSectionForm(forms.Form):
         subject.save()
 
         return subject
+
+
+class ODAsPositionForm(forms.Form):
+    pass
