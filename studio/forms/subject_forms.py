@@ -7,9 +7,11 @@ from alumnica_model.models.content import ImageModel
 
 
 class CreateSubjectForm(forms.ModelForm):
+    tags_field = forms.CharField(widget=forms.TextInput(attrs={'id': 'materias-tags', 'name': 'tags-materias'}))
+
     class Meta:
         model = SubjectModel
-        fields = ['name_field', 'ambit_field', 'number_of_sections_field']
+        fields = ['name_field', 'ambit_field', 'number_of_sections_field', 'tags_field']
 
     def clean(self):
         cleaned_data = super(CreateSubjectForm, self).clean()
@@ -26,52 +28,45 @@ class CreateSubjectForm(forms.ModelForm):
 
         return cleaned_data
 
-    def save_form(self, user, tags, image):
+    #def save_form(self, user, image):
+    def save_form(self, user):
+        cleaned_data = super(CreateSubjectForm, self).clean()
         subject = super(CreateSubjectForm, self).save(commit=False)
         subject.created_by = user.profile
         subject.save()
+        tags = cleaned_data.get('tags_field').split(',')
         for tag_name in tags:
             tag, created = TagModel.objects.get_or_create(name_field=tag_name)
             subject.tags_field.add(tag)
 
-        if image is not None:
-            subject.background_image = image
+        #if image is not None:
+         #   subject.background_image = image
 
         subject.save()
         return subject
 
 
-class SubjectSectionsForm(forms.Form):
-
-    sections_field = forms.IntegerField(max_value=4)
-    subject_field = forms.CharField()
-    section1_img = forms.ImageField()
-    section2_img = forms.ImageField()
-    section3_img = forms.ImageField()
-
-    def clean(self):
-        clean_data = super(SubjectSectionsForm, self).clean()
-        sections = int(clean_data.get('sections_field'))
-        subject_name = clean_data.get('subject_field')
-        subject = SubjectModel.objects.get(name_field=subject_name)
-        sections_created = subject.number_of_sections
-        sections_available_to_create = 4 - sections_created
-
-        if sections_available_to_create == 0:
-            error = ValidationError("You can not create more sections in this subject Already has 4.", code='subject_error')
-            self.add_error('subject_field', error)
-
-        elif sections_available_to_create < sections:
-            error = ValidationError("You can create only %s sections more." % sections_available_to_create, code='subject_error')
-            self.add_error('subject_field', error)
+class ImageModelForm(forms.ModelForm):
+    class Meta:
+        model = ImageModel
+        exclude = ['temporal_field']
 
 
-    def save_form(self, section_images, subject):
-        for name, section_image in section_images:
-            image_model, created = ImageModel.objects.get_or_create(name_field=name, file_field=section_image)
-            subject.sections_images_field.add(image_model)
-        subject.save()
+class BaseImageModelFormset(forms.BaseFormSet):
+    def __init__(self, *args, **kwargs):
+        if 'form_instances' in kwargs.keys():
+            self.form_instances = kwargs.pop('form_instances')
+        else:
+            self.form_instances = []
+        super(BaseImageModelFormset, self).__init__(*args, **kwargs)
 
-        return subject
+    def get_form_kwargs(self, index):
+        kwargs = super(BaseImageModelFormset, self).get_form_kwargs(index)
+        if len(self.form_instances) > index:
+            kwargs['instance'] = self.form_instances[index]
+        return kwargs
 
-
+class SubjectSectionsForm(forms.ModelForm):
+    class Meta:
+        model = SubjectModel
+        fields = ['name_field', 'number_of_sections_field']

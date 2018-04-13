@@ -27,6 +27,9 @@ class CreateAmbitForm(forms.ModelForm):
 
         for tag_name in tags:
             tag, created = TagModel.objects.get_or_create(name_field=tag_name)
+
+            tag.temporal = False
+            tag.save()
             ambit.tags_field.add(tag)
 
         if subjects is not None:

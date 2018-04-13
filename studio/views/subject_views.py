@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import formset_factory
 from django.shortcuts import redirect, render
-from django.views.generic import CreateView, ListView, FormView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, ListView, FormView, UpdateView
 from sweetify import sweetify
 
 from alumnica_model.models import AmbitModel
@@ -18,10 +20,10 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, {'form': self.form_class, 'ambit': ambits, 'tags': tags})
 
     def form_valid(self, form):
-        tags = self.request.POST.get('tags-materias').split(',')
-        image = self.request.FILES['image_file']
-        subject = form.save_form(self.request.user, tags, image)
-        return redirect(to='materias_sections_view', subject_name=subject.name)
+        #image = self.request.FILES['image_file']
+        #subject = form.save_form(self.request.user, image)
+        subject = form.save_form(self.request.user)
+        return redirect(to='materias_sections_view', pk=subject.pk)
 
     def form_invalid(self, form):
         if form['name_field'].errors:
@@ -31,28 +33,49 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
         return render(self.request, self.template_name, {'form': form, 'subjects': subjects, 'tags': tags})
 
 
-class SubjectSectionsView(LoginRequiredMixin, FormView):
-    login_url = 'login_view'
-    form_class = SubjectSectionsForm
-    template_name = 'studio/pages/test.html'
+class SubjectSectionsView(UpdateView):
+    model = SubjectModel
+    fields = ['name_field', 'number_of_sections_field']
+    template_name = 'studio/pages/testSections.html'
+    context_object_name = 'subject'
 
-    def get(self, request, *args, **kwargs):
-        subject_name = self.kwargs.get('subject_name', None)
-        form = SubjectSectionsForm(initial={'sections_field': 4, 'subject_field': subject_name})
-        return render(request, self.template_name, {'form': form})
+    def get_success_url(self):
+        return reverse_lazy('materias_sections_view', kwargs={'pk': self.kwargs['pk']})
+
+    def get_image_formset_class(self):
+        return formset_factory(
+            ImageModelForm, BaseImageModelFormset, min_num=self.object.number_of_sections_field,
+            max_num=self.object.number_of_sections_field,
+            validate_max=False, validate_min=True
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super(SubjectSectionsView, self).get_context_data(**kwargs)
+        initial = [{'name_field': x.name_field, 'file_field': x.file_field} for x in self.object.sections_images_field.all()]
+
+        if self.request.POST:
+            context.update({
+                'formset': self.get_image_formset_class()(self.request.POST, self.request.FILES, initial=initial,
+                                                          form_instances=[
+                                                              x for x in self.object.sections_images_field.all()
+                                                          ])
+            })
+        else:
+            context.update({
+                'formset': self.get_image_formset_class()(initial=initial)
+            })
+
+        return context
 
     def form_valid(self, form):
-        subject_name = self.kwargs.get('subject_name', None)
-        subject = SubjectModel.objects.get(name_field=subject_name)
-        section = 1
-        section_images = self.request.FILES.items()
-        form.save_form(section_images, subject)
-        return redirect(to='odas_section_view', section=section, subject_name=subject_name)
-
-    def form_invalid(self, form):
-        if form['subject_field'].errors:
-            sweetify.error(self.request, form.errors['subject_field'][0], persistent='Ok')
-        return render(self.request, self.template_name, {'form': form})
+        formset = self.get_context_data()['formset']
+        if formset.is_valid() and formset.has_changed():
+            for form in formset:
+                a = form.save()
+                if a not in self.object.sections_images_field.all():
+                    self.object.sections_images_field.add(a)
+            self.object.save()
+        return super(SubjectSectionsView, self).form_valid(form)
 
 
 class SubjectView(LoginRequiredMixin, ListView):

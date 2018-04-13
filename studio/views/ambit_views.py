@@ -14,7 +14,7 @@ class CreateAmbitView(LoginRequiredMixin, FormView):
 
     def get(self, request, *args, **kwargs):
         subjects = SubjectModel.objects.all()
-        tags = TagModel.objects.all()
+        tags = TagModel.objects.all().filter(temporal_field=False)
         return render(request, self.template_name, {'form': self.form_class, 'subjects': subjects, 'tags': tags})
 
     def form_valid(self, form):

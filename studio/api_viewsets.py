@@ -7,3 +7,4 @@ from studio.serializers import ImageHyperlinkedModelSerializer
 class ImageViewSet(ModelViewSet):
     queryset = ImageModel.objects.all()
     serializer_class = ImageHyperlinkedModelSerializer
+
