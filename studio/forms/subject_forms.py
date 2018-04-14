@@ -6,7 +6,7 @@ from alumnica_model.models import SubjectModel, TagModel
 from alumnica_model.models.content import ImageModel
 
 
-class CreateSubjectForm(forms.ModelForm):
+class SubjectForm(forms.ModelForm):
     tags_field = forms.CharField(widget=forms.TextInput(attrs={'id': 'materias-tags', 'name': 'tags-materias'}))
 
     class Meta:
@@ -14,7 +14,7 @@ class CreateSubjectForm(forms.ModelForm):
         fields = ['name_field', 'ambit_field', 'number_of_sections_field', 'tags_field']
 
     def clean(self):
-        cleaned_data = super(CreateSubjectForm, self).clean()
+        cleaned_data = super(SubjectForm, self).clean()
         name_subject = cleaned_data.get('name_field')
 
         if SubjectModel.objects.filter(name_field=name_subject).exists():
@@ -30,8 +30,8 @@ class CreateSubjectForm(forms.ModelForm):
 
     #def save_form(self, user, image):
     def save_form(self, user):
-        cleaned_data = super(CreateSubjectForm, self).clean()
-        subject = super(CreateSubjectForm, self).save(commit=False)
+        cleaned_data = super(SubjectForm, self).clean()
+        subject = super(SubjectForm, self).save(commit=False)
         subject.created_by = user.profile
         subject.save()
         tags = cleaned_data.get('tags_field').split(',')
@@ -46,6 +46,35 @@ class CreateSubjectForm(forms.ModelForm):
         return subject
 
 
+class UpdateSubjectForm(forms.ModelForm):
+    tags_field = forms.CharField(widget=forms.TextInput(attrs={'id': 'materias-tags', 'name': 'tags-materias'}))
+
+    class Meta:
+        model = SubjectModel
+        fields = ['name_field', 'ambit_field', 'number_of_sections_field', 'tags_field']
+
+
+
+    def save_form(self):
+        cleaned_data = super(UpdateSubjectForm, self).clean()
+        subject = super(UpdateSubjectForm, self).save(commit=False)
+        tags = cleaned_data.get('tags_field').split(',')
+        for tag_name in tags:
+            tag, created = TagModel.objects.get_or_create(name_field=tag_name)
+            if tag not in subject.tags:
+                subject.tags_field.add(tag)
+        for tag in subject.tags:
+            if tag.name not in tags:
+                subject.tags_field.remove(tag)
+
+        #if image is not None:
+         #   subject.background_image = image
+
+        subject.save()
+        return subject
+
+
+
 class ImageModelForm(forms.ModelForm):
     class Meta:
         model = ImageModel
@@ -53,12 +82,15 @@ class ImageModelForm(forms.ModelForm):
 
 
 class BaseImageModelFormset(forms.BaseFormSet):
+
     def __init__(self, *args, **kwargs):
         if 'form_instances' in kwargs.keys():
             self.form_instances = kwargs.pop('form_instances')
         else:
             self.form_instances = []
+
         super(BaseImageModelFormset, self).__init__(*args, **kwargs)
+
 
     def get_form_kwargs(self, index):
         kwargs = super(BaseImageModelFormset, self).get_form_kwargs(index)

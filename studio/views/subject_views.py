@@ -6,13 +6,14 @@ from django.views.generic import CreateView, ListView, FormView, UpdateView
 from sweetify import sweetify
 
 from alumnica_model.models import AmbitModel
+
 from studio.forms.subject_forms import *
 
 
 class CreateSubjectView(LoginRequiredMixin, CreateView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/materias-edit.html'
-    form_class = CreateSubjectForm
+    form_class = SubjectForm
 
     def get(self, request, *args, **kwargs):
         ambits = AmbitModel.objects.all()
@@ -31,6 +32,28 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
         subjects = SubjectModel.objects.all()
         tags = TagModel.objects.all()
         return render(self.request, self.template_name, {'form': form, 'subjects': subjects, 'tags': tags})
+
+
+class UpdateSubjectView(LoginRequiredMixin, UpdateView):
+    login_url = 'login_view'
+    template_name = 'studio/dashboard/materias-edit.html'
+    model = SubjectModel
+    form_class = UpdateSubjectForm
+
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateSubjectView, self).get_context_data(**kwargs)
+        ambits = AmbitModel.objects.all()
+        tags = TagModel.objects.all()
+        tgs = self.object.tags_field.all()
+        initial = {'ambits': ambits, 'tags': tags, 'self_tags':tgs}
+
+        context.update(initial)
+        return context
+
+    def form_valid(self, form):
+        subject = form.save_form()
+        return redirect(to='materias_sections_view', pk=subject.pk)
 
 
 class SubjectSectionsView(UpdateView):

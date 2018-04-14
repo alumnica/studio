@@ -36,12 +36,17 @@
 
                             <label for="tags-materias">Tags</label>
                             {{ form.tags_field }}
+
                             <script type="text/javascript">
                                 let materiasList=[];
                                 let ambitoTags=[];
                                 let materiasTags = [];
+                                let self_tags_selectize = [];
                                     {% for tag in tags %}
                                         materiasTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
+                                    {% endfor %}
+                                    {% for self_tag in self_tags %}
+                                        self_tags_selectize.push("{{ self_tag.name_field|safe }}");
                                     {% endfor %}
                             </script>
                             <!-- end tags -->
