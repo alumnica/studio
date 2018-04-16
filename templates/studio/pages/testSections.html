@@ -33,10 +33,7 @@
         {% csrf_token %}
         {{ form.as_p }}
 
-        {% for form in formset %}
-            {{ form.file_field }}
-             <img src="{{ MEDIA_URL }} {{ form.initial.file_field.url }}">
-        {% endfor %}
+        {{ formset.as_p }}
          <input type="submit" class="button">
     </form>
 {% endblock %}

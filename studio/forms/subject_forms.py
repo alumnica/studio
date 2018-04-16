@@ -11,7 +11,7 @@ class SubjectForm(forms.ModelForm):
 
     class Meta:
         model = SubjectModel
-        fields = ['name_field', 'ambit_field', 'number_of_sections_field', 'tags_field']
+        fields = ['name_field', 'ambit_field', 'number_of_sections_field', 'tags_field', 'background_image_field']
 
     def clean(self):
         cleaned_data = super(SubjectForm, self).clean()
@@ -34,6 +34,7 @@ class SubjectForm(forms.ModelForm):
         subject = super(SubjectForm, self).save(commit=False)
         subject.created_by = user.profile
         subject.save()
+        subject.update()
         tags = cleaned_data.get('tags_field').split(',')
         for tag_name in tags:
             tag, created = TagModel.objects.get_or_create(name_field=tag_name)

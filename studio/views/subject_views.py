@@ -63,7 +63,7 @@ class SubjectSectionsView(UpdateView):
     context_object_name = 'subject'
 
     def get_success_url(self):
-        return reverse_lazy('materias_sections_view', kwargs={'pk': self.kwargs['pk']})
+        return reverse_lazy('odas_section_view', kwargs={'pk': self.kwargs['pk'], 'section': 1})
 
     def get_image_formset_class(self):
         return formset_factory(
@@ -92,7 +92,7 @@ class SubjectSectionsView(UpdateView):
 
     def form_valid(self, form):
         formset = self.get_context_data()['formset']
-        if formset.is_valid() and formset.has_changed():
+        if formset.is_valid and formset.has_changed:
             for form in formset:
                 a = form.save()
                 if a not in self.object.sections_images_field.all():
