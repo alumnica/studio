@@ -84,17 +84,25 @@ class UpdateSubjectForm(forms.ModelForm):
                 new_image = ImageModel.objects.create(file_field=background_image)
                 subject.background_image_field = new_image
 
-
-
         subject.save()
         return subject
 
+def set_field_html_name(cls, new_name):
+    """
+    This creates wrapper around the normal widget rendering,
+    allowing for a custom field name (new_name).
+    """
+    old_render = cls.widget.render
+    def _widget_render_wrapper(name, value, attrs=None):
+        return old_render(new_name, value, attrs)
 
+    cls.widget.render = _widget_render_wrapper
 
 class ImageModelForm(forms.ModelForm):
+    file_field = forms.ImageField(widget=forms.FileInput(attrs={'class': 'show-for-sr', 'type': 'file'}))
     class Meta:
         model = ImageModel
-        exclude = ['temporal_field']
+        fields = ['file_field']
 
 
 class BaseImageModelFormset(forms.BaseFormSet):
@@ -114,7 +122,8 @@ class BaseImageModelFormset(forms.BaseFormSet):
             kwargs['instance'] = self.form_instances[index]
         return kwargs
 
+
 class SubjectSectionsForm(forms.ModelForm):
     class Meta:
         model = SubjectModel
-        fields = ['name_field', 'number_of_sections_field']
+        fields = ['name_field']

@@ -57,8 +57,8 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
 
 class SubjectSectionsView(UpdateView):
     model = SubjectModel
-    fields = ['name_field', 'number_of_sections_field']
-    template_name = 'studio/pages/testSections.html'
+    fields = ['name_field']
+    template_name = 'studio/dashboard/materias-edit-seccion.html'
     context_object_name = 'subject'
 
     def get_success_url(self):
@@ -71,10 +71,10 @@ class SubjectSectionsView(UpdateView):
             validate_max=False, validate_min=True
         )
 
+
     def get_context_data(self, **kwargs):
         context = super(SubjectSectionsView, self).get_context_data(**kwargs)
-        initial = [{'name_field': x.name_field, 'file_field': x.file_field} for x in self.object.sections_images_field.all()]
-
+        initial = [{'file_field': x.file_field} for x in self.object.sections_images_field.all()]
         if self.request.POST:
             context.update({
                 'formset': self.get_image_formset_class()(self.request.POST, self.request.FILES, initial=initial,
@@ -86,6 +86,8 @@ class SubjectSectionsView(UpdateView):
             context.update({
                 'formset': self.get_image_formset_class()(initial=initial)
             })
+
+
 
         return context
 

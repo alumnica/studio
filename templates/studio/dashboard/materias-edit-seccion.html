@@ -9,7 +9,9 @@
         <i class="fas fa-clone"></i> | 1 | Imagenes de fondo para cada ex1:
     </h1>
     <hr>
-    <form id="seccion-img" action="">
+    <form method="POST" id="seccion-img" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.name_field }}
         <div class="grid-x grid-margin-x grid-margin-y">
             <div class="cell medium-12">
                 <p class="h5">Instrucciones:</p>
@@ -20,32 +22,36 @@
             </div>
 
             <!-- number of these sections depends on what was selected in the previous page -->
-            <div class="cell large-4 medium-6">
-                <div class="panel ex1">
-                    <div class="panel__title">
-                        Seccion 1
-                    </div>
-                    <div class="panel__content">
-                        <div class="grid-x">
-                            <div class="small-6 cell">
-                                    {# Atencion a el nombre de las ID y NAME #}              
-                                <label for="section-u1" class="button">Subir Imagen</label>
-                                <input id="section-u1" name="u1" type="file" class="show-for-sr">
+            {{ formset.management_form }}
+            {% for form in formset %}
+                <div class="cell large-4 medium-6">
+                    <div class="panel ex1">
+                        <div class="panel__title">
+                            Seccion 1
+                        </div>
+                        <div class="panel__content">
+                            <div class="grid-x">
+                                <div class="small-6 cell">
+                                        {# Atencion a el nombre de las ID y NAME #}
+                                    <label for="id_{{ form.file_field.html_name }}" class="button">Subir Imagen</label>
+                                    {{ form.file_field }}
+                                    <!--input id="section-u1" name="u1" type="file" class="show-for-sr"-->
+                                </div>
+                                <div class="small-6 text-right">
+                                    <a href="#" class="button">Biblioteca de Imagenes</a>
+                                </div>
                             </div>
-                            <div class="small-6 text-right">
-                                <a href="#" class="button">Biblioteca de Imagenes</a>                                
-                            </div>
-                        </div>                        
-                            <div class="section-preview">
-                                    <img src="#" alt="your image" />
-                            </div>                        
+                                <div class="section-preview">
+                                        <img src="{{ MEDIA_URL }} {{ form.initial.file_field.url }}" alt="your image" />
+                                </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endfor %}
 
             <!-- end section upload image -->
 
-            <div class="cell large-4 medium-6">
+            <!--div class="cell large-4 medium-6">
                 <div class="panel ex1">
                     <div class="panel__title">
                         Seccion 2
@@ -87,11 +93,11 @@
                         </div> 
                     </div>
                 </div>
-            </div>
+            </div-->
 
             <div class="cell medium-4">
                 {# Te regresa a materias-edit.html #}
-                <button href="materias-edit.html" class="button"><i class="fas fa-arrow-left"></i> Anterior </i></button>
+                <button href="materias-edit.html" class="button"><i class="fas fa-arrow-left"></i> Anterior </button>
 
                 {# Sigue a Materias-edit-oda#}
                 <button type="submit" class="button"> Siguiente <i class="fas fa-arrow-right"></i></button>

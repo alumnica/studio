@@ -25,8 +25,6 @@
 
                 <form method="POST" id="materia-init" enctype="multipart/form-data">
                     {% csrf_token %}
-                {{ form.errors }}
-                {{ form.non_field_errors }}
                     <div class="grid-x grid-margin-x">
                         <div class="cell medium-5">
                             <label for="titulo-materia">Titulo</label>
