@@ -32,8 +32,8 @@
                         <label for="tags-ambito">Tags</label>
                         <input required name="tags-ambito" type="text" id="ambito-tags">
                         <script type="text/javascript">
-                        var materiasTags = [];
-                        var ambitoTags = [];
+                        let materiasTags = [];
+                        let ambitoTags = [];
                             {% for tag in tags %}
                                 ambitoTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
                             {% endfor %}
@@ -228,7 +228,7 @@
             <label for="materias-select">Busca en la Biblioteca de Materias</label>
             <select name="materias-select" id="select-materias"></select>
             <script type="text/javascript">
-                        var materiasList = [];
+                        let materiasList = [];
                             {% for subject in subjects %}
                                 materiasList.push({name:"{{ subject.name_field|safe }}", value:"{{ subject.id|safe }}"});
                             {% endfor %}

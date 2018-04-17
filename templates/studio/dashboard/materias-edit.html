@@ -22,8 +22,11 @@
                 <hr>
             </div>
             <div class="cell medium-12">
-                <form id="materia-init" method="POST">
+
+                <form method="POST" id="materia-init" enctype="multipart/form-data">
                     {% csrf_token %}
+                {{ form.errors }}
+                {{ form.non_field_errors }}
                     <div class="grid-x grid-margin-x">
                         <div class="cell medium-5">
                             <label for="titulo-materia">Titulo</label>
@@ -35,26 +38,27 @@
                             <!-- tags -->
 
                             <label for="tags-materias">Tags</label>
-                            <input name="tags-materias" type="text" id="materias-tags">
+                            {{ form.tags_field }}
+
                             <script type="text/javascript">
-                                var materiasList=[];
-                                var ambitoTags=[];
-                                var materiasTags = [];
+                                let materiasList=[];
+                                let ambitoTags=[];
+                                let materiasTags = [];
+                                let self_tags_selectize = [];
                                     {% for tag in tags %}
                                         materiasTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
+                                    {% endfor %}
+                                    {% for self_tag in self_tags %}
+                                        self_tags_selectize.push("{{ self_tag.name_field|safe }}");
                                     {% endfor %}
                             </script>
                             <!-- end tags -->
 
                             <label>Número de secciones dentro de la materia
-                                <select class="position-ambito-size">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option selected value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
+                                {{ form.number_of_sections_field }}
                             </label>
-                           
+
+
     
                         </div>
                         <div class="cell medium-5 medium-offset-1">
@@ -65,25 +69,26 @@
                                     <div class="grid-x grid-margin-x">
                                         <div class="small-6 cell">
                                             <label for="materia-u" class="button expanded">Subir Imagen</label>
-                                            <input id="materia-u" name="mp" type="file" class="show-for-sr">
+                                            {{ form.mp }}
                                         </div>
                                         <div class="small-6 text-right">
                                             <a href="#" class="button expanded">Biblioteca de Imagenes</a>
                                         </div>
                                     </div>
                                     <div class="section-preview">
-                                            <img src="#" alt="your image" />
+                                            <img src="{{ MEDIA_URL }} {{ background_img.file_field.url }}" alt="your image" />
                                     </div> 
                                 </div>
                             </div>
-                            <!-- <button class="button expanded" type="submit">Continuar <i class="fas fa-arrow-right"></i> </button> -->
-                            <a href="materias-edit-seccion.html" class="button expanded" type="submit">Continuar
-                                <i class="fas fa-arrow-right"></i>
+                             <button class="button expanded" type="submit">Continuar <i class="fas fa-arrow-right"></i> </button>
+                            <!--a href="materias-edit-seccion.html" class="button expanded" type="submit">Continuar-->
+
                             </a>
                         </div>
                     </div>
                 </form>
-                </div>
             </div>
+        </div>
+</div>
 
 {% endblock content %}

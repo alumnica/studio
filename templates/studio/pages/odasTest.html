@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+
+{% block content %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+    <div class="section">
+        {{ form.as_p }}
+    </div>
+    {{ formset.management_form }}
+        {% for form in formset.forms %}
+    <div class="item">
+      {{ form.as_p }}
+      <p style=""><a class="delete" href="#">Delete</a></p>
+    </div>
+    {% endfor %}
+    <p><a id="add" href="#">Add another item</a></p>
+    <input type="submit" value=" Submit " />
+    </form>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "studio/js/oda.js" %}"></script>
+{% endblock %}
+

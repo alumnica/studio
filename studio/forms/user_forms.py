@@ -39,6 +39,7 @@ class UserLoginForm(forms.Form):
         user = AuthUser.objects.get(email=email)
         return user
 
+
 class AuthUserCreateForm(forms.ModelForm):
     class Meta:
         model = AuthUser
@@ -51,6 +52,7 @@ class AuthUserCreateForm(forms.ModelForm):
             user.save()
         return user
 
+
 class CustomUserAdmin(UserAdmin):
     # The forms to add and change user instances
     add_form = AuthUserCreateForm
@@ -59,18 +61,17 @@ class CustomUserAdmin(UserAdmin):
 
     fieldsets = (
         (None, {'fields': ('email', 'password', 'first_name', 'last_name')}),
-        )
+    )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
             'fields': ('email', 'password', 'first_name', 'last_name', 'is_superuser', 'is_staff', 'is_active',
                        'user_type')}
-            ),
-        )
+         ),
+    )
 
     filter_horizontal = ()
+
+
 admin.site.unregister(AuthUser)
 admin.site.register(AuthUser, CustomUserAdmin)
-
-
-

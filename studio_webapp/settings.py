@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'alumnica_model.apps.AlumnicaModelConfig',
     'sweetify',
     'storages',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
