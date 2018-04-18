@@ -1,5 +1,5 @@
 {% extends "studio/base-main.html" %}
-
+{% load static %}
 {% block content %}
 
 
@@ -10,194 +10,107 @@
             <i class="fas fa-clone"></i> | 2.1 | ODAs y respectivas imagenes
         </h1>
         <hr>
-        <form action="" id="odas-seccion-1">
+        <form method="POST" id="odas-seccion-1" enctype="multipart/form-data">
+            {% csrf_token %}
             <div class="grid-x grid-margin-x grid-margin-y">
                 <div class="cell medium-12">
-                    <p class="h5">Seccion 1:</p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A illo repudiandae, molestiae nostrum quam distinctio
-                        aperiam tempore accusamus provident aut!
-                    </p>
-                    <hr>
-                </div>
-                <!-- first colum containing section image -->
-                <div class="cell large-3 medium-2">
-                    <div class="panel">
-                        <img src="../assets/img/ph/bloque-01.png" alt="">
+
+                        <p class="h5">Seccion 1:</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A illo repudiandae, molestiae nostrum quam distinctio
+                            aperiam tempore accusamus provident aut!
+                        </p>
+                        <hr>
                     </div>
-                </div>
+                    <!-- first colum containing section image -->
+                    <div class="cell large-3 medium-2">
+                        <div class="panel">
+                            <img src="{{ MEDIA_URL }} {{ background_image.file_field.url }}" alt="">
+                        </div>
+                    </div>
+
+
     
                 <!-- begin second column containing all the upload buttons and imag epreviews -->
                 <div class="cell large-9 medium-10">
-    
-                    <!-- .main div for 1 entire oda -->
-                    <div class="oda-img-upload">
-                        <div class="grid-x grid-padding-x">
-                            <div class="medium-4 cell">
-                                <label for="">ODA 1</label>
 
-                                {# Atencion a el ID  este input es SELECTIZE #}
 
-                                <input id="section-1-oda-1" type="text">
-                            </div>
-    
-                            <!-- first state of oda image upload and preview -->
-                            <div class="medium-4 cell left-border">
-                                <div class="grid-x grid-margin-x">
-                                    <div class="small-6 cell align-self-middle">
-                                        <div class="img-preview-a">
-                                            <img src="#" alt="">
+                    <div class="form-set">
+                         {{ formset.management_form }}
+                    {% for form in formset.forms %}
+                        <!-- .main div for 1 entire oda -->
+                        <div class="my_item">
+                        <div class="oda-img-upload">
+                            <div class="grid-x grid-padding-x">
+                                <div class="medium-4 cell">
+                                    <label for="">ODA 1</label>
+
+                                    {# Atencion a el ID  este input es SELECTIZE #}
+                                    {{ form.oda_name }}
+                                    <!--input id="section-1-oda-1" type="text"-->
+                                </div>
+
+                                <!-- first state of oda image upload and preview -->
+                                <div class="medium-4 cell left-border">
+                                    <div class="grid-x grid-margin-x">
+                                        <div class="small-6 cell align-self-middle">
+                                            <div class="img-preview-a">
+                                                <img src="#" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="small-6 cell align-self-middle">
+                                            <p>Inicial</p>
+
+                                            {# Atencion a el ID #}
+                                                <label for="id_{{ form.active_icon_field.html_name }}" class="button secondary small expanded">Subir Imagen</label>
+                                                {{ form.active_icon_field }}
+                                                <!--input id="section-1-oda-a1" name="oda-a1" type="file" class="show-for-sr"-->
+
+                                            <button class="button secondary expanded small">
+                                                <i class="fas fa-th"></i> Imagenes</button>
                                         </div>
                                     </div>
-                                    <div class="small-6 cell align-self-middle">
-                                        <p>Inicial</p>
-
-                                        {# Atencion a el ID #}
-                                            <label for="section-1-oda-a1" class="button secondary small expanded">Subir Imagen</label>
-                                            <input id="section-1-oda-a1" name="oda-a1" type="file" class="show-for-sr">
-    
-                                        <button class="button secondary expanded small">
-                                            <i class="fas fa-th"></i> Imagenes</button>
-                                    </div>
                                 </div>
-                            </div>
-    
-                            <!-- 2nd state of oda image uplaod and preview -->
-    
-                            <div class="medium-4 cell">
-                                <div class="grid-x grid-margin-x">
-                                    <div class="small-6 cell align-self-middle">
-                                        <div class="img-preview-b">
-                                            <img src="#" alt="">
+
+                                <!-- 2nd state of oda image uplaod and preview -->
+
+                                <div class="medium-4 cell">
+                                    <div class="grid-x grid-margin-x">
+                                        <div class="small-6 cell align-self-middle">
+                                            <div class="img-preview-b">
+                                                <img src="#" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="small-6 cell align-self-middle">
+                                            <p>Inicial</p>
+
+                                            {# Atencion a el ID #}
+                                            <label for="id_{{ form.completed_icon_field.html_name }}" class="button secondary small expanded">Subir Imagen</label>
+                                            {{ form.completed_icon_field }}
+                                            <!--input id="section-1-oda-b1" name="oda-b1" type="file" class="show-for-sr"-->
+
+                                            <button class="button secondary expanded small">
+                                                <i class="fas fa-th"></i> Imagenes</button>
                                         </div>
                                     </div>
-                                    <div class="small-6 cell align-self-middle">
-                                        <p>Inicial</p>
-
-                                        {# Atencion a el ID #}
-                                        <label for="section-1-oda-b1" class="button secondary small expanded">Subir Imagen</label>
-                                        <input id="section-1-oda-b1" name="oda-b1" type="file" class="show-for-sr">
-                            
-                                        <button class="button secondary expanded small">
-                                            <i class="fas fa-th"></i> Imagenes</button>
-                                    </div>
                                 </div>
-                            </div>                        
+                                <p style=""><a class="delete" href="#">Delete</a></p>
+                            </div>
                         </div>
-                    </div>          
-                    <hr>
-                    <!-- end ddiv for 1 entire oda, start next -->
-    
-                    <div class="oda-img-upload">
-                        <div class="grid-x grid-padding-x">
-                            <div class="medium-4 cell">
-                                <label for="">ODA 2</label>
-
-                                {# Atencion a el ID  este input es SELECTIZE #}
-                                <input id="section-1-oda-2" type="text">
-                            </div>
-    
-                            <!-- first state of oda image upload and preview -->
-                            <div class="medium-4 cell left-border">
-                                <div class="grid-x grid-margin-x">
-                                    <div class="small-6 cell align-self-middle">
-                                        <div class="img-preview-a">
-                                            <img src="#" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="small-6 cell align-self-middle">
-                                        <p>Inicial</p>
-
-                                        {# Atencion a el ID #}
-                                            <label for="section-1-oda-a2" class="button secondary small expanded">Subir Imagen</label>
-                                            <input id="section-1-oda-a2" name="oda-a2" type="file" class="show-for-sr">
-    
-                                        <button class="button secondary expanded small">
-                                            <i class="fas fa-th"></i> Imagenes</button>
-                                    </div>
-                                </div>
-                            </div>
-    
-                            <!-- 2nd state of oda image uplaod and preview -->
-    
-                            <div class="medium-4 cell">
-                                <div class="grid-x grid-margin-x">
-                                    <div class="small-6 cell align-self-middle">
-                                        <div class="img-preview-b">
-                                            <img src="#" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="small-6 cell align-self-middle">
-                                        <p>Inicial</p>
-
-                                        {# Atencion a el ID #}
-                                        <label for="section-1-oda-b2" class="button secondary small expanded">Subir Imagen</label>
-                                        <input id="section-1-oda-b2" name="oda-b2" type="file" class="show-for-sr">
-                            
-                                        <button class="button secondary expanded small">
-                                            <i class="fas fa-th"></i> Imagenes</button>
-                                    </div>
-                                </div>
-                            </div>                        
+                        <hr>
                         </div>
-                    </div>          
-                    <hr>
-                    <!-- end ddiv for 1 entire oda, start next -->
-                    <div class="oda-img-upload">
-                        <div class="grid-x grid-padding-x">
-                            <div class="medium-4 cell">
-                                <label for="">ODA 3</label>
-                                <input id="section-1-oda-3" type="text">
-                            </div>
-    
-                            <!-- first state of oda image upload and preview -->
-                            <div class="medium-4 cell left-border">
-                                <div class="grid-x grid-margin-x">
-                                    <div class="small-6 cell align-self-middle">
-                                        <div class="img-preview-a">
-                                            <img src="#" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="small-6 cell align-self-middle">
-                                        <p>Inicial</p>
-                                            <label for="section-1-oda-a3" class="button secondary small expanded">Subir Imagen</label>
-                                            <input id="section-1-oda-a3" name="oda-a3" type="file" class="show-for-sr">
-    
-                                        <button class="button secondary expanded small">
-                                            <i class="fas fa-th"></i> Imagenes</button>
-                                    </div>
-                                </div>
-                            </div>
-    
-                            <!-- 2nd state of oda image uplaod and preview -->
-    
-                            <div class="medium-4 cell">
-                                <div class="grid-x grid-margin-x">
-                                    <div class="small-6 cell align-self-middle">
-                                        <div class="img-preview-b">
-                                            <img src="#" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="small-6 cell align-self-middle">
-                                        <p>Inicial</p>
-                                        <label for="section-1-oda-b3" class="button secondary small expanded">Subir Imagen</label>
-                                        <input id="section-1-oda-b3" name="oda-b3" type="file" class="show-for-sr">
-                            
-                                        <button class="button secondary expanded small">
-                                            <i class="fas fa-th"></i> Imagenes</button>
-                                    </div>
-                                </div>
-                            </div>                        
-                        </div>
-                    </div>          
-                    <hr>
-                    <!-- end ddiv for 1 entire oda, start next -->
-    
-                    
+                    {% endfor %}
+                    </div>
+
+
+                    <p><a id="add" href="#">Add another item</a></p>
+
+
+
+
                     <a href="materias-edit-seccion.html" class="button">
                         <i class="fas fa-arrow-left"></i> Anterior </i>
                     </a>
-                    <a href="materias-edit-position.html" class="button"> Siguiente
-                        <i class="fas fa-arrow-right"></i>
+                    <button class="button" type="submit">Continuar <i class="fas fa-arrow-right"></i> </button>
                     </a>
                     <!-- <button class="button"> Siguiente <i class="fas fa-arrow-right"></i></button> -->
                 </div>
@@ -206,5 +119,15 @@
         </form>
     </div>
 
+<script type="text/javascript">
+    let odaList=[];
+        {% for oda in odas_list %}
+            odaList.push({name:"{{ tag.name_field|safe }}"});
+        {% endfor %}
+</script>
 
 {% endblock content %}
+
+{% block scripts %}
+    <script src="{% static "studio/js/oda.js" %}"></script>
+{% endblock %}

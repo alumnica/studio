@@ -1,5 +1,5 @@
 {% extends "studio/base-main.html" %}
-
+{% load static %}
 {% block content %}
 
 
@@ -32,7 +32,6 @@
                         <label for="tags-ambito">Tags</label>
                         <input required name="tags-ambito" type="text" id="ambito-tags">
                         <script type="text/javascript">
-                        let materiasTags = [];
                         let ambitoTags = [];
                             {% for tag in tags %}
                                 ambitoTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
@@ -245,3 +244,8 @@
         </div>
 
 {% endblock content %}
+
+{% block scripts %}
+    <script  type="text/javascript"  src="{% static "studio/js/materias.js" %}"></script>
+    <script  type="text/javascript"  src="{% static "studio/js/tags.js" %}"></script>
+{% endblock %}

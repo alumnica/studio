@@ -56,11 +56,9 @@
   
   {# app.js uncludes Jquery #}
   <script  type="text/javascript"  src="{% static "studio/js/app.js" %}"></script>
-  <script  type="text/javascript"  src="{% static "studio/js/materias.js" %}"></script>
-  <script  type="text/javascript"  src="{% static "studio/js/tags.js" %}"></script>
-  <script  type="text/javascript"  src="{% static "studio/js/signUp.js" %}"></script>
 
-  
+  {% block scripts %}
+    {% endblock %}
 
   {% load sweetify %}
   {% sweetify %}

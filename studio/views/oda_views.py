@@ -9,7 +9,8 @@ from studio.forms.oda_forms import *
 
 class ODAsSectionView(LoginRequiredMixin, UpdateView):
     login_url = 'login_view'
-    template_name = 'studio/pages/odasTest.html'
+    template_name = 'studio/dashboard/materias-edit-oda.html'
+    #template_name = 'studio/pages/odasTest.html'
     model = SubjectModel
     fields = ['name_field']
 
@@ -33,6 +34,8 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         section = self.kwargs['section']
+        background_image = self.object.sections_images_field.all()[section-1]
+        odas_list = ODAModel.objects.all()
         context = super(ODAsSectionView, self).get_context_data(**kwargs)
         initial = [{'oda_field': x.oda_field, 'active_icon_field': x.active_icon_field,
                     'completed_icon_field': x.completed_icon_field} for x in
@@ -44,13 +47,16 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
                                                           form_instances=[
                                                               x for x in
                                                               self.object.odas_field.all().filter(section_field=section)
-                                                          ])
+                                                          ]),
+                'background_image': background_image
             })
         else:
-            context.update({
-                'formset': self.get_image_formset_class()(initial=initial)
-            })
 
+            context.update({
+                'formset': self.get_image_formset_class()(initial=initial),
+                'background_image': background_image,
+                'odas_list': odas_list
+            })
         return context
 
     def form_valid(self, form):

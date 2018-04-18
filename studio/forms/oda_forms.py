@@ -7,6 +7,8 @@ from alumnica_model.models.content import ODAInSubjectModel
 
 class ODAModelForm(forms.ModelForm):
     oda_name = forms.CharField(max_length=120)
+    active_icon_field = forms.ImageField(widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
+    completed_icon_field = forms.ImageField(widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
     class Meta:
         model = ODAInSubjectModel
         fields = ['oda_name', 'active_icon_field', 'completed_icon_field']

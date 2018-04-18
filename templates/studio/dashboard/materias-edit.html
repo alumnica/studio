@@ -1,5 +1,5 @@
 {% extends "studio/base-main.html" %}
-
+{% load static %}
 {% block content %}
 
 
@@ -39,7 +39,6 @@
                             {{ form.tags_field }}
 
                             <script type="text/javascript">
-                                let materiasList=[];
                                 let ambitoTags=[];
                                 let materiasTags = [];
                                 let self_tags_selectize = [];
@@ -90,3 +89,7 @@
 </div>
 
 {% endblock content %}
+
+{% block scripts %}
+    <script  type="text/javascript"  src="{% static "studio/js/tags.js" %}"></script>
+    {% endblock %}

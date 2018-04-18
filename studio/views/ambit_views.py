@@ -21,7 +21,7 @@ class CreateAmbitView(LoginRequiredMixin, FormView):
         subjects = self.request.POST.get('class_name')
         tags = self.request.POST.get('tags-ambito').split(',')
         color = self.request.POST.get('color')
-        image = self.request.FILES['image_file']
+        image = self.request.FILES['ap']
         form.save_form(self.request.user, subjects, tags, color, image)
         return redirect(to='ambits_view')
 
