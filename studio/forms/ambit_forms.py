@@ -20,7 +20,8 @@ class CreateAmbitForm(forms.ModelForm):
         ambit.color = color
 
         if image is not None:
-            image_model = ImageModel.objects.create(name_field=image.name, file_field=image)
+            image_model = ImageModel.objects.create(name_field=("ambit_{}_background".format(ambit.name)),
+                                                    file_field=image)
             ambit.background_image = image_model
             ambit.program = ProgramModel.objects.get(name_field="Primaria")
             ambit.save()

@@ -39,7 +39,5 @@ $('#materias-tags').selectize({
     onInitialize: function(){
     var selectize = this;
     selectize.setValue(self_tags_selectize)
-
-
 }
 });

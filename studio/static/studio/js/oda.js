@@ -1,12 +1,4 @@
 
-
-
-
-
-
-
-
-
 $(document).ready(function () {
     // Code adapted from http://djangosnippets.org/snippets/1389/
     var x = 0;
@@ -28,6 +20,10 @@ $("input[type='text']").each(function(){
         },
         options: odaList,
         preload: false,
+        onInitialize: function(){
+            var selectize = this;
+            selectize.setValue(self_oda_selectize[x])
+        }
     });
     x++;
 });

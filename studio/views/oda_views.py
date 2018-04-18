@@ -1,9 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import formset_factory
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, UpdateView
 from sweetify import sweetify
+
+from alumnica_model.models.content import ImageModel
 from studio.forms.oda_forms import *
 
 
@@ -16,7 +19,8 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         section = self.kwargs['section']
-        if self.object.number_of_sections_field > section:
+        subject = SubjectModel.objects.get(pk=self.kwargs['pk'])
+        if subject.number_of_sections_field > section:
             section += 1
             return reverse_lazy('odas_section_view', kwargs={'pk': self.kwargs['pk'], 'section': section})
 
@@ -43,11 +47,8 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
 
         if self.request.POST:
             context.update({
-                'formset': self.get_image_formset_class()(self.request.POST, self.request.FILES, initial=initial,
-                                                          form_instances=[
-                                                              x for x in
-                                                              self.object.odas_field.all().filter(section_field=section)
-                                                          ]),
+                'formset': self.get_image_formset_class()(self.request.POST, self.request.FILES, initial=initial
+                                                          ),
                 'background_image': background_image
             })
         else:
@@ -62,15 +63,16 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         section = self.kwargs['section']
         formset = self.get_context_data()['formset']
+        count = len(formset)
         if formset.is_valid() and formset.has_changed():
             for form in formset:
-                a = form.save(commit=False)
-                a.section_field = section
-                a.save()
+                a = form.save_form(self.request.user.profile, section)
+
                 if a not in self.object.odas_field.all().filter(section_field=section):
                     self.object.odas_field.add(a)
             self.object.save()
-        return super(ODAsSectionView, self).form_valid(form)
+            self.object.update_odas(section, count)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class ODAsPositionView(LoginRequiredMixin, FormView):
@@ -89,7 +91,8 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
         if section <= subject.number_of_sections:
             section_img = subject.sections_images[section-1]
             form = ODAsPositionForm(initial={'section_field': section, 'subject_field': subject_name})
-            return render(request, self.template_name, {'form': form, 'section_img': section_img, 'odas': subject.odas})
+            return render(request, self.template_name, {'form': form, 'section_img': section_img,
+                                                        'odas': subject.odas.filter(section_field=section)})
         else:
             return redirect(to='materias_view')
 

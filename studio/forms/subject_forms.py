@@ -39,11 +39,12 @@ class SubjectForm(forms.ModelForm):
         if ImageModel.objects.all().filter(name_field=background_image.name).exists():
             subject.background_image_field = ImageModel.objects.get(name_field=background_image.name)
         else:
-            new_image = ImageModel.objects.create(file_field=background_image)
+            new_image = ImageModel.objects.create(name_field=("subject_{}_background".format(subject.name)),
+                                                  file_field=background_image)
             subject.background_image_field = new_image
 
         subject.save()
-        subject.update()
+        subject.update_sections()
         tags = cleaned_data.get('tags_field').split(',')
         for tag_name in tags:
             tag, created = TagModel.objects.get_or_create(name_field=tag_name)
@@ -81,22 +82,14 @@ class UpdateSubjectForm(forms.ModelForm):
             if ImageModel.objects.all().filter(name_field=background_image.name).exists():
                 subject.background_image_field = ImageModel.objects.get(name_field=background_image.name)
             else:
-                new_image = ImageModel.objects.create(file_field=background_image)
+                new_image = ImageModel.objects.create(name_field=("subject_{}_background".format(subject.name)),
+                                                      file_field=background_image)
+
                 subject.background_image_field = new_image
 
         subject.save()
         return subject
 
-def set_field_html_name(cls, new_name):
-    """
-    This creates wrapper around the normal widget rendering,
-    allowing for a custom field name (new_name).
-    """
-    old_render = cls.widget.render
-    def _widget_render_wrapper(name, value, attrs=None):
-        return old_render(new_name, value, attrs)
-
-    cls.widget.render = _widget_render_wrapper
 
 class ImageModelForm(forms.ModelForm):
     file_field = forms.ImageField(widget=forms.FileInput(attrs={'class': 'show-for-sr', 'type': 'file'}))
