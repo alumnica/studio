@@ -1,27 +1,4 @@
 
-$('#tabla-ambitos').DataTable({
-    responsive: true,
-    "language": {
-        "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-    },
-    "columnDefs": [
-        { "orderable": false, "targets": [2, 3, 4] }
-    ],
-
-});
-
-$('#tabla-materias').DataTable({
-    responsive: true,
-    "language": {
-        "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-    },
-    "columnDefs": [
-        { "orderable": false, "targets": [2] }
-    ],
-
-});
-
-
 // cambiar texto de el image preview al escribir
 
 $('#id_name_field').keyup(function () {
