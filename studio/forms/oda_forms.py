@@ -50,8 +50,9 @@ class BaseODAModelFormset(forms.BaseFormSet):
             form.empty_permitted = False
 
 
-
-
 class ODAsPositionForm(forms.Form):
-    section_field = forms.CharField()
+    subject_field = forms.CharField()
+
+
+class ODAsPreviewForm(forms.Form):
     subject_field = forms.CharField()

@@ -25,7 +25,7 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
             return reverse_lazy('odas_section_view', kwargs={'pk': self.kwargs['pk'], 'section': section})
 
         else:
-            return redirect(to='positions_view')
+            return reverse_lazy('odas_position_view', kwargs={'pk': self.kwargs['pk'], 'section': 1})
 
     def get_image_formset_class(self):
         section = self.kwargs['section']
@@ -78,21 +78,72 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
 class ODAsPositionView(LoginRequiredMixin, FormView):
     login_url = 'login_view'
     form_class = ODAsPositionForm
-    template_name = 'studio/pages/test.html'
+    template_name = 'studio/dashboard/materias-edit-position.html'
 
     def get(self, request, *args, **kwargs):
-        subject_name = self.kwargs.get('subject_name', None)
-        section = int(self.kwargs.get('section', None))
-        subject = SubjectModel.objects.get(name_field=subject_name)
+        section = self.kwargs['section']
+        subject = SubjectModel.objects.get(pk=self.kwargs['pk'])
 
         if section <= 0:
             return redirect(to='materias_view')
 
         if section <= subject.number_of_sections:
             section_img = subject.sections_images[section-1]
-            form = ODAsPositionForm(initial={'section_field': section, 'subject_field': subject_name})
+            form = ODAsPositionForm(initial={'subject_field': subject.name})
+            odas_list = subject.odas.filter(section_field=section)
             return render(request, self.template_name, {'form': form, 'section_img': section_img,
-                                                        'odas': subject.odas.filter(section_field=section)})
+                                                        'odas_list': odas_list})
         else:
-            return redirect(to='materias_view')
+            return redirect(to='odas_preview_view', pk=subject.pk)
+
+    def form_valid(self, form):
+        section = self.kwargs['section']
+        subject = SubjectModel.objects.get(pk=self.kwargs['pk'])
+        odas_to_save = subject.odas.filter(section_field=section)
+        i = 1
+        for oda in odas_to_save:
+            zone = self.request.POST.get('p-block-{}'.format(i))
+            oda.zone = zone.split('-')[1]
+            oda.save()
+            i += 1
+
+        section += 1
+        return redirect(to='odas_position_view', pk=subject.pk, section=section)
+
+class ODAsPreviewView(LoginRequiredMixin, FormView):
+    login_url = 'login_view'
+    template_name = 'studio/dashboard/materias-edit-preview.html'
+
+    def get(self, request, *args, **kwargs):
+        subject = SubjectModel.objects.get(pk=self.kwargs['pk'])
+        section_images_list = subject.sections_images
+        odas_list = []
+        section_counter = 1
+        for section in subject.sections_images:
+            odas_list.append(subject.odas.filter(section_field=section_counter))
+            section_counter += 1
+
+        content_images = zip(odas_list, section_images_list)
+
+        return render(request, self.template_name, { 'content_images': content_images})
+
+    def post(self, request, *args, **kwargs):
+        subject = SubjectModel.objects.get(pk=self.kwargs['pk'])
+        for tag in subject.tags:
+            tag.temporal = False
+            tag.save()
+
+        for image in subject.sections_images:
+            image.temporal = False
+            image.save()
+
+        for oda in subject.odas:
+            oda.temporal = False
+            oda.active_icon_field.temporal = False
+            oda.completed_icon_field.temporal = False
+            oda.save()
+
+        return redirect(to="materias_view")
+
+
 

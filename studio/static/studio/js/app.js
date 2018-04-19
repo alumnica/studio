@@ -27991,142 +27991,143 @@ var numMateria = 1;
 //     alert( "Drag stopped!\n\nOffset: (" + offsetXPos + ", " + offsetYPos + ")\n");
 //   }
 
+(0, _jquery2.default)(document).ready(function () {
+    var startPos = null;
 
-var startPos = null;
+    (0, _interactjs2.default)('.block').draggable({
+        // enable inertial throwing
+        inertia: true,
+        // keep the element within the area of it's parent
+        // restrict: {
+        //     restriction: "parent",
+        //     endOnly: true,
+        //     elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+        // },
+        snap: {
+            targets: [startPos],
+            range: Infinity,
+            relativePoints: [{x: 0.5, y: 0.5}],
+            endOnly: true
+        },
+        onmove: dragMoveListener,
+        onstart: function onstart(event) {
 
-(0, _interactjs2.default)('.block').draggable({
-    // enable inertial throwing
-    inertia: true,
-    // keep the element within the area of it's parent
-    // restrict: {
-    //     restriction: "parent",
-    //     endOnly: true,
-    //     elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-    // },
-    snap: {
-        targets: [startPos],
-        range: Infinity,
-        relativePoints: [{ x: 0.5, y: 0.5 }],
-        endOnly: true
-    },
-    onmove: dragMoveListener,
-    onstart: function onstart(event) {
+            var rect = _interactjs2.default.getElementRect(event.target);
 
-        var rect = _interactjs2.default.getElementRect(event.target);
+            // record center point when starting the very first a drag
+            var startPos = {
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2
+            };
 
-        // record center point when starting the very first a drag
-        var startPos = {
-            x: rect.left + rect.width / 2,
-            y: rect.top + rect.height / 2
-        };
-
-        event.interactable.draggable({
-            snap: {
-                targets: [startPos]
-            }
-        });
-    }
-
-});
-
-function dragMoveListener(event) {
-    var target = event.target,
-
-    // keep the dragged position in the data-x/data-y attributes
-    x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-    // translate the element
-    target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-    // update the posiion attributes
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
-};
-
-(0, _interactjs2.default)('.dropzone').dropzone({
-    // enable draggables to be dropped into this
-    // overlap: 'center',
-    // only accept elements matching this CSS selector
-    // accept: '.block',
-
-    ondragenter: function ondragenter(event) {
-        var draggableElement = event.relatedTarget,
-            dropzoneElement = event.target,
-            dropRect = _interactjs2.default.getElementRect(dropzoneElement),
-            dropCenter = {
-            x: dropRect.left + dropRect.width / 2,
-            y: dropRect.top + dropRect.height / 2
-        };
-
-        event.draggable.draggable({
-            snap: {
-                targets: [dropCenter]
-            }
-        });
-
-        // feedback the possibility of a drop
-        dropzoneElement.classList.add('drop-target');
-        draggableElement.classList.add('can-drop');
-    },
-    ondragleave: function ondragleave(event) {
-        // when leaving a dropzone, snap to the start position
-
-        event.draggable.draggable({
-            snap: {
-                targets: [startPos]
-            }
-        });
-
-        // remove the drop feedback style
-        event.target.classList.remove('drop-target');
-        event.relatedTarget.classList.remove('can-drop');
-    },
-    ondropactivate: function ondropactivate(event) {
-        // add active dropzone feedback
-        event.target.classList.add('drop-active');
-    },
-    ondropdeactivate: function ondropdeactivate(event) {
-        // remove active dropzone feedback
-        event.target.classList.remove('drop-active');
-        event.target.classList.remove('drop-target');
-    },
-    ondrop: function ondrop(event) {
-        // add data-n of target
-        event.relatedTarget.setAttribute('data-n', event.target.id);
-        // in all the hidden inputs place the id of target in value
-        (0, _jquery2.default)(function () {
-            var i = 1;
-            (0, _jquery2.default)('.block').each(function () {
-                (0, _jquery2.default)('#p-block-' + i).val(this.getAttribute('data-n'));
-                i++;
+            event.interactable.draggable({
+                snap: {
+                    targets: [startPos]
+                }
             });
-        });
-    }
-});
+        }
 
+    });
+
+    function dragMoveListener(event) {
+        var target = event.target,
+
+            // keep the dragged position in the data-x/data-y attributes
+            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+        // translate the element
+        target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+        // update the posiion attributes
+        target.setAttribute('data-x', x);
+        target.setAttribute('data-y', y);
+    };
+
+    (0, _interactjs2.default)('.dropzone').dropzone({
+        // enable draggables to be dropped into this
+        // overlap: 'center',
+        // only accept elements matching this CSS selector
+        // accept: '.block',
+
+        ondragenter: function ondragenter(event) {
+            var draggableElement = event.relatedTarget,
+                dropzoneElement = event.target,
+                dropRect = _interactjs2.default.getElementRect(dropzoneElement),
+                dropCenter = {
+                    x: dropRect.left + dropRect.width / 2,
+                    y: dropRect.top + dropRect.height / 2
+                };
+
+            event.draggable.draggable({
+                snap: {
+                    targets: [dropCenter]
+                }
+            });
+
+            // feedback the possibility of a drop
+            dropzoneElement.classList.add('drop-target');
+            draggableElement.classList.add('can-drop');
+        },
+        ondragleave: function ondragleave(event) {
+            // when leaving a dropzone, snap to the start position
+
+            event.draggable.draggable({
+                snap: {
+                    targets: [startPos]
+                }
+            });
+
+            // remove the drop feedback style
+            event.target.classList.remove('drop-target');
+            event.relatedTarget.classList.remove('can-drop');
+        },
+        ondropactivate: function ondropactivate(event) {
+            // add active dropzone feedback
+            event.target.classList.add('drop-active');
+        },
+        ondropdeactivate: function ondropdeactivate(event) {
+            // remove active dropzone feedback
+            event.target.classList.remove('drop-active');
+            event.target.classList.remove('drop-target');
+        },
+        ondrop: function ondrop(event) {
+            // add data-n of target
+            event.relatedTarget.setAttribute('data-n', event.target.id);
+            // in all the hidden inputs place the id of target in value
+            (0, _jquery2.default)(function () {
+                var i = 1;
+                (0, _jquery2.default)('.block').each(function () {
+                    (0, _jquery2.default)('#p-block-' + i).val(this.getAttribute('data-n'));
+                    i++;
+                });
+            });
+        }
+    });
+});
 (0, _jquery2.default)(document).ready(function () {
     var i = 0;
     (0, _jquery2.default)('.block').each(function () {
         i++;
         (0, _jquery2.default)('#inputs-h').prepend((0, _jquery2.default)('<input>').attr({
             type: 'hidden',
-            id: 'p-block-' + i
+            id: 'p-block-' + i,
+            name: 'p-block-' + i
         }));
     });
 });
 
 (0, _jquery2.default)(document).ready(function () {
 
-    (0, _jquery2.default)("#section-a img").each(function () {
+    (0, _jquery2.default)("#section-1 img").each(function () {
         (0, _jquery2.default)(this).appendTo("#" + this.getAttribute('data-n'));
     });
 
-    (0, _jquery2.default)("#section-b img").each(function () {
+    (0, _jquery2.default)("#section-2 img").each(function () {
         (0, _jquery2.default)(this).appendTo("#" + this.getAttribute('data-n'));
     });
 
-    (0, _jquery2.default)("#section-c img").each(function () {
+    (0, _jquery2.default)("#section-3 img").each(function () {
         (0, _jquery2.default)(this).appendTo("#" + this.getAttribute('data-n'));
     });
 });
