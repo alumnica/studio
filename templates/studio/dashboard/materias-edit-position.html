@@ -67,7 +67,7 @@
             <!-- form que manda la info de posicion -->
 
                     <!-- aqui se crean inputs escondidos para mandarte la info -->
-                <a href="materias-edit-oda.html" class="button">
+                <a href="{% url 'go_back_view' 'odas_position_view' view.kwargs.pk  view.kwargs.section %}" class="button">
                     <i class="fas fa-arrow-left"> </i> Anterior
                 </a>
                 <!--a href="materias-edit-preview.html" class="button"> Siguiente

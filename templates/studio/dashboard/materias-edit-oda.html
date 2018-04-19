@@ -112,7 +112,7 @@
 
 
 
-                    <a href="materias-edit-seccion.html" class="button">
+                    <a href="{% url 'go_back_view' 'odas_section_view' form.instance.pk  view.kwargs.section %}" class="button">
                         <i class="fas fa-arrow-left"></i> Anterior </i>
                     </a>
                     <button class="button" type="submit">Continuar <i class="fas fa-arrow-right"></i> </button>
