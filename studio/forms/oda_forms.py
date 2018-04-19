@@ -1,12 +1,11 @@
-from django.core.exceptions import ValidationError
 from django import forms
 
-from alumnica_model.models import SubjectModel, ODAModel
+from alumnica_model.models import ODAModel
 from alumnica_model.models.content import ODAInSubjectModel, ImageModel
 
 
 class ODAModelForm(forms.Form):
-    oda_name = forms.CharField(max_length=120)
+    oda_name = forms.CharField(required=True, max_length=120)
     active_icon_field = forms.ImageField(widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
     completed_icon_field = forms.ImageField(widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
 

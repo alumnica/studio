@@ -27,6 +27,8 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
     def form_invalid(self, form):
         if form['name_field'].errors:
             sweetify.error(self.request, form.errors['name_field'][0], persistent='Ok')
+        if form['mp'].errors:
+            sweetify.error(self.request, form.errors['mp'][0], persistent='Ok')
         subjects = SubjectModel.objects.all()
         tags = TagModel.objects.all()
         return render(self.request, self.template_name, {'form': form, 'subjects': subjects, 'tags': tags})
@@ -94,16 +96,25 @@ class SubjectSectionsView(UpdateView):
     def form_valid(self, form):
         formset = self.get_context_data()['formset']
         section = 1
-        if formset.is_valid and formset.has_changed:
+        if formset.is_valid():
+            if formset.has_changed():
+                for form in formset:
+                    a = form.save()
+                    a.name_field = "subject_{}_section{}_section_image".format(self.object.name, section)
+                    a.save()
+                    section += 1
+                    if a not in self.object.sections_images_field.all():
+                        self.object.sections_images_field.add(a)
+                self.object.save()
+            return super(SubjectSectionsView, self).form_valid(form)
+        else:
+            i = 1
             for form in formset:
-                a = form.save()
-                a.name_field = "subject_{}_section{}_section_image".format(self.object.name, section)
-                a.save()
-                section += 1
-                if a not in self.object.sections_images_field.all():
-                    self.object.sections_images_field.add(a)
-            self.object.save()
-        return super(SubjectSectionsView, self).form_valid(form)
+                if form['file_field'].errors:
+                    sweetify.error(self.request, "Error en archivo de imágen de la sección {}: {}".format(i, form.errors['file_field'][0]), persistent='Ok')
+                    break
+                i += 1
+            return redirect(to='materias_sections_view', pk=self.object.pk)
 
 
 class SubjectView(LoginRequiredMixin, ListView):

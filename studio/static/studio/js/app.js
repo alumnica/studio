@@ -27926,16 +27926,16 @@ var numMateria = 1;
     (0, _jquery2.default)("form#ambito-creation img").attr("id", "preview-ap");
 
     (0, _jquery2.default)("form#odas-seccion-1 .img-preview-a img").each(function () {
-        i++;
-        (0, _jquery2.default)(this).attr("id", "preview-form-" + i + "-active_icon_field");
 
+        (0, _jquery2.default)(this).attr("id", "preview-form-" + i + "-active_icon_field");
+        i++;
         console.log(i);
     });
 
     (0, _jquery2.default)("form#odas-seccion-1 .img-preview-b img").each(function () {
-        y++;
-        (0, _jquery2.default)(this).attr("id", "preview-form-" + y + "-completed_icon_field");
 
+        (0, _jquery2.default)(this).attr("id", "preview-form-" + y + "-completed_icon_field");
+        y++;
         console.log(y);
     });
 });

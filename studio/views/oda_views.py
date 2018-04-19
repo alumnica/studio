@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, UpdateView
 from sweetify import sweetify
 
-from alumnica_model.models.content import ImageModel
+from alumnica_model.models.content import SubjectModel
 from studio.forms.oda_forms import *
 
 
@@ -64,15 +64,35 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
         section = self.kwargs['section']
         formset = self.get_context_data()['formset']
         count = len(formset)
-        if formset.is_valid() and formset.has_changed():
-            for form in formset:
-                a = form.save_form(self.request.user.profile, section)
+        if formset.is_valid():
+            if formset.has_changed():
+                for form in formset:
+                    a = form.save_form(self.request.user.profile, section)
 
-                if a not in self.object.odas_field.all().filter(section_field=section):
-                    self.object.odas_field.add(a)
-            self.object.save()
-            self.object.update_odas(section, count)
-        return HttpResponseRedirect(self.get_success_url())
+                    if a not in self.object.odas_field.all().filter(section_field=section):
+                        self.object.odas_field.add(a)
+                self.object.save()
+                self.object.update_odas(section, count)
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            i = 1
+            for form in formset:
+                if form['oda_name'].errors:
+                    sweetify.error(self.request,
+                                   "Error en el nombre de l ODA {}: {}".format(i, form.errors['oda_name'][0]),
+                                   persistent='Ok')
+                    break
+
+                if form['oda_name'].errors:
+                    sweetify.error(self.request,
+                                   "Error en el nombre de l ODA {}: {}".format(i, form.errors['oda_name'][0]),
+                                   persistent='Ok')
+                    break
+                i += 1
+            return redirect('materias_sections_view', pk=self.object.pk)
+
+
+
 
 
 class ODAsPositionView(LoginRequiredMixin, FormView):

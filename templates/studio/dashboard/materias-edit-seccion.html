@@ -97,7 +97,7 @@
 
             <div class="cell medium-4">
                 {# Te regresa a materias-edit.html #}
-                <button href="materias-edit.html" class="button"><i class="fas fa-arrow-left"></i> Anterior </button>
+                <a href="{% url 'update_subject_view' form.instance.pk %}" class="button"><i class="fas fa-arrow-left"></i> Anterior </a>
 
                 {# Sigue a Materias-edit-oda#}
                 <button type="submit" class="button"> Siguiente <i class="fas fa-arrow-right"></i></button>

@@ -4,11 +4,12 @@ from django.core.exceptions import ValidationError
 
 from alumnica_model.models import SubjectModel, TagModel
 from alumnica_model.models.content import ImageModel
+from alumnica_model.validators import validate_image_extension
 
 
 class SubjectForm(forms.ModelForm):
-    tags_field = forms.CharField(widget=forms.TextInput(attrs={'id': 'materias-tags', 'name': 'tags-materias'}))
-    mp = forms.ImageField(widget=forms.FileInput(attrs={'name': 'mp', 'id': 'materia-u',
+    tags_field = forms.CharField(max_length=60, widget=forms.TextInput(attrs={'id': 'materias-tags', 'name': 'tags-materias'}))
+    mp = forms.ImageField(validators=[validate_image_extension], widget=forms.FileInput(attrs={'name': 'mp', 'id': 'materia-u',
                                                                       'class': 'show-for-sr', 'type': 'file'}))
     class Meta:
         model = SubjectModel
@@ -117,6 +118,7 @@ class BaseImageModelFormset(forms.BaseFormSet):
 
 
 class SubjectSectionsForm(forms.ModelForm):
+    name_field = forms.CharField(widget=forms.Textarea(attrs={'type': 'hidden'}))
     class Meta:
         model = SubjectModel
         fields = ['name_field']
