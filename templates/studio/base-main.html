@@ -56,23 +56,13 @@
   
   {# app.js uncludes Jquery #}
   <script  type="text/javascript"  src="{% static "studio/js/app.js" %}"></script>
-  <script  type="text/javascript"  src="{% static "studio/js/materias.js" %}"></script>
-  <script  type="text/javascript"  src="{% static "studio/js/tags.js" %}"></script>
-  <script  type="text/javascript"  src="{% static "studio/js/signUp.js" %}"></script>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.alphanum/1.0.24/jquery.alphanum.js"></script>
-
-  <script type="text/javascript">
-    $(#id_name_field).alphanum();
-    $(#ambito-tags).alphanum();
-    $(#materias-tags).alphanum();
-  </script>
-  
+  {% block scripts %}
+    {% endblock %}
 
   {% load sweetify %}
   {% sweetify %}
+
 </body>
 
 </html>

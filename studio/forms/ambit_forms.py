@@ -1,7 +1,4 @@
-import uuid
-
 from django import forms
-from django.core.files.storage import default_storage
 
 from alumnica_model.models import AmbitModel
 from alumnica_model.models.content import TagModel, SubjectModel, ImageModel, ProgramModel
@@ -23,13 +20,17 @@ class CreateAmbitForm(forms.ModelForm):
         ambit.color = color
 
         if image is not None:
-            image_model = ImageModel.objects.create(name_field=image.name, file_field=image)
+            image_model = ImageModel.objects.create(name_field=("ambit_{}_background".format(ambit.name)),
+                                                    file_field=image)
             ambit.background_image = image_model
             ambit.program = ProgramModel.objects.get(name_field="Primaria")
             ambit.save()
 
         for tag_name in tags:
             tag, created = TagModel.objects.get_or_create(name_field=tag_name)
+
+            tag.temporal = False
+            tag.save()
             ambit.tags_field.add(tag)
 
         if subjects is not None:

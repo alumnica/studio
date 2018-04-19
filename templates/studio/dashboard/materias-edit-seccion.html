@@ -1,0 +1,116 @@
+{% extends "studio/base-main.html" %}
+
+{% block content %}
+
+<div class="container dashboard">
+
+
+    <h1 class="title">
+        <i class="fas fa-clone"></i> | 1 | Imagenes de fondo para cada ex1:
+    </h1>
+    <hr>
+    <form method="POST" id="seccion-img" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.name_field }}
+        <div class="grid-x grid-margin-x grid-margin-y">
+            <div class="cell medium-12">
+                <p class="h5">Instrucciones:</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A illo repudiandae, molestiae nostrum quam distinctio
+                    aperiam tempore accusamus provident aut!
+                </p>
+                <hr>
+            </div>
+
+            <!-- number of these sections depends on what was selected in the previous page -->
+            {{ formset.management_form }}
+            {% for form in formset %}
+                <div class="cell large-4 medium-6">
+                    <div class="panel ex1">
+                        <div class="panel__title">
+                            Seccion 1
+                        </div>
+                        <div class="panel__content">
+                            <div class="grid-x">
+                                <div class="small-6 cell">
+                                        {# Atencion a el nombre de las ID y NAME #}
+                                    <label for="id_{{ form.file_field.html_name }}" class="button">Subir Imagen</label>
+                                    {{ form.file_field }}
+                                    <!--input id="section-u1" name="u1" type="file" class="show-for-sr"-->
+                                </div>
+                                <div class="small-6 text-right">
+                                    <a href="#" class="button">Biblioteca de Imagenes</a>
+                                </div>
+                            </div>
+                                <div class="section-preview">
+                                        <img src="{{ MEDIA_URL }} {{ form.initial.file_field.url }}" alt="your image" />
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <!-- end section upload image -->
+
+            <!--div class="cell large-4 medium-6">
+                <div class="panel ex1">
+                    <div class="panel__title">
+                        Seccion 2
+                    </div>
+                    <div class="panel__content">
+                        <div class="grid-x">
+                            <div class="small-6 cell">
+                                <label for="section-u2" class="button">Subir Imagen</label>
+                                <input id="section-u2" name="u2" type="file" class="show-for-sr">
+                            </div>
+                            <div class="small-6 text-right">
+                                <a href="#" class="button">Biblioteca de Imagenes</a>
+                            </div>
+                        </div>
+                        <div class="section-preview">
+                                <img src="#" alt="your image" />
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="cell large-4 medium-6">
+                <div class="panel ex1">
+                    <div class="panel__title">
+                        Seccion 3
+                    </div>
+                    <div class="panel__content">
+                        <div class="grid-x">
+                            <div class="small-6 cell">
+                                <label for="section-u3" class="button">Subir Imagen</label>
+                                <input id="section-u3" name="u3" type="file" class="show-for-sr">
+                            </div>
+                            <div class="small-6 text-right">
+                                <a href="#" class="button">Biblioteca de Imagenes</a>
+                            </div>
+                        </div>
+                        <div class="section-preview">
+                                <img src="#" alt="your image" />
+                        </div> 
+                    </div>
+                </div>
+            </div-->
+
+            <div class="cell medium-4">
+                {# Te regresa a materias-edit.html #}
+                <button href="materias-edit.html" class="button"><i class="fas fa-arrow-left"></i> Anterior </button>
+
+                {# Sigue a Materias-edit-oda#}
+                <button type="submit" class="button"> Siguiente <i class="fas fa-arrow-right"></i></button>
+                <!-- <button class="button"> Siguiente <i class="fas fa-arrow-right"></i></button> -->
+            </div>
+
+
+
+
+
+
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

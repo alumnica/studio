@@ -1,0 +1,73 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container dashboard">
+        <h1 class="title">
+                <i class="fas fa-clone"></i> | 4 | Vista Previa.
+            </h1>
+            <hr>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, consectetur.</p>
+            <hr>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.subject_name }}
+
+        <div class="grid-x align-center">
+
+            {% for odas, section_images in content_images %}
+                <div class="cell shrink">
+                    {% for oda in odas %}
+                        <div id="section-{{ forloop.counter }}">
+                            <img data-n="{{ forloop.parentloop.counter }}-{{ oda.zone_field }}" src="{{ MEDIA_URL }} {{ oda.active_icon_field.file_field.url}}">
+                        </div>
+                    {% endfor %}
+                    <div class="canvas">
+                <!-- imagen de la seccion actual -->
+                <img src="{{ MEDIA_URL }} {{ section_images.file_field.url}}" alt="" class="drop-bg">
+                <div class="frame">
+                    <div id="{{ forloop.counter }}-1" class="drop-area"></div>
+                    <div id="{{ forloop.counter }}-2" class="drop-area"></div>
+                    <div id="{{ forloop.counter }}-3" class="drop-area"></div>
+                    <div id="{{ forloop.counter }}-4" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="{{ forloop.counter }}-5" class="drop-area"></div>
+                    <div id="{{ forloop.counter }}-6" class="drop-area"></div>
+                    <div id="{{ forloop.counter }}-7" class="drop-area"></div>
+                    <div id="{{ forloop.counter }}-8" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="{{ forloop.counter }}-9" class="drop-area"></div>
+                    <div id="{{ forloop.counter }}-10" class="drop-area"></div>
+                    <div id="{{ forloop.counter }}-11" class="drop-area"></div>
+                    <div id="{{ forloop.counter }}-12" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="{{ forloop.counter }}-13" class="drop-area"></div>
+                    <div id="{{ forloop.counter }}-14" class="drop-area"></div>
+                    <div id="{{ forloop.counter }}-15" class="drop-area"></div>
+                    <div id="{{ forloop.counter }}-16" class="drop-area"></div>
+                </div>
+
+            </div>
+
+                </div>
+            {% endfor %}
+
+
+
+        <div class="cell medium-12 text-center u-margin-top-small">
+                <a href="materias-edit-position.html" class="button">
+                        <i class="fas fa-arrow-left"></i> Anterior </i>
+                    </a>
+                    &nbsp;
+                <button type="submit" class="button"> Finalizar <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+    </form>
+</div>
+
+
+
+{% endblock content %}

@@ -1,5 +1,5 @@
 {% extends "studio/base-main.html" %}
-
+{% load static %}
 {% block content %}
 
 
@@ -15,10 +15,7 @@
     <div class="grid-x">
         <div class="cell medium-12">
             <p class="h5">Instrucciones:</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt quas delectus obcaecati aspernatur? Quis mollitia
-                repellendus, iste obcaecati unde aliquid sunt quia, vero magnam error soluta perferendis laboriosam dolore
-                veritatis!
-            </p>
+            <p>Lorem ipsum dolor sit amet</p>
             <hr>
         </div>
         <div class="cell medium-12">
@@ -35,8 +32,7 @@
                         <label for="tags-ambito">Tags</label>
                         <input required name="tags-ambito" type="text" id="ambito-tags">
                         <script type="text/javascript">
-                        var materiasTags = [];
-                        var ambitoTags = [];
+                        let ambitoTags = [];
                             {% for tag in tags %}
                                 ambitoTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
                             {% endfor %}
@@ -140,27 +136,37 @@
                                 </div>
                             </label>
                         </fieldset>
-
-                        <label for="fileUpload" class="button">Subir Imagen</label>
-                        <input required type="file" name="image_file" id="fileUpload"  class="show-for-sr">
-
                         {# image preview #}
                         <div class="panel">
-                            <div class="panel__title">Vista Previa</div>
-                            <div class="panel__content">
-                                <div id="preview" class="image-wrapper">
-                                    <div id="image-holder">
-                                    </div>
-                                    <div id="ttc">
-                                        <span class="ttc2">Título de Ambito</span>
-                                    </div>
+                            <div class="panel__title">
+                                Imagen de Ambito
+                            </div>
+                            <!-- botones -->
+                            <div class="grid-x grid-margin-x">
+                                <div class="cell small-6">
+                                    <label for="ambito-u" class="button expanded">Subir Imagen</label>
+                                    <input id="ambito-u" name="ap" type="file" class="is-hidden">
+                                </div>
+                                <div class="cell small-6">
+                                    <a href="#" class="button expanded">Biblioteca de Imagenes</a>
                                 </div>
                             </div>
-                        </div>
+                            <!-- end botones -->
 
+                            <!-- start image preview -->
+                            <div class="image-wrapper">
+                                <div id="image-holder">
+                                    <img src="#" alt="">
+                                </div>
+                                <div id="ttc">
+                                    <span class="ttc2">Tituo de Ambito</span>
+                                </div>
+                            </div>
+                                <!-- end image preview -->
+                        </div>                        
                     </div>
-                    <div class="cell medium-4 medium-offset-1">
-                        <div class="panel">
+                    <div class="cell medium-5 medium-offset-1">
+                        <div class="panel" id="materias_panel">
                             <div class="panel__title">
                                 <i class="fas fa-clone"></i> Materias Asignadas
                                 <span id="add-materia-button" class="add-materia" data-open="materiasModal">
@@ -221,7 +227,7 @@
             <label for="materias-select">Busca en la Biblioteca de Materias</label>
             <select name="materias-select" id="select-materias"></select>
             <script type="text/javascript">
-                        var materiasList = [];
+                        let materiasList = [];
                             {% for subject in subjects %}
                                 materiasList.push({name:"{{ subject.name_field|safe }}", value:"{{ subject.id|safe }}"});
                             {% endfor %}
@@ -238,3 +244,8 @@
         </div>
 
 {% endblock content %}
+
+{% block scripts %}
+    <script  type="text/javascript"  src="{% static "studio/js/materias.js" %}"></script>
+    <script  type="text/javascript"  src="{% static "studio/js/tags.js" %}"></script>
+{% endblock %}

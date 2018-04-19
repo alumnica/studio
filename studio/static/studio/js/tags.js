@@ -35,5 +35,9 @@ $('#materias-tags').selectize({
         }
     },
     options: materiasTags,
-    preload: false
+    preload: true,
+    onInitialize: function(){
+    var selectize = this;
+    selectize.setValue(self_tags_selectize)
+}
 });

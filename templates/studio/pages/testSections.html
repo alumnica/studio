@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+
+{% block content %}
+    <!--form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.name_field.label }}
+        {{ form.name_field }}
+
+        {{ form.number_of_sections_field.label }}
+        {{ form.number_of_sections_field }}
+
+        {% for section_image in  form.instance.sections_images_field.all %}
+            <img src="{{ MEDIA_URL }} {{ section_image.file_field.url }}">
+        {% endfor %}
+
+        {% for imagemodel in section_images %}
+            <img src="{{ MEDIA_URL }} {{ imagemodel.file_field.url }}">
+
+        {% endfor %}
+
+        {% for i in "x"|rjust:form.number_of_sections_field.value %}
+            <input type="file" name="image_file">
+        {% endfor %}
+
+        <input type="submit" value="Guardar" class="button">
+    </form-->
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        {{ formset.as_p }}
+         <input type="submit" class="button">
+    </form>
+{% endblock %}
