@@ -138,6 +138,10 @@ $("input[type='text']").each(function(){
                     },
                     options: odaList,
                     preload: false,
+                    onInitialize: function(){
+                        var selectize = this;
+                        selectize.setValue(self_oda_selectize[x])
+                    }
                 });
 
                 var input_delete = row.getElementsByClassName('selectize-control');

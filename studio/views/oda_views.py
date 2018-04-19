@@ -62,7 +62,8 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         section = self.kwargs['section']
-        formset = self.get_context_data()['formset']
+        context = self.get_context_data()
+        formset = context['formset']
         count = len(formset)
         if formset.is_valid():
             if formset.has_changed():
@@ -79,17 +80,23 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
             for form in formset:
                 if form['oda_name'].errors:
                     sweetify.error(self.request,
-                                   "Error en el nombre de l ODA {}: {}".format(i, form.errors['oda_name'][0]),
+                                   "Error en el nombre de la ODA {}: {}".format(i, form.errors['oda_name'][0]),
                                    persistent='Ok')
                     break
 
-                if form['oda_name'].errors:
+                if form['active_icon_field'].errors:
                     sweetify.error(self.request,
-                                   "Error en el nombre de l ODA {}: {}".format(i, form.errors['oda_name'][0]),
+                                   "Error en el ícono 1 de la ODA {}: {}".format(i, form.errors['active_icon_field'][0]),
+                                   persistent='Ok')
+                    break
+
+                if form['completed_icon_field'].errors:
+                    sweetify.error(self.request,
+                                   "Error en el ícono 2 de la ODA {}: {}".format(i, form.errors['completed_icon_field'][0]),
                                    persistent='Ok')
                     break
                 i += 1
-            return redirect('materias_sections_view', pk=self.object.pk)
+            return render(self.request, self.template_name, context=context)
 
 
 

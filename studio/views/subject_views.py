@@ -94,7 +94,8 @@ class SubjectSectionsView(UpdateView):
         return context
 
     def form_valid(self, form):
-        formset = self.get_context_data()['formset']
+        context = self.get_context_data()
+        formset = context['formset']
         section = 1
         if formset.is_valid():
             if formset.has_changed():
@@ -114,7 +115,7 @@ class SubjectSectionsView(UpdateView):
                     sweetify.error(self.request, "Error en archivo de imágen de la sección {}: {}".format(i, form.errors['file_field'][0]), persistent='Ok')
                     break
                 i += 1
-            return redirect(to='materias_sections_view', pk=self.object.pk)
+            return render(self.request, self.template_name, context=context)
 
 
 class SubjectView(LoginRequiredMixin, ListView):
