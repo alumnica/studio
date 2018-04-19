@@ -139,7 +139,7 @@ $(document).ready(function () {
             $('<input>').attr({
                 type: 'hidden',
                 id: 'p-block-' + i,
-                name: 'pblock-' + i,
+                name: 'p-block-' + i,
             })
         );
     });
@@ -147,15 +147,15 @@ $(document).ready(function () {
 
 $(document).ready(function () {
 	
-	$("#section-a img").each(function(){
+	$("#section-1 img").each(function(){
 		$(this).appendTo("#"+(this.getAttribute('data-n')));
     });
     
-    $("#section-b img").each(function(){
+    $("#section-2 img").each(function(){
 		$(this).appendTo("#"+(this.getAttribute('data-n')));
     });
     
-    $("#section-c img").each(function(){
+    $("#section-3 img").each(function(){
 		$(this).appendTo("#"+(this.getAttribute('data-n')));
 	});
 });

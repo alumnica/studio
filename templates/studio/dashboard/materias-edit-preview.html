@@ -17,11 +17,11 @@
 
             {% for odas, section_images in content_images %}
                 <div class="cell shrink">
+                <div id="section-{{ forloop.counter }}">
                     {% for oda in odas %}
-                        <div id="section-{{ forloop.counter }}">
-                            <img data-n="{{ forloop.parentloop.counter }}-{{ oda.zone_field }}" src="{{ MEDIA_URL }} {{ oda.active_icon_field.file_field.url}}">
-                        </div>
+                        <img data-n="{{ forloop.parentloop.counter }}-{{ oda.zone_field }}" src="{{ MEDIA_URL }} {{ oda.active_icon_field.file_field.url}}">
                     {% endfor %}
+                </div>
                     <div class="canvas">
                 <!-- imagen de la seccion actual -->
                 <img src="{{ MEDIA_URL }} {{ section_images.file_field.url}}" alt="" class="drop-bg">
@@ -71,3 +71,7 @@
 
 
 {% endblock content %}
+
+{% block scripts %}
+    <script  type="text/javascript"  src="{% static "studio/js/odasPosition.js" %}"></script>
+    {% endblock %}

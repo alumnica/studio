@@ -99,9 +99,6 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
             return render(self.request, self.template_name, context=context)
 
 
-
-
-
 class ODAsPositionView(LoginRequiredMixin, FormView):
     login_url = 'login_view'
     form_class = ODAsPositionForm
