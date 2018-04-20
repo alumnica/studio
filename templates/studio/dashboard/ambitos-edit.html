@@ -19,7 +19,7 @@
             <hr>
         </div>
         <div class="cell medium-12">
-            <form method="POST" id="ambito-creation" enctype="multipart/form-data">
+            <form method="POST" id="ambito-creation" enctype="multipart/form-data" onsubmit="return is_valid_form()">
                 {% csrf_token %}
                 <div class="grid-x grid-margin-x">
                     <div class="cell medium-5">
@@ -32,6 +32,7 @@
                         <label for="tags-ambito">Tags</label>
                         <input required name="tags-ambito" type="text" id="ambito-tags">
                         <script type="text/javascript">
+                        let materiasTags = [];
                         let ambitoTags = [];
                             {% for tag in tags %}
                                 ambitoTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
@@ -53,84 +54,84 @@
                         <fieldset id="color-button" class="fieldset color-radio">
                             <legend>Color de Fondo</legend>
                             <label class="amarillo">
-                                <input required type="radio" name="color" value="#fae96a" class="radio-input" data-a="amarillo_bg" data-b="amarillo_text">
+                                <input  type="radio" name="color" value="#fae96a" class="radio-input" data-a="amarillo_bg" data-b="amarillo_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="rojiso">
-                                <input required type="radio" name="color" value="#d25b5c" class="radio-input" data-a="rojiso_bg" data-b="rojiso_text">
+                                <input  type="radio" name="color" value="#d25b5c" class="radio-input" data-a="rojiso_bg" data-b="rojiso_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="azul">
-                                <input required type="radio" name="color" value="#6a83c0" class="radio-input" data-a="azul_bg" data-b="azul_text">
+                                <input  type="radio" name="color" value="#6a83c0" class="radio-input" data-a="azul_bg" data-b="azul_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="naranja">
-                                <input required type="radio" name="color" value="#ebb533" class="radio-input" data-a="naranja_bg" data-b="naranja_text">
+                                <input  type="radio" name="color" value="#ebb533" class="radio-input" data-a="naranja_bg" data-b="naranja_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="morado">
-                                <input required type="radio" name="color" value="#663288" class="radio-input" data-a="morado_bg" data-b="morado_text">
+                                <input  type="radio" name="color" value="#663288" class="radio-input" data-a="morado_bg" data-b="morado_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="bluegreen">
-                                <input required type="radio" name="color" value="#7ab4b0" class="radio-input" data-a="bluegreen_bg" data-b="bluegreen_text">
+                                <input  type="radio" name="color" value="#7ab4b0" class="radio-input" data-a="bluegreen_bg" data-b="bluegreen_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="amarillo-sol">
-                                <input required type="radio" name="color" value="#f0c43f" class="radio-input" data-a="amarillo-sol_bg" data-b="amarillo-sol_text">
+                                <input  type="radio" name="color" value="#f0c43f" class="radio-input" data-a="amarillo-sol_bg" data-b="amarillo-sol_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="naranja-obscuro">
-                                <input required type="radio" name="color" value="#d2752f" class="radio-input" data-a="naranja-obscuro_bg" data-b="naranja-obscuro_text">
+                                <input  type="radio" name="color" value="#d2752f" class="radio-input" data-a="naranja-obscuro_bg" data-b="naranja-obscuro_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="violeta">
-                                <input required type="radio" name="color" value="#b52067" class="radio-input" data-a="violeta_bg" data-b="violeta_text">
+                                <input  type="radio" name="color" value="#b52067" class="radio-input" data-a="violeta_bg" data-b="violeta_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="azul-obscuro">
-                                <input required type="radio" name="color" value="#625fa6" class="radio-input" data-a="azul-obscuro_bg" data-b="azul-obscuro_text">
+                                <input  type="radio" name="color" value="#625fa6" class="radio-input" data-a="azul-obscuro_bg" data-b="azul-obscuro_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="verde">
-                                <input required type="radio" name="color" value="#58968a" class="radio-input" data-a="verde_bg" data-b="verde_text">
+                                <input  type="radio" name="color" value="#58968a" class="radio-input" data-a="verde_bg" data-b="verde_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="verde-limon">
-                                <input required type="radio" name="color" value="#adcd65" class="radio-input" data-a="verde-limon_bg" data-b="verde-limon_text">
+                                <input  type="radio" name="color" value="#adcd65" class="radio-input" data-a="verde-limon_bg" data-b="verde-limon_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
@@ -248,4 +249,5 @@
 {% block scripts %}
     <script  type="text/javascript"  src="{% static "studio/js/materias.js" %}"></script>
     <script  type="text/javascript"  src="{% static "studio/js/tags.js" %}"></script>
+    <script  type="text/javascript"  src="{% static "studio/js/ambit.js" %}"></script>
 {% endblock %}
