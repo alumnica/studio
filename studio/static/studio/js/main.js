@@ -84,7 +84,7 @@ $('#last_panel').on('mouseenter mouseleave', function () {
 // alphanum for all inputs
 
 $("input").alphanum({
-    allowThouSep : true
+    allow :    ',',
 });
 
 // quita alphanum
