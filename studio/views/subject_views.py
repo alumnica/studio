@@ -58,10 +58,12 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
 
 
 class SubjectSectionsView(UpdateView):
-    model = SubjectModel
-    fields = ['name_field']
+    form_class = SubjectSectionsForm
     template_name = 'studio/dashboard/materias-edit-seccion.html'
     context_object_name = 'subject'
+
+    def get_object(self, queryset=None):
+        return SubjectModel.objects.get(pk=self.kwargs['pk'])
 
     def get_success_url(self):
         return reverse_lazy('odas_section_view', kwargs={'pk': self.kwargs['pk'], 'section': 1})
@@ -72,7 +74,6 @@ class SubjectSectionsView(UpdateView):
             max_num=self.object.number_of_sections_field,
             validate_max=False, validate_min=True
         )
-
 
     def get_context_data(self, **kwargs):
         context = super(SubjectSectionsView, self).get_context_data(**kwargs)

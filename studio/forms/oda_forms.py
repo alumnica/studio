@@ -1,7 +1,7 @@
 from django import forms
 
 from alumnica_model.models import ODAModel
-from alumnica_model.models.content import ODAInSubjectModel, ImageModel
+from alumnica_model.models.content import ODAInSubjectModel, ImageModel, SubjectModel
 
 
 class ODAModelForm(forms.Form):
@@ -49,9 +49,17 @@ class BaseODAModelFormset(forms.BaseFormSet):
             form.empty_permitted = False
 
 
+class ODAsSectionView(forms.ModelForm):
+    name_field = forms.CharField(widget=forms.Textarea(attrs={'class': 'is-hidden'}))
+
+    class Meta:
+        model = SubjectModel
+        fields = ['name_field']
+
+
 class ODAsPositionForm(forms.Form):
-    subject_field = forms.CharField()
+    subject_field = forms.CharField(widget=forms.Textarea(attrs={'class': 'is-hidden'}))
 
 
 class ODAsPreviewForm(forms.Form):
-    subject_field = forms.CharField()
+    subject_field = forms.CharField(widget=forms.Textarea(attrs={'class': 'is-hidden'}))

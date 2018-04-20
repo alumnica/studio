@@ -127,7 +127,7 @@ class BaseImageModelFormset(forms.BaseFormSet):
 
 
 class SubjectSectionsForm(forms.ModelForm):
-    name_field = forms.CharField(widget=forms.Textarea(attrs={'type': 'hidden'}))
+    name_field = forms.CharField(widget=forms.Textarea(attrs={'class': 'is-hidden'}))
     class Meta:
         model = SubjectModel
         fields = ['name_field']

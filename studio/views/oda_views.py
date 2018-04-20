@@ -15,8 +15,10 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/materias-edit-oda.html'
     #template_name = 'studio/pages/odasTest.html'
-    model = SubjectModel
-    fields = ['name_field']
+    form_class = ODAsSectionView
+
+    def get_object(self, queryset=None):
+        return SubjectModel.objects.get(pk=self.kwargs['pk'])
 
     def get_success_url(self):
         section = self.kwargs['section']
