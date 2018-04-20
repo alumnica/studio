@@ -55,18 +55,9 @@ interact('.block')
     // update the posiion attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
-    $( "#"+target.getAttribute('data-n') ).addClass("dropzone")
+    $( "#"+target.getAttribute('data-n') ).addClass("dropzone");
   }
 
-  function revertBack(event) {
-    var target = event.target;
-    target.style.webkitTransform =
-    target.style.transform =
-    'translate(0px, 0px)';
-
-    target.setAttribute('data-x', 0);
-    target.setAttribute('data-y', 0);
-}
 
 
   interact('.dropzone').dropzone({
