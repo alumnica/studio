@@ -8,10 +8,12 @@
     </h1>
     <p class="h6">| 3.1 | Posicion de ODAs en seccion de materia:</p>
     <hr>
-    <form method="POST" id="inputs-h">
+    <form method="POST" id="inputs-h" onsubmit="return is_valid_form()">
         {% csrf_token %}
         {{ form }}
-
+    <script>
+        let odaList=[];
+    </script>
     <div class="grid-x">
         <div class="cell medium-4">
             <div class="canvas">
@@ -86,4 +88,5 @@
 
 {% block scripts %}
     <script src="{% static "studio/js/odasPosition.js" %}"></script>
+    <script src="{% static "studio/js/oda.js" %}"></script>
 {% endblock %}

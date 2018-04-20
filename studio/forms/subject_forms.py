@@ -4,12 +4,12 @@ from django.core.exceptions import ValidationError
 
 from alumnica_model.models import SubjectModel, TagModel
 from alumnica_model.models.content import ImageModel
-from alumnica_model.validators import validate_image_extension
+from alumnica_model.validators import validate_image_extension, file_size
 
 
 class SubjectForm(forms.ModelForm):
     tags_field = forms.CharField(max_length=60, widget=forms.TextInput(attrs={'id': 'materias-tags', 'name': 'tags-materias'}))
-    mp = forms.ImageField(validators=[validate_image_extension], widget=forms.FileInput(attrs={'name': 'mp', 'id': 'materia-u',
+    mp = forms.ImageField(validators=[validate_image_extension, file_size], widget=forms.FileInput(attrs={'name': 'mp', 'id': 'materia-u',
                                                                       'class': 'show-for-sr', 'type': 'file'}))
     number_of_sections_field = forms.IntegerField(widget=forms.Select(choices=((1,1), (2,2), (3,3), (4,4)),
                                                                       attrs={'class':'position-ambito-size'}))
@@ -102,7 +102,7 @@ class UpdateSubjectForm(forms.ModelForm):
 
 
 class ImageModelForm(forms.ModelForm):
-    file_field = forms.ImageField(widget=forms.FileInput(attrs={'class': 'show-for-sr', 'type': 'file'}))
+    file_field = forms.ImageField(validators=[file_size], widget=forms.FileInput(attrs={'class': 'show-for-sr', 'type': 'file'}))
     class Meta:
         model = ImageModel
         fields = ['file_field']
@@ -127,7 +127,7 @@ class BaseImageModelFormset(forms.BaseFormSet):
 
 
 class SubjectSectionsForm(forms.ModelForm):
-    name_field = forms.CharField(widget=forms.Textarea(attrs={'class': 'is-hidden'}))
+    name_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
     class Meta:
         model = SubjectModel
         fields = ['name_field']

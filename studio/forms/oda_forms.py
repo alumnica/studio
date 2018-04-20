@@ -2,12 +2,13 @@ from django import forms
 
 from alumnica_model.models import ODAModel
 from alumnica_model.models.content import ODAInSubjectModel, ImageModel, SubjectModel
+from alumnica_model.validators import file_size
 
 
 class ODAModelForm(forms.Form):
     oda_name = forms.CharField(required=True, max_length=120)
-    active_icon_field = forms.ImageField(widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
-    completed_icon_field = forms.ImageField(widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
+    active_icon_field = forms.ImageField(validators=[file_size], widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
+    completed_icon_field = forms.ImageField(validators=[file_size], widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
 
     def save_form(self, user, section):
         cleaned_data = self.clean()
@@ -50,7 +51,7 @@ class BaseODAModelFormset(forms.BaseFormSet):
 
 
 class ODAsSectionView(forms.ModelForm):
-    name_field = forms.CharField(widget=forms.Textarea(attrs={'class': 'is-hidden'}))
+    name_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
 
     class Meta:
         model = SubjectModel
@@ -58,8 +59,8 @@ class ODAsSectionView(forms.ModelForm):
 
 
 class ODAsPositionForm(forms.Form):
-    subject_field = forms.CharField(widget=forms.Textarea(attrs={'class': 'is-hidden'}))
+    subject_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
 
 
 class ODAsPreviewForm(forms.Form):
-    subject_field = forms.CharField(widget=forms.Textarea(attrs={'class': 'is-hidden'}))
+    subject_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
