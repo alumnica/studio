@@ -11,9 +11,17 @@ class SubjectForm(forms.ModelForm):
     tags_field = forms.CharField(max_length=60, widget=forms.TextInput(attrs={'id': 'materias-tags', 'name': 'tags-materias'}))
     mp = forms.ImageField(validators=[validate_image_extension], widget=forms.FileInput(attrs={'name': 'mp', 'id': 'materia-u',
                                                                       'class': 'show-for-sr', 'type': 'file'}))
+    number_of_sections_field = forms.IntegerField(widget=forms.Select(choices=((1,1), (2,2), (3,3), (4,4)),
+                                                                      attrs={'class':'position-ambito-size'}))
+
+
     class Meta:
         model = SubjectModel
         fields = ['name_field', 'ambit_field', 'number_of_sections_field', 'tags_field']
+
+    def __init__(self, *args, **kwargs):
+        super(SubjectForm, self).__init__(*args, **kwargs)
+        self.fields['number_of_sections_field'].initial = 3
 
     def clean(self):
         cleaned_data = super(SubjectForm, self).clean()
@@ -46,6 +54,7 @@ class SubjectForm(forms.ModelForm):
 
         subject.save()
         subject.update_sections()
+        tg = cleaned_data.get('tags_field')
         tags = cleaned_data.get('tags_field').split(',')
         for tag_name in tags:
             tag, created = TagModel.objects.get_or_create(name_field=tag_name)
