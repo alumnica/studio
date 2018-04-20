@@ -10,7 +10,7 @@
         </h1>
         <p class="h6">| 2.1 | ODAs y respectivas imagenes</p>
         <hr>
-        <form method="POST" id="odas-seccion-1" enctype="multipart/form-data">
+        <form method="POST" id="odas-seccion-1" enctype="multipart/form-data" onsubmit="return is_valid_form_images()">
             {% csrf_token %}
         {{ form.errors }}
             <div class="grid-x grid-margin-x grid-margin-y">

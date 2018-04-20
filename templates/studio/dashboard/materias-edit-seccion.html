@@ -10,7 +10,7 @@
     </h1>
     <p class="h6">| 1 | Imagenes de fondo para cada seccion:</p>
     <hr>
-    <form method="POST" id="seccion-img" enctype="multipart/form-data">
+    <form method="POST" id="seccion-img" enctype="multipart/form-data" onsubmit="return is_valid_form_images()">
         {% csrf_token %}
         {{ form.name_field }}
         <div class="grid-x grid-margin-x grid-margin-y">

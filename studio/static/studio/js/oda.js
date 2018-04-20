@@ -175,7 +175,7 @@ $("input[type='text']").each(function(){
     });
 });
 
-function is_valid_form (){
+function is_valid_form_position (){
     var position_inputs = document.getElementsByTagName('input');
 
     for(var i = 0; i < position_inputs.length; i++){

@@ -154,3 +154,19 @@ $(document).ready(function () {
     $('.selectize-input input[type=text]').attr('maxlength', '20');
 
 });
+
+function is_valid_form_images (){
+    result = true;
+    var inputs = $("form input[type='file']");
+    for (var i=0; i<inputs.length; i++) {
+        if(inputs[i].files.length>0){
+            var image_size = inputs[i].files[0].size / 1024 / 1024;
+            if (image_size > 10) {
+                swal("Error", "El archivo de seleccionado excede los 10 MB", "error");
+                result = false;
+            }
+        }
+
+    }
+    return result;
+}
