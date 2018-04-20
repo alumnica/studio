@@ -29,7 +29,7 @@ interact('.block')
                 var startPos = {
                         x: rect.left + rect.width  / 2,
                         y: rect.top  + rect.height / 2
-                    }
+                    };
                 
                     event.interactable.draggable({
                 snap: {
@@ -55,7 +55,8 @@ interact('.block')
     // update the posiion attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
-  };
+    $( "#"+target.getAttribute('data-n') ).addClass("dropzone")
+  }
 
   function revertBack(event) {
     var target = event.target;
@@ -65,7 +66,7 @@ interact('.block')
 
     target.setAttribute('data-x', 0);
     target.setAttribute('data-y', 0);
-};
+}
 
 
   interact('.dropzone').dropzone({
@@ -97,12 +98,6 @@ interact('.block')
     ondragleave: function (event) {
 		// when leaving a dropzone, snap to the start position
 		
-		event.draggable.draggable({
-            snap: {
-                targets: [ startPos ]
-            }
-		});
-
 		// remove the drop feedback style
         event.target.classList.remove('drop-target');
         event.relatedTarget.classList.remove('can-drop');
@@ -118,7 +113,10 @@ interact('.block')
     },
     ondrop: function (event) {
             // add data-n of target
-        event.relatedTarget.setAttribute('data-n', event.target.id)
+        event.relatedTarget.setAttribute('data-n', event.target.id);
+        event.target.classList.remove('dropzone');
+        event.target.classList.add('empty');
+        event.relatedTarget.classList.remove('can-drop');
 		// in all the hidden inputs place the id of target in value
         $(function () {
             var i = 1;
@@ -132,7 +130,7 @@ interact('.block')
 });
 
 $(document).ready(function () {
-    var i = 0
+    var i = 0;
     $('.block').each(function () {
         i++;
         $('#inputs-h').prepend(
@@ -156,6 +154,10 @@ $(document).ready(function () {
     });
     
     $("#section-3 img").each(function(){
+		$(this).appendTo("#"+(this.getAttribute('data-n')));
+	});
+
+	$("#section-4 img").each(function(){
 		$(this).appendTo("#"+(this.getAttribute('data-n')));
 	});
 });
