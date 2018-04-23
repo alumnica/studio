@@ -87,7 +87,7 @@ $("input").alphanum({
     allow :    ',',
 });
 
-// quita alphanum
+// quit alphanum
 $('#id_email, #id_password').off('.alphanum');
 // Image file upload preview for Materias
 
@@ -152,6 +152,8 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('.selectize-input input[type=text]').attr('maxlength', '20');
+
+     $(".title span").append($("#id_name_field").val());
 
 });
 
