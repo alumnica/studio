@@ -59,8 +59,8 @@ class ODAsSectionView(forms.ModelForm):
 
 
 class ODAsPositionForm(forms.Form):
-    subject_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
+    name_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
 
 
 class ODAsPreviewForm(forms.Form):
-    subject_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
+    name_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))

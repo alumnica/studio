@@ -123,7 +123,7 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
         context = self.get_context_data()
         if section <= subject.number_of_sections:
             section_img = subject.sections_images[section-1]
-            form = ODAsPositionForm(initial={'subject_field': subject.name})
+            form = ODAsPositionForm(initial={'name_field': subject.name})
             odas_list = subject.odas.filter(section_field=section)
             context.update({'form': form, 'section_img': section_img, 'odas_list': odas_list})
             return render(request, self.template_name, context=context)
