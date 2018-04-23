@@ -4,16 +4,16 @@
 
 <div class="dashboard container">
     <h1 class="title">
-        <i class="fas fa-clone"></i> | 3.1 | Posicion de ODAs en seccion de materia
+        <i class="fas fa-clone"></i>&nbsp; <span></span>
     </h1>
+    <p class="h6">| 3.1 | Posicion de ODAs en seccion de materia:</p>
     <hr>
-    <p>
-        <strong>Instrucciones:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, nihil.</p>
-    <hr>
-    <form method="POST" id="inputs-h">
+    <form method="POST" id="inputs-h" onsubmit="return is_valid_form_position()">
         {% csrf_token %}
         {{ form }}
-
+    <script>
+        let odaList=[];
+    </script>
     <div class="grid-x">
         <div class="cell medium-4">
             <div class="canvas">
@@ -67,7 +67,7 @@
             <!-- form que manda la info de posicion -->
 
                     <!-- aqui se crean inputs escondidos para mandarte la info -->
-                <a href="materias-edit-oda.html" class="button">
+                <a href="{% url 'go_back_view' 'odas_position_view' view.kwargs.pk  view.kwargs.section %}" class="button">
                     <i class="fas fa-arrow-left"> </i> Anterior
                 </a>
                 <!--a href="materias-edit-preview.html" class="button"> Siguiente
@@ -85,3 +85,8 @@
 
 
 {% endblock content %}
+
+{% block scripts %}
+    <script src="{% static "studio/js/odasPosition.js" %}"></script>
+    <script src="{% static "studio/js/oda.js" %}"></script>
+{% endblock %}
