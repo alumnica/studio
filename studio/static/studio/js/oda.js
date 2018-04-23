@@ -45,12 +45,21 @@ $("input[type='text']").each(function(){
             var forms = $('.my_item'); // Get all the forms
             // Update the total number of forms (1 less than before)
             $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
-            var i = 0;
             // Go through the forms and set their indices, names and IDs
-            for (formCount = forms.length; i < formCount; i++) {
-                $(forms.get(i)).children().children().each(function () {
-                    if ($(this).attr('type') == 'text') updateElementIndex(this, prefix, i);
-                });
+            var inputs = row.getElementsByTagName('input');
+            for (index = 0; index < inputs.length; ++index) {
+                updateElementIndex(inputs[index], prefix, formCount);
+                $(inputs[index]).val("");
+            }
+            var labels = row.getElementsByTagName('label');
+            for (index = 0; index < labels.length; ++index) {
+                updateElementIndex(labels[index], prefix, formCount);
+            }
+
+            var images = row.getElementsByTagName('img');
+            for (index = 0; index < images.length; ++index) {
+                updateElementIndex(images[index], prefix, formCount);
+                $(images[index]).removeAttr('src')
             }
         } // End if
         else {
@@ -93,6 +102,9 @@ $("input[type='text']").each(function(){
             for (index = 0; index < labels.length; ++index) {
                 updateElementIndex(labels[index], prefix, formCount);
             }
+
+            var label_name = row.getElementsByTagName('label')[0];
+            label_name.innerText = ("ODA " + (formCount + 1));
 
             var images = row.getElementsByTagName('img');
             for (index = 0; index < images.length; ++index) {
@@ -138,6 +150,10 @@ $("input[type='text']").each(function(){
                     },
                     options: odaList,
                     preload: false,
+                    onInitialize: function(){
+                        var selectize = this;
+                        selectize.setValue(self_oda_selectize[x])
+                    }
                 });
 
                 var input_delete = row.getElementsByClassName('selectize-control');
@@ -158,3 +174,16 @@ $("input[type='text']").each(function(){
         return deleteForm(this, "form");
     });
 });
+
+function is_valid_form_position (){
+    var position_inputs = document.getElementsByTagName('input');
+
+    for(var i = 0; i < position_inputs.length; i++){
+        if(position_inputs[i].value == "" || position_inputs[i].value == null){
+            swal("Error", "Coloca todas las ODAs en la imagen de sección", "error");
+            return false;
+        }
+    }
+    return true;
+
+}

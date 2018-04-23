@@ -27,6 +27,8 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
     def form_invalid(self, form):
         if form['name_field'].errors:
             sweetify.error(self.request, form.errors['name_field'][0], persistent='Ok')
+        if form['mp'].errors:
+            sweetify.error(self.request, form.errors['mp'][0], persistent='Ok')
         subjects = SubjectModel.objects.all()
         tags = TagModel.objects.all()
         return render(self.request, self.template_name, {'form': form, 'subjects': subjects, 'tags': tags})
@@ -56,10 +58,12 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
 
 
 class SubjectSectionsView(UpdateView):
-    model = SubjectModel
-    fields = ['name_field']
+    form_class = SubjectSectionsForm
     template_name = 'studio/dashboard/materias-edit-seccion.html'
     context_object_name = 'subject'
+
+    def get_object(self, queryset=None):
+        return SubjectModel.objects.get(pk=self.kwargs['pk'])
 
     def get_success_url(self):
         return reverse_lazy('odas_section_view', kwargs={'pk': self.kwargs['pk'], 'section': 1})
@@ -70,7 +74,6 @@ class SubjectSectionsView(UpdateView):
             max_num=self.object.number_of_sections_field,
             validate_max=False, validate_min=True
         )
-
 
     def get_context_data(self, **kwargs):
         context = super(SubjectSectionsView, self).get_context_data(**kwargs)
@@ -92,18 +95,28 @@ class SubjectSectionsView(UpdateView):
         return context
 
     def form_valid(self, form):
-        formset = self.get_context_data()['formset']
+        context = self.get_context_data()
+        formset = context['formset']
         section = 1
-        if formset.is_valid and formset.has_changed:
+        if formset.is_valid():
+            if formset.has_changed():
+                for form in formset:
+                    a = form.save()
+                    a.name_field = "subject_{}_section{}_section_image".format(self.object.name, section)
+                    a.save()
+                    section += 1
+                    if a not in self.object.sections_images_field.all():
+                        self.object.sections_images_field.add(a)
+                self.object.save()
+            return super(SubjectSectionsView, self).form_valid(form)
+        else:
+            i = 1
             for form in formset:
-                a = form.save()
-                a.name_field = "subject_{}_section{}_section_image".format(self.object.name, section)
-                a.save()
-                section += 1
-                if a not in self.object.sections_images_field.all():
-                    self.object.sections_images_field.add(a)
-            self.object.save()
-        return super(SubjectSectionsView, self).form_valid(form)
+                if form['file_field'].errors:
+                    sweetify.error(self.request, "Error en archivo de imágen de la sección {}: {}".format(i, form.errors['file_field'][0]), persistent='Ok')
+                    break
+                i += 1
+            return render(self.request, self.template_name, context=context)
 
 
 class SubjectView(LoginRequiredMixin, ListView):

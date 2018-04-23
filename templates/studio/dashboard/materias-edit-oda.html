@@ -5,21 +5,19 @@
 
 <div class="container dashboard">
 
-
         <h1 class="title">
-            <i class="fas fa-clone"></i> | 2.1 | ODAs y respectivas imagenes
+        <i class="fas fa-clone"></i>&nbsp; <span></span>
         </h1>
+        <p class="h6">| 2.1 | ODAs y respectivas imagenes</p>
         <hr>
-        <form method="POST" id="odas-seccion-1" enctype="multipart/form-data">
+        <form method="POST" id="odas-seccion-1" enctype="multipart/form-data" onsubmit="return is_valid_form_images()">
             {% csrf_token %}
         {{ form.errors }}
             <div class="grid-x grid-margin-x grid-margin-y">
                 <div class="cell medium-12">
                         {{ form.name_field }}
                         <p class="h5">Seccion 1:</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A illo repudiandae, molestiae nostrum quam distinctio
-                            aperiam tempore accusamus provident aut!
-                        </p>
+                        <p>Subir unicamente archivos PNG o GIF. Tamaño maxico 70p x 80 px. </p>
                         <hr>
                     </div>
                     <!-- first colum containing section image -->
@@ -45,7 +43,7 @@
                         <div class="oda-img-upload">
                             <div class="grid-x grid-padding-x">
                                 <div class="medium-4 cell">
-                                    <label for="">ODA 1</label>
+                                    <label id="oda_counter">ODA {{ forloop.counter }}</label>
 
                                     {# Atencion a el ID  este input es SELECTIZE #}
                                     {{ form.oda_name }}
@@ -112,7 +110,7 @@
 
 
 
-                    <a href="materias-edit-seccion.html" class="button">
+                    <a href="{% url 'go_back_view' 'odas_section_view' form.instance.pk  view.kwargs.section %}" class="button">
                         <i class="fas fa-arrow-left"></i> Anterior </i>
                     </a>
                     <button class="button" type="submit">Continuar <i class="fas fa-arrow-right"></i> </button>
