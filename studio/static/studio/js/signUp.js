@@ -1,10 +1,10 @@
 $(document).ready(function () {
-    var userTypeSelect = $("select");
+    let userTypeSelect = $("select");
     userTypeSelect.on("change", function () {
-        var element = this.value;
+        let element = this.value;
 
-        var profiles = document.getElementsByClassName("profile");
-        for (var i = 0; i < profiles.length; i++) {
+        let profiles = document.getElementsByClassName("profile");
+        for (let i = 0; i < profiles.length; i++) {
             if (profiles[i].getAttribute('id') === element)
                 profiles[i].style.display = 'block';
             else

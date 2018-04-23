@@ -1,10 +1,10 @@
 function is_valid_form (){
-    var image_selected = document.getElementById('ambito-u');
-    var option_colors = document.getElementsByName('color');
-    var color_selected = false;
+    let image_selected = document.getElementById('ambito-u');
+    let option_colors = document.getElementsByName('color');
+    let color_selected = false;
 
 
-    for(var i = 0; i < option_colors.length; i++){
+    for(let i = 0; i < option_colors.length; i++){
         if(option_colors[i].checked){
             color_selected = true;
         }
@@ -16,10 +16,10 @@ function is_valid_form (){
     }
 
     if (image_selected.value == null || image_selected.value == ""){
-        swal("Error", "Selecciona una imágen", "error");
+        swal("Error", "Selecciona una imagen", "error");
         return false;
     }
-    var image_size= image_selected.files[0].size / 1024 / 1024;
+    let image_size= image_selected.files[0].size / 1024 / 1024;
     if (image_size > 10){
         swal("Error", "El archivo de seleccionado excede los 10 MB", "error");
         return false;

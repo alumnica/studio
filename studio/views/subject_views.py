@@ -2,11 +2,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import formset_factory
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, FormView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView
 from sweetify import sweetify
 
 from alumnica_model.models import AmbitModel
-
 from studio.forms.subject_forms import *
 
 
@@ -40,14 +39,13 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
     model = SubjectModel
     form_class = UpdateSubjectForm
 
-
     def get_context_data(self, **kwargs):
         context = super(UpdateSubjectView, self).get_context_data(**kwargs)
         ambits = AmbitModel.objects.all()
         tags = TagModel.objects.all()
         tgs = self.object.tags_field.all()
         background_img = self.object.background_image_field
-        initial = {'ambits': ambits, 'tags': tags, 'self_tags':tgs, 'background_img':background_img}
+        initial = {'ambits': ambits, 'tags': tags, 'self_tags': tgs, 'background_img': background_img}
 
         context.update(initial)
         return context
@@ -90,8 +88,6 @@ class SubjectSectionsView(UpdateView):
                 'formset': self.get_image_formset_class()(initial=initial)
             })
 
-
-
         return context
 
     def form_valid(self, form):
@@ -113,7 +109,10 @@ class SubjectSectionsView(UpdateView):
             i = 1
             for form in formset:
                 if form['file_field'].errors:
-                    sweetify.error(self.request, "Error en archivo de imágen de la sección {}: {}".format(i, form.errors['file_field'][0]), persistent='Ok')
+                    sweetify.error(
+                        self.request,
+                        "Error en archivo de imagen de la sección {}: {}".format(i, form.errors['file_field'][0]),
+                        persistent='Ok')
                     break
                 i += 1
             return render(self.request, self.template_name, context=context)

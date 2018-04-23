@@ -1,7 +1,7 @@
 
 $(document).ready(function () {
     // Code adapted from http://djangosnippets.org/snippets/1389/
-    var x = 0;
+    let x = 0;
 
 $("input[type='text']").each(function(){
     $('#id_form-'+x+'-oda_name').selectize({
@@ -21,7 +21,7 @@ $("input[type='text']").each(function(){
         options: odaList,
         preload: false,
         onInitialize: function(){
-            var selectize = this;
+            let selectize = this;
             selectize.setValue(self_oda_selectize[x])
         }
     });
@@ -29,8 +29,8 @@ $("input[type='text']").each(function(){
 });
 
     function updateElementIndex(el, prefix, ndx) {
-        var id_regex = new RegExp('(' + prefix + '-\\d+-)');
-        var replacement = prefix + '-' + ndx + '-';
+        let id_regex = new RegExp('(' + prefix + '-\\d+-)');
+        let replacement = prefix + '-' + ndx + '-';
         if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
         replacement));
         if (el.id) el.id = el.id.replace(id_regex, replacement);
@@ -38,25 +38,25 @@ $("input[type='text']").each(function(){
     }
 
     function deleteForm(btn, prefix) {
-        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        let formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
         if (formCount > 1) {
             // Delete the item/form
             $(btn).parents('.my_item').remove();
-            var forms = $('.my_item'); // Get all the forms
+            let forms = $('.my_item'); // Get all the forms
             // Update the total number of forms (1 less than before)
             $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
             // Go through the forms and set their indices, names and IDs
-            var inputs = row.getElementsByTagName('input');
+            let inputs = row.getElementsByTagName('input');
             for (index = 0; index < inputs.length; ++index) {
                 updateElementIndex(inputs[index], prefix, formCount);
                 $(inputs[index]).val("");
             }
-            var labels = row.getElementsByTagName('label');
+            let labels = row.getElementsByTagName('label');
             for (index = 0; index < labels.length; ++index) {
                 updateElementIndex(labels[index], prefix, formCount);
             }
 
-            var images = row.getElementsByTagName('img');
+            let images = row.getElementsByTagName('img');
             for (index = 0; index < images.length; ++index) {
                 updateElementIndex(images[index], prefix, formCount);
                 $(images[index]).removeAttr('src')
@@ -70,10 +70,10 @@ $("input[type='text']").each(function(){
 
     function readURL(input) {
         if (input.files && input.files[0]) {
-            var reader = new FileReader();
+            let reader = new FileReader();
 
             reader.onload = function (e) {
-                var cosa = '#preview-' + $(input).attr('name');
+                let cosa = '#preview-' + $(input).attr('name');
                 $(cosa).attr('src', e.target.result);
             };
 
@@ -82,13 +82,13 @@ $("input[type='text']").each(function(){
     }
 
     function addForm(btn, prefix) {
-        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        let formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
         // You can only submit a maximum of 10 todo items
         if (formCount < 8) {
             // Clone a form (without event handlers) from the first form
-            var row = $(".my_item:first").clone(false).get(0);
+            let row = $(".my_item:first").clone(false).get(0);
 
-            var inputs = row.getElementsByTagName('input');
+            let inputs = row.getElementsByTagName('input');
             for (index = 0; index < inputs.length; ++index) {
                 updateElementIndex(inputs[index], prefix, formCount);
                 $(inputs[index]).val("");
@@ -98,15 +98,15 @@ $("input[type='text']").each(function(){
                     });
         }
             }
-            var labels = row.getElementsByTagName('label');
+            let labels = row.getElementsByTagName('label');
             for (index = 0; index < labels.length; ++index) {
                 updateElementIndex(labels[index], prefix, formCount);
             }
 
-            var label_name = row.getElementsByTagName('label')[0];
+            let label_name = row.getElementsByTagName('label')[0];
             label_name.innerText = ("ODA " + (formCount + 1));
 
-            var images = row.getElementsByTagName('img');
+            let images = row.getElementsByTagName('img');
             for (index = 0; index < images.length; ++index) {
                 updateElementIndex(images[index], prefix, formCount);
                 $(images[index]).removeAttr('src')
@@ -151,12 +151,12 @@ $("input[type='text']").each(function(){
                     options: odaList,
                     preload: false,
                     onInitialize: function(){
-                        var selectize = this;
+                        let selectize = this;
                         selectize.setValue(self_oda_selectize[x])
                     }
                 });
 
-                var input_delete = row.getElementsByClassName('selectize-control');
+                let input_delete = row.getElementsByClassName('selectize-control');
                 input_delete[1].remove();
 
         } // End if
@@ -176,9 +176,9 @@ $("input[type='text']").each(function(){
 });
 
 function is_valid_form_position (){
-    var position_inputs = document.getElementsByTagName('input');
+    let position_inputs = document.getElementsByTagName('input');
 
-    for(var i = 0; i < position_inputs.length; i++){
+    for(let i = 0; i < position_inputs.length; i++){
         if(position_inputs[i].value == "" || position_inputs[i].value == null){
             swal("Error", "Coloca todas las ODAs en la imagen de sección", "error");
             return false;

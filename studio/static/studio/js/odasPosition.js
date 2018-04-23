@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
 
-var startPos = null;
+let startPos = null;
 
 interact('.block')
     .draggable({
@@ -23,10 +23,10 @@ interact('.block')
         onmove: dragMoveListener,
         onstart: function (event) {
             
-                var rect = interact.getElementRect(event.target);
+                let rect = interact.getElementRect(event.target);
             
                 // record center point when starting the very first a drag
-                var startPos = {
+                let startPos = {
                         x: rect.left + rect.width  / 2,
                         y: rect.top  + rect.height / 2
                     };
@@ -42,7 +42,7 @@ interact('.block')
     });
 
  function dragMoveListener (event) {
-    var target = event.target,
+    let target = event.target,
         // keep the dragged position in the data-x/data-y attributes
         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
@@ -52,7 +52,7 @@ interact('.block')
     target.style.transform =
       'translate(' + x + 'px, ' + y + 'px)';
 
-    // update the posiion attributes
+    // update the positon attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
     $( "#"+target.getAttribute('data-n') ).addClass("dropzone");
@@ -67,7 +67,7 @@ interact('.block')
     // accept: '.block',
 
     ondragenter: function (event) {
-        var draggableElement = event.relatedTarget,
+        let draggableElement = event.relatedTarget,
             dropzoneElement = event.target,
             dropRect = interact.getElementRect(dropzoneElement),
 		    dropCenter = {
@@ -110,7 +110,7 @@ interact('.block')
         event.relatedTarget.classList.remove('can-drop');
 		// in all the hidden inputs place the id of target in value
         $(function () {
-            var i = 1;
+            let i = 1;
             $('.block').each(function(){			
                 $('#p-block-'+i).val(this.getAttribute('data-n'));	
             i++;			
@@ -121,7 +121,7 @@ interact('.block')
 });
 
 $(document).ready(function () {
-    var i = 0;
+    let i = 0;
     $('.block').each(function () {
         i++;
         $('#inputs-h').prepend(

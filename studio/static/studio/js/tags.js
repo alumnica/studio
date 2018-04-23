@@ -39,7 +39,7 @@ $('#materias-tags').selectize({
     options: materiasTags,
     preload: true,
     onInitialize: function(){
-    var selectize = this;
+    let selectize = this;
     selectize.setValue(self_tags_selectize)
 }
 });
