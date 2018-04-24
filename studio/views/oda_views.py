@@ -174,11 +174,13 @@ class ODAsPreviewView(LoginRequiredMixin, FormView):
             image.temporal = False
             image.save()
 
-        for oda in subject.odas:
-            oda.temporal = False
-            oda.active_icon_field.temporal = False
-            oda.completed_icon_field.temporal = False
-            oda.save()
+        for oda_in_subject in subject.odas:
+            oda_in_subject.temporal = False
+            oda_in_subject.active_icon_field.temporal = False
+            oda_in_subject.active_icon_field.save()
+            oda_in_subject.completed_icon_field.temporal = False
+            oda_in_subject.completed_icon_field.save()
+            oda_in_subject.save()
 
         return redirect(to="materias_view")
 
@@ -217,6 +219,9 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
 
         context.update({'subject_list': subjects_list, 'tags_list': tags_list})
         return context
+
+    def form_valid(self, form):
+        form.save_form()
 
 
 class ODAsRedirect(View):

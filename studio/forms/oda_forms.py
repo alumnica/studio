@@ -72,3 +72,6 @@ class ODAUpdateForm(forms.ModelForm):
     class Meta:
         model = ODAModel
         fields = ['name_field']
+
+    def save_form(self):
+        pass
