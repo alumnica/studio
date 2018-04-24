@@ -4,8 +4,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import FormView, UpdateView
+from django.views.generic import FormView, UpdateView, ListView
 from sweetify import sweetify
+
+from alumnica_model.models import TagModel
 from studio.forms.oda_forms import *
 
 
@@ -179,6 +181,42 @@ class ODAsPreviewView(LoginRequiredMixin, FormView):
             oda.save()
 
         return redirect(to="materias_view")
+
+
+class ODADashboardView(LoginRequiredMixin, ListView):
+    login_url = 'login_view'
+    model = ODAModel
+    template_name = 'studio/pages/test.html'
+    context_object_name = 'odas_list'
+
+    def get_context_data(self, **kwargs):
+        context = super(ODADashboardView, self).get_context_data(**kwargs)
+        tags_list = []
+        tags = TagModel.objects.all()
+        for tag in tags:
+            if len(tag.odas) > 0:
+                tags_list.append(tag)
+
+        subjects_list = SubjectModel.objects.all()
+        context.update({'subject_list': subjects_list, 'tags_list':tags_list})
+        return context
+
+
+class ODAUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = 'login_view'
+    template_name = 'studio/pages/odasTest.html'
+    form_class = ODAUpdateForm
+
+    def get_object(self, queryset=None):
+        return ODAModel.objects.get(pk=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super(ODAUpdateView, self).get_context_data(**kwargs)
+        subjects_list = self.object.subject
+        tags_list = self.object.tags
+
+        context.update({'subject_list': subjects_list, 'tags_list': tags_list})
+        return context
 
 
 class ODAsRedirect(View):

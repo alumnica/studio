@@ -65,3 +65,10 @@ class ODAsPositionForm(forms.Form):
 
 class ODAsPreviewForm(forms.Form):
     name_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
+
+
+class ODAUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = ODAModel
+        fields = ['name_field']
