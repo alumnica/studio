@@ -69,9 +69,16 @@ class UpdateSubjectForm(forms.ModelForm):
     mp = forms.ImageField(required=False, widget=forms.FileInput(attrs={'name': 'mp', 'id': 'materia-u',
                                                                         'class': 'show-for-sr', 'type': 'file'}))
 
+    number_of_sections_field = forms.IntegerField(widget=forms.Select(choices=((1, 1), (2, 2), (3, 3), (4, 4)),
+                                                                      attrs={'class': 'position-ambito-size'}))
+
     class Meta:
         model = SubjectModel
         fields = ['name_field', 'ambit_field', 'number_of_sections_field', 'tags_field']
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateSubjectForm, self).__init__(*args, **kwargs)
+        self.fields['number_of_sections_field'].initial = 3
 
     def save_form(self):
         cleaned_data = super(UpdateSubjectForm, self).clean()
@@ -95,6 +102,7 @@ class UpdateSubjectForm(forms.ModelForm):
                 subject.background_image_field = new_image
 
         subject.save()
+        subject.update_sections()
         return subject
 
 
