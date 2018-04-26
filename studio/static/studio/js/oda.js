@@ -161,7 +161,7 @@ $("input[type='text']").each(function(){
 
         } // End if
         else {
-            alert("Sorry, you can only enter a maximum of ten items.");
+            swal("Error", "Sorry, you can only enter a maximum of 8 items.", "error");
         }
         return false;
     }
