@@ -166,8 +166,10 @@ function is_valid_form_images (){
             if (image_size > 10) {
                 swal("Error", "El archivo de seleccionado excede los 10 MB", "error");
                 result = false;
+                break;
             }
         }
+
 
     }
     return result;

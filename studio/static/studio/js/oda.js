@@ -63,7 +63,7 @@ $("input[type='text']").each(function(){
             }
         } // End if
         else {
-            alert("You have to enter at least one todo item!");
+            alert("You have to enter at least one item!");
         }
         return false;
     }
@@ -186,4 +186,41 @@ function is_valid_form_position (){
     }
     return true;
 
+}
+
+function is_valid_form_odas_section(){
+    result = true;
+    let inputs = $("form input[type='file']");
+    for (let i=0; i<inputs.length; i++) {
+        if(inputs[i].files.length>0){
+            let image_size = inputs[i].files[0].size / 1024 / 1024;
+            if (image_size > 10) {
+                swal("Error", "El archivo de seleccionado excede los 10 MB", "error");
+                result = false;
+                break;
+            }
+        }
+
+
+    }
+
+
+    if (result){
+
+        let inputs_text = [];
+        $("form input[type='text']").each(function(){
+            inputs_text.push($(this).val());
+        });
+
+        for (let i=0; i<inputs_text.length-1; i++) {
+            let content=inputs_text[i];
+            let value_found = inputs_text.filter((inp) => inp==content);
+            if (value_found.length>1){
+                swal("Error", "Una ODA solo puede seleccionarse una vez", "error");
+                result = false;
+                break;
+            }
+        }
+    }
+    return result;
 }
