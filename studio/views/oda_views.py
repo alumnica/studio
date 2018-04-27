@@ -41,7 +41,23 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         section = self.kwargs['section']
         background_image = self.object.sections_images_field.all()[section-1]
-        odas_list = ODAModel.objects.all()
+        odas_list = []
+        odas_to_avoid_list = []
+        for oda in ODAModel.objects.all():
+            odas_in_subject = oda.subject
+            if len(odas_in_subject) == 0:
+                odas_list.append(oda)
+            else:
+                for oda_in_subject in odas_in_subject:
+                    oo=oda_in_subject.subject.all().filter(pk=self.kwargs['pk'])
+                    if oda_in_subject.subject.all().filter(pk=self.kwargs['pk']).exists:
+                        if oda_in_subject.section_field == section:
+                            odas_list.append(oda)
+                        else:
+                            odas_to_avoid_list.append(oda)
+                    else:
+                        odas_list.append(oda)
+
         context = super(ODAsSectionView, self).get_context_data(**kwargs)
         initial = [{'oda_field': x.oda_field, 'active_icon_field': x.active_icon_field,
                     'completed_icon_field': x.completed_icon_field} for x in
@@ -58,7 +74,8 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
             context.update({
                 'formset': self.get_image_formset_class()(initial=initial),
                 'background_image': background_image,
-                'odas_list': odas_list
+                'odas_list': odas_list,
+                'odas_to_avoid_list': odas_to_avoid_list
             })
         return context
 

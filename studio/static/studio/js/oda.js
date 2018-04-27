@@ -215,8 +215,13 @@ function is_valid_form_odas_section(){
         for (let i=0; i<inputs_text.length-1; i++) {
             let content=inputs_text[i];
             let value_found = inputs_text.filter((inp) => inp==content);
-            if (value_found.length>1){
+            if (value_found.length>1 && content!=""){
                 swal("Error", "Una ODA solo puede seleccionarse una vez", "error");
+                result = false;
+                break;
+            }
+            if ( odasToAvoidList.filter((inp)=> inp.name==content).length>0){
+                swal("Error", content +" esta seleccionada en otra seccion", "error");
                 result = false;
                 break;
             }

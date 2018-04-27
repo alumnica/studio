@@ -124,9 +124,14 @@
 
 <script type="text/javascript">
     let odaList=[];
-        {% for oda in odas_list %}
-            odaList.push({name:"{{ oda.name_field|safe }}"});
-        {% endfor %}
+    let odasToAvoidList=[];
+    {% for oda in odas_list %}
+        odaList.push({name:"{{ oda.name_field|safe }}"});
+    {% endfor %}
+
+    {% for oda in odas_to_avoid_list %}
+        odasToAvoidList.push({name:"{{ oda.name_field|safe }}"});
+    {% endfor %}
 </script>
 
 {% endblock content %}
