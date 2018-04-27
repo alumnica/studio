@@ -49,7 +49,6 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
                 odas_list.append(oda)
             else:
                 for oda_in_subject in odas_in_subject:
-                    oo=oda_in_subject.subject.all().filter(pk=self.kwargs['pk'])
                     if oda_in_subject.subject.all().filter(pk=self.kwargs['pk']).exists:
                         if oda_in_subject.section_field == section:
                             odas_list.append(oda)
@@ -258,6 +257,3 @@ class ODAsRedirect(View):
                                 section=SubjectModel.objects.get(pk=pk).number_of_sections_field)
         else:
             return redirect(view, pk=pk, section=(kwargs.get('section')-1))
-
-
-

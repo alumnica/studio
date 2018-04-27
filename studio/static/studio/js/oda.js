@@ -200,6 +200,15 @@ function is_valid_form_odas_section(){
                 break;
             }
         }
+        else{
+            preview_name='preview-'+inputs[i].name;
+            var source_image=document.getElementById(preview_name).src;
+            if (source_image=="" || source_image==null){
+                swal("Error", "Faltan imágenes por subir", "error");
+                result = false;
+                break;
+            }
+        }
 
 
     }
