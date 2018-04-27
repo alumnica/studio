@@ -15,15 +15,13 @@
         <div class="grid-x">
             <div class="cell medium-12">
                 <p class="h5">Instrucciones:</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt quas delectus obcaecati aspernatur? Quis mollitia
-                    repellendus, iste obcaecati unde aliquid sunt quia, vero magnam error soluta perferendis laboriosam dolore
-                    veritatis!
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 </p>
                 <hr>
             </div>
             <div class="cell medium-12">
 
-                <form method="POST" id="materia-init" enctype="multipart/form-data">
+                <form method="POST" id="materia-init" enctype="multipart/form-data" onsubmit="return is_valid_form_images()">
                     {% csrf_token %}
                     <div class="grid-x grid-margin-x">
                         <div class="cell medium-5">
@@ -61,18 +59,19 @@
                         <div class="cell medium-5 medium-offset-1">
                             
                             <div class="panel">
-                                <div class="panel__title">Imagend e Portada</div>
+                                <div class="panel__title">Imagen de Portada</div>
                                 <div class="panel__content">
+                                    <p class="text-center light-gray">Solo archivos PNG. Tamaño maximo 150x300px</p>
                                     <div class="grid-x grid-margin-x">
                                         <div class="small-6 cell">
                                             <label for="materia-u" class="button expanded">Subir Imagen</label>
                                             {{ form.mp }}
                                         </div>
-                                        <div class="small-6 text-right">
+                                        <div class="small-6 cell">
                                             <a href="#" class="button expanded">Biblioteca de Imagenes</a>
                                         </div>
                                     </div>
-                                    <div class="section-preview">
+                                    <div class="materia-preview">
                                             <img src="{{ MEDIA_URL }} {{ background_img.file_field.url }}" alt="your image" />
                                     </div> 
                                 </div>

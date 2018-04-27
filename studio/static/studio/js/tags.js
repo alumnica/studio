@@ -15,7 +15,8 @@ $('#ambito-tags').selectize({
         }
     },
     options: ambitoTags,
-    preload: false
+    preload: false,
+    maxItems: 20,
 });
 
 
@@ -28,6 +29,7 @@ $('#materias-tags').selectize({
     hideSelected: true,
     persist: false,
     createOnBlur: true,
+    maxItems: 20,
     create: function(input) {
         return {
             value: input,

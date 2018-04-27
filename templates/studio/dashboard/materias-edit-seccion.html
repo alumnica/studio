@@ -6,10 +6,11 @@
 
 
     <h1 class="title">
-        <i class="fas fa-clone"></i> | 1 | Imagenes de fondo para cada ex1:
+        <i class="fas fa-clone"></i>&nbsp; <span></span>
     </h1>
+    <p class="h6">| 1 | Imagenes de fondo para cada seccion:</p>
     <hr>
-    <form method="POST" id="seccion-img" enctype="multipart/form-data">
+    <form method="POST" id="seccion-img" enctype="multipart/form-data" onsubmit="return is_valid_form_images()">
         {% csrf_token %}
         {{ form.name_field }}
         <div class="grid-x grid-margin-x grid-margin-y">
@@ -27,9 +28,10 @@
                 <div class="cell large-4 medium-6">
                     <div class="panel ex1">
                         <div class="panel__title">
-                            Seccion 1
+                            Seccion {{ forloop.counter }}
                         </div>
                         <div class="panel__content">
+                            <p class="text-center light-gray">Solo archivos PNG. Tamaño 300 x 500 px</p>
                             <div class="grid-x">
                                 <div class="small-6 cell">
                                         {# Atencion a el nombre de las ID y NAME #}
@@ -97,7 +99,7 @@
 
             <div class="cell medium-4">
                 {# Te regresa a materias-edit.html #}
-                <button href="materias-edit.html" class="button"><i class="fas fa-arrow-left"></i> Anterior </button>
+                <a href="{% url 'update_subject_view' form.instance.pk %}" class="button"><i class="fas fa-arrow-left"></i> Anterior </a>
 
                 {# Sigue a Materias-edit-oda#}
                 <button type="submit" class="button"> Siguiente <i class="fas fa-arrow-right"></i></button>

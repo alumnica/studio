@@ -21,8 +21,7 @@ class CreateAmbitView(LoginRequiredMixin, FormView):
         subjects = self.request.POST.get('class_name')
         tags = self.request.POST.get('tags-ambito').split(',')
         color = self.request.POST.get('color')
-        image = self.request.FILES['ap']
-        form.save_form(self.request.user, subjects, tags, color, image)
+        form.save_form(self.request.user, subjects, tags, color)
         return redirect(to='ambits_view')
 
     def form_invalid(self, form):
@@ -30,6 +29,8 @@ class CreateAmbitView(LoginRequiredMixin, FormView):
             sweetify.error(self.request, form.errors['name_field'][0], persistent='Ok')
         if form['position_field'].errors:
             sweetify.error(self.request, form.errors['position_field'][0], persistent='Ok')
+        if form['ap'].errors:
+            sweetify.error(self.request, form.errors['ap'][0], persistent='Ok')
         subjects = SubjectModel.objects.all()
         tags = TagModel.objects.all()
         return render(self.request, self.template_name, {'form': form, 'subjects': subjects, 'tags': tags})

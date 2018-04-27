@@ -1,14 +1,14 @@
-from django.core.exceptions import ValidationError
 from django import forms
 
-from alumnica_model.models import SubjectModel, ODAModel
-from alumnica_model.models.content import ODAInSubjectModel, ImageModel
+from alumnica_model.models import ODAModel
+from alumnica_model.models.content import ODAInSubjectModel, ImageModel, SubjectModel
+from alumnica_model.validators import file_size
 
 
 class ODAModelForm(forms.Form):
-    oda_name = forms.CharField(max_length=120)
-    active_icon_field = forms.ImageField(widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
-    completed_icon_field = forms.ImageField(widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
+    oda_name = forms.CharField(required=True, max_length=120)
+    active_icon_field = forms.ImageField(validators=[file_size], widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
+    completed_icon_field = forms.ImageField(validators=[file_size], widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
 
     def save_form(self, user, section):
         cleaned_data = self.clean()
@@ -50,9 +50,17 @@ class BaseODAModelFormset(forms.BaseFormSet):
             form.empty_permitted = False
 
 
+class ODAsSectionView(forms.ModelForm):
+    name_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
+
+    class Meta:
+        model = SubjectModel
+        fields = ['name_field']
+
+
 class ODAsPositionForm(forms.Form):
-    subject_field = forms.CharField()
+    name_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
 
 
 class ODAsPreviewForm(forms.Form):
-    subject_field = forms.CharField()
+    name_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
