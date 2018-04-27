@@ -9,4 +9,5 @@ urlpatterns = [
     path('odas_back/<slug:view>, <int:pk>, <int:section>/', ODAsRedirect.as_view(), name='go_back_view'),
     path('odas_dashboard/', ODADashboardView.as_view(), name='oda_dashboard_view'),
     path('odas_update/<int:pk>', ODAUpdateView.as_view(), name='odas_update_view'),
+    path('odas_create/', ODACreateView.as_view(), name='odas_create_view'),
 ]

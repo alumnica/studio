@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import FormView, UpdateView, ListView
+from django.views.generic import FormView, UpdateView, ListView, CreateView
 from sweetify import sweetify
 
 from alumnica_model.models import TagModel
@@ -204,7 +204,7 @@ class ODAsPreviewView(LoginRequiredMixin, FormView):
 class ODADashboardView(LoginRequiredMixin, ListView):
     login_url = 'login_view'
     model = ODAModel
-    template_name = 'studio/pages/test.html'
+    template_name = 'studio/dashboard/odas.html'
     context_object_name = 'odas_list'
 
     def get_context_data(self, **kwargs):
@@ -216,8 +216,25 @@ class ODADashboardView(LoginRequiredMixin, ListView):
                 tags_list.append(tag)
 
         subjects_list = SubjectModel.objects.all()
-        context.update({'subject_list': subjects_list, 'tags_list':tags_list})
+        context.update({'subject_list': subjects_list, 'tags_list': tags_list})
         return context
+
+
+class ODACreateView(LoginRequiredMixin, CreateView):
+    login_url = 'login_view'
+    template_name = 'studio/pages/odasTest.html'
+    form_class = ODAUpdateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(ODACreateView, self).get_context_data(**kwargs)
+        subjects_list = SubjectModel.objects.all()
+        tags_list = TagModel.objects.all()
+
+        context.update({'subject_list': subjects_list, 'tags_list': tags_list})
+        return context
+
+    def form_valid(self, form):
+        pass
 
 
 class ODAUpdateView(LoginRequiredMixin, UpdateView):
