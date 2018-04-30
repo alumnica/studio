@@ -42,9 +42,7 @@
 
             <ul class="oda-filter oda-materias">
                 {% for subject in subject_list %}
-                    <li>{{ subject.name_field }}
-                        <span></span>
-                    </li>
+                    <li>{{ subject.name_field }}<span></span></li>
                 {% endfor %}
 
             </ul>
@@ -85,7 +83,7 @@
                         <hr>
                         <ul class="oda-tags">
                             {% for tag in oda.tags_field.all %}
-                                {{ tag.name_field }}
+                                <li>{{ tag.name_field }}</li>
                                 {% endfor %}
                         </ul>
                     </div>
