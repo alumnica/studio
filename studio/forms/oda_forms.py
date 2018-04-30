@@ -71,7 +71,9 @@ class ODAUpdateForm(forms.ModelForm):
 
     class Meta:
         model = ODAModel
-        fields = ['name_field']
+        fields = ['name_field', 'tags_field']
 
     def save_form(self):
-        pass
+
+        oda = super(ODAUpdateForm, self).save()
+        return oda
