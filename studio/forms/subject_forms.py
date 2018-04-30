@@ -31,11 +31,14 @@ class SubjectForm(forms.ModelForm):
         if SubjectModel.objects.filter(name_field=name_subject).exists():
             error = ValidationError("Subject already exists.", code='subject_error')
             self.add_error('name_field', error)
+            return cleaned_data
 
         ambit = cleaned_data.get('ambit_field')
+
         if ambit.subjects.count() > 3:
             error = ValidationError("This ambit already has 4 subjects assigned.", code='subject_error')
             self.add_error('name_field', error)
+            return cleaned_data
 
         return cleaned_data
 
@@ -79,6 +82,7 @@ class UpdateSubjectForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UpdateSubjectForm, self).__init__(*args, **kwargs)
         self.fields['number_of_sections_field'].initial = 3
+
 
     def save_form(self):
         cleaned_data = super(UpdateSubjectForm, self).clean()

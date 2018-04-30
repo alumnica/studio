@@ -16,6 +16,10 @@ $('#ambito-tags').selectize({
     },
     options: ambitoTags,
     preload: false,
+    onInitialize: function() {
+        let selectize = this;
+        selectize.setValue(self_tags_selectize)
+    },
     maxItems: 20,
 });
 

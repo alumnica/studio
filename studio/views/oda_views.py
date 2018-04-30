@@ -234,7 +234,7 @@ class ODACreateView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        pass
+        form.save_form()
 
 
 class ODAUpdateView(LoginRequiredMixin, UpdateView):

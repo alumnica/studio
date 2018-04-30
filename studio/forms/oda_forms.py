@@ -68,12 +68,12 @@ class ODAsPreviewForm(forms.Form):
 
 
 class ODAUpdateForm(forms.ModelForm):
-
+    tags_field = forms.CharField(max_length=60, widget=forms.TextInput(attrs={'id': 'odas-tags',
+                                                                              'name': 'tags-materias'}))
     class Meta:
         model = ODAModel
         fields = ['name_field', 'tags_field']
 
     def save_form(self):
-
         oda = super(ODAUpdateForm, self).save()
         return oda
