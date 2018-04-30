@@ -44,20 +44,21 @@ $('document').ready(function(){
 });
 
 
-$('.assigned-to_materias li').each(function()
-    {	var theClass = $(this).text()
+$('.assigned-to_materias li').each(function() {
+        var theClass = $(this).text().replace(/\s/g,"-");
+        
        $(this).addClass(theClass); 
 });
 
-$('.oda-tags li').each(function()
-    {	var theClass = $(this).text()
+$('.oda-tags li').each(function(){
+        var theClass = $(this).text().replace(/\s/g,"-");        
        $(this).addClass(theClass); 
 });
     
 
 
 $('.oda-materias li').each(function(){
-	var subjectName = $(this).text();
+	var subjectName = $(this).text().replace(/\s/g,"-");
 	var classQuantity = $('.'+ subjectName).length;
   $(this).find('span').text(classQuantity);
 });
@@ -74,7 +75,7 @@ $('.assigned-to_materias').each(function(){
 $('#sinMateria').find('span').html(noMat);
 
 $('.oda-tags-list li').each(function(){
-	var tagName = $(this).text();
+	var tagName = $(this).text().replace(/\s/g,"-");
 	$(this).attr({
 		"data-control-type":"button-filter",
 		"data-control-action":"filter",
@@ -89,7 +90,7 @@ $.fn.ignore = function(sel){
   };
 
 $('.oda-materias li').each(function(){
-	var matName =$(this).ignore("span").text();
+	var matName =$(this).ignore("span").text().replace(/\s/g,"-");
 	$(this).attr({
 		"data-control-type":"button-filter",
 		"data-control-action":"filter",
