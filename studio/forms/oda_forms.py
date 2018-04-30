@@ -7,8 +7,10 @@ from alumnica_model.validators import file_size
 
 class ODAModelForm(forms.Form):
     oda_name = forms.CharField(required=True, max_length=120)
-    active_icon_field = forms.ImageField(validators=[file_size], widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
-    completed_icon_field = forms.ImageField(validators=[file_size], widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
+    active_icon_field = forms.ImageField(validators=[file_size], widget=forms.FileInput(attrs={'class': 'is-hidden',
+                                                                                               'type': 'file'}))
+    completed_icon_field = forms.ImageField(validators=[file_size], widget=forms.FileInput(attrs={'class': 'is-hidden',
+                                                                                                  'type': 'file'}))
 
     def save_form(self, user, section):
         cleaned_data = self.clean()
@@ -30,10 +32,9 @@ class ODAModelForm(forms.Form):
 
         oda, oda_created = ODAModel.objects.get_or_create(name_field=oda_name, created_by_field=user)
 
-
         oda_in_subject, created = ODAInSubjectModel.objects.get_or_create(oda_field=oda, section_field=section,
                                                                           active_icon_field=active_icon,
-                                                                          completed_icon_field = completed_icon)
+                                                                          completed_icon_field=completed_icon)
         if not created:
             oda_in_subject.active_icon_field = active_icon
             oda_in_subject.completed_icon_field = completed_icon
@@ -64,3 +65,13 @@ class ODAsPositionForm(forms.Form):
 
 class ODAsPreviewForm(forms.Form):
     name_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
+
+
+class ODAUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = ODAModel
+        fields = ['name_field']
+
+    def save_form(self):
+        pass

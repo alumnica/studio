@@ -10,8 +10,10 @@ class CreateAmbitForm(forms.ModelForm):
                                  validators=[unique_ambit_name_validator])
     position_field = forms.IntegerField(max_value=30)
 
-    ap = forms.ImageField(required=False, validators=[file_size], widget=forms.FileInput(attrs={'name': 'ap', 'id': 'ambito-u',
-                                                        'class': 'is-hidden', 'type': 'file'}))
+    ap = forms.ImageField(required=False, validators=[file_size], widget=forms.FileInput(attrs={'name': 'ap',
+                                                                                                'id': 'ambito-u',
+                                                                                                'class': 'is-hidden',
+                                                                                                'type': 'file'}))
 
     class Meta:
         model = AmbitModel

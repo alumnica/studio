@@ -87,7 +87,11 @@
                             </td>
                             <td>
                                 <div class="estado">
-                                    Publicado
+                                    {% if ambit.is_published_field %}
+                                        Publicado
+                                    {% else %}
+                                        Sin publicar
+                                    {% endif %}
                                 </div>
                             </td>
                         </tr>

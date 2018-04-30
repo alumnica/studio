@@ -36,7 +36,6 @@ class LoginView(FormView):
         return self.render_to_response(context)
 
 
-
 class LogoutView(RedirectView):
     pattern_name = 'login_view'
 
@@ -48,6 +47,7 @@ class LogoutView(RedirectView):
 class ProfileView(LoginRequiredMixin, FormView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/dashboard.html'
+
     def get(self, request, *args, **kwargs):
         ambits = AmbitModel.objects.all().count()
         subjects = SubjectModel.objects.all().count()

@@ -10,7 +10,7 @@
     <hr>
     <div class="grid-x grid-margin-x" id="odaSortList">
         <div class="cell medium-8">
-            <a href="oda-edit.html" class="button">Crear nueva ODA</a>
+            <a href="{% url 'odas_create_view' %}" class="button">Crear nueva ODA</a>
         </div>
         <div class="cell medium-4 jplist-panel">
 
@@ -41,40 +41,39 @@
             <hr>
 
             <ul class="oda-filter oda-materias">
-                <li>Matematicas
-                <span></span>
-                </li>
-                <li>Quimica
-                <span></span>
-                </li>
-
+                {% for subject in subject_list %}
+                    <li>{{ subject.name_field }}
+                        <span></span>
+                    </li>
+                {% endfor %}
 
             </ul>
 
             <hr>
 
             <ul class="oda-tags-list">
-                <li>Una</li>
-                <li>dos</li>
-                <li>TRES</li>
+                {% for tag in tags_list %}
+                    <li>{{ tag.name_field }}</li>
+                {% endfor %}
             </ul>
         </div>
         <div class="cell medium-10">
             <div class="odas-list">
 
-
-                <!-- contenedor de 1 oda -->
-                <div class="oda-container">
+                {% for oda in odas_list %}
+                    <div class="oda-container">
                     <div class="panel">
                         <div class="oda-title">
-                            Titulo de ODA
+                            {{ oda.name_field }}
                         </div>
                         <div class="assigned-to">
                             <p>Asignada a las siguientes Materias:</p>
                             <ul class="assigned-to_materias">
-                                <li>Matematicas</li>
-                                <li>Quimica</li>
-                                <li>Fantasmas</li>
+                                {% for oda_in_subject in oda.subject.all %}
+                                    {% for subject in oda_in_subject.subject.all %}
+                                        <li>{{ subject.name_field }}</li>
+                                        {% endfor %}
+                                {% endfor %}
                             </ul>
                         </div>
                         <div class="activity">
@@ -85,16 +84,18 @@
                         </div>
                         <hr>
                         <ul class="oda-tags">
-                            <li>Una</li>
-                            <li>dos</li>
-                            <li>TRES</li>
-                            <li>cualquierotra</li>
+                            {% for tag in oda.tags_field.all %}
+                                {{ tag.name_field }}
+                                {% endfor %}
                         </ul>
                     </div>
-                    <a class="oda-edit" href="#">Editar
+                    <a class="oda-edit" href="{% url 'odas_update_view' oda.pk %}">Editar
                         <i class="fas fa-pencil-alt"></i>
                     </a>
                 </div>
+                {% endfor %}
+                <!-- contenedor de 1 oda -->
+
                 <!-- end of 1 oda -->
 
 

@@ -8,12 +8,13 @@ from alumnica_model.validators import validate_image_extension, file_size
 
 
 class SubjectForm(forms.ModelForm):
-    tags_field = forms.CharField(max_length=60, widget=forms.TextInput(attrs={'id': 'materias-tags', 'name': 'tags-materias'}))
-    mp = forms.ImageField(validators=[validate_image_extension, file_size], widget=forms.FileInput(attrs={'name': 'mp', 'id': 'materia-u',
-                                                                      'class': 'show-for-sr', 'type': 'file'}))
-    number_of_sections_field = forms.IntegerField(widget=forms.Select(choices=((1,1), (2,2), (3,3), (4,4)),
-                                                                      attrs={'class':'position-ambito-size'}))
-
+    tags_field = forms.CharField(max_length=60, widget=forms.TextInput(attrs={'id': 'materias-tags',
+                                                                              'name': 'tags-materias'}))
+    mp = forms.ImageField(validators=[validate_image_extension, file_size],
+                          widget=forms.FileInput(attrs={'name': 'mp', 'id': 'materia-u', 'class': 'show-for-sr',
+                                                        'type': 'file'}))
+    number_of_sections_field = forms.IntegerField(widget=forms.Select(choices=((1, 1), (2, 2), (3, 3), (4, 4)),
+                                                                      attrs={'class': 'position-ambito-size'}))
 
     class Meta:
         model = SubjectModel
@@ -54,13 +55,10 @@ class SubjectForm(forms.ModelForm):
 
         subject.save()
         subject.update_sections()
-        tg = cleaned_data.get('tags_field')
         tags = cleaned_data.get('tags_field').split(',')
         for tag_name in tags:
             tag, created = TagModel.objects.get_or_create(name_field=tag_name)
             subject.tags_field.add(tag)
-
-
 
         subject.save()
         return subject
@@ -69,12 +67,18 @@ class SubjectForm(forms.ModelForm):
 class UpdateSubjectForm(forms.ModelForm):
     tags_field = forms.CharField(widget=forms.TextInput(attrs={'id': 'materias-tags', 'name': 'tags-materias'}))
     mp = forms.ImageField(required=False, widget=forms.FileInput(attrs={'name': 'mp', 'id': 'materia-u',
-                                                        'class': 'show-for-sr', 'type': 'file'}))
+                                                                        'class': 'show-for-sr', 'type': 'file'}))
+
+    number_of_sections_field = forms.IntegerField(widget=forms.Select(choices=((1, 1), (2, 2), (3, 3), (4, 4)),
+                                                                      attrs={'class': 'position-ambito-size'}))
+
     class Meta:
         model = SubjectModel
         fields = ['name_field', 'ambit_field', 'number_of_sections_field', 'tags_field']
 
-
+    def __init__(self, *args, **kwargs):
+        super(UpdateSubjectForm, self).__init__(*args, **kwargs)
+        self.fields['number_of_sections_field'].initial = 3
 
     def save_form(self):
         cleaned_data = super(UpdateSubjectForm, self).clean()
@@ -98,11 +102,14 @@ class UpdateSubjectForm(forms.ModelForm):
                 subject.background_image_field = new_image
 
         subject.save()
+        subject.update_sections()
         return subject
 
 
 class ImageModelForm(forms.ModelForm):
-    file_field = forms.ImageField(validators=[file_size], widget=forms.FileInput(attrs={'class': 'show-for-sr', 'type': 'file'}))
+    file_field = forms.ImageField(validators=[file_size], widget=forms.FileInput(attrs={'class': 'show-for-sr',
+                                                                                        'type': 'file'}))
+
     class Meta:
         model = ImageModel
         fields = ['file_field']
@@ -118,7 +125,6 @@ class BaseImageModelFormset(forms.BaseFormSet):
 
         super(BaseImageModelFormset, self).__init__(*args, **kwargs)
 
-
     def get_form_kwargs(self, index):
         kwargs = super(BaseImageModelFormset, self).get_form_kwargs(index)
         if len(self.form_instances) > index:
@@ -128,6 +134,7 @@ class BaseImageModelFormset(forms.BaseFormSet):
 
 class SubjectSectionsForm(forms.ModelForm):
     name_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
+
     class Meta:
         model = SubjectModel
         fields = ['name_field']
