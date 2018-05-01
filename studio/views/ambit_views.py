@@ -44,7 +44,7 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UpdateAmbitView, self).get_context_data(**kwargs)
         ambits = AmbitModel.objects.all().exclude(pk=self.kwargs['pk'])
-        subjects = SubjectModel.objects.all()
+        subjects = SubjectModel.objects.all().exclude(ambit_field=self.object)
         tags = TagModel.objects.all().filter(temporal_field=False)
         context.update({'subjects': subjects, 'tags': tags, 'ambits': ambits})
         return context

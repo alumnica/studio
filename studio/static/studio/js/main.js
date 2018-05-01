@@ -23,12 +23,6 @@ $(function () {
 });
 
 
-$("#sortable").on('click', '.remove_materia', function () {
-    $(this).parent().remove();
-    if ($('ul#sortable li').length < 4) {
-        $('#add-materia-button').show();
-    }
-});
 
 let numMateria = 1;
 
@@ -49,19 +43,7 @@ $(document).ready(function () {
 
 //pasa la materia elegida en el modal a la lista sorteable en ambitos-edit
 
-$("#class-adder").click(function (e) {
-    e.preventDefault();
 
-    let text = $("select[name='materias-select']").val();
-
-    $("#sortable").append('<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s sorter"></span>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
-    $("#sortable").sortable('refresh');
-    if ($('ul#sortable li').length > 3) {
-        $('#add-materia-button').hide();
-    }
-
-
-});
 
 // pasa el orden de las materias en ambitos-edit a un text input escondido
 // para que en post tengamos al info correcta
