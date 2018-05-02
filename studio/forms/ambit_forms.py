@@ -7,9 +7,9 @@ from alumnica_model.validators import unique_ambit_name_validator, file_size
 
 
 class CreateAmbitForm(forms.ModelForm):
-    name_field = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'text_number'}),
+    name_field = forms.CharField(required=False, max_length=50, widget=forms.TextInput(attrs={'class': 'text_number'}),
                                  validators=[unique_ambit_name_validator])
-    position_field = forms.IntegerField(max_value=30)
+    position_field = forms.IntegerField(required=False, max_value=30)
 
     ap = forms.ImageField(required=False, validators=[file_size], widget=forms.FileInput(attrs={'name': 'ap',
                                                                                                 'id': 'ambito-u',
@@ -28,8 +28,9 @@ class CreateAmbitForm(forms.ModelForm):
         ambit.color = color
 
         image = cleaned_data.get('ap')
-        image_model = ImageModel.objects.create(name_field=("ambit_{}_background".format(ambit.name)),
+        image_model, created = ImageModel.objects.get_or_create(name_field=("ambit_{}_background".format(ambit.name)),
                                                 file_field=image)
+        image_model.temporal_field = False
         ambit.background_image = image_model
         ambit.program = ProgramModel.objects.get(name_field="Primaria")
         ambit.save()
@@ -49,22 +50,62 @@ class CreateAmbitForm(forms.ModelForm):
                     ambit.subjects_field.add(subject_model)
                 except SubjectModel.DoesNotExist:
                     pass
+        ambit.is_published = True
+        ambit.save()
+
+    def save_as_draft(self, user, subjects, tags, color):
+        cleaned_data = super(CreateAmbitForm, self).clean()
+        ambit = super(CreateAmbitForm, self).save(commit=False)
+        ambit.created_by = user.profile
+        ambit.program = ProgramModel.objects.get(name_field="Primaria")
+        ambit.color = color
+
+        if cleaned_data.get('position_field') is None:
+            ambit.position_field = 0
+
+        if cleaned_data.get('ap') is not None:
+            image = cleaned_data.get('ap')
+            image_model, created = ImageModel.objects.get_or_create(name_field=("ambit_{}_background".format(ambit.name)),
+                                                    file_field=image)
+
+            ambit.background_image = image_model
+        ambit.save()
+        for tag_name in tags:
+            tag, created = TagModel.objects.get_or_create(name_field=tag_name)
+
+            tag.temporal = True
+            tag.save()
+            ambit.tags_field.add(tag)
+
+        if subjects is not None:
+            subjects = subjects.split(',')
+            for subject_name in subjects:
+                try:
+                    subject_model = SubjectModel.objects.get(name_field=subject_name)
+                    ambit.subjects_field.add(subject_model)
+                except SubjectModel.DoesNotExist:
+                    pass
 
         ambit.save()
 
 class UpdateAmbitForm(forms.ModelForm):
-    name_field = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'text_number'}))
-    position_field = forms.IntegerField(max_value=30)
+    name_field = forms.CharField(required=False, max_length=50, widget=forms.TextInput(attrs={'class': 'text_number'}))
+    position_field = forms.IntegerField(required=False, max_value=30)
 
     ap = forms.ImageField(required=False, validators=[file_size], widget=forms.FileInput(attrs={'name': 'ap',
                                                                                                 'id': 'ambito-u',
                                                                                                 'class': 'is-hidden',
                                                                                                 'type': 'file'}))
-
+    class Meta:
+        model = AmbitModel
+        fields = ['name_field', 'position_field']
 
     def save_form(self, subjects, tags, color):
         cleaned_data = super(UpdateAmbitForm, self).clean()
-        ambit = super(UpdateAmbitForm, self).save(commit=False)
+        ambit = AmbitModel.objects.get(name_field=cleaned_data.get('name_field'))
+
+        if cleaned_data.get('position_field') is not None:
+            ambit.position_field = cleaned_data.get('position_field')
         ambit.color = color
 
         image = cleaned_data.get('ap')
@@ -72,6 +113,8 @@ class UpdateAmbitForm(forms.ModelForm):
         if image is not None:
             image_model, created = ImageModel.objects.get_or_create(name_field=("ambit_{}_background".format(ambit.name)),
                                                 file_field=image)
+            image_model.temporal= False
+            image_model.save()
             ambit.background_image = image_model
         ambit.save()
 
@@ -93,10 +136,41 @@ class UpdateAmbitForm(forms.ModelForm):
                     pass
         for subject in ambit.subjects:
             if subject.name not in subjects:
-                ambit.subjects_field.remove(subject)
-
+                ambit.subjects_field.all().remove(subject)
+        ambit.is_published_field = True
         ambit.save()
 
-    class Meta:
-        model = AmbitModel
-        fields = ['name_field', 'position_field']
+    def save_as_draft(self, subjects, tags, color):
+        cleaned_data = super(UpdateAmbitForm, self).clean()
+        ambit = AmbitModel.objects.get(name_field=cleaned_data.get('name_field'))
+        if cleaned_data.get('position_field') is not None:
+            ambit.position_field = cleaned_data.get('position_field')
+        ambit.color = color
+
+        if cleaned_data.get('ap') is not None:
+            image = cleaned_data.get('ap')
+            image_model, created = ImageModel.objects.get_or_create(name_field=("ambit_{}_background".format(ambit.name)),
+                                                           file_field=image)
+
+            image_model.save()
+            ambit.background_image = image_model
+        ambit.save()
+        for tag_name in tags:
+            tag, created = TagModel.objects.get_or_create(name_field=tag_name)
+
+            tag.temporal = True
+            tag.save()
+            ambit.tags_field.add(tag)
+
+        if subjects is not None:
+            subjects = subjects.split(',')
+            for subject_name in subjects:
+                try:
+                    subject_model = SubjectModel.objects.get(name_field=subject_name)
+                    ambit.subjects_field.add(subject_model)
+                except SubjectModel.DoesNotExist:
+                    pass
+        ambit.is_published_field = False
+        ambit.save()
+
+

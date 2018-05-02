@@ -11,27 +11,27 @@ class CreateAmbitView(LoginRequiredMixin, FormView):
     form_class = CreateAmbitForm
 
     def get(self, request, *args, **kwargs):
+        ambits = AmbitModel.objects.all()
         subjects = SubjectModel.objects.all()
-        tags = TagModel.objects.all().filter(temporal_field=False)
-        return render(request, self.template_name, {'form': self.form_class, 'subjects': subjects, 'tags': tags})
+        tags = TagModel.objects.all().filter()
+        return render(request, self.template_name, {'form': self.form_class, 'subjects': subjects,
+                                                    'tags': tags, 'ambits': ambits})
 
-    def form_valid(self, form):
+    def post(self, request, *args, **kwargs):
         subjects = self.request.POST.get('class_name')
-        tags = self.request.POST.get('tags-ambito').split(',')
+        tags = self.request.POST.get('tags-ambito')
+        if tags is not None:
+            tags = tags.split(',')
         color = self.request.POST.get('color')
-        form.save_form(self.request.user, subjects, tags, color)
+        action = self.request.POST.get('action')
+        form = CreateAmbitForm(self.request.POST, self.request.FILES)
+        form.is_valid()
+        if action == 'draft':
+            form.save_as_draft(request.user, subjects, tags, color)
+        elif action == 'publish':
+            form.save_form(request.user, subjects, tags, color)
         return redirect(to='ambits_view')
 
-    def form_invalid(self, form):
-        if form['name_field'].errors:
-            sweetify.error(self.request, form.errors['name_field'][0], persistent='Ok')
-        if form['position_field'].errors:
-            sweetify.error(self.request, form.errors['position_field'][0], persistent='Ok')
-        if form['ap'].errors:
-            sweetify.error(self.request, form.errors['ap'][0], persistent='Ok')
-        subjects = SubjectModel.objects.all()
-        tags = TagModel.objects.all()
-        return render(self.request, self.template_name, {'form': form, 'subjects': subjects, 'tags': tags})
 
 class UpdateAmbitView(LoginRequiredMixin, UpdateView):
     login_url = 'login_view'
@@ -45,15 +45,24 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         context = super(UpdateAmbitView, self).get_context_data(**kwargs)
         ambits = AmbitModel.objects.all().exclude(pk=self.kwargs['pk'])
         subjects = SubjectModel.objects.all().exclude(ambit_field=self.object)
-        tags = TagModel.objects.all().filter(temporal_field=False)
+        tags = TagModel.objects.all().filter()
         context.update({'subjects': subjects, 'tags': tags, 'ambits': ambits})
         return context
 
-    def form_valid(self, form):
+    def post(self, request, *args, **kwargs):
         subjects = self.request.POST.get('class_name')
-        tags = self.request.POST.get('tags-ambito').split(',')
+        tags = self.request.POST.get('tags-ambito')
+        if tags is not None:
+            tags = tags.split(',')
         color = self.request.POST.get('color')
-        form.save_form(subjects, tags, color)
+        action = self.request.POST.get('action')
+        form = UpdateAmbitForm(self.request.POST, self.request.FILES)
+        form.is_valid()
+
+        if action == 'draft':
+            form.save_as_draft(subjects, tags, color)
+        elif action == 'publish':
+            form.save_form(subjects, tags, color)
         return redirect(to='ambits_view')
 
 

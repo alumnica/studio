@@ -30,7 +30,7 @@
                         <!-- tags -->
 
                         <label for="ambito-tags">Tags</label>
-                        <input required name="tags-ambito" type="text" id="ambito-tags">
+                        <input name="tags-ambito" type="text" id="ambito-tags">
                         <script type="text/javascript">
                         let materiasTags = [];
                         let self_materias = [];
@@ -173,7 +173,7 @@
                             <!-- start image preview -->
                             <div class="image-wrapper">
                                 <div id="image-holder">
-                                    <img src="{{ MEDIA_URL }} {{ ambitmodel.background_image.file_field.url }}" alt="">
+                                    <img src="{{ ambitmodel.background_image.file_field.url }}" alt="">
                                 </div>
                                 <div id="ttc">
                                     <span class="ttc2">{{ ambitmodel.name_field }}</span>
@@ -222,10 +222,11 @@
                             </p>
 
                             {#Este POST debe guardar como borrador #}
-                            <button type="submit" class="button secondary">Salvar como borrador</button>
+                            <button type="submit" class="button secondary" name="draft">Salvar como borrador</button>
 
                             {#Este POST debe publicar el Ambito #}    
-                            <button type="submit" class="button primary publicar">Publicar</button>
+                            <button type="submit" class="button primary publicar" name="publish">Publicar</button>
+                            <input type="hidden" name="action" id="action" />
                         </div>
                     </div>
                 </div>
