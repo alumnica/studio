@@ -1,0 +1,183 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% block content %}
+
+<div class="dashboard container">
+    <h1 class="title">
+        <i class="fas fa-list-alt"></i> Crear nueva ODA
+    </h1>
+    <hr>
+    <p>
+        <strong>Instrucciones:</strong>
+        <br> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate officia ad nostrum!</p>
+    <div class="grid-x grid-margin-x align-stretch">
+        <div class="cell medium-12">
+                <label for="oda-name">Nombre de la ODA</label>
+                <input type="text" class="oda-name" placeholder="Escoje un nombre">
+        </div>
+        <div class="cell medium-6">
+            
+            <div class="panel full">
+                <div class="panel__title">
+                    Asignada a las siguientes materias:
+                </div>
+                <div class="panel__content">
+                    <ul class="assigned-to_materias">
+                        <li>Matematicas</li>
+                        <li>Quimica</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="cell medium-6">
+            <div class="panel">
+                <div class="panel__title">
+                    Tags:
+                </div>
+                <div class="panel__content">
+                    <input name="oda-tags" type="text" id="uoda-tags">
+                </div>
+            </div>
+        </div>
+        <div class="cell medium-12">
+            <p class="h6">Momentos por µODA</p>
+        </div>
+        <div class="cell medium-4">
+            <div class="panel"  id="apli">
+                <div class="panel__title">
+                    Aplicación
+                    <span class="add-materia" data-open="Modal-1">
+                        <i class="fas fa-plus-square"></i>
+                    </span>
+                </div>
+                <div class="panel__content">
+                    <ul class="oda-sort" id="uoda-1">
+                        
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="cell medium-4">
+            <div class="panel"   id="forma">
+                <div class="panel__title">
+                    Formalización
+                    <span class="add-materia" data-open="Modal-1">
+                        <i class="fas fa-plus-square"></i>
+                    </span>                   
+                </div>
+                <div class="panel__content">
+                    <ul class="oda-sort" id="uoda-2">
+                        
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="cell medium-4">
+            <div class="panel"  id="activ">
+                <div class="panel__title">
+                    Activación
+                    <span class="add-materia" data-open="Modal-1">
+                        <i class="fas fa-plus-square"></i>
+                    </span>
+                </div>
+                <div class="panel__content">
+                    <ul class="oda-sort" id="uoda-3">
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="cell medium-4">
+            <div class="panel" id="ejemp">
+                <div class="panel__title">
+                    Ejemplificación
+                    <span class="add-materia" data-open="Modal-1">
+                        <i class="fas fa-plus-square"></i>
+                    </span>
+                </div>
+                <div class="panel__content">
+                    <ul class="oda-sort" id="uoda-4">
+                        
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="cell medium-4">
+            <div class="panel" id="sens">
+                <div class="panel__title">
+                    Sensibilzación
+                    <span class="add-materia" data-open="Modal-1">
+                        <i class="fas fa-plus-square"></i>
+                    </span>
+                </div>
+                <div class="panel__content">
+                    <ul class="oda-sort" id="uoda-5">
+                        
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="cell medium-4">
+            <div class="panel" id="eval">
+                <div class="panel__title">
+                    Evaluación
+                    <span class="add-materia" data-open="Modal-1">
+                        <i class="fas fa-plus-square"></i>
+                    </span>
+                </div>
+                <div class="panel__content">
+                    <ul class="oda-sort" id="uoda-6">
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+ <!-- modal Aplicacion -->
+
+<div class="reveal m-adder" id="Modal-1" data-reveal>
+    <h4>Selección de Momentos</h4>
+    <br>
+
+    <label for="momentos-select">Busca en la Biblioteca de Materias</label>
+    <select name="momentos-select" id="select-momentos"></select>
+
+    
+    <br />
+    <br>
+    <br>
+    <input id="momento-adder" class='button expanded' type='submit' disabled value='Añadir' data-close/>
+
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+<div class="large reveal" id="Modal-2" data-reveal>
+        
+    <div class="h5p-preview">
+            <iframe src="www.google.com"></iframe> 
+    </div>
+
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+
+{% endblock content %}
+
+    {% block scripts %}
+        <script src="{% static "studio/js/momentos.js" %}"></script>
+    {% endblock %}

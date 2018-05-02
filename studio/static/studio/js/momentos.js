@@ -6,58 +6,65 @@ var momentosList = [
     {name: 'Hostspot Y', code: 'AL'},
 ];
 
-$('#select-momentos').selectize({
+ // enable selectize for all inputs in modals
+
+ $('#select-momentos').selectize({
     maxItems: 1,
     labelField: 'name',
-    valueField: 'name',
+    valueField: 'code',
     searchField: 'name',
     options: momentosList,
     preload: true,
 });
 
-// add Sortable to the lists
-
+//enable sortable for all 6 udas
 $(function () {
-    
-    $("#oda-sort-1, #oda-sort-2, #oda-sort-3").sortable();
+    $("#uoda-1, #uoda-2, #ouda-3, #uoda-4, #uoda-5, #uoda-6").sortable();
     // $( "#sortable" ).disableSelection();
     // deprecated
 });
 
-
 // enable and disable button to add oda
-
 $('#select-momentos').change(function () {
-    if (!$("select[name='momentos-select']").val()) {
-
+    if (!$("#select-momentos").val()) {
         $('#momento-adder').prop("disabled", true);
     }
     else {
-
         $('#momento-adder').prop("disabled", false);
     }
 });
 
-//pasa la materia elegida en el modal a la lista sorteable en ambitos-edit
 
-$("#momento-adder").click(function (e) {
-    e.preventDefault();
-
-    var text = $("select[name='momentos-select']").val();
-
-    $("#oda-sort-1").append('<li class="momento-item"><i class="fas fa-external-link-alt"></i> ' + text + ' <span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
-	
-    $("#oda-sort-1").sortable('refresh');
-    if ($('ul#oda-sort-1 li').length > 6) {
-        $('#add-materia-button').hide();
-    }
-
-
+$('.add-materia').on('click', function(){
+    $('#Modal-1').attr('uoda', $(this).parent().parent().attr('id'));
 });
 
-$("#oda-sort-1").on('click', '.remove_materia', function () {
-    $(this).parent().remove();
-    if ($('ul#oda-sort-1 li').length < 7) {
-        $('#add-materia-button').show();
+
+//pasa la materia elegida en el modal a la lista sorteable en ambitos-edit
+$("#momento-adder").click(function (e) {
+    e.preventDefault();
+    var text = $("#select-momentos").text();
+    var value = $("#select-momentos").val();
+    var uodaToGo = $('#Modal-1').attr('uoda');
+
+    $('#'+uodaToGo+' ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+value+'"></i> ' + text + ' <span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
+    $('#'+uodaToGo+' ul').sortable('refresh');
+    if ($('#'+uodaToGo+' ul li').length > 4) {
+        $('#'+uodaToGo+' .add-materia').hide();
     }
+});
+
+$(".oda-sort").on('click', '.remove_materia', function () {
+    $(this).parent().remove();
+    if ($(this).parent().length < 4) {
+        $('.add-materia').show();
+    }
+});
+
+
+$('.oda-sort').on('click', '.mom-preview', function(){
+    var iUrl = $(this).attr('data-url');
+    $('iframe').attr('src', iUrl);
+
+    
 });
