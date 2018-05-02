@@ -11,8 +11,16 @@ var $select = $('#select-materias').selectize({
     preload: true
 });
 
-$("#class-adder").click(function (e) {
-    e.preventDefault();
+let selectize = $select[0].selectize;
+
+$(".fa-plus-square").on('click', function(){
+       	selectize.clearOptions();
+        selectize.addOption(materiasList);
+});
+
+
+$("#class-adder").click(function () {
+//    e.preventDefault();
 
     let text = $("select[name='materias-select']").val();
 
@@ -21,23 +29,28 @@ $("#class-adder").click(function (e) {
     $("#sortable").sortable('refresh');
     if ($('ul#sortable li').length > 3) {
         $('#add-materia-button').hide();
-    }
-
-    let selectize = $select[0].selectize;
-   			selectize.clearOptions();
-    		selectize.addOption(materiasList);
-
-
-
+    };
 
 });
 
 $("#sortable").on('click', '.remove_materia', function () {
+
+    let subject = $(this).parent().contents().filter(function() {
+         return this.nodeType == 3;
+		}).text();
+
+
+	var reAdd = {
+	"name": subject
+	};
+
+    materiasList.push(reAdd);
+
+
     $(this).parent().remove();
-    if ($('ul#sortable li').length < 4) {
-        $('#add-materia-button').show();
-    }
-    let subject = $(this).ignore("span").text();
+        if ($('ul#sortable li').length < 4) {
+            $('#add-materia-button').show();
+        }
 });
 
 
