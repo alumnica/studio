@@ -82,7 +82,7 @@ class ODACreateForm(forms.ModelForm):
             for tag_name in tags:
                 tag, created = TagModel.objects.get_or_create(name_field=tag_name)
                 oda.tags_field.add(tag)
-
+        counter = 1
         for moment_object in moments:
 
             if moment_object[1] is not None:
@@ -90,7 +90,8 @@ class ODACreateForm(forms.ModelForm):
                 moments_names = moment_object[1].split(',')
                 microoda, created = MicroODAModel.objects.get_or_create(name_field='{}_{}'.format(oda.name, moment_object[0]),
                                                                created_by_field=user.profile, type_field=moment_object[0],
-                                                      default_position_field=0, oda_field=oda)
+                                                      default_position_field=counter, oda_field=oda)
+                counter += 1
 
                 for moment_name in moments_names:
                     moment = MomentModel.objects.get(name_field=moment_name)
@@ -113,7 +114,7 @@ class ODAUpdateForm(forms.ModelForm):
             for tag_name in tags:
                 tag, created = TagModel.objects.get_or_create(name_field=tag_name)
                 oda.tags_field.add(tag)
-
+        counter = 0
         for moment_object in moments:
 
             if moment_object[1] is not None:
