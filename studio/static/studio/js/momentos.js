@@ -63,3 +63,72 @@ $('.oda-sort').on('click', '.mom-preview', function(){
 
     
 });
+
+// pasa el orden de los momentos en cada uoda a su text input escondido
+// para que en post tengamos al info correcta
+
+$('#save-on').on('mouseenter mouseleave', function () {
+
+    var apliTexts = [],
+        formaTexts = [],
+        activTexts = [],
+        ejemTexts = [],
+        sensTexts = [],
+        evalTexts = [];
+
+
+    $(function () {
+        $('#uoda-1 li').each(function () {
+            apliTexts.push($(this).text());
+        });
+
+        // send to hidden input
+        $('#apli-momentos').val(apliTexts);
+    });
+
+    $(function () {
+        $('#uoda-2 li').each(function () {
+            formaTexts.push($(this).text());
+        });
+
+        // send to hidden input
+        $('#forma-momentos').val(formaTexts);
+    });
+
+    $(function () {
+        $('#uoda-3 li').each(function () {
+            activTexts.push($(this).text());
+        });
+
+        // send to hidden input
+        $('#activ-momentos').val(activTexts);
+    });
+
+    $(function () {
+        $('#uoda-4 li').each(function () {
+            ejemTexts.push($(this).text());
+        });
+
+        // send to hidden input
+        $('#ejem-momentos').val(ejemTexts);
+    });
+
+    $(function () {
+        $('#uoda-5 li').each(function () {
+            sensTexts.push($(this).text());
+        });
+
+        // send to hidden input
+        $('#sens-momentos').val(sensTexts);
+    });
+
+    $(function () {
+        $('#uoda-6 li').each(function () {
+            evalTexts.push($(this).text());
+        });
+
+        // send to hidden input
+        $('#eval-momentos').val(evalTexts);
+    });
+
+});
