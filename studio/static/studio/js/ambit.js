@@ -35,7 +35,7 @@ function is_valid_form (){
 
         for(let i = 0; i < option_colors.length; i++){
             if(option_colors[i].checked){
-
+                color_selected = true;
             }
         }
 
