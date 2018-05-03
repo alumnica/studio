@@ -1,0 +1,251 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% block content %}
+
+<div class="dashboard container">
+    <h1 class="title">
+        <i class="fas fa-list-alt"></i> Crear nueva ODA
+    </h1>
+    <hr>
+    <p>
+        <strong>Instrucciones:</strong>
+        <br> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate officia ad nostrum!</p>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="grid-x grid-margin-x align-stretch">
+        <div class="cell medium-12">
+                <label for="name_field">Nombre de la ODA</label>
+            {{ form.name_field }}
+        </div>
+        <div class="cell medium-6">
+
+            <div class="panel full">
+                <div class="panel__title">
+                    Asignada a las siguientes materias:
+                </div>
+                <div class="panel__content">
+                    <ul class="assigned-to_materias">
+                        {% for oda_in_subject in self_oda_in_subject %}
+                            {% for subject in oda_in_subject.subject.all %}
+                                <li>{{ subject.name_field }}</li>
+                                {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="cell medium-6">
+            <div class="panel">
+                <div class="panel__title">
+                    Tags:
+                </div>
+                <script type="text/javascript">
+                        let odaTags = [];
+                        let self_tags_selectize = [];
+                        let momentosList = [];
+
+                        let apli= [];
+                        {% for moment in apli_list.activities_field.all %}
+                                apli.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% endfor %}
+
+                        let forma = [];
+                        {% for moment in forma_list.activities_field.all %}
+                                forma.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% endfor %}
+                        let activa = [];
+                        {% for moment in activ_list.activities_field.all %}
+                                activa.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% endfor %}
+                        let ejem= [];
+                            {% for moment in ejem_list.activities_field.all %}
+                                ejem.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% endfor %}
+                        let sens = [];
+                        {% for moment in sens_list.activities_field.all %}
+                                sens.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% endfor %}
+                        let evalu = [];
+                        {% for moment in eval_list.activities_field.all %}
+                                evalu.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% endfor %}
+
+                            {% for tag in tags_list %}
+                                odaTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
+                            {% endfor %}
+
+                        {% for tag in self_tags %}
+                                self_tags_selectize.push("{{ tag.name_field|safe }}");
+                            {% endfor %}
+
+                        {% for moment in moments_list %}
+                                momentosList.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% endfor %}
+
+                        </script>
+                <div class="panel__content">
+                    <input required name="oda-tags" type="text" id="oda-tags">
+                </div>
+            </div>
+        </div>
+        <div class="cell medium-12">
+            <p class="h6">Momentos por µODA</p>
+        </div>
+        <div class="cell medium-4">
+            <div class="panel"  id="apli">
+                <div class="panel__title">
+                    Aplicación
+                    <span class="add-materia" data-open="Modal-1">
+                        <i class="fas fa-plus-square"></i>
+                    </span>
+                </div>
+                <div class="panel__content">
+                    <ul class="oda-sort" id="uoda-1">
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="cell medium-4">
+            <div class="panel"   id="forma">
+                <div class="panel__title">
+                    Formalización
+                    <span class="add-materia" data-open="Modal-1">
+                        <i class="fas fa-plus-square"></i>
+                    </span>
+                </div>
+                <div class="panel__content">
+                    <ul class="oda-sort" id="uoda-2">
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="cell medium-4">
+            <div class="panel"  id="activ">
+                <div class="panel__title">
+                    Activación
+                    <span class="add-materia" data-open="Modal-1">
+                        <i class="fas fa-plus-square"></i>
+                    </span>
+                </div>
+                <div class="panel__content">
+                    <ul class="oda-sort" id="uoda-3">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="cell medium-4">
+            <div class="panel" id="ejemp">
+                <div class="panel__title">
+                    Ejemplificación
+                    <span class="add-materia" data-open="Modal-1">
+                        <i class="fas fa-plus-square"></i>
+                    </span>
+                </div>
+                <div class="panel__content">
+                    <ul class="oda-sort" id="uoda-4">
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="cell medium-4">
+            <div class="panel" id="sens">
+                <div class="panel__title">
+                    Sensibilzación
+                    <span class="add-materia" data-open="Modal-1">
+                        <i class="fas fa-plus-square"></i>
+                    </span>
+                </div>
+                <div class="panel__content">
+                    <ul class="oda-sort" id="uoda-5">
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="cell medium-4">
+            <div class="panel" id="eval">
+                <div class="panel__title">
+                    Evaluación
+                    <span class="add-materia" data-open="Modal-1">
+                        <i class="fas fa-plus-square"></i>
+                    </span>
+                </div>
+                <div class="panel__content">
+                    <ul class="oda-sort" id="uoda-6">
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="cell medium-12 text-right" id="save-on">
+            <!-- hidden input to pass momentos and order -->
+            <input required type="hidden" name="apli-momentos" id="apli-momentos">
+            <!-- hidden input to pass momentos and order -->
+            <input required type="hidden" name="forma-momentos" id="forma-momentos">
+            <!-- hidden input to pass momentos and order -->
+            <input required type="hidden" name="activ-momentos" id="activ-momentos">
+            <!-- hidden input to pass momentos and order -->
+            <input required type="hidden" name="ejem-momentos" id="ejem-momentos">
+            <!-- hidden input to pass momentos and order -->
+            <input required type="hidden" name="sens-momentos" id="sens-momentos">
+            <!-- hidden input to pass momentos and order -->
+            <input required type="hidden" name="eval-momentos" id="eval-momentos">
+
+            <button class="button" type="submit">Guardar</button>
+        </div>
+    </div>
+    </form>
+
+
+</div>
+
+
+ <!-- modal Aplicacion -->
+
+<div class="reveal m-adder" id="Modal-1" data-reveal>
+    <h4>Selección de Momentos</h4>
+    <br>
+
+    <label for="momentos-select">Busca en la Biblioteca de Materias</label>
+    <select name="momentos-select" id="select-momentos"></select>
+
+    
+    <br />
+    <br>
+    <br>
+    <input id="momento-adder" class='button expanded' type='submit' disabled value='Añadir' data-close/>
+
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+<div class="large reveal" id="Modal-2" data-reveal>
+        
+    <div class="h5p-preview">
+            <iframe src="www.google.com"></iframe> 
+    </div>
+
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+
+{% endblock content %}
+
+    {% block scripts %}
+        <script src="{% static "studio/js/momentos.js" %}"></script>
+        <script src="{% static "studio/js/oda-tags.js" %}"></script>
+    {% endblock %}

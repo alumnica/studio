@@ -43,7 +43,7 @@
                                 <div class="title-edit-menu">
                                     <span class="editar">
                                         {# Link a editar este ambito en especifico #}
-                                        <a href="#">Editar</a>
+                                        <a href="{% url 'update_ambit_view' ambit.pk %}">Editar</a>
                                     </span> |
                                     <span class="borrar">
                                         {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
@@ -87,7 +87,11 @@
                             </td>
                             <td>
                                 <div class="estado">
-                                    Publicado
+                                    {% if ambit.is_published_field %}
+                                        Publicado
+                                    {% else %}
+                                        Sin publicar
+                                    {% endif %}
                                 </div>
                             </td>
                         </tr>
