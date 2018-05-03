@@ -14,7 +14,8 @@
         {% csrf_token %}
         <div class="grid-x grid-margin-x align-stretch">
         <div class="cell medium-12">
-                <label for="na_field">{{ form.name_field }}</label>
+                <label for="name_field">Nombre de la ODA</label>
+            {{ form.name_field }}
         </div>
         <div class="cell medium-6">
 
@@ -24,7 +25,7 @@
                 </div>
                 <div class="panel__content">
                     <ul class="assigned-to_materias">
-                        {% for oda_in_subject in form.instance.subject %}
+                        {% for oda_in_subject in self_oda_in_subject %}
                             {% for subject in oda_in_subject.subject.all %}
                                 <li>{{ subject.name_field }}</li>
                                 {% endfor %}
@@ -42,11 +43,38 @@
                         let odaTags = [];
                         let self_tags_selectize = [];
                         let momentosList = [];
+
+                        let apli= [];
+                        {% for moment in apli_list.activities_field.all %}
+                                apli.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% endfor %}
+
+                        let forma = [];
+                        {% for moment in forma_list.activities_field.all %}
+                                forma.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% endfor %}
+                        let activa = [];
+                        {% for moment in activ_list.activities_field.all %}
+                                activa.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% endfor %}
+                        let ejem= [];
+                            {% for moment in ejem_list.activities_field.all %}
+                                ejem.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% endfor %}
+                        let sens = [];
+                        {% for moment in sens_list.activities_field.all %}
+                                sens.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% endfor %}
+                        let evalu = [];
+                        {% for moment in eval_list.activities_field.all %}
+                                evalu.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% endfor %}
+
                             {% for tag in tags_list %}
                                 odaTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
                             {% endfor %}
 
-                        {% for tag in form.instance.tags_field.all %}
+                        {% for tag in self_tags %}
                                 self_tags_selectize.push("{{ tag.name_field|safe }}");
                             {% endfor %}
 
@@ -56,7 +84,7 @@
 
                         </script>
                 <div class="panel__content">
-                    <input name="oda-tags" type="text" id="oda-tags">
+                    <input required name="oda-tags" type="text" id="oda-tags">
                 </div>
             </div>
         </div>
@@ -160,17 +188,17 @@
         </div>
         <div class="cell medium-12 text-right" id="save-on">
             <!-- hidden input to pass momentos and order -->
-            <input type="hidden" id="apli-momentos">
+            <input required type="hidden" name="apli-momentos" id="apli-momentos">
             <!-- hidden input to pass momentos and order -->
-            <input type="hidden" id="forma-momentos">
+            <input required type="hidden" name="forma-momentos" id="forma-momentos">
             <!-- hidden input to pass momentos and order -->
-            <input type="hidden" id="activ-momentos">
+            <input required type="hidden" name="activ-momentos" id="activ-momentos">
             <!-- hidden input to pass momentos and order -->
-            <input type="hidden" id="ejem-momentos">
+            <input required type="hidden" name="ejem-momentos" id="ejem-momentos">
             <!-- hidden input to pass momentos and order -->
-            <input type="hidden" id="sens-momentos">
+            <input required type="hidden" name="sens-momentos" id="sens-momentos">
             <!-- hidden input to pass momentos and order -->
-            <input type="hidden" id="eval-momentos">
+            <input required type="hidden" name="eval-momentos" id="eval-momentos">
 
             <button class="button" type="submit">Guardar</button>
         </div>

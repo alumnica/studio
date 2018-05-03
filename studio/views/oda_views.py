@@ -223,17 +223,44 @@ class ODADashboardView(LoginRequiredMixin, ListView):
 class ODACreateView(LoginRequiredMixin, CreateView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/odas-edit.html'
-    form_class = ODAUpdateForm
+    form_class = ODACreateForm
 
-    def get_context_data(self, **kwargs):
-        context = super(ODACreateView, self).get_context_data(**kwargs)
+    def get(self, request, *args, **kwargs):
         tags_list = TagModel.objects.all()
         moments_list = MomentModel.objects.all()
-        context.update({'tags_list': tags_list, 'moments_list': moments_list})
-        return context
+        return render(request, self.template_name, {'form':self.form_class, 'tags_list': tags_list, 'moments_list': moments_list})
 
     def form_valid(self, form):
-        form.save_form()
+        tags = self.request.POST.get('oda-tags')
+        moments = []
+
+        aplication = self.request.POST.get('apli-momentos')
+        template = ['aplication', aplication]
+        moments.append(template)
+
+        formalization = self.request.POST.get('forma-momentos')
+        template = ['formalization', formalization]
+        moments.append(template)
+
+        activation = self.request.POST.get('activ-momentos')
+        template = ['activation', activation]
+        moments.append(template)
+
+        exemplification = self.request.POST.get('ejem-momentos')
+        template = ['exemplification', exemplification]
+        moments.append(template)
+
+        sensitization = self.request.POST.get('sens-momentos')
+        template = ['sensitization', sensitization]
+        moments.append(template)
+
+        evaluation = self.request.POST.get('eval-momentos')
+        template = ['evaluation', evaluation]
+        moments.append(template)
+
+        form.save_form(self.request.user, tags, moments)
+
+        return redirect(to='oda_dashboard_view')
 
 
 class ODAUpdateView(LoginRequiredMixin, UpdateView):
@@ -248,11 +275,51 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         context = super(ODAUpdateView, self).get_context_data(**kwargs)
         tags_list = TagModel.objects.all()
         moments_list = MomentModel.objects.all()
-        context.update({'tags_list': tags_list, 'moments_list': moments_list})
+        self_oda_in_subject = self.object.subject
+        self_tags = self.object.tags
+        apli_list = self.object.microodas.filter(type_field='aplication').all()[0]
+        forma_list = self.object.microodas.filter(type_field='formalization').all()[0]
+        activ_list = self.object.microodas.filter(type_field='activation').all()[0]
+        ejem_list = self.object.microodas.filter(type_field='exemplification').all()[0]
+        sens_list = self.object.microodas.filter(type_field='sensitization').all()[0]
+        eval_list = self.object.microodas.filter(type_field='evaluation').all()[0]
+        context.update({'self_oda_in_subject':self_oda_in_subject, 'tags_list': tags_list, 'moments_list': moments_list,
+                        'self_tags': self_tags, 'apli_list': apli_list, 'forma_list': forma_list,
+                        'activ_list': activ_list, 'ejem_list': ejem_list,
+                        'sens_list': sens_list, 'eval_list': eval_list})
         return context
 
     def form_valid(self, form):
-        form.save_form()
+        tags = self.request.POST.get('oda-tags')
+        moments = []
+
+        aplication = self.request.POST.get('apli-momentos')
+        template = ['aplication', aplication]
+        moments.append(template)
+
+        formalization = self.request.POST.get('forma-momentos')
+        template = ['formalization', formalization]
+        moments.append(template)
+
+        activation = self.request.POST.get('activ-momentos')
+        template = ['activation', activation]
+        moments.append(template)
+
+        exemplification = self.request.POST.get('ejem-momentos')
+        template = ['exemplification', exemplification]
+        moments.append(template)
+
+        sensitization= self.request.POST.get('sens-momentos')
+        template = ['sensitization', sensitization]
+        moments.append(template)
+
+        evaluation = self.request.POST.get('eval-momentos')
+        template = ['evaluation', evaluation]
+        moments.append(template)
+
+        form.save_form(self.request.user, tags, moments)
+
+        return redirect(to='oda_dashboard_view')
 
 
 class ODAsRedirect(View):
