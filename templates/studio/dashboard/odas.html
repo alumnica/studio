@@ -1,0 +1,120 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% block content %}
+
+<div class="dashboard container">
+    <h1 class="title">
+        <i class="fas fa-list-alt"></i> ODAs
+    </h1>
+    <hr>
+    <div class="grid-x grid-margin-x" id="odaSortList">
+        <div class="cell medium-8">
+            <a href="{% url 'odas_create_view' %}" class="button">Crear nueva ODA</a>
+        </div>
+        <div class="cell medium-4 jplist-panel">
+
+
+            <div class="input-group">
+                <label class="busqueda-oda">Buscar: </label>
+
+                <input id="search-field" data-path=".oda-title, .oda-tags, .assigned-to_materias" type="text" value="" class="input-group-field busqueda-input"
+                    placeholder="Buscqueda" data-control-type="textbox" data-control-name="title-filter" data-control-action="filter"
+                />
+            </div>
+        </div>
+        <div class="cell medium-2 jplist-panel">
+
+            <p class="filtros">Filtros</p>
+            <hr>
+            <ul class="oda-filter">
+                <li id="sinMateria" data-control-type="button-filter" data-control-action="filter" data-control-name="noMat-btn" data-path=".noMat"
+                    data-selected="false">Sin Asignacion de Materias
+                    <span></span>
+                </li>
+                <li id="sinMomentos" data-control-type="button-filter" data-control-action="filter" data-control-name="noMom-btn" data-path=".noMom"
+                    data-selected="false">Sin Momentos Asignados
+                    <span></span>
+                </li>
+            </ul>
+
+            <hr>
+
+            <ul class="oda-filter oda-materias">
+                {% for subject in subject_list %}
+                    <li>{{ subject.name_field }}<span></span></li>
+                {% endfor %}
+
+            </ul>
+
+            <hr>
+
+            <ul class="oda-tags-list">
+                {% for tag in tags_list %}
+                    <li>{{ tag.name_field }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="cell medium-10">
+            <div class="odas-list">
+
+                {% for oda in odas_list %}
+                    <div class="oda-container">
+                    <div class="panel">
+                        <div class="oda-title">
+                            {{ oda.name_field }}
+                        </div>
+                        <div class="assigned-to">
+                            <p>Asignada a las siguientes Materias:</p>
+                            <ul class="assigned-to_materias">
+                                {% for oda_in_subject in oda.subject.all %}
+                                    {% for subject in oda_in_subject.subject.all %}
+                                        <li>{{ subject.name_field }}</li>
+                                        {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="activity">
+                            <p>Actividades asignadas:</p>
+                            <p class="activity-num">25
+                                <span></span>
+                            </p>
+                        </div>
+                        <hr>
+                        <ul class="oda-tags">
+                            {% for tag in oda.tags_field.all %}
+                                <li>{{ tag.name_field }}</li>
+                                {% endfor %}
+                        </ul>
+                    </div>
+                    <a class="oda-edit" href="{% url 'odas_update_view' oda.pk %}">Editar
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                </div>
+                {% endfor %}
+                <!-- contenedor de 1 oda -->
+
+                <!-- end of 1 oda -->
+
+
+            </div>
+            <!-- end of odas list -->
+
+            <div class="text-right">
+                <!-- panel -->
+                <div class="jplist-panel">
+                    <!-- pagination control -->
+                    <div class="jplist-pagination float-right" data-control-type="pagination" data-control-name="paging" data-control-action="paging"
+                        data-items-per-page="12">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    {% endblock content %}
+
+    {% block scripts %}
+        <script src="{% static "studio/js/odas-edit.js" %}"></script>
+    {% endblock %}

@@ -2,13 +2,24 @@
 {% load static %}
 
 
-
-
 {% block content %}
     <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form }}
+    {% for oda in odas_list %}
+
+        <a href="{% url 'odas_update_view' oda.pk %}" >
+            {{ oda.name_field }}
+            {% for tag in oda.tags %}
+                 <a href="#">{{ tag.name_field }}</a>
+                {% endfor %}
+
+            {% for oda_in_subjects in oda.subject %}
+                 {% for subject in oda_in_subjects.subworld_field.all %}
+                     {{ subject.name_field }}
+                 {% endfor %}
+            {% endfor %}
+        </a>
+            {% endfor %}
      <input type="submit" value="Guardar" class="button">
-    <img src="{{ MEDIA_URL }} {{ section_img.file_field.url}}">
     </form>
 {% endblock %}

@@ -2,7 +2,7 @@
 // cambiar texto de el image preview al escribir
 
 $('#id_name_field').keyup(function () {
-    var textToChange = $(this).val();
+    let textToChange = $(this).val();
     $('.ttc2').text(textToChange);
 });
 
@@ -23,14 +23,8 @@ $(function () {
 });
 
 
-$("#sortable").on('click', '.remove_materia', function () {
-    $(this).parent().remove();
-    if ($('ul#sortable li').length < 4) {
-        $('#add-materia-button').show();
-    }
-});
 
-var numMateria = 1;
+let numMateria = 1;
 
 // anadir materias en Ambito-edit
 
@@ -49,26 +43,14 @@ $(document).ready(function () {
 
 //pasa la materia elegida en el modal a la lista sorteable en ambitos-edit
 
-$("#class-adder").click(function (e) {
-    e.preventDefault();
 
-    var text = $("select[name='materias-select']").val();
-
-    $("#sortable").append('<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s sorter"></span>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
-    $("#sortable").sortable('refresh');
-    if ($('ul#sortable li').length > 3) {
-        $('#add-materia-button').hide();
-    }
-
-
-});
 
 // pasa el orden de las materias en ambitos-edit a un text input escondido
 // para que en post tengamos al info correcta
 
 $('#last_panel').on('mouseenter mouseleave', function () {
 
-    var texts = [];
+    let texts = [];
 
     $(function () {
         $('#sortable li').each(function () {
@@ -92,8 +74,8 @@ $('#id_email, #id_password').off('.alphanum');
 // Image file upload preview for Materias
 
 $(document).ready(function () {
-    var i = 0;
-    var y = 0;
+    let i = 0;
+    let y = 0;
 
     // Materias-edit-seccion.html
     $("form#seccion-img img").each(function () {
@@ -122,10 +104,10 @@ $(document).ready(function () {
 
     function readURL(input) {
         if (input.files && input.files[0]) {
-            var reader = new FileReader();
+            let reader = new FileReader();
 
             reader.onload = function (e) {
-                var cosa = '#preview-' + $(input).attr('name');
+                let cosa = '#preview-' + $(input).attr('name');
                 $(cosa).attr('src', e.target.result);
             };
 
@@ -152,22 +134,23 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('.selectize-input input[type=text]').attr('maxlength', '20');
-
      $(".title span").append($("#id_name_field").val());
 
 });
 
 function is_valid_form_images (){
     result = true;
-    var inputs = $("form input[type='file']");
-    for (var i=0; i<inputs.length; i++) {
+    let inputs = $("form input[type='file']");
+    for (let i=0; i<inputs.length; i++) {
         if(inputs[i].files.length>0){
-            var image_size = inputs[i].files[0].size / 1024 / 1024;
+            let image_size = inputs[i].files[0].size / 1024 / 1024;
             if (image_size > 10) {
                 swal("Error", "El archivo de seleccionado excede los 10 MB", "error");
                 result = false;
+                break;
             }
         }
+
 
     }
     return result;

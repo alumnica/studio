@@ -16,6 +16,10 @@ $('#ambito-tags').selectize({
     },
     options: ambitoTags,
     preload: false,
+    onInitialize: function() {
+        let selectize = this;
+        selectize.setValue(self_tags_selectize)
+    },
     maxItems: 20,
 });
 
@@ -39,7 +43,9 @@ $('#materias-tags').selectize({
     options: materiasTags,
     preload: true,
     onInitialize: function(){
-    var selectize = this;
+    let selectize = this;
     selectize.setValue(self_tags_selectize)
 }
 });
+
+

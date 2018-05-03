@@ -29,14 +29,30 @@
 
                         <!-- tags -->
 
-                        <label for="tags-ambito">Tags</label>
-                        <input required name="tags-ambito" type="text" id="ambito-tags">
+                        <label for="ambito-tags">Tags</label>
+                        <input name="tags-ambito" type="text" id="ambito-tags">
                         <script type="text/javascript">
                         let materiasTags = [];
+                        let self_materias = [];
+                        let self_tags_selectize = [];
                         let ambitoTags = [];
+                        let ambits_to_avoid = [];
+                        let self_color = "{{ ambitmodel.color_field }}";
                             {% for tag in tags %}
                                 ambitoTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
                             {% endfor %}
+
+                        {% for tag in ambitmodel.tags_field.all %}
+                                self_tags_selectize.push("{{ tag.name_field|safe }}");
+                            {% endfor %}
+
+                        {% for subject in ambitmodel.subjects_field.all %}
+                                self_materias.push("{{ subject.name_field|safe }}");
+                        {% endfor %}
+
+                        {% for ambit in ambits %}
+                                ambits_to_avoid.push("{{ ambit.name_field|safe }}");
+                        {% endfor %}
 
                         </script>
                         <!-- end tags -->
@@ -54,84 +70,84 @@
                         <fieldset id="color-button" class="fieldset color-radio">
                             <legend>Color de Fondo</legend>
                             <label class="amarillo">
-                                <input  type="radio" name="color" value="#fae96a" class="radio-input" data-a="amarillo_bg" data-b="amarillo_text">
+                                <input  type="radio" name="color" value="amarillo" class="radio-input" id="amarillo" data-a="amarillo_bg" data-b="amarillo_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="rojiso">
-                                <input  type="radio" name="color" value="#d25b5c" class="radio-input" data-a="rojiso_bg" data-b="rojiso_text">
+                                <input  type="radio" name="color" value="rojiso" class="radio-input" id="rojiso" data-a="rojiso_bg" data-b="rojiso_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="azul">
-                                <input  type="radio" name="color" value="#6a83c0" class="radio-input" data-a="azul_bg" data-b="azul_text">
+                                <input  type="radio" name="color" value="azul" class="radio-input" id="azul" data-a="azul_bg" data-b="azul_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="naranja">
-                                <input  type="radio" name="color" value="#ebb533" class="radio-input" data-a="naranja_bg" data-b="naranja_text">
+                                <input  type="radio" name="color" value="naranja" class="radio-input" id="naranja" data-a="naranja_bg" data-b="naranja_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="morado">
-                                <input  type="radio" name="color" value="#663288" class="radio-input" data-a="morado_bg" data-b="morado_text">
+                                <input  type="radio" name="color" value="morado" class="radio-input" id="morado" data-a="morado_bg" data-b="morado_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="bluegreen">
-                                <input  type="radio" name="color" value="#7ab4b0" class="radio-input" data-a="bluegreen_bg" data-b="bluegreen_text">
+                                <input  type="radio" name="color" value="bluegreen" class="radio-input" id="bluegreen" data-a="bluegreen_bg" data-b="bluegreen_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="amarillo-sol">
-                                <input  type="radio" name="color" value="#f0c43f" class="radio-input" data-a="amarillo-sol_bg" data-b="amarillo-sol_text">
+                                <input  type="radio" name="color" value="amarillo-sol" class="radio-input" id="amarillo-sol" data-a="amarillo-sol_bg" data-b="amarillo-sol_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="naranja-obscuro">
-                                <input  type="radio" name="color" value="#d2752f" class="radio-input" data-a="naranja-obscuro_bg" data-b="naranja-obscuro_text">
+                                <input  type="radio" name="color" value="naranja-obscuro" class="radio-input" id="naranja-obscuro" data-a="naranja-obscuro_bg" data-b="naranja-obscuro_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="violeta">
-                                <input  type="radio" name="color" value="#b52067" class="radio-input" data-a="violeta_bg" data-b="violeta_text">
+                                <input  type="radio" name="color" value="violeta" class="radio-input" id="violeta" data-a="violeta_bg" data-b="violeta_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="azul-obscuro">
-                                <input  type="radio" name="color" value="#625fa6" class="radio-input" data-a="azul-obscuro_bg" data-b="azul-obscuro_text">
+                                <input  type="radio" name="color" value="azul-obscuro" class="radio-input" id="azul-obscuro" data-a="azul-obscuro_bg" data-b="azul-obscuro_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="verde">
-                                <input  type="radio" name="color" value="#58968a" class="radio-input" data-a="verde_bg" data-b="verde_text">
+                                <input  type="radio" name="color" value="verde" class="radio-input" id="verde" data-a="verde_bg" data-b="verde_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
                             </label>
 
                             <label class="verde-limon">
-                                <input  type="radio" name="color" value="#adcd65" class="radio-input" data-a="verde-limon_bg" data-b="verde-limon_text">
+                                <input  type="radio" name="color" value="verde-limon" class="radio-input" id="verde-limon" data-a="verde-limon_bg" data-b="verde-limon_text">
                                 <div class="color-circle">
                                     <span></span>
                                 </div>
@@ -157,10 +173,10 @@
                             <!-- start image preview -->
                             <div class="image-wrapper">
                                 <div id="image-holder">
-                                    <img src="#" alt="">
+                                    <img src="{{ ambitmodel.background_image.file_field.url }}" alt="">
                                 </div>
                                 <div id="ttc">
-                                    <span class="ttc2">Tituo de Ambito</span>
+                                    <span class="ttc2">{{ ambitmodel.name_field }}</span>
                                 </div>
                             </div>
                                 <!-- end image preview -->
@@ -206,10 +222,11 @@
                             </p>
 
                             {#Este POST debe guardar como borrador #}
-                            <button type="submit" class="button secondary">Salvar como borrador</button>
+                            <button type="submit" class="button secondary" name="draft">Salvar como borrador</button>
 
                             {#Este POST debe publicar el Ambito #}    
-                            <button type="submit" class="button primary publicar">Publicar</button>
+                            <button type="submit" class="button primary publicar" name="publish">Publicar</button>
+                            <input type="hidden" name="action" id="action" />
                         </div>
                     </div>
                 </div>
@@ -225,25 +242,26 @@
             <br>
 
             {# Cargar lista de Materias #}
-            <label for="materias-select">Busca en la Biblioteca de Materias</label>
+            <label for="select-materias">Busca en la Biblioteca de Materias</label>
             <select name="materias-select" id="select-materias"></select>
             <script type="text/javascript">
                         let materiasList = [];
                             {% for subject in subjects %}
                                 materiasList.push({name:"{{ subject.name_field|safe }}", value:"{{ subject.id|safe }}"});
                             {% endfor %}
+
             </script>
             
             <br />
             <br>
             <br>
-            <input id="class-adder" class='button expanded' disabled type='submit' value='Añadir' data-close/>
+            <input id="class-adder" data-close class='button expanded' disabled type='submit' value='Añadir'/>
 
             <button class="close-button" data-close aria-label="Close modal" type="button">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-
+</div>
 {% endblock content %}
 
 {% block scripts %}
