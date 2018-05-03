@@ -81,11 +81,7 @@ WSGI_APPLICATION = 'studio_webapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-
-    }
-}
+DATABASES = {'default': {}}
 
 if DEBUG:
     DATABASES = {
