@@ -7,7 +7,7 @@ from django.views import View
 from django.views.generic import FormView, UpdateView, ListView, CreateView
 from sweetify import sweetify
 
-from alumnica_model.models import TagModel
+from alumnica_model.models import TagModel, MomentModel
 from studio.forms.oda_forms import *
 
 
@@ -222,15 +222,14 @@ class ODADashboardView(LoginRequiredMixin, ListView):
 
 class ODACreateView(LoginRequiredMixin, CreateView):
     login_url = 'login_view'
-    template_name = 'studio/pages/odasTest.html'
+    template_name = 'studio/dashboard/odas-edit.html'
     form_class = ODAUpdateForm
 
     def get_context_data(self, **kwargs):
         context = super(ODACreateView, self).get_context_data(**kwargs)
-        subjects_list = SubjectModel.objects.all()
         tags_list = TagModel.objects.all()
-
-        context.update({'subject_list': subjects_list, 'tags_list': tags_list})
+        moments_list = MomentModel.objects.all()
+        context.update({'tags_list': tags_list, 'moments_list': moments_list})
         return context
 
     def form_valid(self, form):
@@ -239,7 +238,7 @@ class ODACreateView(LoginRequiredMixin, CreateView):
 
 class ODAUpdateView(LoginRequiredMixin, UpdateView):
     login_url = 'login_view'
-    template_name = 'studio/pages/odasTest.html'
+    template_name = 'studio/dashboard/odas-edit.html'
     form_class = ODAUpdateForm
 
     def get_object(self, queryset=None):
@@ -247,10 +246,9 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(ODAUpdateView, self).get_context_data(**kwargs)
-        subjects_list = self.object.subject
-        tags_list = self.object.tags
-
-        context.update({'subject_list': subjects_list, 'tags_list': tags_list})
+        tags_list = TagModel.objects.all()
+        moments_list = MomentModel.objects.all()
+        context.update({'tags_list': tags_list, 'moments_list': moments_list})
         return context
 
     def form_valid(self, form):

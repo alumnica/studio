@@ -68,8 +68,7 @@ class ODAsPreviewForm(forms.Form):
 
 
 class ODAUpdateForm(forms.ModelForm):
-    tags_field = forms.CharField(max_length=60, widget=forms.TextInput(attrs={'id': 'odas-tags',
-                                                                              'name': 'tags-materias'}))
+    name_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'oda-name'}))
     class Meta:
         model = ODAModel
         fields = ['name_field', 'tags_field']

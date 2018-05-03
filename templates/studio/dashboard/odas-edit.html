@@ -10,21 +10,25 @@
     <p>
         <strong>Instrucciones:</strong>
         <br> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate officia ad nostrum!</p>
-    <div class="grid-x grid-margin-x align-stretch">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="grid-x grid-margin-x align-stretch">
         <div class="cell medium-12">
-                <label for="oda-name">Nombre de la ODA</label>
-                <input type="text" class="oda-name" placeholder="Escoje un nombre">
+                <label for="na_field">{{ form.name_field }}</label>
         </div>
         <div class="cell medium-6">
-            
+
             <div class="panel full">
                 <div class="panel__title">
                     Asignada a las siguientes materias:
                 </div>
                 <div class="panel__content">
                     <ul class="assigned-to_materias">
-                        <li>Matematicas</li>
-                        <li>Quimica</li>
+                        {% for oda_in_subject in form.instance.subject %}
+                            {% for subject in oda_in_subject.subject.all %}
+                                <li>{{ subject.name_field }}</li>
+                                {% endfor %}
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
@@ -34,8 +38,25 @@
                 <div class="panel__title">
                     Tags:
                 </div>
+                <script type="text/javascript">
+                        let odaTags = [];
+                        let self_tags_selectize = [];
+                        let momentosList = [];
+                            {% for tag in tags_list %}
+                                odaTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
+                            {% endfor %}
+
+                        {% for tag in form.instance.tags_field.all %}
+                                self_tags_selectize.push("{{ tag.name_field|safe }}");
+                            {% endfor %}
+
+                        {% for moment in moments_list %}
+                                momentosList.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% endfor %}
+
+                        </script>
                 <div class="panel__content">
-                    <input name="oda-tags" type="text" id="uoda-tags">
+                    <input name="oda-tags" type="text" id="oda-tags">
                 </div>
             </div>
         </div>
@@ -52,7 +73,7 @@
                 </div>
                 <div class="panel__content">
                     <ul class="oda-sort" id="uoda-1">
-                        
+
                     </ul>
                 </div>
             </div>
@@ -64,11 +85,11 @@
                     Formalización
                     <span class="add-materia" data-open="Modal-1">
                         <i class="fas fa-plus-square"></i>
-                    </span>                   
+                    </span>
                 </div>
                 <div class="panel__content">
                     <ul class="oda-sort" id="uoda-2">
-                        
+
                     </ul>
                 </div>
             </div>
@@ -84,7 +105,7 @@
                 </div>
                 <div class="panel__content">
                     <ul class="oda-sort" id="uoda-3">
-                        
+
                     </ul>
                 </div>
             </div>
@@ -99,7 +120,7 @@
                 </div>
                 <div class="panel__content">
                     <ul class="oda-sort" id="uoda-4">
-                        
+
                     </ul>
                 </div>
             </div>
@@ -115,7 +136,7 @@
                 </div>
                 <div class="panel__content">
                     <ul class="oda-sort" id="uoda-5">
-                        
+
                     </ul>
                 </div>
             </div>
@@ -138,6 +159,8 @@
 
         </div>
     </div>
+    </form>
+
 
 </div>
 
@@ -180,4 +203,5 @@
 
     {% block scripts %}
         <script src="{% static "studio/js/momentos.js" %}"></script>
+        <script src="{% static "studio/js/oda-tags.js" %}"></script>
     {% endblock %}
