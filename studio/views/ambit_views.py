@@ -14,8 +14,9 @@ class CreateAmbitView(LoginRequiredMixin, FormView):
         ambits = AmbitModel.objects.all()
         subjects = SubjectModel.objects.all()
         tags = TagModel.objects.all().filter()
+        ambit_space = AmbitModel.objects.all().filter(is_published_field=True).count() < 30
         return render(request, self.template_name, {'form': self.form_class, 'subjects': subjects,
-                                                    'tags': tags, 'ambits': ambits})
+                                                    'tags': tags, 'ambits': ambits, 'ambit_space': ambit_space})
 
     def post(self, request, *args, **kwargs):
         subjects = self.request.POST.get('class_name')
@@ -46,7 +47,8 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         ambits = AmbitModel.objects.all().exclude(pk=self.kwargs['pk'])
         subjects = SubjectModel.objects.all().exclude(ambit_field=self.object)
         tags = TagModel.objects.all().filter()
-        context.update({'subjects': subjects, 'tags': tags, 'ambits': ambits})
+        ambit_space = AmbitModel.objects.all().filter(is_published_field=True).count() < 30
+        context.update({'subjects': subjects, 'tags': tags, 'ambits': ambits, 'ambit_space': ambit_space})
         return context
 
     def post(self, request, *args, **kwargs):

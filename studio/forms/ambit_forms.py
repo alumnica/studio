@@ -52,6 +52,7 @@ class CreateAmbitForm(forms.ModelForm):
                     pass
         ambit.is_published = True
         ambit.save()
+        verify_ambits_position(ambit)
 
     def save_as_draft(self, user, subjects, tags, color):
         cleaned_data = super(CreateAmbitForm, self).clean()
@@ -139,6 +140,7 @@ class UpdateAmbitForm(forms.ModelForm):
                 ambit.subjects_field.all().remove(subject)
         ambit.is_published_field = True
         ambit.save()
+        verify_ambits_position(ambit)
 
     def save_as_draft(self, subjects, tags, color):
         cleaned_data = super(UpdateAmbitForm, self).clean()
@@ -174,3 +176,33 @@ class UpdateAmbitForm(forms.ModelForm):
         ambit.save()
 
 
+def verify_ambits_position(new_ambit):
+    ambits_list_raw = AmbitModel.objects.all().exclude(pk=new_ambit.pk)
+    ambits_list = ['na']*8
+    position = new_ambit.position_field
+
+    for ambit in ambits_list_raw:
+        ambits_list[ambit.position - 1] = ambit
+
+    first_section = ambits_list[0:position-1]
+    second_section = ambits_list[position-1:]
+    counter = 1
+    try:
+        second_section_space = second_section.index('na')
+
+        for ambit in second_section[0:second_section_space+1]:
+            if ambit != 'na':
+
+                ambit.position_field = position + counter
+                ambit.save()
+            counter += 1
+
+    except ValueError:
+        first_section_space = [i for i,x in enumerate(first_section) if x == 'na']
+        second_section[0].position_field = position-counter
+        second_section[0].save()
+        for ambit in first_section[first_section_space[len(first_section_space)-1]-1:]:
+            if ambit != 'na':
+                counter += 1
+                ambit.position_field = position - counter
+                ambit.save()

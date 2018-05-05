@@ -38,6 +38,8 @@
                         let ambitoTags = [];
                         let ambits_to_avoid = [];
                         let self_color = "{{ ambitmodel.color_field }}";
+                        let space_free = {{ ambit_space|yesno:"true,false" }};
+                        let is_published = {{ ambitmodel.is_published_field|yesno:"true,false" }};
                             {% for tag in tags %}
                                 ambitoTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
                             {% endfor %}
