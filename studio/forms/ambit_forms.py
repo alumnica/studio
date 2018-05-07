@@ -194,15 +194,15 @@ def verify_ambits_position(new_ambit):
             if ambit != 'na':
 
                 ambit.position_field = position + counter
-                ambit.save()
+                AmbitModel(ambit).save()
             counter += 1
 
     except ValueError:
         first_section_space = [i for i,x in enumerate(first_section) if x == 'na']
-        second_section[0].position_field = position-counter
-        second_section[0].save()
+        AmbitModel(second_section[0]).position_field = position-counter
+        AmbitModel(second_section[0]).save()
         for ambit in first_section[first_section_space[len(first_section_space)-1]-1:]:
             if ambit != 'na':
                 counter += 1
                 ambit.position_field = position - counter
-                ambit.save()
+                AmbitModel(ambit).save()

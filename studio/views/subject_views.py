@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import formset_factory
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 from sweetify import sweetify
 
@@ -123,3 +124,8 @@ class SubjectView(LoginRequiredMixin, ListView):
     template_name = 'studio/dashboard/materias.html'
     queryset = SubjectModel.objects.all()
     context_object_name = 'subject_list'
+
+class DeleteSubjectView(View):
+    def dispatch(self, request, *args, **kwargs):
+        SubjectModel.objects.filter(pk=self.kwargs['pk']).delete()
+        return redirect('materias_view')

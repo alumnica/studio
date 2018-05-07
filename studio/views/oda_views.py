@@ -277,12 +277,14 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         moments_list = MomentModel.objects.all()
         self_oda_in_subject = self.object.subject
         self_tags = self.object.tags
-        apli_list = self.object.microodas.filter(type_field='aplication').all()[0]
-        forma_list = self.object.microodas.filter(type_field='formalization').all()[0]
-        activ_list = self.object.microodas.filter(type_field='activation').all()[0]
-        ejem_list = self.object.microodas.filter(type_field='exemplification').all()[0]
-        sens_list = self.object.microodas.filter(type_field='sensitization').all()[0]
-        eval_list = self.object.microodas.filter(type_field='evaluation').all()[0]
+
+        apli_list = self.object.microodas.filter(type_field='aplication')
+        forma_list = self.object.microodas.filter(type_field='formalization')
+        activ_list = self.object.microodas.filter(type_field='activation')
+        ejem_list = self.object.microodas.filter(type_field='exemplification')
+        sens_list = self.object.microodas.filter(type_field='sensitization')
+        eval_list = self.object.microodas.filter(type_field='evaluation')
+
         context.update({'self_oda_in_subject':self_oda_in_subject, 'tags_list': tags_list, 'moments_list': moments_list,
                         'self_tags': self_tags, 'apli_list': apli_list, 'forma_list': forma_list,
                         'activ_list': activ_list, 'ejem_list': ejem_list,
@@ -339,3 +341,10 @@ class ODAsRedirect(View):
                                 section=SubjectModel.objects.get(pk=pk).number_of_sections_field)
         else:
             return redirect(view, pk=pk, section=(kwargs.get('section')-1))
+
+
+class ODAsView(LoginRequiredMixin, ListView):
+    login_url = 'login_view'
+    template_name = 'studio/pages/test.html'
+    queryset = ODAModel.objects.all()
+    context_object_name = 'odas_list'

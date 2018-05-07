@@ -9,4 +9,5 @@ urlpatterns = [
     path('update_subject/<int:pk>/', UpdateSubjectView.as_view(), name='update_subject_view'),
     path('subject_sections/<int:pk>/', SubjectSectionsView.as_view(), name='materias_sections_view'),
     path('subjects/', SubjectView.as_view(), name='materias_view'),
+    path('delete_subject/<int:pk>/', DeleteSubjectView.as_view(), name='delete_subject_view'),
 ]

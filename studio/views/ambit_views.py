@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.views import View
 from django.views.generic import ListView, FormView, UpdateView
+from rest_framework.reverse import reverse_lazy
 from sweetify import sweetify
 from studio.forms.ambit_forms import *
 
@@ -73,3 +75,9 @@ class AmbitView(LoginRequiredMixin, ListView):
     template_name = 'studio/dashboard/ambitos.html'
     queryset = AmbitModel.objects.all()
     context_object_name = 'ambit_list'
+
+
+class DeleteAmbitView(View):
+    def dispatch(self, request, *args, **kwargs):
+        AmbitModel.objects.filter(pk=self.kwargs['pk']).delete()
+        return redirect('materias_view')
