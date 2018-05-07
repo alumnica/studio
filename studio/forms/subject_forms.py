@@ -3,7 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from alumnica_model.models import SubjectModel, TagModel
-from alumnica_model.models.content import ImageModel
+from alumnica_model.models.content import ImageModel, AmbitModel
 from alumnica_model.validators import validate_image_extension, file_size
 
 
@@ -22,6 +22,8 @@ class SubjectForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(SubjectForm, self).__init__(*args, **kwargs)
+        choices = [(ambit.id, str(ambit)) for ambit in AmbitModel.objects.filter(is_published_field=True) if ambit.subjects.count() < 4]
+        self.fields['ambit_field'].choices = choices
         self.fields['number_of_sections_field'].initial = 3
 
     def clean(self):
@@ -81,8 +83,11 @@ class UpdateSubjectForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UpdateSubjectForm, self).__init__(*args, **kwargs)
+        choices = [(ambit.id, str(ambit)) for ambit in AmbitModel.objects.filter(is_published_field=True).exclude(
+            subjects_field=kwargs['instance']) if ambit.subjects.count() < 4]
+        choices.extend([(kwargs['instance'].ambit_field.id, str(kwargs['instance'].ambit_field))])
+        self.fields['ambit_field'].choices = choices
         self.fields['number_of_sections_field'].initial = 3
-
 
     def save_form(self):
         cleaned_data = super(UpdateSubjectForm, self).clean()

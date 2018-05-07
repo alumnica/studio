@@ -16,9 +16,9 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
     form_class = SubjectForm
 
     def get(self, request, *args, **kwargs):
-        ambits = AmbitModel.objects.all()
+
         tags = TagModel.objects.all()
-        return render(request, self.template_name, {'form': self.form_class, 'ambit': ambits, 'tags': tags})
+        return render(request, self.template_name, {'form': self.form_class, 'tags': tags})
 
     def form_valid(self, form):
         subject = form.save_form(self.request.user)
