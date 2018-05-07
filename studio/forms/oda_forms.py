@@ -117,7 +117,7 @@ class ODAUpdateForm(forms.ModelForm):
         counter = 0
         for moment_object in moments:
 
-            if moment_object[1] is not None:
+            if moment_object[1] is not '' or None:
 
                 moments_names = moment_object[1].split(',')
 
