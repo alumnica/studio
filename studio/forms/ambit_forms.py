@@ -20,7 +20,6 @@ class CreateAmbitForm(forms.ModelForm):
         model = AmbitModel
         fields = ['name_field', 'position_field']
 
-
     def save_form(self, user, subjects, tags, color):
         cleaned_data = super(CreateAmbitForm, self).clean()
         ambit = super(CreateAmbitForm, self).save(commit=False)
@@ -137,7 +136,7 @@ class UpdateAmbitForm(forms.ModelForm):
                     pass
         for subject in ambit.subjects:
             if subject.name not in subjects:
-                ambit.subjects_field.all().remove(subject)
+                ambit.subjects_field.remove(subject)
         ambit.is_published_field = True
         ambit.save()
         verify_ambits_position(ambit)

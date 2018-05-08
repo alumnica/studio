@@ -1,6 +1,7 @@
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db.models import BLANK_CHOICE_DASH, Count
 
 from alumnica_model.models import SubjectModel, TagModel
 from alumnica_model.models.content import ImageModel, AmbitModel
@@ -24,6 +25,7 @@ class SubjectForm(forms.ModelForm):
         super(SubjectForm, self).__init__(*args, **kwargs)
         choices = [(ambit.id, str(ambit)) for ambit in AmbitModel.objects.filter(is_published_field=True) if ambit.subjects.count() < 4]
         self.fields['ambit_field'].choices = choices
+        self.fields['ambit_field'].widget.attrs['placeholder'] = 'Select an option'
         self.fields['number_of_sections_field'].initial = 3
 
     def clean(self):
@@ -83,10 +85,16 @@ class UpdateSubjectForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UpdateSubjectForm, self).__init__(*args, **kwargs)
+        subject = kwargs['instance']
         choices = [(ambit.id, str(ambit)) for ambit in AmbitModel.objects.filter(is_published_field=True).exclude(
-            subjects_field=kwargs['instance']) if ambit.subjects.count() < 4]
-        choices.extend([(kwargs['instance'].ambit_field.id, str(kwargs['instance'].ambit_field))])
+            subjects_field=subject) if ambit.subjects.count() < 4]
+
+        if subject.ambit is not None:
+            choices.extend([(subject.ambit_field.id, str(subject.ambit_field))])
+
+        self.base_fields['ambit_field'].empty_label = "-------------"
         self.fields['ambit_field'].choices = choices
+
         self.fields['number_of_sections_field'].initial = 3
 
     def save_form(self):
