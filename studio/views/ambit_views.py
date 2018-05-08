@@ -1,10 +1,12 @@
+import requests
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.views import View
-from django.views.generic import ListView, FormView, UpdateView
+from django.views.generic import ListView, FormView, UpdateView, TemplateView
 from rest_framework.reverse import reverse_lazy
 from sweetify import sweetify
 from studio.forms.ambit_forms import *
+from studio.serializers import ImageHyperlinkedModelSerializer
 
 
 class CreateAmbitView(LoginRequiredMixin, FormView):
@@ -81,3 +83,12 @@ class DeleteAmbitView(View):
     def dispatch(self, request, *args, **kwargs):
         AmbitModel.objects.filter(pk=self.kwargs['pk']).delete()
         return redirect('materias_view')
+
+
+def ImagesTestView(request):
+    if request.method == "GET":
+        r = requests.get('http://localhost:8000/api/images/')
+        json = r.json()
+        return render(request, 'studio/pages/test.html', {'json': json})
+
+    return render(request, 'studio/pages/test.html')

@@ -1,25 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load thumbnail %}
 
 
 {% block content %}
     <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {% for oda in odas_list %}
-
-        <a href="{% url 'odas_update_view' oda.pk %}" >
-            {{ oda.name_field }}
-            {% for tag in oda.tags %}
-                 <a href="#">{{ tag.name_field }}</a>
-                {% endfor %}
-
-            {% for oda_in_subjects in oda.subject %}
-                 {% for subject in oda_in_subjects.subworld_field.all %}
-                     {{ subject.name_field }}
-                 {% endfor %}
-            {% endfor %}
-        </a>
-            {% endfor %}
+    {% for item in json %}
+        {% thumbnail item.file_field "150x150" as im %}
+            <img src="{{ im.url }}">
+        {% endthumbnail %}
+        {% endfor %}
      <input type="submit" value="Guardar" class="button">
     </form>
 {% endblock %}

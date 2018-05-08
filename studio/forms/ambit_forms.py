@@ -205,3 +205,5 @@ def verify_ambits_position(new_ambit):
                 counter += 1
                 ambit.position_field = position - counter
                 AmbitModel(ambit).save()
+
+
