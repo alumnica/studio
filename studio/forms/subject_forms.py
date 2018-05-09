@@ -1,7 +1,6 @@
 
 from django import forms
 from django.core.exceptions import ValidationError
-from django.db.models import BLANK_CHOICE_DASH, Count
 
 from alumnica_model.models import SubjectModel, TagModel
 from alumnica_model.models.content import ImageModel, AmbitModel
@@ -16,6 +15,10 @@ class SubjectForm(forms.ModelForm):
                                                         'type': 'file'}))
     number_of_sections_field = forms.IntegerField(widget=forms.Select(choices=((1, 1), (2, 2), (3, 3), (4, 4)),
                                                                       attrs={'class': 'position-ambito-size'}))
+    ambit_field = forms.ModelChoiceField(
+        queryset=AmbitModel.objects.filter(id__in=[ambit.id for ambit in
+                                                   AmbitModel.objects.filter(is_published_field=True)
+                                                   if ambit.subjects.count() < 4]))
 
     class Meta:
         model = SubjectModel
@@ -23,9 +26,9 @@ class SubjectForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(SubjectForm, self).__init__(*args, **kwargs)
-        choices = [(ambit.id, str(ambit)) for ambit in AmbitModel.objects.filter(is_published_field=True) if ambit.subjects.count() < 4]
-        self.fields['ambit_field'].choices = choices
-        self.fields['ambit_field'].widget.attrs['placeholder'] = 'Select an option'
+        self.fields['ambit_field'].queryset = AmbitModel.objects.filter(id__in=[ambit.id for ambit in
+                                                   AmbitModel.objects.filter(is_published_field=True)
+                                                   if ambit.subjects.count() < 4])
         self.fields['number_of_sections_field'].initial = 3
 
     def clean(self):
@@ -78,6 +81,10 @@ class UpdateSubjectForm(forms.ModelForm):
 
     number_of_sections_field = forms.IntegerField(widget=forms.Select(choices=((1, 1), (2, 2), (3, 3), (4, 4)),
                                                                       attrs={'class': 'position-ambito-size'}))
+    ambit_field = forms.ModelChoiceField(
+        queryset=AmbitModel.objects.filter(id__in=[ambit.id for ambit in
+                                                   AmbitModel.objects.filter(is_published_field=True)
+                                                   if ambit.subjects.count() < 4]))
 
     class Meta:
         model = SubjectModel
@@ -86,14 +93,10 @@ class UpdateSubjectForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UpdateSubjectForm, self).__init__(*args, **kwargs)
         subject = kwargs['instance']
-        choices = [(ambit.id, str(ambit)) for ambit in AmbitModel.objects.filter(is_published_field=True).exclude(
-            subjects_field=subject) if ambit.subjects.count() < 4]
+        self.fields['ambit_field'].queryset = AmbitModel.objects.filter(id__in=[ambit.id for ambit in
+                                                   AmbitModel.objects.filter(is_published_field=True)
+                                                   if ambit.subjects.count() < 4 or ambit == subject.ambit])
 
-        if subject.ambit is not None:
-            choices.extend([(subject.ambit_field.id, str(subject.ambit_field))])
-
-        self.base_fields['ambit_field'].empty_label = "-------------"
-        self.fields['ambit_field'].choices = choices
 
         self.fields['number_of_sections_field'].initial = 3
 
