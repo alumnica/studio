@@ -90,5 +90,5 @@ def ImagesTestView(request):
         r = requests.get('http://localhost:8000/api/images/')
         json = r.json()
         return render(request, 'studio/pages/test.html', {'json': json})
-
-    return render(request, 'studio/pages/test.html')
+    else:
+        return render(request, 'studio/pages/test.html')
