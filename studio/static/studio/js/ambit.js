@@ -1,5 +1,5 @@
 function is_valid_form (){
-    if($('#action').val() == "draft"){
+    if($('#action').val() == "save"){
         let ambit_name = document.getElementById('id_name_field').value;
         if (ambit_name == '' || ambit_name == null){
             swal("Error", "Se requiere llenar el campo de nombre", "error");

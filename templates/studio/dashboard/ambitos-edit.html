@@ -223,13 +223,28 @@
                                 <span id="fecha-pub">N/A</span>
                             </p>
 
-                            {#Este POST debe guardar como borrador #}
-                            <button type="submit" class="button secondary" name="draft">Salvar como borrador</button>
+                            
+                            {#Este POST debe guardar el Ambito #}    
+                           
 
-                            {#Este POST debe publicar el Ambito #}    
-                            <button type="submit" class="button primary publicar" name="publish">Publicar</button>
+
+                            <div class="text-right">
+                                <button type="submit" class="button primary" name="save">Guardar</button>
+                            </div>
                             <input type="hidden" name="action" id="action" />
                         </div>
+
+                        <div class="panel">
+                            <div class="panel__title">
+                                Publicar en EVA
+                            </div>
+                            <p>Al publicar la materia será añadida a el EVA en su forma actual.
+                                Favor de checar que los bloques, sus ODAs y momentos se hayan añadido correctamente</p>
+                            <div class="text-right">
+                                <button class="button success" name="eva-publish" type="submit"><i class="fas fa-check"></i> Publicar en EVA</button>
+                            </div>
+                        </div> 
+
                     </div>
                 </div>
             </form>
