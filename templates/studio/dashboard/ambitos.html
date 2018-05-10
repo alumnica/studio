@@ -30,7 +30,10 @@
                             <th id="fecha-ambito" class="not-mobile">Fecha</th>
                             <th id="autor-ambito" class="not-mobile">Autor</th>
                             <th id="estado-ambito" class="not-mobile">Estado</th>
-                            <th id="eva-ambito" class="not-mobile"><i class="fas fa-calendar-times"></i> EVA</th>
+                            {% ifequal request.user.user_type 'ADMINISTRATOR'%}
+                                <th id="eva-ambito" class="not-mobile"><i class="fas fa-calendar-times"></i> EVA</th>
+                            {% endifequal %}
+
                         </tr>
                     </thead>
                     <tbody>
@@ -58,7 +61,7 @@
                                 </div>
                             </td>
 
-                            {# Pocicion en el tablero de el estudiante #}
+                            {# Posicion en el tablero de el estudiante #}
                             <td>
                                 {{ ambit.position_field }}
                             </td>
@@ -86,7 +89,7 @@
                             </td>
                             <td>
                                 <div class="autor">
-                                    Diego Cevallos
+                                    {{ ambit.created_by_field.name }} {{ ambit.created_by_field.last_name }}
                                 </div>
                             </td>
                             <td>
@@ -98,11 +101,14 @@
                                     {% endif %}
                                 </div>
                             </td>
-                            <td class="text-center">
+                         {% ifequal request.user.user_type 'ADMINISTRATOR'%}
+                             <td class="text-center">
                                 <div class="button small alert remover">
                                     <button title="Dar de baja en EVA"><i class="fas fa-times"></i></button>
                                 </div>
                             </td>
+                        {% endifequal %}
+
                         </tr>
                     {% endfor %}
                     </tbody>
