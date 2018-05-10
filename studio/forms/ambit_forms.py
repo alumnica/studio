@@ -177,7 +177,7 @@ class UpdateAmbitForm(forms.ModelForm):
 
 def verify_ambits_position(new_ambit):
     ambits_list_raw = AmbitModel.objects.all().exclude(pk=new_ambit.pk)
-    ambits_list = ['na']*8
+    ambits_list = ['na']*30
     position = new_ambit.position_field
 
     for ambit in ambits_list_raw:
@@ -190,10 +190,9 @@ def verify_ambits_position(new_ambit):
         second_section_space = second_section.index('na')
 
         for ambit in second_section[0:second_section_space+1]:
-            if ambit != 'na':
-
+            if isinstance(ambit, AmbitModel):
                 ambit.position_field = position + counter
-                AmbitModel(ambit).save()
+                ambit.save()
             counter += 1
 
     except ValueError:
@@ -201,9 +200,9 @@ def verify_ambits_position(new_ambit):
         AmbitModel(second_section[0]).position_field = position-counter
         AmbitModel(second_section[0]).save()
         for ambit in first_section[first_section_space[len(first_section_space)-1]-1:]:
-            if ambit != 'na':
+            if isinstance(ambit, AmbitModel):
                 counter += 1
                 ambit.position_field = position - counter
-                AmbitModel(ambit).save()
+                ambit.save()
 
 

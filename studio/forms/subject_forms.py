@@ -15,10 +15,6 @@ class SubjectForm(forms.ModelForm):
                                                         'type': 'file'}))
     number_of_sections_field = forms.IntegerField(widget=forms.Select(choices=((1, 1), (2, 2), (3, 3), (4, 4)),
                                                                       attrs={'class': 'position-ambito-size'}))
-    ambit_field = forms.ModelChoiceField(
-        queryset=AmbitModel.objects.filter(id__in=[ambit.id for ambit in
-                                                   AmbitModel.objects.filter(is_published_field=True)
-                                                   if ambit.subjects.count() < 4]))
 
     class Meta:
         model = SubjectModel
@@ -81,10 +77,7 @@ class UpdateSubjectForm(forms.ModelForm):
 
     number_of_sections_field = forms.IntegerField(widget=forms.Select(choices=((1, 1), (2, 2), (3, 3), (4, 4)),
                                                                       attrs={'class': 'position-ambito-size'}))
-    ambit_field = forms.ModelChoiceField(
-        queryset=AmbitModel.objects.filter(id__in=[ambit.id for ambit in
-                                                   AmbitModel.objects.filter(is_published_field=True)
-                                                   if ambit.subjects.count() < 4]))
+
 
     class Meta:
         model = SubjectModel

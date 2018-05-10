@@ -82,7 +82,7 @@ class AmbitView(LoginRequiredMixin, ListView):
 class DeleteAmbitView(View):
     def dispatch(self, request, *args, **kwargs):
         AmbitModel.objects.filter(pk=self.kwargs['pk']).delete()
-        return redirect('materias_view')
+        return redirect('ambits_view')
 
 
 def ImagesTestView(request):
