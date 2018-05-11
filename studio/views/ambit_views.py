@@ -31,9 +31,9 @@ class CreateAmbitView(LoginRequiredMixin, FormView):
         action = self.request.POST.get('action')
         form = CreateAmbitForm(self.request.POST, self.request.FILES)
         form.is_valid()
-        if action == 'draft':
+        if action == 'save':
             form.save_as_draft(request.user, subjects, tags, color)
-        elif action == 'publish':
+        elif action == 'eva-publish':
             form.save_form(request.user, subjects, tags, color)
         return redirect(to='ambits_view')
 
@@ -65,9 +65,9 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         form = UpdateAmbitForm(self.request.POST, self.request.FILES)
         form.is_valid()
 
-        if action == 'draft':
+        if action == 'save':
             form.save_as_draft(subjects, tags, color)
-        elif action == 'publish':
+        elif action == 'eva-publish':
             form.save_form(subjects, tags, color)
         return redirect(to='ambits_view')
 
@@ -84,6 +84,13 @@ class DeleteAmbitView(View):
         AmbitModel.objects.filter(pk=self.kwargs['pk']).delete()
         return redirect('ambits_view')
 
+class UnPublishAmbitView(View):
+    def dispatch(self, request, *args, **kwargs):
+        ambit = AmbitModel.objects.get(pk=self.kwargs['pk'])
+        ambit.is_published_field = False
+        ambit.is_draft = True
+        ambit.save()
+        return redirect('ambits_view')
 
 def ImagesTestView(request):
     if request.method == "GET":

@@ -7,4 +7,5 @@ urlpatterns = [
     path('ambits/', AmbitView.as_view(), name='ambits_view'),
     path('delete_ambit/<int:pk>/', DeleteAmbitView.as_view(), name='delete_ambit_view'),
     path('test/', ImagesTestView, name='test_view'),
+    path('ambits/<int:pk>/', UnPublishAmbitView.as_view(), name='unpublish_ambit_view'),
 ]

@@ -43,7 +43,7 @@
 
                                 {# Titulo de Ambito #}
                                 <div class="titulo_lista">
-                                    {{ ambit.name_field }}
+                                    {{ ambit.name }}
                                 </div>
                                 <div class="title-edit-menu">
                                     <span class="editar">
@@ -63,13 +63,13 @@
 
                             {# Posicion en el tablero de el estudiante #}
                             <td>
-                                {{ ambit.position_field }}
+                                {{ ambit.position }}
                             </td>
                             
                             {# Materias asignadas a este Ambito #}
                             <td>
                                 {% for subject in ambit.subjects%}
-                                    {{ subject.name_field }}
+                                    {{ subject.name }}
                                 {% endfor %}
 
                             </td>
@@ -77,35 +77,43 @@
                             <td>
                                 <div class="tag-list">
                                     {% for tag in ambit.tags %}
-                                        <a href="#">{{ tag.name_field }}</a>
+                                        <a href="#">{{ tag.name }}</a>
                                     {% endfor %}
 
                                 </div>
                             </td>
                             <td>
                                 <div id="edit-date">
-                                    {{ ambit.created_at_field }}
+                                    {{ ambit.created_at }}
                                 </div>
                             </td>
                             <td>
                                 <div class="autor">
-                                    {{ ambit.created_by_field.name }} {{ ambit.created_by_field.last_name }}
+                                    {{ ambit.created_by.profile.name }} {{ ambit.created_by.profile.last_name }}
                                 </div>
                             </td>
                             <td>
                                 <div class="estado">
-                                    {% if ambit.is_published_field %}
+                                    {% if ambit.is_published%}
                                         Publicado
                                     {% else %}
-                                        Sin publicar
+                                        {% if ambit.is_draft%}
+                                            Borrador
+                                        {% else %}
+                                            En espera de aprobación
+                                        {% endif %}
+
                                     {% endif %}
                                 </div>
                             </td>
                          {% ifequal request.user.user_type 'ADMINISTRATOR'%}
                              <td class="text-center">
-                                <div class="button small alert remover">
-                                    <button title="Dar de baja en EVA"><i class="fas fa-times"></i></button>
+                             {% if ambit.is_published %}
+                                 <div class="button small alert remover">
+                                    <a href="{% url 'unpublish_ambit_view' ambit.pk %}" title="Dar de baja en EVA"><i class="fas fa-times"></i></a>
                                 </div>
+                             {% endif %}
+
                             </td>
                         {% endifequal %}
 

@@ -23,7 +23,7 @@ class UserLoginForm(forms.Form):
                 self.add_error('email', error)
 
             if not user.user_type == UserType.CONTENT_CREATOR:
-                if not user.user_type == UserType.ADMINISTRATOR:
+                if not user.user_type == UserType.SUPERVISOR:
                     error = ValidationError("Invalid credentials", code='permission denied')
                     self.add_error('password', error)
                     self.add_error('email', error)

@@ -23,7 +23,7 @@ class CreateAmbitForm(forms.ModelForm):
     def save_form(self, user, subjects, tags, color):
         cleaned_data = super(CreateAmbitForm, self).clean()
         ambit = super(CreateAmbitForm, self).save(commit=False)
-        ambit.created_by = user.profile
+        ambit.created_by = user
         ambit.color = color
 
         image = cleaned_data.get('ap')
@@ -56,7 +56,7 @@ class CreateAmbitForm(forms.ModelForm):
     def save_as_draft(self, user, subjects, tags, color):
         cleaned_data = super(CreateAmbitForm, self).clean()
         ambit = super(CreateAmbitForm, self).save(commit=False)
-        ambit.created_by = user.profile
+        ambit.created_by = user
         ambit.program = ProgramModel.objects.get(name_field="Primaria")
         ambit.color = color
 
