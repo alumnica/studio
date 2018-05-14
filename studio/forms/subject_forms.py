@@ -50,13 +50,12 @@ class SubjectForm(forms.ModelForm):
         background_image = cleaned_data.get('mp')
 
         subject = super(SubjectForm, self).save(commit=False)
-        subject.created_by = user.profile
+        subject.created_by = user
 
         if ImageModel.objects.all().filter(name_field=background_image.name).exists():
             subject.background_image_field = ImageModel.objects.get(name_field=background_image.name)
         else:
-            new_image = ImageModel.objects.create(name_field=("subject_{}_background".format(subject.name)),
-                                                  file_field=background_image)
+            new_image = ImageModel.objects.create(name_field="subjects", file_field=background_image)
             subject.background_image_field = new_image
 
         subject.save()
@@ -109,8 +108,7 @@ class UpdateSubjectForm(forms.ModelForm):
             if ImageModel.objects.all().filter(name_field=background_image.name).exists():
                 subject.background_image_field = ImageModel.objects.get(name_field=background_image.name)
             else:
-                new_image = ImageModel.objects.create(name_field=("subject_{}_background".format(subject.name)),
-                                                      file_field=background_image)
+                new_image = ImageModel.objects.create(name_field="subjects", file_field=background_image)
 
                 subject.background_image_field = new_image
 

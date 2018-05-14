@@ -86,7 +86,7 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
         if formset.is_valid():
             if formset.has_changed():
                 for form in formset:
-                    a = form.save_form(self.request.user.profile, section)
+                    a = form.save_form(self.request.user, section)
                     current_odas_list.append(a.pk)
                     if a not in self.object.odas_field.all().filter(section_field=section):
                         self.object.odas_field.add(a)

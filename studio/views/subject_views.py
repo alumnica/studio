@@ -98,8 +98,8 @@ class SubjectSectionsView(UpdateView):
         if formset.is_valid():
             if formset.has_changed():
                 for form in formset:
-                    a = form.save()
-                    a.name_field = "subject_{}_section{}_section_image".format(self.object.name, section)
+                    a = form.save(commit=False)
+                    a.name_field = "subjects"
                     a.save()
                     section += 1
                     if a not in self.object.sections_images_field.all():

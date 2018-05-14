@@ -8,7 +8,7 @@
     {% csrf_token %}
     {% for item in json %}
         {% thumbnail item.file_field "150x150" as im %}
-            <img src="{{ im.url }}">
+            <img id="{{ forloop.counter }}" title="{{ item.file_field }}" src="{{ im.url }}">
         {% endthumbnail %}
         {% endfor %}
      <input type="submit" value="Guardar" class="button">

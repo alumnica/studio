@@ -75,7 +75,7 @@ class ODACreateForm(forms.ModelForm):
 
     def save_form(self, user, tags, moments):
         oda = super(ODACreateForm, self).save(commit=False)
-        oda.created_by_field = user.profile
+        oda.created_by_field = user
         oda.save()
         if tags is not None:
             tags = tags.split(',')
@@ -88,9 +88,10 @@ class ODACreateForm(forms.ModelForm):
             if moment_object[1] is not None:
 
                 moments_names = moment_object[1].split(',')
-                microoda, created = MicroODAModel.objects.get_or_create(name_field='{}_{}'.format(oda.name, moment_object[0]),
-                                                               created_by_field=user.profile, type_field=moment_object[0],
-                                                      default_position_field=counter, oda_field=oda)
+                microoda, created = MicroODAModel.objects.get_or_create(name_field='odas',
+                                                                        created_by_field=user,
+                                                                        type_field=moment_object[0],
+                                                                        default_position_field=counter, oda_field=oda)
                 counter += 1
 
                 for moment_name in moments_names:
@@ -122,12 +123,10 @@ class ODAUpdateForm(forms.ModelForm):
                 moments_names = moment_object[1].split(',')
 
                 try:
-                    microoda = MicroODAModel.objects.get(name_field='{}_{}'.format(oda.name, moment_object[0]),
-                                                      type_field=moment_object[0], oda_field=oda)
+                    microoda = MicroODAModel.objects.get(name_field='odas', type_field=moment_object[0], oda_field=oda)
                 except MicroODAModel.DoesNotExist:
-                    microoda = MicroODAModel.objects.create(name_field='{}_{}'.format(oda.name, moment_object[0]),
-                                                         type_field=moment_object[0], created_by_field=user.profile,
-                                                            oda_field=oda)
+                    microoda = MicroODAModel.objects.create(name_field='odas',type_field=moment_object[0],
+                                                            created_by_field=user, oda_field=oda)
 
                 for moment_name in moments_names:
                     moment = MomentModel.objects.get(name_field=moment_name)

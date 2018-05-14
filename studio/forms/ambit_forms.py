@@ -27,8 +27,7 @@ class CreateAmbitForm(forms.ModelForm):
         ambit.color = color
 
         image = cleaned_data.get('ap')
-        image_model, created = ImageModel.objects.get_or_create(name_field=("ambit_{}_background".format(ambit.name)),
-                                                file_field=image)
+        image_model, created = ImageModel.objects.get_or_create(name_field="ambits", file_field=image)
         image_model.temporal_field = False
         ambit.background_image = image_model
         ambit.program = ProgramModel.objects.get(name_field="Primaria")
@@ -65,8 +64,7 @@ class CreateAmbitForm(forms.ModelForm):
 
         if cleaned_data.get('ap') is not None:
             image = cleaned_data.get('ap')
-            image_model, created = ImageModel.objects.get_or_create(name_field=("ambit_{}_background".format(ambit.name)),
-                                                    file_field=image)
+            image_model, created = ImageModel.objects.get_or_create(name_field="ambits", file_field=image)
 
             ambit.background_image = image_model
         ambit.save()
@@ -111,8 +109,7 @@ class UpdateAmbitForm(forms.ModelForm):
         image = cleaned_data.get('ap')
 
         if image is not None:
-            image_model, created = ImageModel.objects.get_or_create(name_field=("ambit_{}_background".format(ambit.name)),
-                                                file_field=image)
+            image_model, created = ImageModel.objects.get_or_create(name_field="ambits", file_field=image)
             image_model.temporal= False
             image_model.save()
             ambit.background_image = image_model
@@ -150,8 +147,7 @@ class UpdateAmbitForm(forms.ModelForm):
 
         if cleaned_data.get('ap') is not None:
             image = cleaned_data.get('ap')
-            image_model, created = ImageModel.objects.get_or_create(name_field=("ambit_{}_background".format(ambit.name)),
-                                                           file_field=image)
+            image_model, created = ImageModel.objects.get_or_create(name_field="ambits", file_field=image)
 
             image_model.save()
             ambit.background_image = image_model
