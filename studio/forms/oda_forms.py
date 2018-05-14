@@ -22,14 +22,14 @@ class ODAModelForm(forms.Form):
             active_icon = ImageModel.objects.get(name_field=active_image.name)
         else:
             active_icon = ImageModel.objects.create(
-                name_field=("oda_{}_section{}_active_icon".format(oda_name, section)), file_field=active_image)
+                name_field=("odas".format(oda_name, section)), file_field=active_image)
 
         completed_image = cleaned_data.get('completed_icon_field')
         if ImageModel.objects.all().filter(name_field=completed_image.name).exists():
             completed_icon = ImageModel.objects.get(name_field=completed_image.name)
         else:
             completed_icon = ImageModel.objects.create(
-                name_field=("oda_{}_section{}_completed_icon".format(oda_name, section)), file_field=completed_image)
+                name_field=("odas".format(oda_name, section)), file_field=completed_image)
 
         oda, oda_created = ODAModel.objects.get_or_create(name_field=oda_name, created_by_field=user)
 
