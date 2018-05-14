@@ -30,7 +30,7 @@
                             <th id="fecha-ambito" class="not-mobile">Fecha</th>
                             <th id="autor-ambito" class="not-mobile">Autor</th>
                             <th id="estado-ambito" class="not-mobile">Estado</th>
-                            {% ifequal request.user.user_type 'ADMINISTRATOR'%}
+                            {% ifequal request.user.user_type 'SUPERVISOR'%}
                                 <th id="eva-ambito" class="not-mobile"><i class="fas fa-calendar-times"></i> EVA</th>
                             {% endifequal %}
 
@@ -106,7 +106,7 @@
                                     {% endif %}
                                 </div>
                             </td>
-                         {% ifequal request.user.user_type 'ADMINISTRATOR'%}
+                         {% ifequal request.user.user_type 'SUPERVISOR'%}
                              <td class="text-center">
                              {% if ambit.is_published %}
                                  <div class="button small alert remover">
