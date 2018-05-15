@@ -52,8 +52,9 @@ class SubjectForm(forms.ModelForm):
         subject = super(SubjectForm, self).save(commit=False)
         subject.created_by = user
 
-        if ImageModel.objects.all().filter(name_field=background_image.name).exists():
-            subject.background_image_field = ImageModel.objects.get(name_field=background_image.name)
+        if isinstance(background_image, ImageModel):
+            subject.background_image_field = ImageModel.objects.get(name_field=background_image.name,
+                                                                    file_field=background_image.file_field)
         else:
             new_image = ImageModel.objects.create(name_field="subjects", file_field=background_image)
             subject.background_image_field = new_image
@@ -105,8 +106,9 @@ class UpdateSubjectForm(forms.ModelForm):
             if tag.name not in tags:
                 subject.tags_field.remove(tag)
         if background_image is not None:
-            if ImageModel.objects.all().filter(name_field=background_image.name).exists():
-                subject.background_image_field = ImageModel.objects.get(name_field=background_image.name)
+            if isinstance(background_image, ImageModel):
+                subject.background_image_field = ImageModel.objects.get(name_field=background_image.name,
+                                                                        file_field=background_image.file_field)
             else:
                 new_image = ImageModel.objects.create(name_field="subjects", file_field=background_image)
 

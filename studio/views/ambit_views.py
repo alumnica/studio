@@ -3,10 +3,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import ListView, FormView, UpdateView, TemplateView
-from rest_framework.reverse import reverse_lazy
 from sweetify import sweetify
+
+from alumnica_model.alumnica_entities.users import UserType
 from studio.forms.ambit_forms import *
-from studio.serializers import ImageHyperlinkedModelSerializer
 
 
 class CreateAmbitView(LoginRequiredMixin, FormView):
@@ -42,6 +42,16 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/ambitos-edit.html'
     form_class = UpdateAmbitForm
+
+    def dispatch(self, request, *args, **kwargs):
+        ambit = AmbitModel.objects.get(pk=self.kwargs['pk'])
+        if ambit.is_published_field:
+            if self.request.user.user_type == UserType.CONTENT_CREATOR:
+                sweetify.error(self.request,
+                               'No puedes editar el ámbito {} porque ya esta publicado'.format(ambit.name_field),
+                               persistent='Ok')
+                return redirect(to='ambits_view')
+        return super(UpdateAmbitView, self).dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
         return AmbitModel.objects.get(pk=self.kwargs['pk'])
@@ -84,6 +94,7 @@ class DeleteAmbitView(View):
         AmbitModel.objects.filter(pk=self.kwargs['pk']).delete()
         return redirect('ambits_view')
 
+
 class UnPublishAmbitView(View):
     def dispatch(self, request, *args, **kwargs):
         ambit = AmbitModel.objects.get(pk=self.kwargs['pk'])
@@ -92,6 +103,7 @@ class UnPublishAmbitView(View):
         ambit.save()
         return redirect('ambits_view')
 
+
 def ImagesTestView(request):
     if request.method == "GET":
         r = requests.get('http://localhost:8000/api/images/')
@@ -99,6 +111,7 @@ def ImagesTestView(request):
         return render(request, 'studio/pages/test.html', {'json': json})
     else:
         return render(request, 'studio/pages/test.html')
+
 
 class ImagesTestKinichView(LoginRequiredMixin, TemplateView):
     template_name = 'studio/pages/image-test.html'

@@ -18,18 +18,17 @@ class ODAModelForm(forms.Form):
         oda_name = cleaned_data.get('oda_name')
 
         active_image = cleaned_data.get('active_icon_field')
-        if ImageModel.objects.all().filter(name_field=active_image.name).exists():
-            active_icon = ImageModel.objects.get(name_field=active_image.name)
+        if isinstance(active_image, ImageModel):
+            active_icon = ImageModel.objects.get(name_field=active_image.name, file_field=active_image.file_field)
         else:
-            active_icon = ImageModel.objects.create(
-                name_field=("odas".format(oda_name, section)), file_field=active_image)
+            active_icon = ImageModel.objects.create(name_field="odas", file_field=active_image)
 
         completed_image = cleaned_data.get('completed_icon_field')
-        if ImageModel.objects.all().filter(name_field=completed_image.name).exists():
-            completed_icon = ImageModel.objects.get(name_field=completed_image.name)
+        if isinstance(completed_image, ImageModel):
+            completed_icon = ImageModel.objects.get(name_field=completed_image.name, file_field=active_image.file_field)
         else:
             completed_icon = ImageModel.objects.create(
-                name_field=("odas".format(oda_name, section)), file_field=completed_image)
+                name_field=("odas"), file_field=completed_image)
 
         oda, oda_created = ODAModel.objects.get_or_create(name_field=oda_name, created_by_field=user)
 

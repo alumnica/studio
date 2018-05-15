@@ -17,15 +17,9 @@ function is_valid_form (){
         let color_selected = false;
         let image_selected_source = document.getElementById('preview-ap').src;
         let ambit_name = document.getElementById('id_name_field').value;
-        let position = document.getElementById('id_position_field').value;
 
         if (ambit_name == '' || ambit_name == null){
             swal("Error", "Se requiere llenar el campo de nombre", "error");
-            return false;
-        }
-
-        if(position == '' || position == null || position == '0'){
-            swal("Error", "Elige una posición para este ámbito", "error");
             return false;
         }
 
