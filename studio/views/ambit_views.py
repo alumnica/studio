@@ -99,3 +99,6 @@ def ImagesTestView(request):
         return render(request, 'studio/pages/test.html', {'json': json})
     else:
         return render(request, 'studio/pages/test.html')
+
+class ImagesTestKinichView(LoginRequiredMixin, TemplateView):
+    template_name = 'studio/pages/image-test.html'

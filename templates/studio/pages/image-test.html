@@ -1,45 +1,45 @@
 {% extends "studio/base-main.html" %}
 {% load static %}
 {% block content %}
+<script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
 
 <div class="dashboard container">
     <!-- demo -->
     <div id="demo">
 
         <!-- panel -->
-        <div class="jplist-panel">
+        <div class="w-panel">
 
-            <div class="input-group">
-                <label class="busqueda-oda">Buscar: </label>
+          <div class="text-filter-box">
 
-                <input id="search-field"
-                data-path=""
-                type="text"
-                value=""
-                class="input-group-field busqueda-input"
-                placeholder="Buscqueda"
-                data-control-type="textbox"
-                data-control-name="title-filter"
-                data-control-action="filter"
-                />
-            </div>
+         <!--[if lt IE 10]>
+         <div class="jplist-label">Filter by Title:</div>
+         <![endif]-->
+
+         <input
+            data-path=".titlee"
+            data-button="#title-search-button"
+            type="text"
+            value=""
+            placeholder="Filter by Title"
+            data-control-type="textbox"
+            data-control-name="title-filter"
+            data-control-action="filter"
+         />
+
+         <button
+            type="button"
+            id="title-search-button">
+            <i class="fa fa-search"></i>
+         </button>
+      </div>
+
+
 
         </div>
 
         <!-- HTML data -->
         <div class="list">
-
-            <!-- item 1 -->
-            <div class="list-item">
-                <!-- any HTML structure -->
-            </div>
-
-            <!-- item 2 -->
-            <div class="list-item">
-                <!-- any HTML structure -->
-            </div>
-
-            <!-- any number of items ... -->
 
         </div>
 
@@ -52,9 +52,27 @@
 
 </div>
 
+{% verbatim %}
+<script id="jplist-template" type="text/x-handlebars-template">
+
+    {{#each this}}
+
+      <div class="list-item box">
+
+            <p class="titlee">{{name_field}}</p>
+
+      </div>
+{{/each}}
+</script>
+{% endverbatim %}
+
 {% endblock content %}
 
 {% block scripts %}
+
     <script  type="text/javascript"  src="{% static "studio/js/bib.js" %}"></script>
 
 {% endblock %}
+
+
+
