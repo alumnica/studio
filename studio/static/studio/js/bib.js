@@ -19,7 +19,7 @@ $('document').ready(function(){
 
                //jQuery ajax settings
                ajax: {
-                   url: 'http://localhost:8000/api/images/'
+                   url: '/api/images/'
                    , dataType: 'json'
                    , type: 'GET'
                    ,contentType: 'application/json'

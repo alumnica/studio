@@ -66,7 +66,7 @@ $('#last_panel').on('mouseenter mouseleave', function () {
 // alphanum for all inputs
 
 $("input").alphanum({
-    allow :    ',',
+    allow :    ',-_',
 });
 
 // quit alphanum
@@ -78,14 +78,14 @@ $(document).ready(function () {
     let y = 0;
 
     // Materias-edit-seccion.html
-    $("form#seccion-img img").each(function () {
+    $("#seccion-img img").each(function () {
         $(this).attr("id", "preview-form-" + i + "-file_field");
         i++;
 
     });
 
     // materias-edit.html
-    $("form#materia-init img").attr({id:"preview-mp", class:"materia-cover" });
+    $(".materia-preview img").attr({id:"preview-mp", class:"materia-cover" });
     // ambitos-edit.html
     $("form#ambito-creation img").attr({id:"preview-ap", class:"ambito-cover" });
     // materias-edit-oda
@@ -115,7 +115,7 @@ $(document).ready(function () {
         }
     }
 
-    $("form#seccion-img input[type='file']").change(function () {
+    $("#seccion-img input[type='file']").change(function () {
         readURL(this);
     });
 
