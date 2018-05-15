@@ -5,8 +5,6 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 from sweetify import sweetify
-
-from alumnica_model.models import AmbitModel
 from studio.forms.subject_forms import *
 
 
@@ -15,14 +13,52 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
     template_name = 'studio/dashboard/materias-edit.html'
     form_class = SubjectForm
 
-    def get(self, request, *args, **kwargs):
+    def get_image_formset_class(self):
+        return formset_factory(
+            ImageModelForm, BaseImageModelFormset, min_num=1, max_num=1, validate_max=False, validate_min=True)
 
+    def get_context_data(self, **kwargs):
+        context = super(CreateSubjectView, self).get_context_data(**kwargs)
         tags = TagModel.objects.all()
-        return render(request, self.template_name, {'form': self.form_class, 'tags': tags})
+        initial = [{'initial': 'initial'}]
+        if self.request.POST:
+            context.update({
+                'formset': self.get_image_formset_class()(self.request.POST, self.request.FILES, initial=initial)
+            })
+        else:
+            context.update({
+                'formset': self.get_image_formset_class()(initial=initial),
+                'tags': tags
+            })
+
+        return context
 
     def form_valid(self, form):
+        context = self.get_context_data()
         subject = form.save_form(self.request.user)
-        return redirect(to='materias_sections_view', pk=subject.pk)
+        formset = context['formset']
+        section = 1
+        if formset.is_valid():
+            if formset.has_changed():
+                for form in formset:
+                    a = form.save(commit=False)
+                    a.name_field = "subjects"
+                    a.save()
+                    section += 1
+                    subject.sections_images_field.add(a)
+                    subject.save()
+            return redirect(to='materias_sections_view', pk=subject.pk)
+        else:
+            i = 1
+            for form in formset:
+                if form['file_field'].errors:
+                    sweetify.error(
+                        self.request,
+                        "Error en archivo de imagen de la sección {}: {}".format(i, form.errors['file_field'][0]),
+                        persistent='Ok')
+                    break
+                i += 1
+            return render(self.request, self.template_name, context=context)
 
     def form_invalid(self, form):
         if form['name_field'].errors:
@@ -40,42 +76,21 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
     model = SubjectModel
     form_class = UpdateSubjectForm
 
+    def get_image_formset_class(self):
+        num_sections = self.object.number_of_sections_field
+        if num_sections == 0:
+            num_sections = 1
+        return formset_factory(
+            ImageModelForm, BaseImageModelFormset, min_num=num_sections, max_num=self.object.number_of_sections_field,
+            validate_max=False, validate_min=True)
+
     def get_context_data(self, **kwargs):
         context = super(UpdateSubjectView, self).get_context_data(**kwargs)
         ambits = AmbitModel.objects.all()
         tags = TagModel.objects.all()
         tgs = self.object.tags_field.all()
         background_img = self.object.background_image_field
-        initial = {'ambits': ambits, 'tags': tags, 'self_tags': tgs, 'background_img': background_img}
 
-        context.update(initial)
-        return context
-
-    def form_valid(self, form):
-        subject = form.save_form()
-        return redirect(to='materias_sections_view', pk=subject.pk)
-
-
-class SubjectSectionsView(UpdateView):
-    form_class = SubjectSectionsForm
-    template_name = 'studio/dashboard/materias-edit-seccion.html'
-    context_object_name = 'subject'
-
-    def get_object(self, queryset=None):
-        return SubjectModel.objects.get(pk=self.kwargs['pk'])
-
-    def get_success_url(self):
-        return reverse_lazy('odas_section_view', kwargs={'pk': self.kwargs['pk'], 'section': 1})
-
-    def get_image_formset_class(self):
-        return formset_factory(
-            ImageModelForm, BaseImageModelFormset, min_num=self.object.number_of_sections_field,
-            max_num=self.object.number_of_sections_field,
-            validate_max=False, validate_min=True
-        )
-
-    def get_context_data(self, **kwargs):
-        context = super(SubjectSectionsView, self).get_context_data(**kwargs)
         initial = [{'file_field': x.file_field} for x in self.object.sections_images_field.all()]
         if self.request.POST:
             context.update({
@@ -86,13 +101,17 @@ class SubjectSectionsView(UpdateView):
             })
         else:
             context.update({
-                'formset': self.get_image_formset_class()(initial=initial)
+                'formset': self.get_image_formset_class()(initial=initial),
+                'tags': tags,
+                'ambits': ambits,
+                'self_tags': tgs,
+                'background_img': background_img
             })
-
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
+        subject = form.save_form()
         formset = context['formset']
         section = 1
         if formset.is_valid():
@@ -105,7 +124,7 @@ class SubjectSectionsView(UpdateView):
                     if a not in self.object.sections_images_field.all():
                         self.object.sections_images_field.add(a)
                 self.object.save()
-            return super(SubjectSectionsView, self).form_valid(form)
+            return redirect(to='materias_sections_view', pk=subject.pk)
         else:
             i = 1
             for form in formset:

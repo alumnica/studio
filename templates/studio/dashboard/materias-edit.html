@@ -10,6 +10,7 @@
     <hr>
     <form method="POST" id="materia-init" enctype="multipart/form-data" onsubmit="return is_valid_form_images()">
         {% csrf_token %}
+    {{ form.errors }}
         <div class="grid-x grid-margin-x">
             <div class="cell medium-6">
                 <label for="titulo-materia">Titulo</label>
@@ -67,53 +68,35 @@
                 <hr>
             </div>
             <!-- start bloques -->
-            <div class="cell medium-3" id="seccion-img">
-                <div class="panel">
-                    <div class="panel__title">
-                        Bloque #1
-                    </div>
-                    <div class="panel__content">
-                        <div class="grid-x grid-margin-x">
-                            <div class="small-6 cell">
-                                <label for="section-u1" class="button small expanded">Subir Imagen</label>
-                                <input id="section-u1" name="form-0-file_field" type="file" class="show-for-sr">
-                            </div>
-                            <div class="small-6 cell">
-                                <a href="#" class="button expanded small">
-                                    <i class="fas fa-th"></i> Imagenes</a>
-                            </div>
-                        </div>
-                        <div class="section-preview">
-                            <img src="#" alt="Imagen Bloque 1" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end bloque -->
 
-            <!-- start bloque -->
-            <div class="cell medium-3" id="seccion-img">
-                <div class="panel">
-                    <div class="panel__title">
-                        Bloque #2
-                    </div>
-                    <div class="panel__content">
-                        <div class="grid-x grid-margin-x">
-                            <div class="small-6 cell">
-                                <label for="section-u2" class="button small expanded">Subir Imagen</label>
-                                <input id="section-u2" name="form-1-file_field" type="file" class="show-for-sr">
+            {% for form in formset.forms %}
+
+                    <div class="cell medium-3 my_item" id="seccion-img">
+                        <div class="panel">
+                            <div class="panel__title">
+                                Bloque #{{ forloop.counter }}
+
                             </div>
-                            <div class="small-6 cell">
-                                <a href="#" class="button expanded small">
-                                    <i class="fas fa-th"></i> Imagenes</a>
+                            <div class="panel__content">
+                                <div class="grid-x grid-margin-x">
+                                    <div class="small-6 cell">
+                                        <label for="id_{{ form.file_field.html_name }}" class="button small expanded">Subir Imagen</label>
+                                        {{ form.file_field }}
+                                    </div>
+                                    <div class="small-6 cell">
+                                        <a href="#" class="button expanded small">
+                                            <i class="fas fa-th"></i> Imagenes</a>
+                                    </div>
+                                </div>
+                                <div class="section-preview">
+                                    <img src="{{ form.initial.file_field.url }}" alt="Imagen Bloque 1" />
+                                </div>
+
                             </div>
                         </div>
-                        <div class="section-preview">
-                            <img src="#" alt="Imagen Bloque 2" />
-                        </div>
                     </div>
-                </div>
-            </div>
+
+            {% endfor %}
             <!-- end bloque -->
 
             <!-- add bloque button -->
@@ -135,7 +118,7 @@
                 <button class="button">
                     <i class="fa fa-save"></i> Guardar</button>
                 &nbsp;&nbsp;
-                <button class="button success">
+                <button type="submit" class="button success">
                     <i class="fa fa-check"></i> FINALIZAR</button>
             </div>
         </div>
