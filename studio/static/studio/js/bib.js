@@ -1,16 +1,18 @@
 // <!-- Example of JavaScript options for PHP server side -->
 
 $('document').ready(function(){
-    var $list = $('#demo .list')
+    var $list = $('#img-jplist .list')
          ,template = Handlebars.compile($('#jplist-template').html());
 
-   $('#demo').jplist({
+   $('#img-jplist').jplist({
 
       itemsBox: '.list'
-      ,itemPath: '.list-item'
-      ,panelPath: '.w-panel'
-       ,debug: true
-       ,storageName: 'jplist'
+      ,itemPath: '.img-box'
+      ,panelPath: '.jplist-panel'
+//      ,redrawCallback: function(collection, $dataview, statuses){
+//        fill();
+//       }
+
       //data source
       ,dataSource: {
 
@@ -29,6 +31,7 @@ $('document').ready(function(){
            ,render: function (dataItem, statuses) {
             $list.html(template(dataItem.content));
            }
+
        }
    });
 

@@ -4,67 +4,101 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
 
 <div class="dashboard container">
-    <!-- demo -->
-    <div id="demo">
+   <div id="img-jplist">
 
-        <!-- panel -->
-        <div class="w-panel">
 
-          <div class="text-filter-box">
+        <div class="jplist-panel">
 
-         <!--[if lt IE 10]>
-         <div class="jplist-label">Filter by Title:</div>
-         <![endif]-->
+          <div class="input-group">
+                <label class="busqueda-oda">Buscar: </label>
 
-         <input
-            data-path=".titlee"
-            data-button="#title-search-button"
-            type="text"
-            value=""
-            placeholder="Filter by Title"
-            data-control-type="textbox"
-            data-control-name="title-filter"
-            data-control-action="filter"
-         />
+                <input  id="search-field"
+                data-path=".image__category"
+                type="text"
+                value=""
+                class="input-group-field busqueda-input"
+                placeholder="Buscqueda"
+                data-control-type="textbox"
+                data-control-name="title-filter"
+                data-control-action="filter"
+              />
+            </div>
 
-         <button
-            type="button"
-            id="title-search-button">
-            <i class="fa fa-search"></i>
-         </button>
-      </div>
+        </div>
+
+
+        <div class="grid-x grid-padding-x grid-margin-y small-up-2 medium-up-6 list">
+            <!--<div class="cell img-box">-->
+                <!--<div class="checkbox">-->
+                    <!--<input type="checkbox">-->
+                <!--</div>-->
+                <!--<div class="image" data-open="imgModal">-->
+
+
+
+                    <!--&lt;!&ndash; <label for="image-01" class="check"></label>-->
+                    <!--<input type="checkbox" id="image-01"> &ndash;&gt;-->
+                    <!--<div class="image__thumbnail">-->
+                        <!--<img class="img_contain" src="../assets/img/ph/bloque-01.png" alt="">-->
+                    <!--</div>-->
+                    <!--<div class="text-center">-->
+                        <!--<div class="image__name">-->
+                            <!--seccion1.png-->
+                        <!--</div>-->
+                        <!--<div class="image__category">-->
+                            <!--Materia-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
 
 
 
         </div>
-
-        <!-- HTML data -->
-        <div class="list">
-
-        </div>
-
         <!-- no results found -->
         <div class="jplist-no-results">
             <p>No results found</p>
         </div>
-
     </div>
 
 </div>
 
+
+
 {% verbatim %}
 <script id="jplist-template" type="text/x-handlebars-template">
+       {{#each this}}
 
-    {{#each this}}
+<div class="cell img-box">
 
-      <div class="list-item box">
+    <div class="checkbox">
+        <input type="checkbox">
+    </div>
+    <div class="image" data-open="imgModal">
 
-            <p class="titlee">{{name_field}}</p>
 
-      </div>
+
+        <!-- <label for="image-01" class="check"></label>
+            <input type="checkbox" id="image-01"> -->
+        <div class="image__thumbnail">
+            <img class="img_contain" src="{{file_field}}" alt="">
+        </div>
+        <div class="text-center">
+            <div class="imagex">
+                <p>{{file_field}}</p>
+            </div>
+            <div class="image__category">
+                    {{name_field}}
+            </div>
+        </div>
+    </div>
+</div>
+
 {{/each}}
 </script>
 {% endverbatim %}
+
 
 {% endblock content %}
 
