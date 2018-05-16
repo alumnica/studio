@@ -38,16 +38,20 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
         subject = form.save_form(self.request.user)
         formset = context['formset']
         section = 1
+        formset_count = 0
         if formset.is_valid():
             if formset.has_changed():
                 for form in formset:
                     a = form.save(commit=False)
-                    a.name_field = "subjects"
+                    a.name_field = '{}-subject_section_image'.format(subject.name)
+                    a.folder_field = "subjects"
                     a.save()
                     section += 1
                     subject.sections_images_field.add(a)
-                    subject.save()
-            return redirect(to='materias_sections_view', pk=subject.pk)
+                    formset_count += 1
+                subject.sections_images_field = formset_count
+                subject.save()
+            return redirect(to='odas_section_view', pk=subject.pk, section=1)
         else:
             i = 1
             for form in formset:
@@ -82,7 +86,7 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
             num_sections = 1
         return formset_factory(
             ImageModelForm, BaseImageModelFormset, min_num=num_sections, max_num=self.object.number_of_sections_field,
-            validate_max=False, validate_min=True)
+            validate_max=False, validate_min=False)
 
     def get_context_data(self, **kwargs):
         context = super(UpdateSubjectView, self).get_context_data(**kwargs)
@@ -114,17 +118,28 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
         subject = form.save_form()
         formset = context['formset']
         section = 1
+        formset_count = len(formset)
+        current_sections = []
         if formset.is_valid():
             if formset.has_changed():
                 for form in formset:
                     a = form.save(commit=False)
-                    a.name_field = "subjects"
+                    a.name_field = '{}-subject_section_image'.format(subject.name)
+                    a.folder_field = "subjects"
                     a.save()
                     section += 1
+                    current_sections.append(a.pk)
                     if a not in self.object.sections_images_field.all():
                         self.object.sections_images_field.add(a)
-                self.object.save()
-            return redirect(to='materias_sections_view', pk=subject.pk)
+            else:
+                for form in formset:
+                    a = form.save()
+                    current_sections.append(a.pk)
+
+            subject.number_of_sections_field = formset_count
+            self.object.save()
+            self.object.update_sections(current_sections)
+            return redirect(to='odas_section_view', pk=subject.pk, section=1)
         else:
             i = 1
             for form in formset:

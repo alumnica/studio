@@ -21,7 +21,7 @@ class SubjectForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(SubjectForm, self).__init__(*args, **kwargs)
         self.fields['ambit_field'].queryset = AmbitModel.objects.filter(id__in=[ambit.id for ambit in
-                                                   AmbitModel.objects.filter(is_published_field=True)
+                                                   AmbitModel.objects.filter(is_draft_field=False)
                                                    if ambit.subjects.count() < 4])
 
     def clean(self):
@@ -50,10 +50,13 @@ class SubjectForm(forms.ModelForm):
         subject.created_by = user
 
         if isinstance(background_image, ImageModel):
-            subject.background_image_field = ImageModel.objects.get(name_field=background_image.name,
+            subject.background_image_field = ImageModel.objects.get(folder_field=background_image.folder_field,
                                                                     file_field=background_image.file_field)
+            subject.background_image_field.name = '{}-subject_background_image'.format(subject.name)
+            subject.background_image_field.save()
         else:
-            new_image = ImageModel.objects.create(name_field="subjects", file_field=background_image)
+            new_image = ImageModel.objects.create(name_field=('{}-subject_background_image'.format(subject.name)),
+                                                      file_field=background_image, folder_field='subjects')
             subject.background_image_field = new_image
 
         subject.save()
@@ -81,7 +84,7 @@ class UpdateSubjectForm(forms.ModelForm):
         super(UpdateSubjectForm, self).__init__(*args, **kwargs)
         subject = kwargs['instance']
         self.fields['ambit_field'].queryset = AmbitModel.objects.filter(id__in=[ambit.id for ambit in
-                                                   AmbitModel.objects.filter(is_published_field=True)
+                                                   AmbitModel.objects.filter(is_draft_field=False)
                                                    if ambit.subjects.count() < 4 or ambit == subject.ambit])
 
     def save_form(self):
@@ -98,15 +101,17 @@ class UpdateSubjectForm(forms.ModelForm):
                 subject.tags_field.remove(tag)
         if background_image is not None:
             if isinstance(background_image, ImageModel):
-                subject.background_image_field = ImageModel.objects.get(name_field=background_image.name,
+                subject.background_image_field = ImageModel.objects.get(folder_field=background_image.folder_field,
                                                                         file_field=background_image.file_field)
+                subject.background_image_field.name = '{}-subject_background_image'.format(subject.name)
+                subject.background_image_field.save()
             else:
-                new_image = ImageModel.objects.create(name_field="subjects", file_field=background_image)
+                new_image = ImageModel.objects.create(name_field=('{}-subject_background_image'.format(subject.name)),
+                                                      file_field=background_image, folder_field='subjects')
 
                 subject.background_image_field = new_image
 
         subject.save()
-        subject.update_sections()
         return subject
 
 

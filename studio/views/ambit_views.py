@@ -103,15 +103,3 @@ class UnPublishAmbitView(View):
         ambit.save()
         return redirect('ambits_view')
 
-
-def ImagesTestView(request):
-    if request.method == "GET":
-        r = requests.get('http://localhost:8000/api/images/')
-        json = r.json()
-        return render(request, 'studio/pages/test.html', {'json': json})
-    else:
-        return render(request, 'studio/pages/test.html')
-
-
-class ImagesTestKinichView(LoginRequiredMixin, TemplateView):
-    template_name = 'studio/pages/image-test.html'

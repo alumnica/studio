@@ -68,14 +68,14 @@
                 <hr>
             </div>
             <!-- start bloques -->
-
+            {{ formset.management_form }}
             {% for form in formset.forms %}
 
                     <div class="cell medium-3 my_item" id="seccion-img">
                         <div class="panel">
                             <div class="panel__title">
-                                Bloque #{{ forloop.counter }}
-                                 <button class="delete-bloque"><i class="fa fa-times"></i></button>
+                                <span>Bloque #{{ forloop.counter }}</span>
+                                 <button class="delete-bloque delete"><i class="fa fa-times"></i></button>
 
                             </div>
                             <div class="panel__content">
@@ -101,9 +101,8 @@
             <!-- end bloque -->
 
             <!-- add bloque button -->
-
-            <div class="cell medium-3 align-self-middle text-center">
-                <button class="bloque-add-button">
+            <div class="cell medium-3 align-self-middle text-center" id="bloque-add">
+                <button type="button" id="add" class="bloque-add-button">
                     <i class="fa fa-plus"></i>
                 </button>
                 <p>
@@ -129,4 +128,5 @@
 </div>
 
 {% endblock content %} {% block scripts %}
-<script type="text/javascript" src="{% static " studio/js/tags.js " %}"></script> {% endblock %}
+<script type="text/javascript" src="{% static "studio/js/tags.js" %}"></script>
+<script type="text/javascript" src="{% static "studio/js/materias-sections.js" %}"></script>{% endblock %}

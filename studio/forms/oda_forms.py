@@ -19,16 +19,23 @@ class ODAModelForm(forms.Form):
 
         active_image = cleaned_data.get('active_icon_field')
         if isinstance(active_image, ImageModel):
-            active_icon = ImageModel.objects.get(name_field=active_image.name, file_field=active_image.file_field)
+            active_icon = ImageModel.objects.get(folder_field=active_image.folder_field,
+                                                 file_field=active_image.file_field)
+            active_icon.name_field = '{}-oda_active_icon'.format(oda_name)
+            active_icon.save()
         else:
-            active_icon = ImageModel.objects.create(name_field="odas", file_field=active_image)
+            active_icon = ImageModel.objects.create(name_field='{}-oda_active_icon'.format(oda_name),
+                                                    folder_field="odas", file_field=active_image)
 
         completed_image = cleaned_data.get('completed_icon_field')
         if isinstance(completed_image, ImageModel):
-            completed_icon = ImageModel.objects.get(name_field=completed_image.name, file_field=active_image.file_field)
+            completed_icon = ImageModel.objects.get(folder_field=completed_image.folder_field,
+                                                    file_field=active_image.file_field)
+            completed_icon.name_field = '{}-oda_completed_icon'.format(oda_name)
+            completed_icon.save()
         else:
-            completed_icon = ImageModel.objects.create(
-                name_field=("odas"), file_field=completed_image)
+            completed_icon = ImageModel.objects.create(name_field='{}-oda_completed_icon'.format(oda_name),
+                                                       folder_field="odas", file_field=completed_image)
 
         oda, oda_created = ODAModel.objects.get_or_create(name_field=oda_name, created_by_field=user)
 
