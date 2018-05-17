@@ -29,7 +29,8 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
         initial = [{'initial': 'initial'}]
         if self.request.POST:
             context.update({
-                'formset': self.get_image_formset_class()(self.request.POST, self.request.FILES, initial=initial)
+                'formset': self.get_image_formset_class()(self.request.POST, self.request.FILES, initial=initial),
+                'tags': tags
             })
         else:
             context.update({
@@ -38,6 +39,7 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
             })
 
         return context
+
 
     def form_valid(self, form):
         context = self.get_context_data()
@@ -79,13 +81,13 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
             return redirect(to='odas_section_view', pk=subject.pk, section=1)
 
     def form_invalid(self, form):
+
         if form['name_field'].errors:
             sweetify.error(self.request, form.errors['name_field'][0], persistent='Ok')
         if form['mp'].errors:
             sweetify.error(self.request, form.errors['mp'][0], persistent='Ok')
-        subjects = SubjectModel.objects.all()
-        tags = TagModel.objects.all()
-        return render(self.request, self.template_name, {'form': form, 'subjects': subjects, 'tags': tags})
+        context = self.get_context_data()
+        return render(self.request, self.template_name, context=context)
 
 
 class UpdateSubjectView(LoginRequiredMixin, UpdateView):
@@ -131,6 +133,14 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
                 'background_img': background_img
             })
         return context
+
+    def form_invalid(self, form):
+        if form['name_field'].errors:
+            sweetify.error(self.request, form.errors['name_field'][0], persistent='Ok')
+        if form['mp'].errors:
+            sweetify.error(self.request, form.errors['mp'][0], persistent='Ok')
+        context = self.get_context_data()
+        return render(self.request, self.template_name, context=context)
 
     def form_valid(self, form):
         context = self.get_context_data()
