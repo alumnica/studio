@@ -13,7 +13,14 @@ $(document).ready(function () {
     }
 
     function deleteForm(btn, prefix) {
-        let formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        let formCount = 0;
+
+        $(".my_item").each(function () {
+           if (this.className.search('is-hidden') == -1){
+               formCount += 1;
+           }
+        });
+
         if (formCount > 1) {
             let row = $(".my_item:first").clone(false).get(0);
             // Delete the item/form
@@ -32,6 +39,15 @@ $(document).ready(function () {
             // for (index = 0; index < label_name.length; ++index) {
             //     label_name[index].innerText = ("Bloque # " + (index + 1));
             // }
+
+            let counter = 1;
+             $(".my_item").each(function () {
+                if(this.className.search('is-hidden') == -1){
+                    let label_name = $(this).find('.section_name');
+                    $(label_name).text( "Bloque # " + (counter));
+                    counter += 1;
+                }
+            });
 
                 if (formCount == 4) {
                     $('#bloque-add').show();
@@ -57,11 +73,22 @@ $(document).ready(function () {
     }
 
     function addForm(btn, prefix) {
-        let formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        let formCount = 0;
+
+        $(".my_item").each(function () {
+           if (this.className.search('is-hidden') == -1){
+               formCount += 1;
+           }
+        });
         // You can only submit a maximum of 10 todo items
         if (formCount < 4) {
             // Clone a form (without event handlers) from the first form
-            let row = $(".my_item:first").clone(false).get(0);
+            let row = "";
+            $(".my_item").each(function () {
+                if(this.className.search('is-hidden') == -1){
+                    row = $(this).clone(false).get(0);
+                }
+            });
 
             let inputs = row.getElementsByTagName('input');
             for (index = 0; index < inputs.length; ++index) {
@@ -80,6 +107,7 @@ $(document).ready(function () {
 
             let label_name = row.getElementsByTagName('span')[0];
             label_name.innerText = ("Bloque # " + (formCount + 1));
+
 
             let images = row.getElementsByTagName('img');
             for (index = 0; index < images.length; ++index) {
@@ -161,7 +189,7 @@ function is_valid_form_subject(){
                 preview_name = 'preview-' + inputs[i].name;
                 let source_image = document.getElementById(preview_name).src;
                 let image_selected_regexp = new RegExp('/.png');
-                let match_found = source_image.search('/.png');
+                let match_found = source_image.search('data:image/png');
 
                 if(match_found == -1){
                     swal("Error", "Debes subir archivos png", "error");
@@ -173,7 +201,7 @@ function is_valid_form_subject(){
                 preview_name = 'preview-' + inputs[i].name;
                 let source_image = document.getElementById(preview_name).src;
                 let image_selected_regexp = new RegExp('/.png');
-                let match_found = source_image.search('/.png');
+                let match_found = source_image.search('data:image/png');
 
                 if (source_image == "" || source_image == null) {
                     swal("Error", "Faltan imágenes por subir", "error");
