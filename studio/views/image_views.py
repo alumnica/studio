@@ -4,4 +4,4 @@ from django.views.generic import TemplateView
 
 class ImageLibraryView(LoginRequiredMixin, TemplateView):
     login_url = 'login_view'
-    template_name = 'studio/pages/image-test.html'
+    template_name = 'studio/dashboard/biblioteca.html'
