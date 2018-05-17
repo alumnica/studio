@@ -50,17 +50,19 @@ $( document ).ajaxComplete(function() {
     });
 
     $('.img-box .file_field').each(function(){
-        var fullPath = $(this).parents('.complete_file').text();
-
-        var checker = $(this).closest('.img-box').find('.deleter');
-        $(checker).val(fullPath);
-
-
 
         /*var fileName = fullPath.replace(/^.*[\\\/]/, '');
         $(this).text(fileName);*/
+
+        var checker = $(this).closest('.img-box').find('.deleter');
+
         $(checker).attr('data-name', $('.file_name_field').text());
 
+    });
+
+    $('.img-box .complete_file').each(function(){
+        var checker = $(this).closest('.img-box').find('.deleter');
+        $(checker).val($(this).text())
     });
 
     $('.folder_field').each(function(){
@@ -73,7 +75,7 @@ $( document ).ajaxComplete(function() {
 
 
     $('.img-box').on('click', '.image', function(){
-        var imageUrl = $('.complete_file', this).text();
+        var imageUrl = $('.file_field', this).text();
         $('#imgModal img').attr('src', imageUrl);
         $('#dloadBtn').attr('href', imageUrl);
 
