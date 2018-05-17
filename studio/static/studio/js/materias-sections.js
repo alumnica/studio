@@ -189,7 +189,7 @@ function is_valid_form_subject(){
                 preview_name = 'preview-' + inputs[i].name;
                 let source_image = document.getElementById(preview_name).src;
                 let image_selected_regexp = new RegExp('/.png');
-                let match_found = source_image.search('data:image/png');
+                let match_found = source_image.search('/.png');
 
                 if(match_found == -1){
                     swal("Error", "Debes subir archivos png", "error");
@@ -201,7 +201,7 @@ function is_valid_form_subject(){
                 preview_name = 'preview-' + inputs[i].name;
                 let source_image = document.getElementById(preview_name).src;
                 let image_selected_regexp = new RegExp('/.png');
-                let match_found = source_image.search('data:image/png');
+                let match_found = source_image.search('.png');
 
                 if (source_image == "" || source_image == null) {
                     swal("Error", "Faltan imágenes por subir", "error");
