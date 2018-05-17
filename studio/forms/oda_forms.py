@@ -1,3 +1,5 @@
+import os
+
 from django import forms
 
 from alumnica_model.models import ODAModel
@@ -27,15 +29,21 @@ class ODAModelForm(forms.Form):
             active_icon = ImageModel.objects.create(name_field='{}-oda_active_icon'.format(oda_name),
                                                     folder_field="odas", file_field=active_image)
 
+            active_icon.file_name_field = os.path.basename(active_icon.file_field.name)
+            active_icon.save()
+
         completed_image = cleaned_data.get('completed_icon_field')
         if isinstance(completed_image, ImageModel):
             completed_icon = ImageModel.objects.get(folder_field=completed_image.folder_field,
-                                                    file_field=active_image.file_field)
+                                                    file_field=completed_image.file_field)
             completed_icon.name_field = '{}-oda_completed_icon'.format(oda_name)
             completed_icon.save()
         else:
             completed_icon = ImageModel.objects.create(name_field='{}-oda_completed_icon'.format(oda_name),
                                                        folder_field="odas", file_field=completed_image)
+
+            completed_icon.file_name_field = os.path.basename(active_icon.file_field.name)
+            completed_icon.save()
 
         oda, oda_created = ODAModel.objects.get_or_create(name_field=oda_name, created_by_field=user)
 

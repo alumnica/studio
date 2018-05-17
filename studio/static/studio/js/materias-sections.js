@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $(":submit").click(function () { $("#action").val(this.name); });
     // Code adapted from http://djangosnippets.org/snippets/1389/
     let x = 0;
 
@@ -16,34 +17,28 @@ $(document).ready(function () {
         if (formCount > 1) {
             let row = $(".my_item:first").clone(false).get(0);
             // Delete the item/form
-            $(btn).parents('.my_item').remove();
+            id_name = $(btn).parents('.my_item').find('.upload_section').attr('id');
+
+            number_form= id_name.split('-')[1];
+            $('#form-'+ number_form+ '-DELETE').val('on');
+            $(btn).parents('.my_item').addClass('is-hidden');
+
+
             let forms = $('.my_item'); // Get all the forms
             // Update the total number of forms (1 less than before)
             $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
             // Go through the forms and set their indices, names and IDs
-            let inputs = row.getElementsByTagName('input');
-            for (index = 0; index < inputs.length; ++index) {
-                updateElementIndex(inputs[index], prefix, formCount);
-                $(inputs[index]).val("");
-            }
-            let labels = row.getElementsByTagName('label');
-            for (index = 0; index < labels.length; ++index) {
-                updateElementIndex(labels[index], prefix, formCount);
-            }
+            // let label_name = document.getElementsByClassName('section_name');
+            // for (index = 0; index < label_name.length; ++index) {
+            //     label_name[index].innerText = ("Bloque # " + (index + 1));
+            // }
 
-            let images = row.getElementsByTagName('img');
-            for (index = 0; index < images.length; ++index) {
-                updateElementIndex(images[index], prefix, formCount);
-                $(images[index]).removeAttr('src')
-
+                if (formCount == 4) {
+                    $('#bloque-add').show();
             }
-
-             if(formCount==4){
-                $('#bloque-add').show();
-            }
-        } // End if
+        }// End if
         else {
-            alert("You have to enter at least one item!");
+            swal("Error", "Debe existir al menos un bloque!", "error");
         }
         return false;
     }
@@ -133,3 +128,69 @@ $(document).ready(function () {
         return deleteForm(this, "form");
     });
 });
+
+
+function is_valid_form_subject(){
+    if($('#action').val() == "save"){
+        return true;
+    }
+    else{
+        let ambit_selected = document.getElementById('id_ambit_field').value;
+        let tags = document.getElementById('materias-tags').value;
+
+        if (tags == '' || tags==' ' || tags ==null){
+            swal("Error", "Debes introducir al menos un tag para finalizar", "error");
+            return false;
+        }
+
+        if (ambit_selected == '' || ambit_selected ==null){
+            swal("Error", "Debes seleccionar un ámbito para finalizar", "error");
+            return false;
+        }
+
+
+        let inputs = $("form input[type='file']");
+        for (let i=0; i<inputs.length; i++) {
+            if (inputs[i].files.length > 0) {
+                let image_size = inputs[i].files[0].size / 1024 / 1024;
+                if (image_size > 10) {
+                    swal("Error", "El archivo de seleccionado excede los 10 MB", "error");
+                    return false;
+                }
+                else {
+                preview_name = 'preview-' + inputs[i].name;
+                let source_image = document.getElementById(preview_name).src;
+                let image_selected_regexp = new RegExp('/.png');
+                let match_found = source_image.search('/.png');
+
+                if(match_found == -1){
+                    swal("Error", "Debes subir archivos png", "error");
+                    return false;
+                }
+            }
+            }
+            else {
+                preview_name = 'preview-' + inputs[i].name;
+                let source_image = document.getElementById(preview_name).src;
+                let image_selected_regexp = new RegExp('/.png');
+                let match_found = source_image.search('/.png');
+
+                if (source_image == "" || source_image == null) {
+                    swal("Error", "Faltan imágenes por subir", "error");
+                    return false;
+                }
+
+                if(match_found == -1){
+                    swal("Error", "Faltan imágenes por subir", "error");
+                    return false;
+                }
+            }
+
+
+        }
+
+
+
+        return true;
+    }
+}

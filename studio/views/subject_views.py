@@ -15,7 +15,13 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
 
     def get_image_formset_class(self):
         return formset_factory(
-            ImageModelForm, BaseImageModelFormset, min_num=1, max_num=1, validate_max=False, validate_min=True)
+            ImageModelForm,
+            BaseImageModelFormset,
+            min_num=1,
+            max_num=1,
+            validate_max=False,
+            validate_min=True,
+        )
 
     def get_context_data(self, **kwargs):
         context = super(CreateSubjectView, self).get_context_data(**kwargs)
@@ -35,7 +41,9 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         context = self.get_context_data()
-        subject = form.save_form(self.request.user)
+        action = self.request.POST.get('action')
+
+        subject = form.save_form(self.request.user, action == 'save')
         formset = context['formset']
         section = 1
         formset_count = 0
@@ -43,15 +51,16 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
             if formset.has_changed():
                 for form in formset:
                     a = form.save(commit=False)
-                    a.name_field = '{}-subject_section_image'.format(subject.name)
-                    a.folder_field = "subjects"
-                    a.save()
-                    section += 1
-                    subject.sections_images_field.add(a)
-                    formset_count += 1
-                subject.sections_images_field = formset_count
+                    if bool(a.file_field):
+                        a.name_field = '{}-subject_section_image'.format(subject.name)
+                        a.folder_field = "subjects"
+                        a.file_name_field = os.path.basename(a.file_field.name)
+                        a.save()
+                        section += 1
+                        subject.sections_images_field.add(a)
+                        formset_count += 1
+                subject.number_of_sections_field = formset_count
                 subject.save()
-            return redirect(to='odas_section_view', pk=subject.pk, section=1)
         else:
             i = 1
             for form in formset:
@@ -63,6 +72,11 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
                     break
                 i += 1
             return render(self.request, self.template_name, context=context)
+
+        if action == 'save':
+            return redirect(to='materias_view')
+        else:
+            return redirect(to='odas_section_view', pk=subject.pk, section=1)
 
     def form_invalid(self, form):
         if form['name_field'].errors:
@@ -85,8 +99,13 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
         if num_sections == 0:
             num_sections = 1
         return formset_factory(
-            ImageModelForm, BaseImageModelFormset, min_num=num_sections, max_num=self.object.number_of_sections_field,
-            validate_max=False, validate_min=False)
+            ImageModelForm,
+            BaseImageModelFormset,
+            min_num=num_sections,
+            max_num=self.object.number_of_sections_field,
+            validate_max=False,
+            validate_min=False,
+            can_delete=True)
 
     def get_context_data(self, **kwargs):
         context = super(UpdateSubjectView, self).get_context_data(**kwargs)
@@ -115,7 +134,10 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         context = self.get_context_data()
-        subject = form.save_form()
+
+        action = self.request.POST.get('action')
+        subject = form.save_form(action == 'save')
+
         formset = context['formset']
         section = 1
         formset_count = len(formset)
@@ -124,22 +146,32 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
             if formset.has_changed():
                 for form in formset:
                     a = form.save(commit=False)
-                    a.name_field = '{}-subject_section_image'.format(subject.name)
-                    a.folder_field = "subjects"
-                    a.save()
-                    section += 1
-                    current_sections.append(a.pk)
-                    if a not in self.object.sections_images_field.all():
-                        self.object.sections_images_field.add(a)
+                    if bool(a.file_field):
+                        a.name_field = '{}-subject_section_image'.format(subject.name)
+                        a.folder_field = "subjects"
+                        a.file_name_field = os.path.basename(a.file_field.name)
+                        a.save()
+                        section += 1
+                        current_sections.append(a.pk)
+                        if a not in self.object.sections_images_field.all():
+                            self.object.sections_images_field.add(a)
             else:
                 for form in formset:
-                    a = form.save()
-                    current_sections.append(a.pk)
+                    a = form.save(commit=False)
+                    if bool(a.file_field):
+                        current_sections.append(a.pk)
 
             subject.number_of_sections_field = formset_count
+
+            for deleted_form in formset.deleted_forms:
+                object_to_delete = deleted_form.save(commit=False)
+                object_to_delete.delete()
+                subject.number_of_sections_field -= 1
+
+            subject.save()
+
             self.object.save()
             self.object.update_sections(current_sections)
-            return redirect(to='odas_section_view', pk=subject.pk, section=1)
         else:
             i = 1
             for form in formset:
@@ -152,12 +184,18 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
                 i += 1
             return render(self.request, self.template_name, context=context)
 
+        if action == 'save':
+            return redirect(to='materias_view')
+        else:
+            return redirect(to='odas_section_view', pk=subject.pk, section=1)
+
 
 class SubjectView(LoginRequiredMixin, ListView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/materias.html'
     queryset = SubjectModel.objects.all()
     context_object_name = 'subject_list'
+
 
 class DeleteSubjectView(View):
     def dispatch(self, request, *args, **kwargs):

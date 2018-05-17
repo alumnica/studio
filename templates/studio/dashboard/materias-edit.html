@@ -8,9 +8,8 @@
         Crear nueva Materia
     </h1>
     <hr>
-    <form method="POST" id="materia-init" enctype="multipart/form-data" onsubmit="return is_valid_form_images()">
+    <form method="POST" id="materia-init" enctype="multipart/form-data" onsubmit="return is_valid_form_subject()">
         {% csrf_token %}
-    {{ form.errors }}
         <div class="grid-x grid-margin-x">
             <div class="cell medium-6">
                 <label for="titulo-materia">Titulo</label>
@@ -57,7 +56,7 @@
                             </div>
                         </div>
                         <div class="materia-preview">
-                            <img src="{{ MEDIA_URL }} {{ background_img.file_field.url }}" alt="Portada de Materia" />
+                            <img src="{{ background_img.file_field.url }}" alt="Portada de Materia" />
                         </div>
                     </div>
                 </div>
@@ -74,7 +73,7 @@
                     <div class="cell medium-3 my_item" id="seccion-img">
                         <div class="panel">
                             <div class="panel__title">
-                                <span>Bloque #{{ forloop.counter }}</span>
+                                <span class="section_name">Bloque #{{ forloop.counter }}</span>
                                  <button class="delete-bloque delete"><i class="fa fa-times"></i></button>
 
                             </div>
@@ -83,6 +82,7 @@
                                     <div class="small-6 cell">
                                         <label for="id_{{ form.file_field.html_name }}" class="button small expanded">Subir Imagen</label>
                                         {{ form.file_field }}
+                                        <input type="hidden" name="{{ form.prefix }}-DELETE" id="{{ form.prefix }}-DELETE" />
                                     </div>
                                     <div class="small-6 cell">
                                         <a href="#" class="button expanded small">
@@ -115,11 +115,13 @@
             <!-- submit buttons -->
             <div class="cell medium-12">
                 <hr>
-                <button class="button">
+                <button type="submit" name="save" class="button">
                     <i class="fa fa-save"></i> Guardar</button>
-                &nbsp;&nbsp;
-                <button type="submit" class="button success">
+
+                <button type="submit" name="eva-publish" class="button success">
                     <i class="fa fa-check"></i> FINALIZAR</button>
+
+                <input type="hidden" name="action" id="action" />
             </div>
         </div>
         <!-- end grid-x -->

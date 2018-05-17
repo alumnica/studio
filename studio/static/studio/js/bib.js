@@ -50,16 +50,16 @@ $( document ).ajaxComplete(function() {
     });
 
     $('.img-box .file_field').each(function(){
-        var fullPath = $(this).text();
+        var fullPath = $(this).parents('.complete_file').text();
 
         var checker = $(this).closest('.img-box').find('.deleter');
         $(checker).val(fullPath);
 
 
 
-        var fileName = fullPath.replace(/^.*[\\\/]/, '');
-        $(this).text(fileName);
-        $(checker).attr('data-name', fileName);
+        /*var fileName = fullPath.replace(/^.*[\\\/]/, '');
+        $(this).text(fileName);*/
+        $(checker).attr('data-name', $('.file_name_field').text());
 
     });
 
@@ -77,7 +77,7 @@ $( document ).ajaxComplete(function() {
         $('#imgModal img').attr('src', imageUrl);
         $('#dloadBtn').attr('href', imageUrl);
 
-        var theName = $('.file_field', this).text();
+        var theName = $('.file_name_field', this).text();
         $('#nombre').html('<strong>Nombre:</strong> '+theName);
 
         var theDate = $('.date_field', this).text();

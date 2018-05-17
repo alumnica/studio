@@ -1,3 +1,5 @@
+import os
+
 from django import forms
 from django.core.exceptions import ValidationError
 
@@ -34,7 +36,8 @@ class CreateAmbitForm(forms.ModelForm):
             image_model = ImageModel.objects.create(name_field='{}-ambit_image'.format(ambit.name),
                                                     folder_field="ambits", file_field=image)
 
-        image_model.temporal_field = False
+        image_model.file_name_field = os.path.basename(image_model.file_field.name)
+        image_model.save()
         ambit.background_image = image_model
         ambit.program = ProgramModel.objects.get(name_field="Primaria")
         ambit.save()
@@ -73,6 +76,10 @@ class CreateAmbitForm(forms.ModelForm):
             else:
                 image_model = ImageModel.objects.create(name_field='{}-ambit_image'.format(ambit.name),
                                                         folder_field="ambits", file_field=image)
+
+            image_model.file_name_field = os.path.basename(image_model.file_field.name)
+            image_model.save()
+
 
             ambit.background_image = image_model
         ambit.save()
@@ -120,7 +127,8 @@ class UpdateAmbitForm(forms.ModelForm):
             else:
                 image_model = ImageModel.objects.create(name_field='{}-ambit_image'.format(ambit.name),
                                                         folder_field="ambits", file_field=image)
-            image_model.temporal = False
+            image_model.file_name_field = os.path.basename(image_model.file_field.name)
+            image_model.save()
             image_model.save()
             ambit.background_image = image_model
         ambit.save()
@@ -162,6 +170,7 @@ class UpdateAmbitForm(forms.ModelForm):
                 image_model = ImageModel.objects.create(name_field='{}-ambit_image'.format(ambit.name),
                                                         folder_field="ambits", file_field=image)
 
+            image_model.file_name_field = os.path.basename(image_model.file_field.name)
             image_model.save()
             ambit.background_image = image_model
         ambit.save()

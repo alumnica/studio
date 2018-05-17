@@ -6,8 +6,6 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, UpdateView, ListView, CreateView
 from sweetify import sweetify
-
-from alumnica_model.models import TagModel, MomentModel
 from studio.forms.oda_forms import *
 
 

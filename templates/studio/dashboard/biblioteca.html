@@ -16,18 +16,19 @@
        <div class="grid-x grid-margin-x filter-panel">
            <div class="cell medium-2">
 
-                <!-- items per page select -->
-                  <!--<select-->
-                     <!--class=""-->
-                     <!--data-control-type="items-per-page-select"-->
-                     <!--data-control-name="paging"-->
-                     <!--data-control-action="paging">-->
+{% comment %}
+                  <select
+                     class=""
+                     data-control-type="items-per-page-select"
+                     data-control-name="paging"
+                     data-control-action="paging"
+                  >
 
-                     <!--<option data-number="3"> 3 per page </option>-->
-                     <!--<option data-number="5"> 5 per page </option>-->
-                     <!--<option data-number="10" data-default="true"> 10 per page </option>-->
-                     <!--<option data-number="all"> view all </option>-->
-                  <!--</select>-->
+                     <option data-number="3"> 3 per page </option>
+                     <option data-number="5"> 5 per page </option>
+                     <option data-number="10" data-default="true"> 10 per page </option>
+                     <option data-number="all"> view all </option>
+                  </select>{% endcomment %}
 
            </div>
            <div class="cell medium-2">
@@ -48,7 +49,7 @@
                <div class="input-group">
                    <input class="input-group-field"
                           type="text"
-                          data-path=".folder_field, .folder_field"
+                          data-path=".folder_field, .file_name_field"
                           data-button="#searchButton"
                           value=""
                           placeholder="Busqueda"
@@ -101,8 +102,9 @@
                 </div>
 
         </div>
-        <div class="grid-x">
-            <div class="cell medium-6 filter-panel">
+        {% comment %}<div class="grid-x">
+            <div class="cell medium-6">
+                <div class="filter-panel">
                 <div
                         class="jplist-pagination float-right"
                         data-control-type="pagination"
@@ -110,8 +112,10 @@
                         data-control-action="paging"
                         data-items-per-page="5">
                         </div>
+
+                </div>
             </div>
-        </div>
+        </div>{% endcomment %}
 
 
 
@@ -133,8 +137,8 @@
     <div class="image" data-open="imgModal">
         <div class="is-hidden">
             <div class="date_field">{{created_at_field}}</div>
-            <div class="complete_file">{{file_field}}</div>
-
+            <div class="complete_file">{{url}}</div>
+            <div class="file_field">{{file_field}}</div>
             <div class="name_field">{{name_field}}</div>
         </div>
 
@@ -145,7 +149,7 @@
             <img class="img_contain" src="{{file_field}}" alt="">
         </div>
         <div class="text-center">
-            <div class="file_field">{{file_field}}</div>
+            <div class="file_name_field">{{file_name_field}}</div>
             <div class="folder_field">{{folder_field}}</div>
         </div>
     </div>
