@@ -4,6 +4,26 @@ $('document').ready(function(){
     var $list = $('#img-jplist .list')
          ,template = Handlebars.compile($('#jplist-template').html());
 
+    $('#delete_images').on('click', function () {
+       let urls = $('#toBeDeleted').val();
+       let urls_array = urls.split(',');
+
+       for (let i=0; i<urls_array.length; i++){
+           delete_article(urls_array[i]);
+       }
+    });
+
+    function delete_article(url){
+    $.ajax({
+        url: url,
+        data: url,
+        type: "DELETE",
+        success: function(son) {
+            console.log("delete successful")
+        },
+    })
+ };
+
    $('#img-jplist').jplist({
 
       itemsBox: '.list'

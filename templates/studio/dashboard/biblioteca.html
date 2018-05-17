@@ -7,10 +7,11 @@
     <h1 class="title">
         <i class="menu-image fas fa-images"></i> Biblioteca de Imagenes </h1>
     <form method="POST" id="deletions">
-        <input type="text" id="toBeDeleted">
-         <input type="submit" id="submit-form" class="is-hidden" />
+
+        <input type="hidden" id="toBeDeleted">
+         <input type="button" id="submit-form" class="is-hidden" />
     </form>
-    <input type="text" id="theNames">
+    <input type="hidden" id="theNames">
     <hr>
     <div id="img-jplist">
        <div class="grid-x grid-margin-x filter-panel">
@@ -43,7 +44,7 @@
               <!--</select>-->
            </div>
            <div class="cell medium-4">
-               <button id="deleterBtn" disabled type="button" class="button" data-open="deleteModal"><i class="fa fa-trash"></i> Borrar</button>
+               {% comment %}<button id="deleterBtn" disabled type="button" class="button" data-open="deleteModal"><i class="fa fa-trash"></i> Borrar</button>{% endcomment %}
            </div>
            <div class="cell medium-4">
                <div class="input-group">
@@ -202,7 +203,7 @@
     </div>
     <div class="u-margin-top-medium">
         <button class="button secondary" data-close aria-label="Close modal" type="button"><i class="fa fa-times"></i> Cancelar</button>
-        <label for="submit-form" class="button float-right"><i class="fa fa-check"></i> Aceptar</label>
+        <button  id="delete_images" class="button float-right"><i class="fa fa-check"></i> Aceptar</button>
     </div>
 </div>
 
