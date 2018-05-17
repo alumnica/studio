@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'alumnica_model.apps.AlumnicaModelConfig',
     'sweetify',
     'storages',
-    'rest_framework'
+    'rest_framework',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -81,11 +82,7 @@ WSGI_APPLICATION = 'studio_webapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-
-    }
-}
+DATABASES = {'default': {}}
 
 if DEBUG:
     DATABASES = {
@@ -204,3 +201,9 @@ LOGGING = {
         }
     }
 }
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
+}
+

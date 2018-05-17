@@ -1,5 +1,5 @@
 function is_valid_form (){
-    if($('#action').val() == "draft"){
+    if($('#action').val() == "save"){
         let ambit_name = document.getElementById('id_name_field').value;
         if (ambit_name == '' || ambit_name == null){
             swal("Error", "Se requiere llenar el campo de nombre", "error");
@@ -17,14 +17,14 @@ function is_valid_form (){
         let color_selected = false;
         let image_selected_source = document.getElementById('preview-ap').src;
         let ambit_name = document.getElementById('id_name_field').value;
-        let position = document.getElementById('id_position_field').value;
+
         if (ambit_name == '' || ambit_name == null){
             swal("Error", "Se requiere llenar el campo de nombre", "error");
             return false;
         }
 
-        if(position == '' || position == null || position == '0'){
-            swal("Error", "Elige una posición para este ámbito", "error");
+        if(!(is_published || space_free)){
+            swal("Error", "No puedes publicar otro ámbito, borra uno antes", "error");
             return false;
         }
 
@@ -43,21 +43,23 @@ function is_valid_form (){
             swal("Error", "Selecciona un color de fondo", "error");
             return false;
         }
-        let image_selected_regexp = new RegExp('/.png');
-        let match_found = image_selected_source.search('.png');
-        if (image_selected.value == null || image_selected.value == ""){
-            swal("Error", "Selecciona una imagen PNG", "error");
-            return false;
-        }
-        if(match_found == -1){
-            swal("Error", "Selecciona una imagen PNG", "error");
-            return false;
-        }
+
 
         if(image_selected.value != null && image_selected.value != ""){
             let image_size= image_selected.files[0].size / 1024 / 1024;
             if (image_size > 10){
                 swal("Error", "El archivo de seleccionado excede los 10 MB", "error");
+                return false;
+            }
+
+            let image_selected_regexp = new RegExp('/.png');
+            let match_found = image_selected_source.search('.png');
+            if (image_selected.value == null || image_selected.value == ""){
+                swal("Error", "Selecciona una imagen PNG", "error");
+                return false;
+            }
+            if(match_found == -1){
+                swal("Error", "Selecciona una imagen PNG", "error");
                 return false;
             }
         }

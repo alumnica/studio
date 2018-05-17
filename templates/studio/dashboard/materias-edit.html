@@ -1,94 +1,134 @@
-{% extends "studio/base-main.html" %}
-{% load static %}
-{% block content %}
+{% extends "studio/base-main.html" %} {% load static %} {% block content %}
 
 
 
 <div class="container dashboard">
 
+    <h1 class="title">
+        Crear nueva Materia
+    </h1>
+    <hr>
+    <form method="POST" id="materia-init" enctype="multipart/form-data" onsubmit="return is_valid_form_subject()">
+        {% csrf_token %}
+        <div class="grid-x grid-margin-x">
+            <div class="cell medium-6">
+                <label for="titulo-materia">Titulo</label>
+                {{ form.name_field }}
+                <!--input name="titulo-materia" type="text" placeholder="titulo"-->
 
-        <h1 class="title">
-            Crear nueva Materia
-        </h1>
-        <hr>
-    
-        <div class="grid-x">
-            <div class="cell medium-12">
-                <p class="h5">Instrucciones:</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                </p>
-                <hr>
+                <!-- tags -->
+
+                <label for="tags-materias">Tags</label>
+                {{ form.tags_field }}
+
+                <script type="text/javascript">
+                    let ambitoTags = [];
+                    let materiasTags = [];
+                    let self_tags_selectize = [];
+                    {% for tag in tags %}
+                    materiasTags.push({ name: "{{ tag.name_field|safe }}", value: "{{ tag.id|safe }}" });
+                    {% endfor %}
+                    {% for self_tag in self_tags %}
+                    self_tags_selectize.push("{{ self_tag.name_field|safe }}");
+                    {% endfor %}
+                </script>
+                <!-- end tags -->
+                <br>
+                <label for="seleccion-ambito">Selecciona Ámbito al que pertenece esta Materia</label>
+                {{ form.ambit_field }}
             </div>
-            <div class="cell medium-12">
+            <!-- end first column -->
 
-                <form method="POST" id="materia-init" enctype="multipart/form-data" onsubmit="return is_valid_form_images()">
-                    {% csrf_token %}
-                    <div class="grid-x grid-margin-x">
-                        <div class="cell medium-5">
-                            <label for="titulo-materia">Titulo</label>
-                            {{ form.name_field }}
-                            <!--input name="titulo-materia" type="text" placeholder="titulo"-->
-                            <label for="seleccion-ambito">Selecciona Ámbito al que pertenece esta Materia</label>
-                            {{ form.ambit_field }}
-                                                        
-                            <!-- tags -->
-
-                            <label for="tags-materias">Tags</label>
-                            {{ form.tags_field }}
-
-                            <script type="text/javascript">
-                                let ambitoTags=[];
-                                let materiasTags = [];
-                                let self_tags_selectize = [];
-                                    {% for tag in tags %}
-                                        materiasTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
-                                    {% endfor %}
-                                    {% for self_tag in self_tags %}
-                                        self_tags_selectize.push("{{ self_tag.name_field|safe }}");
-                                    {% endfor %}
-                            </script>
-                            <!-- end tags -->
-
-                            <label>Número de secciones dentro de la materia
-                                {{ form.number_of_sections_field }}
-                            </label>
-
-
-    
-                        </div>
-                        <div class="cell medium-5 medium-offset-1">
-                            
-                            <div class="panel">
-                                <div class="panel__title">Imagen de Portada</div>
-                                <div class="panel__content">
-                                    <p class="text-center light-gray">Solo archivos PNG. Tamaño maximo 150x300px</p>
-                                    <div class="grid-x grid-margin-x">
-                                        <div class="small-6 cell">
-                                            <label for="materia-u" class="button expanded">Subir Imagen</label>
-                                            {{ form.mp }}
-                                        </div>
-                                        <div class="small-6 cell">
-                                            <a href="#" class="button expanded">Biblioteca de Imagenes</a>
-                                        </div>
-                                    </div>
-                                    <div class="materia-preview">
-                                            <img src="{{ MEDIA_URL }} {{ background_img.file_field.url }}" alt="your image" />
-                                    </div> 
-                                </div>
+            <div class="cell medium-6 ">
+                <!-- panel de imagen -->
+                <div class="panel">
+                    <div class="panel__title ">Imagend de Portada |
+                        <small>Solo archivos PNG. Tamaño maximo 150x300px</small>
+                    </div>
+                    <div class="panel__content">
+                        <div class="grid-x grid-margin-x  u-margin-bottom-small">
+                            <div class="small-6 cell">
+                                <label for="materia-u" class="button expanded">Subir Imagen</label>
+                                {{ form.mp }}
                             </div>
-                             <button class="button expanded" type="submit">Continuar <i class="fas fa-arrow-right"></i> </button>
-                            <!--a href="materias-edit-seccion.html" class="button expanded" type="submit">Continuar-->
-
-
+                            <div class="small-6 cell">
+                                <a href="#" class="button expanded">Biblioteca de Imagenes</a>
+                            </div>
+                        </div>
+                        <div class="materia-preview">
+                            <img src="{{ background_img.file_field.url }}" alt="Portada de Materia" />
                         </div>
                     </div>
-                </form>
+                </div>
+                <!-- end panel de imagen -->
+            </div>
+            <!-- end second column -->
+            <div class="cell small-12">
+                <hr>
+            </div>
+            <!-- start bloques -->
+            {{ formset.management_form }}
+            {% for form in formset.forms %}
+
+                    <div class="cell medium-3 my_item" id="seccion-img">
+                        <div class="panel">
+                            <div class="panel__title">
+                                <span class="section_name">Bloque #{{ forloop.counter }}</span>
+                                 <button class="delete-bloque delete"><i class="fa fa-times"></i></button>
+
+                            </div>
+                            <div class="panel__content">
+                                <div class="grid-x grid-margin-x">
+                                    <div class="small-6 cell">
+                                        <label for="id_{{ form.file_field.html_name }}" class="button small expanded">Subir Imagen</label>
+                                        {{ form.file_field }}
+                                        <input type="hidden" name="{{ form.prefix }}-DELETE" id="{{ form.prefix }}-DELETE" />
+                                    </div>
+                                    <div class="small-6 cell">
+                                        <a href="#" class="button expanded small">
+                                            <i class="fas fa-th"></i> Imagenes</a>
+                                    </div>
+                                </div>
+                                <div class="section-preview">
+                                    <img src="{{ form.initial.file_field.url }}" alt="Imagen Bloque 1" />
+                                </div>
+                                <button class="button u-margin-top-small small expanded"><i class="fa fa-pencil-alt"></i> Editar Posición de ODAs</button>
+                            </div>
+                        </div>
+                    </div>
+
+            {% endfor %}
+            <!-- end bloque -->
+
+            <!-- add bloque button -->
+            <div class="cell medium-3 align-self-middle text-center" id="bloque-add">
+                <button type="button" id="add" class="bloque-add-button">
+                    <i class="fa fa-plus"></i>
+                </button>
+                <p>
+                    <small>Añadir bloque</small>
+                </p>
+            </div>
+
+            <!-- end add bloque button -->
+
+            <!-- submit buttons -->
+            <div class="cell medium-12">
+                <hr>
+                <button type="submit" name="save" class="button">
+                    <i class="fa fa-save"></i> Guardar</button>
+
+                <button type="submit" name="eva-publish" class="button success">
+                    <i class="fa fa-check"></i> FINALIZAR</button>
+
+                <input type="hidden" name="action" id="action" />
             </div>
         </div>
+        <!-- end grid-x -->
+    </form>
+    <!-- end form -->
 </div>
 
-{% endblock content %}
-
-{% block scripts %}
-    <script  type="text/javascript"  src="{% static "studio/js/tags.js" %}"></script>
-    {% endblock %}
+{% endblock content %} {% block scripts %}
+<script type="text/javascript" src="{% static "studio/js/tags.js" %}"></script>
+<script type="text/javascript" src="{% static "studio/js/materias-sections.js" %}"></script>{% endblock %}

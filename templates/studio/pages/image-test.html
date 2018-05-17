@@ -1,0 +1,109 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% block content %}
+<script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
+
+<div class="dashboard container">
+   <div id="img-jplist">
+
+
+        <div class="jplist-panel">
+
+          <div class="input-group">
+                <label class="busqueda-oda">Buscar: </label>
+
+                <input  id="search-field"
+                data-path=".image__category .imagex"
+                type="text"
+                value=""
+                class="input-group-field busqueda-input"
+                placeholder="Buscqueda"
+                data-control-type="textbox"
+                data-control-name="title-filter"
+                data-control-action="filter"
+              />
+            </div>
+
+        </div>
+
+
+        <div class="grid-x grid-padding-x grid-margin-y small-up-2 medium-up-6 list">
+            <!--<div class="cell img-box">-->
+                <!--<div class="checkbox">-->
+                    <!--<input type="checkbox">-->
+                <!--</div>-->
+                <!--<div class="image" data-open="imgModal">-->
+
+
+
+                    <!--&lt;!&ndash; <label for="image-01" class="check"></label>-->
+                    <!--<input type="checkbox" id="image-01"> &ndash;&gt;-->
+                    <!--<div class="image__thumbnail">-->
+                        <!--<img class="img_contain" src="../assets/img/ph/bloque-01.png" alt="">-->
+                    <!--</div>-->
+                    <!--<div class="text-center">-->
+                        <!--<div class="image__name">-->
+                            <!--seccion1.png-->
+                        <!--</div>-->
+                        <!--<div class="image__category">-->
+                            <!--Materia-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+
+
+
+        </div>
+        <!-- no results found -->
+        <div class="jplist-no-results">
+            <p>No results found</p>
+        </div>
+    </div>
+
+</div>
+
+
+
+{% verbatim %}
+<script id="jplist-template" type="text/x-handlebars-template">
+       {{#each this}}
+
+<div class="cell img-box">
+
+    <div class="checkbox">
+        <input type="checkbox">
+    </div>
+    <div class="image" data-open="imgModal">
+
+
+
+        <!-- <label for="image-01" class="check"></label>
+            <input type="checkbox" id="image-01"> -->
+        <div class="image__thumbnail">
+            <img class="img_contain" src="{{file_field}}" alt="">
+        </div>
+        <div class="text-center">
+            <div class="imagex">
+                <p>{{file_field}}</p>
+            </div>
+            <div class="image__category">
+                    {{name_field}}
+            </div>
+        </div>
+    </div>
+</div>
+
+{{/each}}
+</script>
+{% endverbatim %}
+
+
+{% endblock content %}
+
+{% block scripts %}
+
+    <script  type="text/javascript"  src="{% static "studio/js/bib.js" %}"></script>
+
+{% endblock %}

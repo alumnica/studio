@@ -1,3 +1,5 @@
+import os
+
 from django import forms
 
 from alumnica_model.models import ODAModel
@@ -18,18 +20,30 @@ class ODAModelForm(forms.Form):
         oda_name = cleaned_data.get('oda_name')
 
         active_image = cleaned_data.get('active_icon_field')
-        if ImageModel.objects.all().filter(name_field=active_image.name).exists():
-            active_icon = ImageModel.objects.get(name_field=active_image.name)
+        if isinstance(active_image, ImageModel):
+            active_icon = ImageModel.objects.get(folder_field=active_image.folder_field,
+                                                 file_field=active_image.file_field)
+            active_icon.name_field = '{}-oda_active_icon'.format(oda_name)
+            active_icon.save()
         else:
-            active_icon = ImageModel.objects.create(
-                name_field=("oda_{}_section{}_active_icon".format(oda_name, section)), file_field=active_image)
+            active_icon = ImageModel.objects.create(name_field='{}-oda_active_icon'.format(oda_name),
+                                                    folder_field="odas", file_field=active_image)
+
+            active_icon.file_name_field = os.path.basename(active_icon.file_field.name)
+            active_icon.save()
 
         completed_image = cleaned_data.get('completed_icon_field')
-        if ImageModel.objects.all().filter(name_field=completed_image.name).exists():
-            completed_icon = ImageModel.objects.get(name_field=completed_image.name)
+        if isinstance(completed_image, ImageModel):
+            completed_icon = ImageModel.objects.get(folder_field=completed_image.folder_field,
+                                                    file_field=completed_image.file_field)
+            completed_icon.name_field = '{}-oda_completed_icon'.format(oda_name)
+            completed_icon.save()
         else:
-            completed_icon = ImageModel.objects.create(
-                name_field=("oda_{}_section{}_completed_icon".format(oda_name, section)), file_field=completed_image)
+            completed_icon = ImageModel.objects.create(name_field='{}-oda_completed_icon'.format(oda_name),
+                                                       folder_field="odas", file_field=completed_image)
+
+            completed_icon.file_name_field = os.path.basename(active_icon.file_field.name)
+            completed_icon.save()
 
         oda, oda_created = ODAModel.objects.get_or_create(name_field=oda_name, created_by_field=user)
 
@@ -75,7 +89,7 @@ class ODACreateForm(forms.ModelForm):
 
     def save_form(self, user, tags, moments):
         oda = super(ODACreateForm, self).save(commit=False)
-        oda.created_by_field = user.profile
+        oda.created_by_field = user
         oda.save()
         if tags is not None:
             tags = tags.split(',')
@@ -88,9 +102,10 @@ class ODACreateForm(forms.ModelForm):
             if moment_object[1] is not None:
 
                 moments_names = moment_object[1].split(',')
-                microoda, created = MicroODAModel.objects.get_or_create(name_field='{}_{}'.format(oda.name, moment_object[0]),
-                                                               created_by_field=user.profile, type_field=moment_object[0],
-                                                      default_position_field=counter, oda_field=oda)
+                microoda, created = MicroODAModel.objects.get_or_create(name_field='odas',
+                                                                        created_by_field=user,
+                                                                        type_field=moment_object[0],
+                                                                        default_position_field=counter, oda_field=oda)
                 counter += 1
 
                 for moment_name in moments_names:
@@ -117,17 +132,15 @@ class ODAUpdateForm(forms.ModelForm):
         counter = 0
         for moment_object in moments:
 
-            if moment_object[1] is not None:
+            if moment_object[1] is not '' or None:
 
                 moments_names = moment_object[1].split(',')
 
                 try:
-                    microoda = MicroODAModel.objects.get(name_field='{}_{}'.format(oda.name, moment_object[0]),
-                                                      type_field=moment_object[0], oda_field=oda)
+                    microoda = MicroODAModel.objects.get(name_field='odas', type_field=moment_object[0], oda_field=oda)
                 except MicroODAModel.DoesNotExist:
-                    microoda = MicroODAModel.objects.create(name_field='{}_{}'.format(oda.name, moment_object[0]),
-                                                         type_field=moment_object[0], created_by_field=user.profile,
-                                                            oda_field=oda)
+                    microoda = MicroODAModel.objects.create(name_field='odas',type_field=moment_object[0],
+                                                            created_by_field=user, oda_field=oda)
 
                 for moment_name in moments_names:
                     moment = MomentModel.objects.get(name_field=moment_name)

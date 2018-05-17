@@ -1,0 +1,217 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
+
+<div class="dashboard container">
+    <h1 class="title">
+        <i class="menu-image fas fa-images"></i> Biblioteca de Imagenes </h1>
+    <form method="POST" id="deletions">
+
+        <input type="hidden" id="toBeDeleted">
+         <input type="button" id="submit-form" class="is-hidden" />
+    </form>
+    <input type="hidden" id="theNames">
+    <hr>
+    <div id="img-jplist">
+       <div class="grid-x grid-margin-x filter-panel">
+           <div class="cell medium-2">
+
+{% comment %}
+                  <select
+                     class=""
+                     data-control-type="items-per-page-select"
+                     data-control-name="paging"
+                     data-control-action="paging"
+                  >
+
+                     <option data-number="3"> 3 per page </option>
+                     <option data-number="5"> 5 per page </option>
+                     <option data-number="10" data-default="true"> 10 per page </option>
+                     <option data-number="all"> view all </option>
+                  </select>{% endcomment %}
+
+           </div>
+           <div class="cell medium-2">
+                 <!--<select-->
+                 <!--class=""-->
+                 <!--data-control-type="sort-select"-->
+                 <!--data-control-name="sort"-->
+                 <!--data-control-action="sort">-->
+                   <!--<option data-path="default">Sort by</option>-->
+                   <!--<option data-path=".date_field" data-order="asc" data-type="datetime">Date asc</option>-->
+                   <!--<option data-path=".date_field" data-order="desc" data-type="datetime">Date desc</option>-->
+              <!--</select>-->
+           </div>
+           <div class="cell medium-4">
+               {% comment %}<button id="deleterBtn" disabled type="button" class="button" data-open="deleteModal"><i class="fa fa-trash"></i> Borrar</button>{% endcomment %}
+           </div>
+           <div class="cell medium-4">
+               <div class="input-group">
+                   <input class="input-group-field"
+                          type="text"
+                          data-path=".folder_field, .file_name_field"
+                          data-button="#searchButton"
+                          value=""
+                          placeholder="Busqueda"
+                          data-control-type="textbox"
+                          data-control-name="title-filter"
+                          data-control-action="filter"
+                   />
+                   <div class="input-group-button">
+                       <button
+                            class="button secondary"
+                            type="button"
+                            id="searchButton">
+                            <i class="fa fa-search"></i> Buscar
+                       </button>
+                   </div>
+               </div>
+
+           </div>
+       </div>
+
+        <div class="grid-x grid-padding-x grid-margin-y small-up-3 medium-up-6 list u-margin-bottom-small">
+            <!--<div class="cell img-box">-->
+                <!--<div class="checkbox">-->
+                    <!--<input type="checkbox">-->
+                <!--</div>-->
+                <!--<div class="image" data-open="imgModal">-->
+
+
+
+                    <!--&lt;!&ndash; <label for="image-01" class="check"></label>-->
+                    <!--<input type="checkbox" id="image-01"> &ndash;&gt;-->
+                    <!--<div class="image__thumbnail">-->
+                        <!--<img class="img_contain" src="../assets/img/ph/bloque-01.png" alt="">-->
+                    <!--</div>-->
+                    <!--<div class="text-center">-->
+                        <!--<div class="image__name">-->
+                            <!--seccion1.png-->
+                        <!--</div>-->
+                        <!--<div class="image__category">-->
+                            <!--Materia-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+
+        <!-- no results found -->
+                <div class="jplist-no-results">
+                    <p>No results found</p>
+                </div>
+
+        </div>
+        {% comment %}<div class="grid-x">
+            <div class="cell medium-6">
+                <div class="filter-panel">
+                <div
+                        class="jplist-pagination float-right"
+                        data-control-type="pagination"
+                        data-control-name="paging"
+                        data-control-action="paging"
+                        data-items-per-page="5">
+                        </div>
+
+                </div>
+            </div>
+        </div>{% endcomment %}
+
+
+
+    </div>
+
+</div>
+
+
+
+{% verbatim %}
+<script id="jplist-template" type="text/x-handlebars-template">
+       {{#each this}}
+
+<div class="cell img-box">
+
+    <div class="checkbox">
+        <input class="deleter" name="deleter" type="checkbox">
+    </div>
+    <div class="image" data-open="imgModal">
+        <div class="is-hidden">
+            <div class="date_field">{{created_at_field}}</div>
+            <div class="complete_file">{{url}}</div>
+            <div class="file_field">{{file_field}}</div>
+            <div class="name_field">{{name_field}}</div>
+        </div>
+
+
+        <!-- <label for="image-01" class="check"></label>
+            <input type="checkbox" id="image-01"> -->
+        <div class="image__thumbnail">
+            <img class="img_contain" src="{{file_field}}" alt="">
+        </div>
+        <div class="text-center">
+            <div class="file_name_field">{{file_name_field}}</div>
+            <div class="folder_field">{{folder_field}}</div>
+        </div>
+    </div>
+</div>
+
+{{/each}}
+</script>
+{% endverbatim %}
+
+<div class="reveal large imageModal" id="imgModal" data-reveal>
+    <div class="title">
+        Detalles
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="grid-x">
+        <div class="medium-9 cell text-center">
+            <div class="image-selected">
+                <img src="" alt="bloque 1">
+            </div>
+        </div>
+        <div class="medium-3 cell">
+            <div class="image-detail">
+                <ul>
+                    <li id="nombre">Nombre:</li>
+                    <li id="fecha">Fecha:</li>
+                </ul>
+            </div>
+            <div class="image-attached">
+                <ul>
+                    <li id="adjuntoa"></li>
+                </ul>
+
+                <div class="bottom-buttons">
+                    <a id="dloadBtn" download="" href="" class="button secondary">
+                        <i class="fa fa-download"></i> Descargar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="reveal" id="deleteModal" data-reveal>
+    <p class="h5 text-center u-margin-bottom-small">¿Está seguro que desea eliminas estas imagenes?</p>
+    <div id="deleteList">
+
+    </div>
+    <div class="u-margin-top-medium">
+        <button class="button secondary" data-close aria-label="Close modal" type="button"><i class="fa fa-times"></i> Cancelar</button>
+        <button  id="delete_images" class="button float-right"><i class="fa fa-check"></i> Aceptar</button>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block scripts %}
+
+    <script  type="text/javascript"  src="{% static "studio/js/bib.js" %}"></script>
+
+{% endblock %}

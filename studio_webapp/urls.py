@@ -31,6 +31,7 @@ urlpatterns = [
                   path('ambits/', include('studio.urls.ambit_urls')),
                   path('subjects/', include('studio.urls.subject_urls')),
                   path('odas/', include('studio.urls.oda_urls')),
+                  path('images/', include('studio.urls.image_urls')),
                   path('admin/', admin.site.urls),
                   path('api/', include(router.urls)),
                   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),

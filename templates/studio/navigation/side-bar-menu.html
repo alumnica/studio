@@ -2,6 +2,9 @@
     <li id="dash-nav">
         <a href="{% url 'dashboard_view' %}"><div class="menu-image fas fa-home"></div><div class="m-text">Dashboard</div></a>
     </li>
+    <li id="publicar-nav">
+        <a href="#"><div class="menu-image fas fa-share-square"></div>Ámbitos a Publicar <div class="pub-counter">2</div></a>
+    </li>
     <li>
         &nbsp;
     </li>
@@ -24,7 +27,7 @@
         &nbsp;
     </li>
     <li id="bib-nav">
-        <a href=""><div class="menu-image fas fa-images"></div><div>Biblioteca de Imagenes</div></a>
+        <a href="{% url 'library_view' %}"><div class="menu-image fas fa-images"></div><div>Biblioteca de Imagenes</div></a>
     </li>
 </ul>
 

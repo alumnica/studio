@@ -1,3 +1,5 @@
+import os
+
 from django import forms
 from django.core.exceptions import ValidationError
 
@@ -9,7 +11,6 @@ from alumnica_model.validators import unique_ambit_name_validator, file_size
 class CreateAmbitForm(forms.ModelForm):
     name_field = forms.CharField(required=False, max_length=50, widget=forms.TextInput(attrs={'class': 'text_number'}),
                                  validators=[unique_ambit_name_validator])
-    position_field = forms.IntegerField(required=False, max_value=30)
 
     ap = forms.ImageField(required=False, validators=[file_size], widget=forms.FileInput(attrs={'name': 'ap',
                                                                                                 'id': 'ambito-u',
@@ -18,19 +19,25 @@ class CreateAmbitForm(forms.ModelForm):
 
     class Meta:
         model = AmbitModel
-        fields = ['name_field', 'position_field']
-
+        fields = ['name_field']
 
     def save_form(self, user, subjects, tags, color):
         cleaned_data = super(CreateAmbitForm, self).clean()
         ambit = super(CreateAmbitForm, self).save(commit=False)
-        ambit.created_by = user.profile
+        ambit.created_by = user
         ambit.color = color
 
         image = cleaned_data.get('ap')
-        image_model, created = ImageModel.objects.get_or_create(name_field=("ambit_{}_background".format(ambit.name)),
-                                                file_field=image)
-        image_model.temporal_field = False
+        if isinstance(image, ImageModel):
+            image_model = ImageModel.objects.get(folder_field="ambits", file_field=image.file_field)
+            image_model.name_field = '{}-ambit_image'.format(ambit.name)
+            image_model.save()
+        else:
+            image_model = ImageModel.objects.create(name_field='{}-ambit_image'.format(ambit.name),
+                                                    folder_field="ambits", file_field=image)
+
+        image_model.file_name_field = os.path.basename(image_model.file_field.name)
+        image_model.save()
         ambit.background_image = image_model
         ambit.program = ProgramModel.objects.get(name_field="Primaria")
         ambit.save()
@@ -50,23 +57,29 @@ class CreateAmbitForm(forms.ModelForm):
                     ambit.subjects_field.add(subject_model)
                 except SubjectModel.DoesNotExist:
                     pass
-        ambit.is_published = True
+        ambit.is_draft_field = False
         ambit.save()
 
     def save_as_draft(self, user, subjects, tags, color):
         cleaned_data = super(CreateAmbitForm, self).clean()
         ambit = super(CreateAmbitForm, self).save(commit=False)
-        ambit.created_by = user.profile
+        ambit.created_by = user
         ambit.program = ProgramModel.objects.get(name_field="Primaria")
         ambit.color = color
 
-        if cleaned_data.get('position_field') is None:
-            ambit.position_field = 0
-
         if cleaned_data.get('ap') is not None:
             image = cleaned_data.get('ap')
-            image_model, created = ImageModel.objects.get_or_create(name_field=("ambit_{}_background".format(ambit.name)),
-                                                    file_field=image)
+            if isinstance(image, ImageModel):
+                image_model = ImageModel.objects.get(folder_field="ambits", file_field=image.file_field)
+                image_model.name_field = '{}-ambit_image'.format(ambit.name)
+                image_model.save()
+            else:
+                image_model = ImageModel.objects.create(name_field='{}-ambit_image'.format(ambit.name),
+                                                        folder_field="ambits", file_field=image)
+
+            image_model.file_name_field = os.path.basename(image_model.file_field.name)
+            image_model.save()
+
 
             ambit.background_image = image_model
         ambit.save()
@@ -90,7 +103,6 @@ class CreateAmbitForm(forms.ModelForm):
 
 class UpdateAmbitForm(forms.ModelForm):
     name_field = forms.CharField(required=False, max_length=50, widget=forms.TextInput(attrs={'class': 'text_number'}))
-    position_field = forms.IntegerField(required=False, max_value=30)
 
     ap = forms.ImageField(required=False, validators=[file_size], widget=forms.FileInput(attrs={'name': 'ap',
                                                                                                 'id': 'ambito-u',
@@ -98,22 +110,25 @@ class UpdateAmbitForm(forms.ModelForm):
                                                                                                 'type': 'file'}))
     class Meta:
         model = AmbitModel
-        fields = ['name_field', 'position_field']
+        fields = ['name_field']
 
     def save_form(self, subjects, tags, color):
         cleaned_data = super(UpdateAmbitForm, self).clean()
         ambit = AmbitModel.objects.get(name_field=cleaned_data.get('name_field'))
-
-        if cleaned_data.get('position_field') is not None:
-            ambit.position_field = cleaned_data.get('position_field')
         ambit.color = color
 
         image = cleaned_data.get('ap')
 
         if image is not None:
-            image_model, created = ImageModel.objects.get_or_create(name_field=("ambit_{}_background".format(ambit.name)),
-                                                file_field=image)
-            image_model.temporal= False
+            if isinstance(image, ImageModel):
+                image_model = ImageModel.objects.get(folder_field="ambits", file_field=image.file_field)
+                image_model.name_field = '{}-ambit_image'.format(ambit.name)
+                image_model.save()
+            else:
+                image_model = ImageModel.objects.create(name_field='{}-ambit_image'.format(ambit.name),
+                                                        folder_field="ambits", file_field=image)
+            image_model.file_name_field = os.path.basename(image_model.file_field.name)
+            image_model.save()
             image_model.save()
             ambit.background_image = image_model
         ambit.save()
@@ -136,22 +151,26 @@ class UpdateAmbitForm(forms.ModelForm):
                     pass
         for subject in ambit.subjects:
             if subject.name not in subjects:
-                ambit.subjects_field.all().remove(subject)
-        ambit.is_published_field = True
+                ambit.subjects_field.remove(subject)
+        ambit.is_draft_field = False
         ambit.save()
 
     def save_as_draft(self, subjects, tags, color):
         cleaned_data = super(UpdateAmbitForm, self).clean()
         ambit = AmbitModel.objects.get(name_field=cleaned_data.get('name_field'))
-        if cleaned_data.get('position_field') is not None:
-            ambit.position_field = cleaned_data.get('position_field')
         ambit.color = color
 
         if cleaned_data.get('ap') is not None:
             image = cleaned_data.get('ap')
-            image_model, created = ImageModel.objects.get_or_create(name_field=("ambit_{}_background".format(ambit.name)),
-                                                           file_field=image)
+            if isinstance(image, ImageModel):
+                image_model = ImageModel.objects.get(folder_field="ambits", file_field=image.file_field)
+                image_model.name_field = '{}-ambit_image'.format(ambit.name)
+                image_model.save()
+            else:
+                image_model = ImageModel.objects.create(name_field='{}-ambit_image'.format(ambit.name),
+                                                        folder_field="ambits", file_field=image)
 
+            image_model.file_name_field = os.path.basename(image_model.file_field.name)
             image_model.save()
             ambit.background_image = image_model
         ambit.save()
@@ -170,7 +189,38 @@ class UpdateAmbitForm(forms.ModelForm):
                     ambit.subjects_field.add(subject_model)
                 except SubjectModel.DoesNotExist:
                     pass
-        ambit.is_published_field = False
+        ambit.is_draft_field = True
         ambit.save()
+
+
+def verify_ambits_position(new_ambit):
+    ambits_list_raw = AmbitModel.objects.all().exclude(pk=new_ambit.pk)
+    ambits_list = ['na']*30
+    position = new_ambit.position_field
+
+    for ambit in ambits_list_raw:
+        ambits_list[ambit.position - 1] = ambit
+
+    first_section = ambits_list[0:position-1]
+    second_section = ambits_list[position-1:]
+    counter = 1
+    try:
+        second_section_space = second_section.index('na')
+
+        for ambit in second_section[0:second_section_space+1]:
+            if isinstance(ambit, AmbitModel):
+                ambit.position_field = position + counter
+                ambit.save()
+            counter += 1
+
+    except ValueError:
+        first_section_space = [i for i,x in enumerate(first_section) if x == 'na']
+        AmbitModel(second_section[0]).position_field = position-counter
+        AmbitModel(second_section[0]).save()
+        for ambit in first_section[first_section_space[len(first_section_space)-1]-1:]:
+            if isinstance(ambit, AmbitModel):
+                counter += 1
+                ambit.position_field = position - counter
+                ambit.save()
 
 

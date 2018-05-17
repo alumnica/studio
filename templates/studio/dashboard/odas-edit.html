@@ -45,28 +45,28 @@
                         let momentosList = [];
 
                         let apli= [];
-                        {% for moment in apli_list.activities_field.all %}
+                        {% for moment in apli_list.all.0.activities_field.all %}
                                 apli.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
                             {% endfor %}
 
                         let forma = [];
-                        {% for moment in forma_list.activities_field.all %}
+                        {% for moment in forma_list.all.0.activities_field.all %}
                                 forma.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
                             {% endfor %}
                         let activa = [];
-                        {% for moment in activ_list.activities_field.all %}
+                        {% for moment in activ_list.all.0.activities_field.all %}
                                 activa.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
                             {% endfor %}
                         let ejem= [];
-                            {% for moment in ejem_list.activities_field.all %}
+                            {% for moment in ejem_list.all.0.activities_field.all %}
                                 ejem.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
                             {% endfor %}
                         let sens = [];
-                        {% for moment in sens_list.activities_field.all %}
+                        {% for moment in sens_list.all.0.activities_field.all %}
                                 sens.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
                             {% endfor %}
                         let evalu = [];
-                        {% for moment in eval_list.activities_field.all %}
+                        {% for moment in eval_list.all.0.activities_field.all %}
                                 evalu.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
                             {% endfor %}
 
@@ -233,7 +233,7 @@
 <div class="large reveal" id="Modal-2" data-reveal>
         
     <div class="h5p-preview">
-            <iframe src="www.google.com"></iframe> 
+            <iframe src=""></iframe>
     </div>
 
         <button class="close-button" data-close aria-label="Close modal" type="button">

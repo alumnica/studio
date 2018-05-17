@@ -38,6 +38,8 @@
                         let ambitoTags = [];
                         let ambits_to_avoid = [];
                         let self_color = "{{ ambitmodel.color_field }}";
+                        let space_free = {{ ambit_space|yesno:"true,false" }};
+                        let is_published = {{ ambitmodel.is_published_field|yesno:"true,false" }};
                             {% for tag in tags %}
                                 ambitoTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
                             {% endfor %}
@@ -56,16 +58,6 @@
 
                         </script>
                         <!-- end tags -->
-
-                        <label>Posición
-                            {{ form.position_field }}
-                            <!--select class="position-ambito-size">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select-->
-                        </label>
                         
                         <fieldset id="color-button" class="fieldset color-radio">
                             <legend>Color de Fondo</legend>
@@ -221,13 +213,28 @@
                                 <span id="fecha-pub">N/A</span>
                             </p>
 
-                            {#Este POST debe guardar como borrador #}
-                            <button type="submit" class="button secondary" name="draft">Salvar como borrador</button>
+                            
+                            {#Este POST debe guardar el Ambito #}    
+                           
 
-                            {#Este POST debe publicar el Ambito #}    
-                            <button type="submit" class="button primary publicar" name="publish">Publicar</button>
+
+                            <div class="text-right">
+                                <button type="submit" class="button primary" name="save">Guardar</button>
+                            </div>
                             <input type="hidden" name="action" id="action" />
                         </div>
+
+                        <div class="panel">
+                            <div class="panel__title">
+                                Publicar en EVA
+                            </div>
+                            <p>Al publicar la materia será añadida a el EVA en su forma actual.
+                                Favor de checar que los bloques, sus ODAs y momentos se hayan añadido correctamente</p>
+                            <div class="text-right">
+                                <button class="button success" name="eva-publish" type="submit"><i class="fas fa-check"></i> Publicar en EVA</button>
+                            </div>
+                        </div> 
+
                     </div>
                 </div>
             </form>

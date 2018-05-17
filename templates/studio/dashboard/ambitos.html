@@ -25,10 +25,15 @@
                             <th id="titulo-ambito" class="all">Titulo</th>
                             <th id="numero-ambtio" class="not-mobile">#</th>
                             
-                            <th id="matiras-ambito" class="not-mobile">Materias</th>
+                            <th id="materias-ambito" class="not-mobile">Materias</th>
                             <th id="tags-ambito" class="not-mobile tag-length">Tags</th>
                             <th id="fecha-ambito" class="not-mobile">Fecha</th>
+                            <th id="autor-ambito" class="not-mobile">Autor</th>
                             <th id="estado-ambito" class="not-mobile">Estado</th>
+                            {% ifequal request.user.user_type 'SUPERVISOR'%}
+                                <th id="eva-ambito" class="not-mobile"><i class="fas fa-calendar-times"></i> EVA</th>
+                            {% endifequal %}
+
                         </tr>
                     </thead>
                     <tbody>
@@ -38,33 +43,52 @@
 
                                 {# Titulo de Ambito #}
                                 <div class="titulo_lista">
-                                    {{ ambit.name_field }}
+                                    {{ ambit.name }}
                                 </div>
-                                <div class="title-edit-menu">
-                                    <span class="editar">
-                                        {# Link a editar este ambito en especifico #}
-                                        <a href="{% url 'update_ambit_view' ambit.pk %}">Editar</a>
-                                    </span> |
-                                    <span class="borrar">
-                                        {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                        <a href="#">Borrar</a>
-                                    </span> |
-                                    <span class="editar-tag">
-                                        {# Falta #}
-                                        <a href="#">Editar Tags</a>
-                                    </span>
-                                </div>
+                                {% if ambit.is_published %}
+                                    {% ifequal request.user.user_type 'SUPERVISOR'%}
+                                        <div class="title-edit-menu">
+                                        <span class="editar">
+                                            {# Link a editar este ambito en especifico #}
+                                            <a href="{% url 'update_ambit_view' ambit.pk %}">Editar</a>
+                                        </span> |
+                                        <span class="borrar">
+                                            {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
+                                            <a href="{% url 'delete_ambit_view' ambit.pk %}">Borrar</a>
+                                        </span> |
+                                        <span class="editar-tag">
+                                            {# Falta #}
+                                            <a href="#">Editar Tags</a>
+                                        </span>
+                                    </div>
+                                    {% endifequal %}
+                                    {% else %}
+                                    <div class="title-edit-menu">
+                                        <span class="editar">
+                                            {# Link a editar este ambito en especifico #}
+                                            <a href="{% url 'update_ambit_view' ambit.pk %}">Editar</a>
+                                        </span> |
+                                        <span class="borrar">
+                                            {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
+                                            <a href="{% url 'delete_ambit_view' ambit.pk %}">Borrar</a>
+                                        </span> |
+                                        <span class="editar-tag">
+                                            {# Falta #}
+                                            <a href="#">Editar Tags</a>
+                                        </span>
+                                    </div>
+                                {% endif %}
                             </td>
 
-                            {# Pocicion en el tablero de el estudiante #}
+                            {# Posicion en el tablero de el estudiante #}
                             <td>
-                                {{ ambit.position_field }}
+                                {{ ambit.position }}
                             </td>
                             
                             {# Materias asignadas a este Ambito #}
                             <td>
                                 {% for subject in ambit.subjects%}
-                                    {{ subject.name_field }}
+                                    {{ subject.name }}
                                 {% endfor %}
 
                             </td>
@@ -72,28 +96,46 @@
                             <td>
                                 <div class="tag-list">
                                     {% for tag in ambit.tags %}
-                                        <a href="#">{{ tag.name_field }}</a>
+                                        <a href="#">{{ tag.name }}</a>
                                     {% endfor %}
 
                                 </div>
                             </td>
                             <td>
                                 <div id="edit-date">
-                                    {{ ambit.created_at_field }}
+                                    {{ ambit.created_at }}
                                 </div>
-                                <div id="edit-type">
-                                    Editado
+                            </td>
+                            <td>
+                                <div class="autor">
+                                    {{ ambit.created_by.profile.name }} {{ ambit.created_by.profile.last_name }}
                                 </div>
                             </td>
                             <td>
                                 <div class="estado">
-                                    {% if ambit.is_published_field %}
+                                    {% if ambit.is_published%}
                                         Publicado
                                     {% else %}
-                                        Sin publicar
+                                        {% if ambit.is_draft%}
+                                            Borrador
+                                        {% else %}
+                                            En espera de aprobación
+                                        {% endif %}
+
                                     {% endif %}
                                 </div>
                             </td>
+                         {% ifequal request.user.user_type 'SUPERVISOR'%}
+                             <td class="text-center">
+                             {% if ambit.is_published %}
+                                 <div class="button small alert remover">
+                                    <a href="{% url 'unpublish_ambit_view' ambit.pk %}" title="Dar de baja en EVA"><i class="fas fa-times"></i></a>
+                                </div>
+                             {% endif %}
+
+                            </td>
+                        {% endifequal %}
+
                         </tr>
                     {% endfor %}
                     </tbody>
