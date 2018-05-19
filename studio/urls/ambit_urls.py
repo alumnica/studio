@@ -1,5 +1,6 @@
 from django.urls import path
-from studio.views.ambit_views import *
+
+from studio.views.ambit_views import CreateAmbitView, UpdateAmbitView, AmbitView, DeleteAmbitView, UnPublishAmbitView
 
 urlpatterns = [
     path('create_ambit/', CreateAmbitView.as_view(), name='create_ambit_view'),

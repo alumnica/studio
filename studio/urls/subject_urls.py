@@ -1,8 +1,6 @@
 from django.urls import path
 
-
-from studio.views.subject_views import *
-
+from studio.views.subject_views import CreateSubjectView, UpdateSubjectView, SubjectView, DeleteSubjectView
 
 urlpatterns = [
     path('create_subject/', CreateSubjectView.as_view(), name='create_subject_view'),

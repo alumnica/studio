@@ -39,8 +39,8 @@
                  <!--data-control-name="sort"-->
                  <!--data-control-action="sort">-->
                    <!--<option data-path="default">Sort by</option>-->
-                   <!--<option data-path=".date_field" data-order="asc" data-type="datetime">Date asc</option>-->
-                   <!--<option data-path=".date_field" data-order="desc" data-type="datetime">Date desc</option>-->
+                   <!--<option data-path=".date data-order="asc" data-type="datetime">Date asc</option>-->
+                   <!--<option data-path=".date data-order="desc" data-type="datetime">Date desc</option>-->
               <!--</select>-->
            </div>
            <div class="cell medium-4">
@@ -50,7 +50,7 @@
                <div class="input-group">
                    <input class="input-group-field"
                           type="text"
-                          data-path=".folder_field, .file_name_field"
+                          data-path=".folder .file_name
                           data-button="#searchButton"
                           value=""
                           placeholder="Busqueda"
@@ -137,21 +137,21 @@
     </div>
     <div class="image" data-open="imgModal">
         <div class="is-hidden">
-            <div class="date_field">{{created_at_field}}</div>
+            <div class="date>{{created_at}}</div>
             <div class="complete_file">{{url}}</div>
-            <div class="file_field">{{file_field}}</div>
-            <div class="name_field">{{name_field}}</div>
+            <div class="file>{{file}}</div>
+            <div class="name>{{name}}</div>
         </div>
 
 
         <!-- <label for="image-01" class="check"></label>
             <input type="checkbox" id="image-01"> -->
         <div class="image__thumbnail">
-            <img class="img_contain" src="{{file_field}}" alt="">
+            <img class="img_contain" src="{{file}" alt="">
         </div>
         <div class="text-center">
-            <div class="file_name_field">{{file_name_field}}</div>
-            <div class="folder_field">{{folder_field}}</div>
+            <div class="file_name>{{file_name}}</div>
+            <div class="folder>{{folder}}</div>
         </div>
     </div>
 </div>

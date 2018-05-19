@@ -1,6 +1,6 @@
 function is_valid_form (){
     if($('#action').val() == "save"){
-        let ambit_name = document.getElementById('id_name_field').value;
+        let ambit_name = document.getElementById('id_name).value;
         if (ambit_name == '' || ambit_name == null){
             swal("Error", "Se requiere llenar el campo de nombre", "error");
             return false;
@@ -16,7 +16,7 @@ function is_valid_form (){
         let option_colors = document.getElementsByName('color');
         let color_selected = false;
         let image_selected_source = document.getElementById('preview-ap').src;
-        let ambit_name = document.getElementById('id_name_field').value;
+        let ambit_name = document.getElementById('id_name).value;
 
         if (ambit_name == '' || ambit_name == null){
             swal("Error", "Se requiere llenar el campo de nombre", "error");

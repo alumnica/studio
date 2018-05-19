@@ -2,8 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.core.exceptions import ValidationError
 
-from alumnica_model.alumnica_entities.users import UserType
-from alumnica_model.models import AuthUser
+from alumnica_model.models import AuthUser, users
 from django.contrib.auth.admin import UserAdmin
 
 
@@ -22,8 +21,8 @@ class UserLoginForm(forms.Form):
                 self.add_error('password', error)
                 self.add_error('email', error)
 
-            if not user.user_type == UserType.CONTENT_CREATOR:
-                if not user.user_type == UserType.SUPERVISOR:
+            if not user.user_type == users.TYPE_CONTENT_CREATOR:
+                if not user.user_type == users.TYPE_SUPERVISOR:
                     error = ValidationError("Invalid credentials", code='permission denied')
                     self.add_error('password', error)
                     self.add_error('email', error)

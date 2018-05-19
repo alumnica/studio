@@ -6,11 +6,12 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from alumnica_model.models.content import ImageModel
+from alumnica_model.models.content import Image
 from studio.serializers import ImageHyperlinkedModelSerializer
 
+
 class ImageViewSet(ModelViewSet):
-    queryset = ImageModel.objects.all()
+    queryset = Image.objects.all()
     serializer_class = ImageHyperlinkedModelSerializer
 
     def get_queryset(self):
@@ -31,8 +32,7 @@ class ImageViewSet(ModelViewSet):
             if action == 'filter':
                 data = filter['data']['value']
                 if data != '':
-                    filter_params.update({'folder_field__contains': data,
-                                      'file_name_field__contains':data})
+                    filter_params.update({'folder_contains': data, 'file_name_contains': data})
             elif action == 'paging':
                 data = filter['data']['number']
                 if data != '':
@@ -46,17 +46,14 @@ class ImageViewSet(ModelViewSet):
             for item in filter_params:
                 filter |= Q(**{item: filter_params[item]})
 
-            queryset = ImageModel.objects.filter(filter)
+            queryset = Image.objects.filter(filter)
             count = len(queryset)
 
             return queryset, count
         else:
-            return ImageModel.objects.all(), ImageModel.objects.count()
-
+            return Image.objects.all(), Image.objects.count()
 
     def list(self, request, *args, **kwargs):
         self.object_list, count = self.get_queryset()
         serializer = self.get_serializer(self.object_list, many=True)
         return Response({'status': status.HTTP_200_OK, 'count': count, 'data': serializer.data})
-
-

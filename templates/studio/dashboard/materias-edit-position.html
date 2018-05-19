@@ -18,7 +18,7 @@
         <div class="cell medium-4">
             <div class="canvas">
                 <!-- imagen de la seccion actual -->
-                <img src="{{ MEDIA_URL }} {{ section_img.file_field.url }}" alt="" class="drop-bg">
+                <img src="{{ MEDIA_URL }} {{ section_img.file.url }}" alt="" class="drop-bg">
                 <div class="frame">
                     <div id="a-1" class="dropzone"></div>
                     <div id="a-2" class="dropzone"></div>
@@ -51,9 +51,9 @@
             <!-- maximo 4 odas -->
                 <div class="oda-block">
                     <div id="block-{{ forloop.counter }}" class="block">
-                        <img src="{{ MEDIA_URL }} {{ oda.active_icon_field.file_field.url }}" alt="">
+                        <img src="{{ MEDIA_URL }} {{ oda.active_icon.file.url }}" alt="">
                     </div>
-                    <div class="oda-desc">{{ oda.oda_field.name_field }}</div>
+                    <div class="oda-desc">{{ oda.oda.name }}</div>
                 </div>
 
             {% endfor %}
