@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'studio_webapp.wsgi.application'
 
 DATABASES = {'default': {}}
 
-if DEBUG:
+if not os.environ.get('DATABASE_URL'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -95,6 +95,7 @@ if DEBUG:
 else:
     DATABASES['default'] = dj_database_url.config()
 
+# noinspection PyTypeChecker
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 DB_PREFIX = 'alumnica_'
 
