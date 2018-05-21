@@ -60,11 +60,13 @@ class SubjectForm(forms.ModelForm):
         subject.save()
 
         tags = cleaned_data.get('tags')
-        if tags is not None and tags is not '':
+        if tags:
             tags = tags.split(',')
+
         for tag_name in tags:
             tag, created = Tag.objects.get_or_create(name=tag_name)
-        subject.tags.add(tag)
+            subject.tags.add(tag)
+
         subject.temporal = is_draft
         subject.save()
         return subject
@@ -103,12 +105,12 @@ class UpdateSubjectForm(forms.ModelForm):
         for tag_name in tags:
             tag, created = Tag.objects.get_or_create(name=tag_name)
 
-        if tag not in subject.tags:
+        if tag not in subject.tags.all():
             subject.tags.add(tag)
 
-        for tag in subject.tags:
+        for tag in subject.tags.all():
             if tag.name not in tags:
-                subject.tagsremove(tag)
+                subject.tags.remove(tag)
 
         if background_image is not None:
             if isinstance(background_image, Image):

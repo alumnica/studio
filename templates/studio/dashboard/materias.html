@@ -63,7 +63,7 @@
                                 {# Lista de Tags #}
                                 <td>
                                     <div class="tag-list">
-                                        {% for tag in subject.tags %}
+                                        {% for tag in subject.tags.all %}
                                         <a href="#">{{ tag.name }}</a>
                                     {% endfor %}
     

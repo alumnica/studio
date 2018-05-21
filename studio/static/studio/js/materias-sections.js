@@ -163,7 +163,7 @@ function is_valid_form_subject(){
         return true;
     }
     else{
-        let ambit_selected = document.getElementById('id_ambit).value;
+        let ambit_selected = document.getElementById('id_ambit').value;
         let tags = document.getElementById('materias-tags').value;
 
         if (tags == '' || tags==' ' || tags ==null){

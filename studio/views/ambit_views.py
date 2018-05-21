@@ -16,7 +16,7 @@ class CreateAmbitView(LoginRequiredMixin, FormView):
     def get(self, request, *args, **kwargs):
         ambits = Ambit.objects.all()
         subjects = Subject.objects.all()
-        tags = Tag.objects.all().filter()
+        tags = Tag.objects.all()
         ambit_space = Ambit.objects.all().filter(is_published=True).count() < 30
         return render(request, self.template_name, {'form': self.form_class, 'subjects': subjects,
                                                     'tags': tags, 'ambits': ambits, 'ambit_space': ambit_space})

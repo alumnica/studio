@@ -187,7 +187,7 @@ class ODAsPreviewView(LoginRequiredMixin, FormView):
 
     def post(self, request, *args, **kwargs):
         subject = Subject.objects.get(pk=self.kwargs['pk'])
-        for tag in subject.tags:
+        for tag in subject.tags.all():
             tag.temporal = False
             tag.save()
 
@@ -216,12 +216,14 @@ class ODADashboardView(LoginRequiredMixin, ListView):
         context = super(ODADashboardView, self).get_context_data(**kwargs)
         tags_list = []
         tags = Tag.objects.all()
+
         for tag in tags:
-            if len(tag.odas) > 0:
+            if len(tag.odas.all()) > 0:
                 tags_list.append(tag)
 
         subjects_list = Subject.objects.all()
         context.update({'subject_list': subjects_list, 'tags_list': tags_list})
+
         return context
 
 
@@ -282,7 +284,7 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         tags_list = Tag.objects.all()
         moments_list = Moment.objects.all()
         self_oda_in_subject = self.object.subject
-        self_tags = self.object.tags
+        self_tags = self.object.tags.all()
 
         apli_list = self.object.microodas.filter(type='aplication')
         forma_list = self.object.microodas.filter(type='formalization')

@@ -2,13 +2,11 @@
 
 {% block content %}
 
-
-
 <div class="container dashboard">
 
-
     <h1 class="title">
-        <i class="fas fa-map"></i> Ámbitos  </h1>
+        <i class="fas fa-map"></i> Ámbitos
+    </h1>
     <hr>
 
     <div class="grid-x">
@@ -40,7 +38,6 @@
                     {% for ambit in ambit_list %}
                         <tr>
                             <td>
-
                                 {# Titulo de Ambito #}
                                 <div class="titulo_lista">
                                     {{ ambit.name }}
@@ -87,7 +84,7 @@
                             
                             {# Materias asignadas a este Ambito #}
                             <td>
-                                {% for subject in ambit.subjects%}
+                                {% for subject in ambit.subjects.all %}
                                     {{ subject.name }}
                                 {% endfor %}
 
@@ -95,7 +92,7 @@
                             {# Lista de Tags#}
                             <td>
                                 <div class="tag-list">
-                                    {% for tag in ambit.tags %}
+                                    {% for tag in ambit.tags.all %}
                                         <a href="#">{{ tag.name }}</a>
                                     {% endfor %}
 
@@ -113,15 +110,14 @@
                             </td>
                             <td>
                                 <div class="estado">
-                                    {% if ambit.is_published%}
+                                    {% if ambit.is_published %}
                                         Publicado
                                     {% else %}
-                                        {% if ambit.is_draft%}
+                                        {% if ambit.is_draft %}
                                             Borrador
                                         {% else %}
                                             En espera de aprobación
                                         {% endif %}
-
                                     {% endif %}
                                 </div>
                             </td>
@@ -129,7 +125,9 @@
                              <td class="text-center">
                              {% if ambit.is_published %}
                                  <div class="button small alert remover">
-                                    <a href="{% url 'unpublish_ambit_view' ambit.pk %}" title="Dar de baja en EVA"><i class="fas fa-times"></i></a>
+                                    <a href="{% url 'unpublish_ambit_view' ambit.pk %}" title="Dar de baja en EVA">
+                                        <i class="fas fa-times"></i>
+                                    </a>
                                 </div>
                              {% endif %}
 

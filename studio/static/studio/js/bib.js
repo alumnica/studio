@@ -63,7 +63,7 @@ $('document').ready(function () {
 });
 
 $(document).ajaxComplete(function () {
-    $('.date).each(function () {
+    $('.date').each(function () {
     var dateLong = $(this).text();
     date = dateLong.substring(0, 10);
     $(this).text(date);
@@ -76,7 +76,7 @@ $(this).text(fileName);*/
 
 var checker = $(this).closest('.img-box').find('.deleter');
 
-$(checker).attr('data-name', $('.file_name).text());
+$(checker).attr('data-name', $('.file_name').text());
 
 })
 ;
@@ -86,7 +86,7 @@ $('.img-box .complete_file').each(function () {
     $(checker).val($(this).text())
 });
 
-$('.folder).each(function(){
+$('.folder').each(function(){
 if ($(this).text() == 'ambits') {
     $(this).text('\xC1mbitos')
 } else if ($(this).text() == 'subjects') {
@@ -97,14 +97,14 @@ if ($(this).text() == 'ambits') {
 
 
 $('.img-box').on('click', '.image', function () {
-    var imageUrl = $('.file, this).text();
+    var imageUrl = $('.file', this).text();
     $('#imgModal img').attr('src', imageUrl);
     $('#dloadBtn').attr('href', imageUrl);
 
-    var theName = $('.file_name, this).text();
+    var theName = $('.file_name', this).text();
     $('#nombre').html('<strong>Nombre:</strong> ' + theName);
 
-    var theDate = $('.date, this).text();
+    var theDate = $('.date', this).text();
     $('#fecha').html('<strong>Fecha:</strong> ' + theDate);
 
     var attachedTo = $('.name', this).text();
@@ -155,7 +155,6 @@ $(function () {
         ;
     });
 });
-
 
 })
 ;

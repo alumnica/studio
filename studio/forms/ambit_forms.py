@@ -135,9 +135,9 @@ class UpdateAmbitForm(forms.ModelForm):
 
         for tag_name in tags:
             tag, created = Tag.objects.get_or_create(name=tag_name)
-            if tag not in ambit.tags:
+            if tag not in ambit.tags.all():
                 ambit.tags.add(tag)
-        for tag in ambit.tags:
+        for tag in ambit.tags.all():
             if tag.name not in tags:
                 ambit.tags.remove(tag)
 
