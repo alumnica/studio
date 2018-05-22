@@ -124,10 +124,10 @@ class UpdateSubjectForm(forms.ModelForm):
                     folder='subjects'
                 )
 
-        new_image.file_name = os.path.basename(new_image.filename)
-        new_image.save()
+                new_image.file_name = os.path.basename(new_image.filename)
+                new_image.save()
 
-        subject.background_image = new_image
+                subject.background_image = new_image
         subject.temporal = is_draft
         subject.save()
         return subject

@@ -179,7 +179,8 @@ function is_valid_form_subject(){
 
         let inputs = $("form input[type='file']");
         for (let i=0; i<inputs.length; i++) {
-            if (inputs[i].files.length > 0) {
+            if (!$(inputs[i]).parents('.my_item').hasClass('is-hidden')){
+                if (inputs[i].files.length > 0) {
                 let image_size = inputs[i].files[0].size / 1024 / 1024;
                 if (image_size > 10) {
                     swal("Error", "El archivo de seleccionado excede los 10 MB", "error");
@@ -188,8 +189,7 @@ function is_valid_form_subject(){
                 else {
                 preview_name = 'preview-' + inputs[i].name;
                 let source_image = document.getElementById(preview_name).src;
-                let image_selected_regexp = new RegExp('/.png');
-                let match_found = source_image.search('/.png');
+                let match_found = source_image.search('.png');
 
                 if(match_found == -1){
                     swal("Error", "Debes subir archivos png", "error");
@@ -200,7 +200,6 @@ function is_valid_form_subject(){
             else {
                 preview_name = 'preview-' + inputs[i].name;
                 let source_image = document.getElementById(preview_name).src;
-                let image_selected_regexp = new RegExp('/.png');
                 let match_found = source_image.search('.png');
 
                 if (source_image == "" || source_image == null) {
@@ -212,6 +211,7 @@ function is_valid_form_subject(){
                     swal("Error", "Faltan imágenes por subir", "error");
                     return false;
                 }
+            }
             }
 
 
