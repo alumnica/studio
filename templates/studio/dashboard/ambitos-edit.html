@@ -37,18 +37,18 @@
                         let self_tags_selectize = [];
                         let ambitoTags = [];
                         let ambits_to_avoid = [];
-                        let self_color = "{{ ambitmodel.color }}";
+                        let self_color = "{{ ambit.color }}";
                         let space_free = {{ ambit_space|yesno:"true,false" }};
-                        let is_published = {{ ambitmodel.is_published|yesno:"true,false" }};
+                        let is_published = {{ ambit.is_published|yesno:"true,false" }};
                             {% for tag in tags %}
                                 ambitoTags.push({name:"{{ tag.name|safe }}", value:"{{ tag.id|safe }}"});
                             {% endfor %}
 
-                        {% for tag in ambitmodel.tags.all %}
+                        {% for tag in ambit.tags.all %}
                                 self_tags_selectize.push("{{ tag.name|safe }}");
                             {% endfor %}
 
-                        {% for subject in ambitmodel.subjects.all %}
+                        {% for subject in ambit.subjects.all %}
                                 self_materias.push("{{ subject.name|safe }}");
                         {% endfor %}
 
@@ -165,10 +165,10 @@
                             <!-- start image preview -->
                             <div class="image-wrapper">
                                 <div id="image-holder">
-                                    <img src="{{ ambitmodel.background_image.file.url }}" alt="">
+                                    <img src="{{ ambit.background_image.file.url }}" alt="">
                                 </div>
                                 <div id="ttc">
-                                    <span class="ttc2">{{ ambitmodel.name }}</span>
+                                    <span class="ttc2">{{ ambit.name }}</span>
                                 </div>
                             </div>
                                 <!-- end image preview -->
