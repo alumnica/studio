@@ -69,7 +69,7 @@ $(document).ajaxComplete(function () {
     $(this).text(date);
 });
 
-$('.img-box .file).each(function(){
+$('.img-box .file').each(function(){
 
 /*var fileName = fullPath.replace(/^.*[\\\/]/, '');
 $(this).text(fileName);*/
