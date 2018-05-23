@@ -15,7 +15,7 @@
         {{ form.errors }}
             <div class="grid-x grid-margin-x grid-margin-y">
                 <div class="cell medium-12">
-                        {{ form.name_field }}
+                        {{ form.name }}
                         <p class="h5">Seccion {{ view.kwargs.section }}:</p>
                         <p>Subir archivos PNG o GIF. Tamaño máximo 70p x 80 px. </p>
                         <hr>
@@ -23,7 +23,7 @@
                     <!-- first colum containing section image -->
                     <div class="cell large-3 medium-2">
                         <div class="panel">
-                            <img src="{{ MEDIA_URL }} {{ background_image.file_field.url }}" alt="">
+                            <img src="{{ MEDIA_URL }} {{ background_image.file.url }}" alt="">
                         </div>
                     </div>
 
@@ -47,7 +47,7 @@
                                     {# Atencion a el ID  este input es SELECTIZE #}
                                     {{ form.oda_name }}
                                     <script type="text/javascript">
-                                        self_oda_selectize.push("{{ form.initial.oda_field.name_field|safe }}");
+                                        self_oda_selectize.push("{{ form.initial.oda.name|safe }}");
                                     </script>
                                     <!--input id="section-1-oda-1" type="text"-->
                                 </div>
@@ -57,15 +57,15 @@
                                     <div class="grid-x grid-margin-x">
                                         <div class="small-6 cell align-self-middle">
                                             <div class="img-preview-a">
-                                                <img src="{{ MEDIA_URL }} {{ form.initial.active_icon_field.file_field.url }}" alt="">
+                                                <img src="{{ MEDIA_URL }} {{ form.initial.active_icon.file.url }}" alt="">
                                             </div>
                                         </div>
                                         <div class="small-6 cell align-self-middle">
 
 
                                             {# Atencion a el ID #}
-                                                <label for="id_{{ form.active_icon_field.html_name }}" class="button secondary small expanded">Subir Imagen</label>
-                                                {{ form.active_icon_field }}
+                                                <label for="id_{{ form.active_icon.html_name }}" class="button secondary small expanded">Subir Imagen</label>
+                                                {{ form.active_icon }}
                                                 <!--input id="section-1-oda-a1" name="oda-a1" type="file" class="show-for-sr"-->
 
                                             <button class="button secondary expanded small">
@@ -80,14 +80,14 @@
                                     <div class="grid-x grid-margin-x">
                                         <div class="small-6 cell align-self-middle">
                                             <div class="img-preview-b">
-                                                <img src="{{ MEDIA_URL }} {{ form.initial.completed_icon_field.file_field.url }}" alt="">
+                                                <img src="{{ MEDIA_URL }} {{ form.initial.completed_icon.file.url }}" alt="">
                                             </div>
                                         </div>
                                         <div class="small-6 cell align-self-middle">
 
                                             {# Atencion a el ID #}
-                                            <label for="id_{{ form.completed_icon_field.html_name }}" class="button secondary small expanded">Subir Imagen</label>
-                                            {{ form.completed_icon_field }}
+                                            <label for="id_{{ form.completed_icon.html_name }}" class="button secondary small expanded">Subir Imagen</label>
+                                            {{ form.completed_icon }}
                                             <!--input id="section-1-oda-b1" name="oda-b1" type="file" class="show-for-sr"-->
 
                                             <button class="button secondary expanded small">
@@ -125,11 +125,11 @@
     let odaList=[];
     let odasToAvoidList=[];
     {% for oda in odas_list %}
-        odaList.push({name:"{{ oda.name_field|safe }}"});
+        odaList.push({name:"{{ oda.name|safe }}"});
     {% endfor %}
 
     {% for oda in odas_to_avoid_list %}
-        odasToAvoidList.push({name:"{{ oda.name_field|safe }}"});
+        odasToAvoidList.push({name:"{{ oda.name|safe }}"});
     {% endfor %}
 </script>
 

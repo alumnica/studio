@@ -6,21 +6,24 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, UpdateView, ListView, CreateView
 from sweetify import sweetify
-from studio.forms.oda_forms import *
+
+from alumnica_model.models import Subject, ODA, Tag, Moment
+from studio.forms.oda_forms import ODAsSectionForm, ODAForm, BaseODAFormset, ODAsPositionForm, ODACreateForm, \
+    ODAUpdateForm
 
 
 class ODAsSectionView(LoginRequiredMixin, UpdateView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/materias-edit-oda.html'
-    form_class = ODAsSectionView
+    form_class = ODAsSectionForm
 
     def get_object(self, queryset=None):
-        return SubjectModel.objects.get(pk=self.kwargs['pk'])
+        return Subject.objects.get(pk=self.kwargs['pk'])
 
     def get_success_url(self):
         section = self.kwargs['section']
-        subject = SubjectModel.objects.get(pk=self.kwargs['pk'])
-        if subject.number_of_sections_field > section:
+        subject = Subject.objects.get(pk=self.kwargs['pk'])
+        if subject.number_of_sections > section:
             section += 1
             return reverse_lazy('odas_section_view', kwargs={'pk': self.kwargs['pk'], 'section': section})
 
@@ -29,26 +32,26 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
 
     def get_image_formset_class(self):
         section = self.kwargs['section']
-        num_odas = self.object.odas_field.all().filter(section_field=section).count()
+        num_odas = self.object.odas.all().filter(section=section).count()
         if num_odas == 0:
             num_odas = 1
         return formset_factory(
-            ODAModelForm, BaseODAModelFormset, min_num=num_odas, max_num=num_odas, validate_max=False,
+            ODAForm, BaseODAFormset, min_num=num_odas, max_num=num_odas, validate_max=False,
             validate_min=True)
 
     def get_context_data(self, **kwargs):
         section = self.kwargs['section']
-        background_image = self.object.sections_images_field.all()[section-1]
+        background_image = self.object.sections_images.all()[section - 1]
         odas_list = []
         odas_to_avoid_list = []
-        for oda in ODAModel.objects.all():
+        for oda in ODA.objects.all():
             odas_in_subject = oda.subject
             if len(odas_in_subject) == 0:
                 odas_list.append(oda)
             else:
                 for oda_in_subject in odas_in_subject:
                     if oda_in_subject.subject.all().filter(pk=self.kwargs['pk']).exists:
-                        if oda_in_subject.section_field == section:
+                        if oda_in_subject.section == section:
                             odas_list.append(oda)
                         else:
                             odas_to_avoid_list.append(oda)
@@ -56,9 +59,9 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
                         odas_list.append(oda)
 
         context = super(ODAsSectionView, self).get_context_data(**kwargs)
-        initial = [{'oda_field': x.oda_field, 'active_icon_field': x.active_icon_field,
-                    'completed_icon_field': x.completed_icon_field} for x in
-                   self.object.odas_field.all().filter(section_field=section)]
+        initial = [
+            {'oda': x.oda, 'active_icon': x.active_icon, 'completed_icon': x.completed_icon}
+            for x in self.object.odas.all().filter(section=section)]
 
         if self.request.POST:
             context.update({
@@ -81,40 +84,19 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
         context = self.get_context_data()
         formset = context['formset']
         current_odas_list = []
+
         if formset.is_valid():
             if formset.has_changed():
                 for form in formset:
                     a = form.save_form(self.request.user, section)
                     current_odas_list.append(a.pk)
-                    if a not in self.object.odas_field.all().filter(section_field=section):
-                        self.object.odas_field.add(a)
+                    if a not in self.object.odas.all().filter(section=section):
+                        self.object.odas.add(a)
                 self.object.save()
                 self.object.update_odas(section, current_odas_list)
+
             return HttpResponseRedirect(self.get_success_url())
         else:
-            i = 1
-            for form in formset:
-                if form['oda_name'].errors:
-                    sweetify.error(self.request,
-                                   "Error en el nombre de la ODA {}: {}".format(i, form.errors['oda_name'][0]),
-                                   persistent='Ok')
-                    break
-
-                if form['active_icon_field'].errors:
-                    sweetify.error(self.request,
-                                   "Error en el ícono 1 de la ODA {}: {}".format(i,
-                                                                                 form.errors['active_icon_field'][0]),
-                                   persistent='Ok')
-                    break
-
-                if form['completed_icon_field'].errors:
-                    sweetify.error(
-                        self.request,
-                        "Error en el ícono 2 de la ODA {}: {}".format(i,
-                                                                      form.errors['completed_icon_field'][0]),
-                        persistent='Ok')
-                    break
-                i += 1
             return render(self.request, self.template_name, context=context)
 
 
@@ -132,15 +114,15 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
 
     def get(self, request, *args, **kwargs):
         section = self.kwargs['section']
-        subject = SubjectModel.objects.get(pk=self.kwargs['pk'])
+        subject = Subject.objects.get(pk=self.kwargs['pk'])
 
         if section <= 0:
             return redirect(to='materias_sections_view', pk=self.kwargs['pk'])
         context = self.get_context_data()
         if section <= subject.number_of_sections:
-            section_img = subject.sections_images[section-1]
-            form = ODAsPositionForm(initial={'name_field': subject.name})
-            odas_list = subject.odas.filter(section_field=section)
+            section_img = subject.sections_images[section - 1]
+            form = ODAsPositionForm(initial={'name': subject.name})
+            odas_list = subject.odas.filter(section=section)
             context.update({'form': form, 'section_img': section_img, 'odas_list': odas_list})
             return render(request, self.template_name, context=context)
         else:
@@ -148,16 +130,16 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         section = self.kwargs['section']
-        subject = SubjectModel.objects.get(pk=self.kwargs['pk'])
-        odas_to_save = subject.odas.filter(section_field=section)
-        i = 1
-        for oda in odas_to_save:
+        subject = Subject.objects.get(pk=self.kwargs['pk'])
+        odas_to_save = subject.odas.filter(section=section)
+
+        for i, oda in enumerate(odas_to_save, start=1):
             zone = self.request.POST.get('p-block-{}'.format(i))
             oda.zone = zone.split('-')[1]
             oda.save()
-            i += 1
 
         section += 1
+
         return redirect(to='odas_position_view', pk=subject.pk, section=section)
 
 
@@ -167,20 +149,20 @@ class ODAsPreviewView(LoginRequiredMixin, FormView):
 
     def get(self, request, *args, **kwargs):
         pk = self.kwargs['pk']
-        subject = SubjectModel.objects.get(pk=self.kwargs['pk'])
+        subject = Subject.objects.get(pk=self.kwargs['pk'])
         section_images_list = subject.sections_images
         odas_list = []
-        section_counter = 1
-        for section in subject.sections_images:
-            odas_list.append(subject.odas.filter(section_field=section_counter))
-            section_counter += 1
+
+        for section_counter in range(1, len(subject.sections_images)):
+            odas_list.append(subject.odas.filter(section=section_counter))
 
         content_images = zip(odas_list, section_images_list)
+
         return render(request, self.template_name, {'content_images': content_images, 'pk': pk})
 
     def post(self, request, *args, **kwargs):
-        subject = SubjectModel.objects.get(pk=self.kwargs['pk'])
-        for tag in subject.tags:
+        subject = Subject.objects.get(pk=self.kwargs['pk'])
+        for tag in subject.tags.all():
             tag.temporal = False
             tag.save()
 
@@ -190,31 +172,33 @@ class ODAsPreviewView(LoginRequiredMixin, FormView):
 
         for oda_in_subject in subject.odas:
             oda_in_subject.temporal = False
-            oda_in_subject.active_icon_field.temporal = False
-            oda_in_subject.active_icon_field.save()
-            oda_in_subject.completed_icon_field.temporal = False
-            oda_in_subject.completed_icon_field.save()
+            oda_in_subject.active_icon.temporal = False
+            oda_in_subject.active_icon.save()
+            oda_in_subject.completed_icon.temporal = False
+            oda_in_subject.completed_icon.save()
             oda_in_subject.save()
 
-        return redirect(to="materias_view")
+        return redirect(to='materias_view')
 
 
 class ODADashboardView(LoginRequiredMixin, ListView):
     login_url = 'login_view'
-    model = ODAModel
+    model = ODA
     template_name = 'studio/dashboard/odas.html'
     context_object_name = 'odas_list'
 
     def get_context_data(self, **kwargs):
         context = super(ODADashboardView, self).get_context_data(**kwargs)
         tags_list = []
-        tags = TagModel.objects.all()
+        tags = Tag.objects.all()
+
         for tag in tags:
-            if len(tag.odas) > 0:
+            if len(tag.odas.all()) > 0:
                 tags_list.append(tag)
 
-        subjects_list = SubjectModel.objects.all()
+        subjects_list = Subject.objects.all()
         context.update({'subject_list': subjects_list, 'tags_list': tags_list})
+
         return context
 
 
@@ -224,9 +208,10 @@ class ODACreateView(LoginRequiredMixin, CreateView):
     form_class = ODACreateForm
 
     def get(self, request, *args, **kwargs):
-        tags_list = TagModel.objects.all()
-        moments_list = MomentModel.objects.all()
-        return render(request, self.template_name, {'form':self.form_class, 'tags_list': tags_list, 'moments_list': moments_list})
+        tags_list = Tag.objects.all()
+        moments_list = Moment.objects.all()
+        return render(request, self.template_name,
+                      {'form': self.form_class, 'tags_list': tags_list, 'moments_list': moments_list})
 
     def form_valid(self, form):
         tags = self.request.POST.get('oda-tags')
@@ -267,26 +252,27 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ODAUpdateForm
 
     def get_object(self, queryset=None):
-        return ODAModel.objects.get(pk=self.kwargs['pk'])
+        return ODA.objects.get(pk=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
         context = super(ODAUpdateView, self).get_context_data(**kwargs)
-        tags_list = TagModel.objects.all()
-        moments_list = MomentModel.objects.all()
+        tags_list = Tag.objects.all()
+        moments_list = Moment.objects.all()
         self_oda_in_subject = self.object.subject
-        self_tags = self.object.tags
+        self_tags = self.object.tags.all()
 
-        apli_list = self.object.microodas.filter(type_field='aplication')
-        forma_list = self.object.microodas.filter(type_field='formalization')
-        activ_list = self.object.microodas.filter(type_field='activation')
-        ejem_list = self.object.microodas.filter(type_field='exemplification')
-        sens_list = self.object.microodas.filter(type_field='sensitization')
-        eval_list = self.object.microodas.filter(type_field='evaluation')
+        apli_list = self.object.microodas.filter(type='aplication')
+        forma_list = self.object.microodas.filter(type='formalization')
+        activ_list = self.object.microodas.filter(type='activation')
+        ejem_list = self.object.microodas.filter(type='exemplification')
+        sens_list = self.object.microodas.filter(type='sensitization')
+        eval_list = self.object.microodas.filter(type='evaluation')
 
-        context.update({'self_oda_in_subject':self_oda_in_subject, 'tags_list': tags_list, 'moments_list': moments_list,
-                        'self_tags': self_tags, 'apli_list': apli_list, 'forma_list': forma_list,
-                        'activ_list': activ_list, 'ejem_list': ejem_list,
-                        'sens_list': sens_list, 'eval_list': eval_list})
+        context.update(
+            {'self_oda_in_subject': self_oda_in_subject, 'tags_list': tags_list, 'moments_list': moments_list,
+             'self_tags': self_tags, 'apli_list': apli_list, 'forma_list': forma_list,
+             'activ_list': activ_list, 'ejem_list': ejem_list,
+             'sens_list': sens_list, 'eval_list': eval_list})
         return context
 
     def form_valid(self, form):
@@ -309,7 +295,7 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         template = ['exemplification', exemplification]
         moments.append(template)
 
-        sensitization= self.request.POST.get('sens-momentos')
+        sensitization = self.request.POST.get('sens-momentos')
         template = ['sensitization', sensitization]
         moments.append(template)
 
@@ -329,20 +315,20 @@ class ODAsRedirect(View):
         pk = kwargs.get('pk')
         if view == 'odas_preview_view':
             return redirect(to='odas_position_view', pk=pk,
-                            section=SubjectModel.objects.get(pk=pk).number_of_sections_field)
+                            section=Subject.objects.get(pk=pk).number_of_sections)
 
         if section == 1:
             if view == 'odas_section_view':
                 return redirect(to='materias_sections_view', pk=pk)
             if view == 'odas_position_view':
                 return redirect(to='odas_section_view', pk=pk,
-                                section=SubjectModel.objects.get(pk=pk).number_of_sections_field)
+                                section=Subject.objects.get(pk=pk).number_of_sections)
         else:
-            return redirect(view, pk=pk, section=(kwargs.get('section')-1))
+            return redirect(view, pk=pk, section=(kwargs.get('section') - 1))
 
 
 class ODAsView(LoginRequiredMixin, ListView):
     login_url = 'login_view'
     template_name = 'studio/pages/test.html'
-    queryset = ODAModel.objects.all()
+    queryset = ODA.objects.all()
     context_object_name = 'odas_list'

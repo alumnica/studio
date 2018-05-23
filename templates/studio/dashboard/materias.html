@@ -37,7 +37,7 @@
                                     <div class="titulo_lista">
                                         {# Link a editar este ambito en especifico #}
                                         <a href="#">
-                                            {{ subject.name_field }}
+                                            {{ subject.name }}
                                         </a>
                                     </div>
                                     <div class="title-edit-menu">
@@ -63,15 +63,15 @@
                                 {# Lista de Tags #}
                                 <td>
                                     <div class="tag-list">
-                                        {% for tag in subject.tags %}
-                                        <a href="#">{{ tag.name_field }}</a>
+                                        {% for tag in subject.tags.all %}
+                                        <a href="#">{{ tag.name }}</a>
                                     {% endfor %}
     
                                     </div>
                                 </td>
                                 <td>
                                     <div id="edit-date">
-                                        {{ subject.created_at_field }}
+                                        {{ subject.created_at }}
                                     </div>
                                     <div id="edit-type">
                                         Editado

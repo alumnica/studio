@@ -1,12 +1,12 @@
 function is_valid_form (){
     if($('#action').val() == "save"){
-        let ambit_name = document.getElementById('id_name_field').value;
+        let ambit_name = document.getElementById('id_name').value;
         if (ambit_name == '' || ambit_name == null){
-            swal("Error", "Se requiere llenar el campo de nombre", "error");
+            swal("Error", gettext('The name field is required'), "error");
             return false;
         }
         if(ambits_to_avoid.indexOf(ambit_name.toUpperCase()) != -1){
-            swal("Error", "Este nombre ya está siendo usado por otro ámbito", "error");
+            swal("Error", gettext("This name is already taken"), "error");
             return false;
         }
         return true;
@@ -16,20 +16,20 @@ function is_valid_form (){
         let option_colors = document.getElementsByName('color');
         let color_selected = false;
         let image_selected_source = document.getElementById('preview-ap').src;
-        let ambit_name = document.getElementById('id_name_field').value;
+        let ambit_name = document.getElementById('id_name').value;
 
         if (ambit_name == '' || ambit_name == null){
-            swal("Error", "Se requiere llenar el campo de nombre", "error");
+            swal("Error", gettext("The name field is required"), "error");
             return false;
         }
 
         if(!(is_published || space_free)){
-            swal("Error", "No puedes publicar otro ámbito, borra uno antes", "error");
+            swal("Error", gettext("Delete an ambit before publish another"), "error");
             return false;
         }
 
         if(ambits_to_avoid.indexOf(ambit_name.toUpperCase()) != -1){
-            swal("Error", "Este nombre ya está siendo usado por otro ámbito", "error");
+            swal("Error", gettext("This name is already taken"), "error");
             return false;
         }
 
@@ -40,7 +40,7 @@ function is_valid_form (){
         }
 
         if (!color_selected){
-            swal("Error", "Selecciona un color de fondo", "error");
+            swal("Error", gettext("Select a background color"), "error");
             return false;
         }
 
@@ -48,18 +48,18 @@ function is_valid_form (){
         if(image_selected.value != null && image_selected.value != ""){
             let image_size= image_selected.files[0].size / 1024 / 1024;
             if (image_size > 10){
-                swal("Error", "El archivo de seleccionado excede los 10 MB", "error");
+                swal("Error", gettext("The size of the file must be less than 10 MB"), "error");
                 return false;
             }
 
             let image_selected_regexp = new RegExp('/.png');
             let match_found = image_selected_source.search('.png');
             if (image_selected.value == null || image_selected.value == ""){
-                swal("Error", "Selecciona una imagen PNG", "error");
+                swal("Error", gettext("Select a PNG image"), "error");
                 return false;
             }
             if(match_found == -1){
-                swal("Error", "Selecciona una imagen PNG", "error");
+                swal("Error", gettext("Select a PNG image"), "error");
                 return false;
             }
         }

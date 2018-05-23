@@ -41,7 +41,7 @@
 
             <ul class="oda-filter oda-materias">
                 {% for subject in subject_list %}
-                    <li>{{ subject.name_field }}<span></span></li>
+                    <li>{{ subject.name }}<span></span></li>
                 {% endfor %}
 
             </ul>
@@ -50,7 +50,7 @@
 
             <ul class="oda-tags-list">
                 {% for tag in tags_list %}
-                    <li>{{ tag.name_field }}</li>
+                    <li>{{ tag.name }}</li>
                 {% endfor %}
             </ul>
         </div>
@@ -61,14 +61,14 @@
                     <div class="oda-container">
                     <div class="panel">
                         <div class="oda-title">
-                            {{ oda.name_field }}
+                            {{ oda.name }}
                         </div>
                         <div class="assigned-to">
                             <p>Asignada a las siguientes Materias:</p>
                             <ul class="assigned-to_materias">
                                 {% for oda_in_subject in oda.subject.all %}
                                     {% for subject in oda_in_subject.subject.all %}
-                                        <li>{{ subject.name_field }}</li>
+                                        <li>{{ subject.name }}</li>
                                         {% endfor %}
                                 {% endfor %}
                             </ul>
@@ -81,8 +81,8 @@
                         </div>
                         <hr>
                         <ul class="oda-tags">
-                            {% for tag in oda.tags_field.all %}
-                                <li>{{ tag.name_field }}</li>
+                            {% for tag in oda.tags.all %}
+                                <li>{{ tag.name }}</li>
                                 {% endfor %}
                         </ul>
                     </div>
@@ -116,5 +116,5 @@
     {% endblock content %}
 
     {% block scripts %}
-        <script src="{% static "studio/js/odas-edit.js" %}"></script>
+{#        <script src="{% static "studio/js/odas-edit.js" %}"></script>#}
     {% endblock %}

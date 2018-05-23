@@ -24,7 +24,7 @@
                 <div class="grid-x grid-margin-x">
                     <div class="cell medium-5">
                         <label for="titulo-ambito-nuevo">Titulo</label>
-                            {{ form.name_field }}
+                            {{ form.name }}
                         <!--input type="text" placeholder="titulo" id="changedtext"-->
 
                         <!-- tags -->
@@ -37,23 +37,23 @@
                         let self_tags_selectize = [];
                         let ambitoTags = [];
                         let ambits_to_avoid = [];
-                        let self_color = "{{ ambitmodel.color_field }}";
+                        let self_color = "{{ ambit.color }}";
                         let space_free = {{ ambit_space|yesno:"true,false" }};
-                        let is_published = {{ ambitmodel.is_published_field|yesno:"true,false" }};
+                        let is_published = {{ ambit.is_published|yesno:"true,false" }};
                             {% for tag in tags %}
-                                ambitoTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
+                                ambitoTags.push({name:"{{ tag.name|safe }}", value:"{{ tag.id|safe }}"});
                             {% endfor %}
 
-                        {% for tag in ambitmodel.tags_field.all %}
-                                self_tags_selectize.push("{{ tag.name_field|safe }}");
+                        {% for tag in ambit.tags.all %}
+                                self_tags_selectize.push("{{ tag.name|safe }}");
                             {% endfor %}
 
-                        {% for subject in ambitmodel.subjects_field.all %}
-                                self_materias.push("{{ subject.name_field|safe }}");
+                        {% for subject in ambit.subjects.all %}
+                                self_materias.push("{{ subject.name|safe }}");
                         {% endfor %}
 
                         {% for ambit in ambits %}
-                                ambits_to_avoid.push("{{ ambit.name_field|safe }}");
+                                ambits_to_avoid.push("{{ ambit.name|safe }}");
                         {% endfor %}
 
                         </script>
@@ -165,10 +165,10 @@
                             <!-- start image preview -->
                             <div class="image-wrapper">
                                 <div id="image-holder">
-                                    <img src="{{ ambitmodel.background_image.file_field.url }}" alt="">
+                                    <img src="{{ ambit.background_image.file.url }}" alt="">
                                 </div>
                                 <div id="ttc">
-                                    <span class="ttc2">{{ ambitmodel.name_field }}</span>
+                                    <span class="ttc2">{{ ambit.name }}</span>
                                 </div>
                             </div>
                                 <!-- end image preview -->
@@ -254,7 +254,7 @@
             <script type="text/javascript">
                         let materiasList = [];
                             {% for subject in subjects %}
-                                materiasList.push({name:"{{ subject.name_field|safe }}", value:"{{ subject.id|safe }}"});
+                                materiasList.push({name:"{{ subject.name|safe }}", value:"{{ subject.id|safe }}"});
                             {% endfor %}
 
             </script>

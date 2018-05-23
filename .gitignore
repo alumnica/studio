@@ -6,4 +6,6 @@ __pycache__
 .DS_Store
 venv/
 .idea/
+.env
+/static/
 .vscode/settings.json

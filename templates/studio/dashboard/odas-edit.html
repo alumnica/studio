@@ -14,8 +14,8 @@
         {% csrf_token %}
         <div class="grid-x grid-margin-x align-stretch">
         <div class="cell medium-12">
-                <label for="name_field">Nombre de la ODA</label>
-            {{ form.name_field }}
+                <label for="name>Nombre de la ODA</label>
+            {{ form.name }}
         </div>
         <div class="cell medium-6">
 
@@ -27,7 +27,7 @@
                     <ul class="assigned-to_materias">
                         {% for oda_in_subject in self_oda_in_subject %}
                             {% for subject in oda_in_subject.subject.all %}
-                                <li>{{ subject.name_field }}</li>
+                                <li>{{ subject.name }}</li>
                                 {% endfor %}
                         {% endfor %}
                     </ul>
@@ -45,41 +45,41 @@
                         let momentosList = [];
 
                         let apli= [];
-                        {% for moment in apli_list.all.0.activities_field.all %}
-                                apli.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                        {% for moment in apli_list.all.0.activities.all %}
+                                apli.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
 
                         let forma = [];
-                        {% for moment in forma_list.all.0.activities_field.all %}
-                                forma.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                        {% for moment in forma_list.all.0.activities.all %}
+                                forma.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
                         let activa = [];
-                        {% for moment in activ_list.all.0.activities_field.all %}
-                                activa.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                        {% for moment in activ_list.all.0.activities.all %}
+                                activa.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
                         let ejem= [];
-                            {% for moment in ejem_list.all.0.activities_field.all %}
-                                ejem.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% for moment in ejem_list.all.0.activities.all %}
+                                ejem.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
                         let sens = [];
-                        {% for moment in sens_list.all.0.activities_field.all %}
-                                sens.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                        {% for moment in sens_list.all.0.activities.all %}
+                                sens.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
                         let evalu = [];
-                        {% for moment in eval_list.all.0.activities_field.all %}
-                                evalu.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                        {% for moment in eval_list.all.0.activities.all %}
+                                evalu.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
 
                             {% for tag in tags_list %}
-                                odaTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
+                                odaTags.push({name:"{{ tag.name|safe }}", value:"{{ tag.id|safe }}"});
                             {% endfor %}
 
                         {% for tag in self_tags %}
-                                self_tags_selectize.push("{{ tag.name_field|safe }}");
+                                self_tags_selectize.push("{{ tag.name|safe }}");
                             {% endfor %}
 
                         {% for moment in moments_list %}
-                                momentosList.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                                momentosList.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
 
                         </script>

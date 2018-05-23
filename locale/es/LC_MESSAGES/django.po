@@ -1,0 +1,151 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-23 12:45-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: alumnica_model/models/users.py:49
+msgid "Can't get profile for invalid user type: {}"
+msgstr ""
+
+#: alumnica_model/models/users.py:161
+msgid "Invalid user type selected: {}"
+msgstr ""
+
+#: alumnica_model/models/users.py:164
+msgid "There was an error creating the profile for user {}."
+msgstr ""
+
+#: alumnica_model/validators.py:9
+msgid "An Ambit with the name \"{}\", already exists"
+msgstr ""
+
+#: alumnica_model/validators.py:22
+msgid "Unsupported file extension"
+msgstr ""
+
+#: alumnica_model/validators.py:29
+msgid "File too large. Size should not exceed 2 MB."
+msgstr ""
+
+#: studio/forms/subject_forms.py:35
+msgid "Subject already exists."
+msgstr "Esta materia ya existe"
+
+#: studio/forms/user_forms.py:21 studio/forms/user_forms.py:32
+msgid "Invalid password or email."
+msgstr ""
+
+#: studio/forms/user_forms.py:27
+msgid "Invalid credentials"
+msgstr ""
+
+#: studio/urls/ambit_urls.py:8
+#, fuzzy
+#| msgid "Ámbitos"
+msgid "create_ambit/"
+msgstr "crear_ambito"
+
+#: studio/views/ambit_views.py:50
+msgid "It is not possible to edit ambit {} because is already published"
+msgstr ""
+
+#: studio/views/subject_views.py:75
+msgid "Error in section {} image: {}"
+msgstr ""
+
+#: studio/views/subject_views.py:194
+msgid "Error in section {} file: {}"
+msgstr ""
+
+#: studio_webapp/settings.py:142
+msgid "English"
+msgstr ""
+
+#: studio_webapp/settings.py:143
+msgid "Spanish"
+msgstr ""
+
+#: studio_webapp/urls.py:36
+msgid "users/"
+msgstr ""
+
+#: studio_webapp/urls.py:37
+#, fuzzy
+#| msgid "Ámbitos"
+msgid "ambits/"
+msgstr "ambitos"
+
+#: studio_webapp/urls.py:38
+msgid "subjects/"
+msgstr ""
+
+#: studio_webapp/urls.py:39
+msgid "odas/"
+msgstr ""
+
+#: studio_webapp/urls.py:40
+msgid "images/"
+msgstr ""
+
+#: studio_webapp/urls.py:41
+msgid "admin/"
+msgstr ""
+
+#: studio_webapp/urls.py:42
+msgid "api/"
+msgstr ""
+
+#: studio_webapp/urls.py:43
+msgid "api-auth/"
+msgstr ""
+
+#: studio_webapp/urls.py:44
+msgid "jsi18n/"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:8
+msgid "Ámbitos"
+msgstr "Ámbitos"
+
+#: templates/studio/dashboard/ambitos.html:15
+msgid "Crear nuevo Ámbito"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:23
+msgid "Titulo"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:26
+msgid "Materias"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:27
+msgid "Tags"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:28
+msgid "Fecha"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:29
+msgid "Autor"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:30
+msgid "Estado"
+msgstr ""
