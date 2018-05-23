@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-22 19:10-0500\n"
+"POT-Creation-Date: 2018-05-23 12:45-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,6 +54,12 @@ msgstr ""
 msgid "Invalid credentials"
 msgstr ""
 
+#: studio/urls/ambit_urls.py:8
+#, fuzzy
+#| msgid "Ámbitos"
+msgid "create_ambit/"
+msgstr "Ambits"
+
 #: studio/views/ambit_views.py:50
 msgid "It is not possible to edit ambit {} because is already published"
 msgstr ""
@@ -66,14 +72,80 @@ msgstr ""
 msgid "Error in section {} file: {}"
 msgstr ""
 
-#: studio_webapp/settings.py:141
+#: studio_webapp/settings.py:142
 msgid "English"
 msgstr ""
 
-#: studio_webapp/settings.py:142
+#: studio_webapp/settings.py:143
 msgid "Spanish"
+msgstr ""
+
+#: studio_webapp/urls.py:36
+msgid "users/"
+msgstr ""
+
+#: studio_webapp/urls.py:37
+#, fuzzy
+#| msgid "Ámbitos"
+msgid "ambits/"
+msgstr "Ambits"
+
+#: studio_webapp/urls.py:38
+msgid "subjects/"
+msgstr ""
+
+#: studio_webapp/urls.py:39
+msgid "odas/"
+msgstr ""
+
+#: studio_webapp/urls.py:40
+msgid "images/"
+msgstr ""
+
+#: studio_webapp/urls.py:41
+msgid "admin/"
+msgstr ""
+
+#: studio_webapp/urls.py:42
+msgid "api/"
+msgstr ""
+
+#: studio_webapp/urls.py:43
+msgid "api-auth/"
+msgstr ""
+
+#: studio_webapp/urls.py:44
+msgid "jsi18n/"
 msgstr ""
 
 #: templates/studio/dashboard/ambitos.html:8
 msgid "Ámbitos"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:15
+msgid "Crear nuevo Ámbito"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:23
+msgid "Titulo"
+msgstr "Title"
+
+#: templates/studio/dashboard/ambitos.html:26
+msgid "Materias"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:27
+msgid "Tags"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:28
+msgid "Fecha"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:29
+msgid "Autor"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:30
+msgid "Estado"
 msgstr ""

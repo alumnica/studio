@@ -12,7 +12,7 @@
     <div class="grid-x">
         <div class="cell medium-6">
             {# Crear nuevo ambito #}
-            <a href="{% url 'create_ambit_view' %}" class="button">Crear nuevo Ámbito</a>
+            <a href="{% url 'create_ambit_view' %}" class="button">{% trans "Crear nuevo Ámbito" %}</a>
         </div>
         
         <div class="cell medium-12">
@@ -20,14 +20,14 @@
                 <table id="tabla-ambitos" class=" no-wrap">
                     <thead>
                         <tr>
-                            <th id="titulo-ambito" class="all">Titulo</th>
+                            <th id="titulo-ambito" class="all">{% trans "Titulo" %}</th>
                             <th id="numero-ambtio" class="not-mobile">#</th>
                             
-                            <th id="materias-ambito" class="not-mobile">Materias</th>
-                            <th id="tags-ambito" class="not-mobile tag-length">Tags</th>
-                            <th id="fecha-ambito" class="not-mobile">Fecha</th>
-                            <th id="autor-ambito" class="not-mobile">Autor</th>
-                            <th id="estado-ambito" class="not-mobile">Estado</th>
+                            <th id="materias-ambito" class="not-mobile">{% trans "Materias" %}</th>
+                            <th id="tags-ambito" class="not-mobile tag-length">{% trans "Tags" %}</th>
+                            <th id="fecha-ambito" class="not-mobile">{% trans "Fecha" %}</th>
+                            <th id="autor-ambito" class="not-mobile">{% trans "Autor" %}</th>
+                            <th id="estado-ambito" class="not-mobile">{% trans "Estado" %}</th>
                             {% ifequal request.user.user_type 'SUPERVISOR'%}
                                 <th id="eva-ambito" class="not-mobile"><i class="fas fa-calendar-times"></i> EVA</th>
                             {% endifequal %}
