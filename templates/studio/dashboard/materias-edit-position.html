@@ -4,10 +4,10 @@
 
 <div class="dashboard container">
     <h1 class="title">
-        <i class="fas fa-clone"></i>&nbsp; <span></span>
+        <i class="fas fa-clone"></i> | 3.1 | Posicion de ODAs en seccion de materia
     </h1>
-    <p class="h6">| 3.1 | Posicion de ODAs en seccion de materia:</p>
     <hr>
+<<<<<<< HEAD
     <form method="POST" id="inputs-h" onsubmit="return is_valid_form_position()">
         {% csrf_token %}
         {{ form }}
@@ -42,10 +42,103 @@
                     <div id="a-14" class="dropzone"></div>
                     <div id="a-15" class="dropzone"></div>
                     <div id="a-16" class="dropzone"></div>
+=======
+    <p>
+        <strong>Instrucciones:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, nihil.</p>
+    <hr>
+    <form method="POST" id="inputs-h">
+        <div class="grid-x grid-margin-y">
+            <div class="cell medium-4">
+                <div class="canvas" style="background-image: url({{ MEDIA_URL }} {{ section_img.file_field.url }}">
+                    <!-- imagen de la seccion actual -->
+                    <ul class="frame">
+                        <li id="a-1" class="dropzone"></li>
+                        <li id="a-2" class="dropzone"></li>
+                        <li id="a-3" class="dropzone"></li>
+                        <li id="a-4" class="dropzone"></li>
+                    </ul>
+                    <ul class="frame">
+                        <li id="a-5" class="dropzone"></li>
+                        <li id="a-6" class="dropzone"></li>
+                        <li id="a-7" class="dropzone"></li>
+                        <li id="a-8" class="dropzone"></li>
+                    </ul>
+                    <ul class="frame">
+                        <li id="a-9" class="dropzone"></li>
+                        <li id="a-10" class="dropzone"></li>
+                        <li id="a-11" class="dropzone"></li>
+                        <li id="a-12" class="dropzone"></li>
+                    </ul>
+                    <ul class="frame">
+                        <li id="a-13" class="dropzone"></li>
+                        <li id="a-14" class="dropzone"></li>
+                        <li id="a-15" class="dropzone"></li>
+                        <li id="a-16" class="dropzone"></li>
+                    </ul>
+
+>>>>>>> develop
                 </div>
             </div>
-        </div>
+            <div class="cell medium-8">
+                <ul class="oda-list">
+                    <li class="oda-block" id="ob-1">
+                        <div class="shadow-block"></div>
+                        <div id="block-1" class="block">
+                            <img src="assets/img/ph/ensignia-01.png" alt="" class=".block-img">
+                        </div>
+                        <div class="oda-desc">Oda numero 400</div>
+                    </li>
+                    <li class="oda-block" id="ob-2">
+                        <div class="shadow-block"></div>
+                        <div id="block-2" class="block">
+                            <img src="assets/img/ph/ensignia-01.png" alt="">
+                        </div>
+                        <div class="oda-desc">esta oda tiene nombre largo raro</div>
+                    </li>
+                    <li class="oda-block" id="ob-3">
+                        <div class="shadow-block"></div>
+                        <div id="block-3" class="block">
+                            <img src="assets/img/ph/ensignia-01.png" alt="">
+                        </div>
+                        <div class="oda-desc">Oda numero 888</div>
+                    </li>
+                    <li class="oda-block" id="ob-4">
+                        <div class="shadow-block"></div>
+                        <div id="block-4" class="block">
+                            <img src="assets/img/ph/ensignia-01.png" alt="">
+                        </div>
+                        <div class="oda-desc">Yolo yo mama</div>
+                    </li>
+                    <li class="oda-block" id="ob-5">
+                        <div class="shadow-block"></div>
+                        <div id="block-5" class="block">
+                            <img src="assets/img/ph/ensignia-01.png" alt="">
+                        </div>
+                        <div class="oda-desc">Learning things!</div>
+                    </li>
+                    <li class="oda-block" id="ob-6">
+                        <div class="shadow-block"></div>
+                        <div id="block-6" class="block">
+                            <img src="assets/img/ph/ensignia-01.png" alt="">
+                        </div>
+                        <div class="oda-desc">Oda numero 888</div>
+                    </li>
+                    <li class="oda-block" id="ob-7">
+                        <div class="shadow-block"></div>
+                        <div id="block-7" class="block">
+                            <img src="assets/img/ph/ensignia-01.png" alt="">
+                        </div>
+                        <div class="oda-desc">esta oda tiene nombre largo raro</div>
+                    </li>
+                    <li class="oda-block" id="ob-8">
+                        <div class="shadow-block"></div>
+                        <div id="block-8" class="block">
+                            <img src="assets/img/ph/ensignia-01.png" alt="">
+                        </div>
+                        <div class="oda-desc">Watchamacallit</div>
+                    </li>
 
+<<<<<<< HEAD
         <div class="cell medium-4">
             {% for oda in odas_list %}
             <!-- maximo 4 odas -->
@@ -55,34 +148,24 @@
                     </div>
                     <div class="oda-desc">{{ oda.oda.name }}</div>
                 </div>
+=======
+                </ul>
+>>>>>>> develop
 
-            {% endfor %}
-        </div>
 
-        <!-- end oda postitionin -->
-        <div class="cell medium-6">
 
-        </div>
-        <div class="cell medium-6 text-right">
-            <!-- form que manda la info de posicion -->
-
-                    <!-- aqui se crean inputs escondidos para mandarte la info -->
-                <a href="{% url 'go_back_view' 'odas_position_view' view.kwargs.pk  view.kwargs.section %}" class="button">
-                    <i class="fas fa-arrow-left"> </i> Anterior
-                </a>
-                <!--a href="materias-edit-preview.html" class="button"> Siguiente
-                    <i class="fas fa-arrow-right"></i>
-                </a-->
-                <button type="submit" class="button"> Siguiente <i class="fas fa-arrow-right"></i></button>
+            </div>
+            <!-- end oda postitionin -->
+            <div class="cell medium-6">
+                <!-- <form method="POST" id="position-saver"> -->
+                <input type="text" id="oda-position">
+                <button id="psBtn" class="button" type="button">Guardar</button>
+                <!-- </form> -->
+            </div>
 
         </div>
-    </div>
     </form>
 </div>
-
-<!-- <div id="block-6" class="block can-drop" style="transform: translate(-18px, -441px);" data-x="-18" data-y="-441"></div> -->
-
-
 
 {% endblock content %}
 

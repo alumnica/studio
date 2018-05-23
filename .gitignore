@@ -8,3 +8,4 @@ venv/
 .idea/
 .env
 /static/
+.vscode/settings.json
