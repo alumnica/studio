@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import ListView, FormView, UpdateView
 from sweetify import sweetify
-
+from django.utils.translation import gettext_lazy as _
 from alumnica_model.models import users
 from studio.forms.ambit_forms import *
 
@@ -47,7 +47,7 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         if ambit.is_published:
             if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
                 sweetify.error(self.request,
-                               'No puedes editar el ámbito {} porque ya esta publicado'.format(ambit.name),
+                               _('It is not possible to edit ambit {} because is already published'.format(ambit.name)),
                                persistent='Ok')
                 return redirect(to='ambits_view')
         return super(UpdateAmbitView, self).dispatch(request, *args, **kwargs)

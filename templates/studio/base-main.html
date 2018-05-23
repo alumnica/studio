@@ -53,8 +53,10 @@
   </div>
   
   {# app.js uncludes Jquery #}
+  <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
   <script  type="text/javascript"  src="{% static "studio/js/app.js" %}"></script>
   <script  type="text/javascript"  src="{% static "studio/js/main.js" %}"></script>
+
 
   {% block scripts %}
     {% endblock %}

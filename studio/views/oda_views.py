@@ -97,31 +97,6 @@ class ODAsSectionView(LoginRequiredMixin, UpdateView):
 
             return HttpResponseRedirect(self.get_success_url())
         else:
-            for i, form in enumerate(formset, start=1):
-                if form['oda_name'].errors:
-                    sweetify.error(
-                        self.request,
-                        "Error en el nombre de la ODA {}: {}".format(i, form.errors['oda_name'][0]),
-                        persistent='Ok'
-                    )
-                    break
-
-                if form['active_icon'].errors:
-                    sweetify.error(
-                        self.request,
-                        "Error en el ícono 1 de la ODA {}: {}".format(i, form.errors['active_icon'][0]),
-                        persistent='Ok'
-                    )
-                    break
-
-                if form['completed_icon'].errors:
-                    sweetify.error(
-                        self.request,
-                        "Error en el ícono 2 de la ODA {}: {}".format(i, form.errors['completed_icon'][0]),
-                        persistent='Ok'
-                    )
-                    break
-
             return render(self.request, self.template_name, context=context)
 
 

@@ -21,6 +21,7 @@ from rest_framework import routers
 
 from studio import api_viewsets
 from studio.views.user_views import IndexView
+from django.views.i18n import JavaScriptCatalog
 
 router = routers.DefaultRouter()
 router.register(r'images', api_viewsets.ImageViewSet)
@@ -35,4 +36,5 @@ urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('api/', include(router.urls)),
                   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+                  path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

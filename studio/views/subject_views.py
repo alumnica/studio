@@ -9,7 +9,6 @@ from django.views.generic import CreateView, ListView, UpdateView
 from sweetify import sweetify
 
 from alumnica_model.models import Tag, Subject, Ambit
-from alumnica_model.models.content import Image
 from studio.forms.subject_forms import SubjectForm, BaseImageFormset, ImageForm, UpdateSubjectForm
 
 
@@ -192,7 +191,7 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
                 if form['file'].errors:
                     sweetify.error(
                         self.request,
-                        "Error en archivo de imagen de la sección {}: {}".format(i, form.errors['file'][0]),
+                        _("Error in section {} file: {}".format(i, form.errors['file'][0])),
                         persistent='Ok'
                     )
                     break

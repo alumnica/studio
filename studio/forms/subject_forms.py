@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from alumnica_model.models import Subject, Tag
 from alumnica_model.models.content import Image, Ambit
 from alumnica_model.validators import validate_image_extension, file_size
+from django.utils.translation import gettext_lazy as _
 
 
 class SubjectForm(forms.ModelForm):
@@ -31,7 +32,7 @@ class SubjectForm(forms.ModelForm):
         name_subject = cleaned_data.get('name')
 
         if Subject.objects.filter(name=name_subject).exists():
-            error = ValidationError("Subject already exists.", code='subject_error')
+            error = ValidationError(_("Subject already exists."), code='subject_error')
             self.add_error('name', error)
             return cleaned_data
 
