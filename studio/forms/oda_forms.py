@@ -3,7 +3,7 @@ import os
 from django import forms
 
 from alumnica_model.models import ODA
-from alumnica_model.models.content import ODAInSubject, Image, Subject, Tag, Moment, \
+from alumnica_model.models.content import Image, Subject, Tag, Moment, \
     MicroODA
 from alumnica_model.validators import file_size
 
@@ -45,17 +45,16 @@ class ODAForm(forms.Form):
             completed_icon.file_name = os.path.basename(active_icon.file.name)
             completed_icon.save()
 
-        oda, oda_created = ODA.objects.get_or_create(name=oda_name, created_by=user)
-
-        oda_in_subject, created = ODAInSubject.objects.get_or_create(oda=oda, section=section,
+        oda, created = ODA.objects.get_or_create(name=oda_name, created_by=user, section=section,
                                                                      active_icon=active_icon,
                                                                      completed_icon=completed_icon)
-        if not created:
-            oda_in_subject.active_icon = active_icon
-            oda_in_subject.completed_icon = completed_icon
 
-        oda_in_subject.save()
-        return oda_in_subject
+        if not created:
+            oda.active_icon = active_icon
+            oda.completed_icon = completed_icon
+
+        oda.save()
+        return oda
 
 
 class BaseODAFormset(forms.BaseFormSet):

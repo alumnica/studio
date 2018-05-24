@@ -4,7 +4,6 @@ from studio.views.oda_views import ODAsPositionView, ODAsPreviewView, ODAsRedire
     ODAUpdateView, ODACreateView, ODAsSectionView
 
 urlpatterns = [
-    path('section/<int:pk>,<int:section>/', ODAsSectionView.as_view(), name='odas_section_view'),
     path('position/<int:pk>,<int:section>/', ODAsPositionView.as_view(), name='odas_position_view'),
     path('preview/<int:pk>/', ODAsPreviewView.as_view(), name='odas_preview_view'),
     path('back/<slug:view>, <int:pk>, <int:section>/', ODAsRedirect.as_view(), name='go_back_view'),

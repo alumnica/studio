@@ -13,7 +13,7 @@
     <form method="POST" id="inputs-h">
         <div class="grid-x grid-margin-y">
             <div class="cell medium-4">
-                <div class="canvas" style="background-image: url({{ MEDIA_URL }} {{ section_img.file_field.url }}">
+                <div class="canvas" style="background-image: url({{ MEDIA_URL }} {{ section_img.file.url }}">
                     <!-- imagen de la seccion actual -->
                     <ul class="frame">
                         <li id="a-1" class="dropzone"></li>
@@ -44,62 +44,16 @@
             </div>
             <div class="cell medium-8">
                 <ul class="oda-list">
-                    <li class="oda-block" id="ob-1">
-                        <div class="shadow-block"></div>
-                        <div id="block-1" class="block">
-                            <img src="assets/img/ph/ensignia-01.png" alt="" class=".block-img">
-                        </div>
-                        <div class="oda-desc">Oda numero 400</div>
-                    </li>
-                    <li class="oda-block" id="ob-2">
-                        <div class="shadow-block"></div>
-                        <div id="block-2" class="block">
-                            <img src="assets/img/ph/ensignia-01.png" alt="">
-                        </div>
-                        <div class="oda-desc">esta oda tiene nombre largo raro</div>
-                    </li>
-                    <li class="oda-block" id="ob-3">
-                        <div class="shadow-block"></div>
-                        <div id="block-3" class="block">
-                            <img src="assets/img/ph/ensignia-01.png" alt="">
-                        </div>
-                        <div class="oda-desc">Oda numero 888</div>
-                    </li>
-                    <li class="oda-block" id="ob-4">
-                        <div class="shadow-block"></div>
-                        <div id="block-4" class="block">
-                            <img src="assets/img/ph/ensignia-01.png" alt="">
-                        </div>
-                        <div class="oda-desc">Yolo yo mama</div>
-                    </li>
-                    <li class="oda-block" id="ob-5">
-                        <div class="shadow-block"></div>
-                        <div id="block-5" class="block">
-                            <img src="assets/img/ph/ensignia-01.png" alt="">
-                        </div>
-                        <div class="oda-desc">Learning things!</div>
-                    </li>
-                    <li class="oda-block" id="ob-6">
-                        <div class="shadow-block"></div>
-                        <div id="block-6" class="block">
-                            <img src="assets/img/ph/ensignia-01.png" alt="">
-                        </div>
-                        <div class="oda-desc">Oda numero 888</div>
-                    </li>
-                    <li class="oda-block" id="ob-7">
-                        <div class="shadow-block"></div>
-                        <div id="block-7" class="block">
-                            <img src="assets/img/ph/ensignia-01.png" alt="">
-                        </div>
-                        <div class="oda-desc">esta oda tiene nombre largo raro</div>
-                    </li>
-                    <li class="oda-block" id="ob-8">
-                        <div class="shadow-block"></div>
-                        <div id="block-8" class="block">
-                            <img src="assets/img/ph/ensignia-01.png" alt="">
-                        </div>
-                        <div class="oda-desc">Watchamacallit</div>
-                    </li>
+                    {% for oda in odas_list %}
+                        <li class="oda-block" id="ob-{{ oda.pk }}" data-n="a-{{ oda.section }}">
+                            <div class="shadow-block"></div>
+                            <div id="block-{{ oda.pk }}" class="block">
+                                <img src="{{ oda.active_icon.file.url }}" alt="" class=".block-img">
+                            </div>
+                            <div class="oda-desc">Oda numero 400</div>
+                        </li>
+                    {% endfor %}
+
 
                 </ul>
 

@@ -120,7 +120,7 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
             return redirect(to='materias_sections_view', pk=self.kwargs['pk'])
         context = self.get_context_data()
         if section <= subject.number_of_sections:
-            section_img = subject.sections_images[section - 1]
+            section_img = subject.sections_images.all()[section - 1]
             form = ODAsPositionForm(initial={'name': subject.name})
             odas_list = subject.odas.filter(section=section)
             context.update({'form': form, 'section_img': section_img, 'odas_list': odas_list})
