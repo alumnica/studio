@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, UpdateView, ListView, CreateView
-from sweetify import sweetify
 
 from alumnica_model.models import Subject, ODA, Tag, Moment
 from studio.forms.oda_forms import ODAsSectionForm, ODAForm, BaseODAFormset, ODAsPositionForm, ODACreateForm, \
@@ -126,16 +125,19 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
             context.update({'form': form, 'section_img': section_img, 'odas_list': odas_list})
             return render(request, self.template_name, context=context)
         else:
-            return redirect(to='odas_preview_view', pk=subject.pk)
+            return redirect(to='update_subject_view', pk=subject.pk)
 
     def form_valid(self, form):
         section = self.kwargs['section']
         subject = Subject.objects.get(pk=self.kwargs['pk'])
         odas_to_save = subject.odas.filter(section=section)
 
-        for i, oda in enumerate(odas_to_save, start=1):
-            zone = self.request.POST.get('p-block-{}'.format(i))
-            oda.zone = zone.split('-')[1]
+        odas_position = self.request.POST.get('oda-position').split(';')
+
+        for oda_info in odas_position:
+            oda_data = oda_info.split(',')
+            oda = odas_to_save.get(pk=int(oda_data[0]))
+            oda.zone = oda_data[1].split('-')[1]
             oda.save()
 
         section += 1
@@ -150,11 +152,12 @@ class ODAsPreviewView(LoginRequiredMixin, FormView):
     def get(self, request, *args, **kwargs):
         pk = self.kwargs['pk']
         subject = Subject.objects.get(pk=self.kwargs['pk'])
-        section_images_list = subject.sections_images
+        section_images_list = subject.sections_images.all()
         odas_list = []
-
-        for section_counter in range(1, len(subject.sections_images)):
-            odas_list.append(subject.odas.filter(section=section_counter))
+        section_counter = 1
+        for section in subject.sections_images.all():
+            odas_list.append(subject.odas.all().filter(section=section_counter))
+            section_counter += 1
 
         content_images = zip(odas_list, section_images_list)
 
