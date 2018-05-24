@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-23 12:45-0500\n"
+"POT-Creation-Date: 2018-05-24 17:10-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,20 +118,84 @@ msgstr ""
 msgid "jsi18n/"
 msgstr ""
 
-#: templates/studio/dashboard/ambitos.html:8
-msgid "Ámbitos"
-msgstr ""
-
+#: templates/studio/dashboard/ambitos-edit.html:13
 #: templates/studio/dashboard/ambitos.html:15
-msgid "Crear nuevo Ámbito"
+#, fuzzy
+#| msgid "Ámbitos"
+msgid "Create new Ambit"
+msgstr "Ambits"
+
+#: templates/studio/dashboard/ambitos-edit.html:19
+msgid "Instructions:"
 msgstr ""
 
+#: templates/studio/dashboard/ambitos-edit.html:28
 #: templates/studio/dashboard/ambitos.html:23
-msgid "Titulo"
-msgstr "Title"
+msgid "Title"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos-edit.html:65
+msgid "Background color"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos-edit.html:153
+msgid "Ambit image"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos-edit.html:158
+msgid "Upload image"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos-edit.html:162
+msgid "Image library"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos-edit.html:182
+msgid "Assigned subjects"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos-edit.html:206
+msgid "Publication details"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos-edit.html:210
+msgid "Unpublished"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos-edit.html:213
+#: templates/studio/dashboard/ambitos.html:114
+msgid "Published"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos-edit.html:224
+msgid "Save"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos-edit.html:231
+#: templates/studio/dashboard/ambitos-edit.html:236
+msgid "Publish on EVA"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos-edit.html:250
+msgid "Subejct selection"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos-edit.html:254
+msgid "Search in image library"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos-edit.html:267
+msgid "Add"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:8
+#, fuzzy
+#| msgid "Ámbitos"
+msgid "Ambits"
+msgstr "Ambits"
 
 #: templates/studio/dashboard/ambitos.html:26
-msgid "Materias"
+msgid "Subjects"
 msgstr ""
 
 #: templates/studio/dashboard/ambitos.html:27
@@ -139,7 +203,7 @@ msgid "Tags"
 msgstr ""
 
 #: templates/studio/dashboard/ambitos.html:28
-msgid "Fecha"
+msgid "Date"
 msgstr ""
 
 #: templates/studio/dashboard/ambitos.html:29
@@ -147,5 +211,35 @@ msgid "Autor"
 msgstr ""
 
 #: templates/studio/dashboard/ambitos.html:30
-msgid "Estado"
+msgid "State"
 msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:50
+#: templates/studio/dashboard/ambitos.html:66
+msgid "Edit"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:54
+#: templates/studio/dashboard/ambitos.html:70
+msgid "Delete"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:58
+#: templates/studio/dashboard/ambitos.html:74
+msgid "Edit Tags"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:117
+msgid "Draft"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:119
+msgid "Waiting for approval"
+msgstr ""
+
+#: templates/studio/dashboard/ambitos.html:128
+msgid "Unpublish from EVA"
+msgstr ""
+
+#~ msgid "Titulo"
+#~ msgstr "Title"

@@ -5,14 +5,14 @@
 <div class="container dashboard">
 
     <h1 class="title">
-        <i class="fas fa-map"></i> {% trans "Ámbitos" %}
+        <i class="fas fa-map"></i> {% trans "Ambits" %}
     </h1>
     <hr>
 
     <div class="grid-x">
         <div class="cell medium-6">
             {# Crear nuevo ambito #}
-            <a href="{% url 'create_ambit_view' %}" class="button">{% trans "Crear nuevo Ámbito" %}</a>
+            <a href="{% url 'create_ambit_view' %}" class="button">{% trans "Create new Ambit" %}</a>
         </div>
         
         <div class="cell medium-12">
@@ -20,14 +20,14 @@
                 <table id="tabla-ambitos" class=" no-wrap">
                     <thead>
                         <tr>
-                            <th id="titulo-ambito" class="all">{% trans "Titulo" %}</th>
+                            <th id="titulo-ambito" class="all">{% trans "Title" %}</th>
                             <th id="numero-ambtio" class="not-mobile">#</th>
                             
-                            <th id="materias-ambito" class="not-mobile">{% trans "Materias" %}</th>
+                            <th id="materias-ambito" class="not-mobile">{% trans "Subjects" %}</th>
                             <th id="tags-ambito" class="not-mobile tag-length">{% trans "Tags" %}</th>
-                            <th id="fecha-ambito" class="not-mobile">{% trans "Fecha" %}</th>
+                            <th id="fecha-ambito" class="not-mobile">{% trans "Date" %}</th>
                             <th id="autor-ambito" class="not-mobile">{% trans "Autor" %}</th>
-                            <th id="estado-ambito" class="not-mobile">{% trans "Estado" %}</th>
+                            <th id="estado-ambito" class="not-mobile">{% trans "State" %}</th>
                             {% ifequal request.user.user_type 'SUPERVISOR'%}
                                 <th id="eva-ambito" class="not-mobile"><i class="fas fa-calendar-times"></i> EVA</th>
                             {% endifequal %}
@@ -47,15 +47,15 @@
                                         <div class="title-edit-menu">
                                         <span class="editar">
                                             {# Link a editar este ambito en especifico #}
-                                            <a href="{% url 'update_ambit_view' ambit.pk %}">Editar</a>
+                                            <a href="{% url 'update_ambit_view' ambit.pk %}">{% trans "Edit" %}</a>
                                         </span> |
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                            <a href="{% url 'delete_ambit_view' ambit.pk %}">Borrar</a>
+                                            <a href="{% url 'delete_ambit_view' ambit.pk %}">{% trans "Delete" %}</a>
                                         </span> |
                                         <span class="editar-tag">
                                             {# Falta #}
-                                            <a href="#">Editar Tags</a>
+                                            <a href="#">{% trans "Edit Tags" %}</a>
                                         </span>
                                     </div>
                                     {% endifequal %}
@@ -63,15 +63,15 @@
                                     <div class="title-edit-menu">
                                         <span class="editar">
                                             {# Link a editar este ambito en especifico #}
-                                            <a href="{% url 'update_ambit_view' ambit.pk %}">Editar</a>
+                                            <a href="{% url 'update_ambit_view' ambit.pk %}">{% trans "Edit" %}</a>
                                         </span> |
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                            <a href="{% url 'delete_ambit_view' ambit.pk %}">Borrar</a>
+                                            <a href="{% url 'delete_ambit_view' ambit.pk %}">{% trans "Delete" %}</a>
                                         </span> |
                                         <span class="editar-tag">
                                             {# Falta #}
-                                            <a href="#">Editar Tags</a>
+                                            <a href="#">{% trans "Edit Tags" %}</a>
                                         </span>
                                     </div>
                                 {% endif %}
@@ -111,12 +111,12 @@
                             <td>
                                 <div class="estado">
                                     {% if ambit.is_published %}
-                                        Publicado
+                                        {% trans "Published" %}
                                     {% else %}
                                         {% if ambit.is_draft %}
-                                            Borrador
+                                            {% trans "Draft" %}
                                         {% else %}
-                                            En espera de aprobación
+                                            {% trans "Waiting for approval" %}
                                         {% endif %}
                                     {% endif %}
                                 </div>
@@ -125,7 +125,7 @@
                              <td class="text-center">
                              {% if ambit.is_published %}
                                  <div class="button small alert remover">
-                                    <a href="{% url 'unpublish_ambit_view' ambit.pk %}" title="Dar de baja en EVA">
+                                    <a href="{% url 'unpublish_ambit_view' ambit.pk %}" title="{% trans "Unpublish from EVA" %}">
                                         <i class="fas fa-times"></i>
                                     </a>
                                 </div>

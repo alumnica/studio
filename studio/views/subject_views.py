@@ -201,7 +201,7 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
         if action == 'save':
             return redirect(to='materias_view')
         else:
-            return redirect(to='odas_section_view', pk=subject.pk, section=1)
+            return redirect(to='odas_position_view', pk=subject.pk, section=1)
 
 
 class SubjectView(LoginRequiredMixin, ListView):

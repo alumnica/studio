@@ -20,27 +20,27 @@ msgstr ""
 
 #: studio/static/studio/js/ambit.js:5 studio/static/studio/js/ambit.js:22
 msgid "The name field is required"
-msgstr ""
+msgstr "El campo de nombre es requerido"
 
 #: studio/static/studio/js/ambit.js:9 studio/static/studio/js/ambit.js:32
 msgid "This name is already taken"
-msgstr ""
+msgstr "Este nombre ya esta siendo usado"
 
 #: studio/static/studio/js/ambit.js:27
 msgid "Delete an ambit before publish another"
-msgstr ""
+msgstr "Borra un ámbito antes de añadir otro"
 
 #: studio/static/studio/js/ambit.js:43
 msgid "Select a background color"
-msgstr ""
+msgstr "Selecciona un color de fondo"
 
 #: studio/static/studio/js/ambit.js:51
 msgid "The size of the file must be less than 10 MB"
-msgstr ""
+msgstr "El tamaño del archivo debe ser menor a 10 MB"
 
 #: studio/static/studio/js/ambit.js:58 studio/static/studio/js/ambit.js:62
 msgid "Select a PNG image"
-msgstr ""
+msgstr "Selecciona una imagen PNG"
 
 #: studio/static/studio/js/app.js:22
 msgid "input"

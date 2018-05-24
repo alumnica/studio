@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-23 12:45-0500\n"
+"POT-Creation-Date: 2018-05-24 17:10-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,23 +20,23 @@ msgstr ""
 
 #: alumnica_model/models/users.py:49
 msgid "Can't get profile for invalid user type: {}"
-msgstr ""
+msgstr "No se puede obtener el perfil para tipo de usuario inválido: {}"
 
 #: alumnica_model/models/users.py:161
 msgid "Invalid user type selected: {}"
-msgstr ""
+msgstr "Tipo de usuario inválido seleccionado: {}"
 
 #: alumnica_model/models/users.py:164
 msgid "There was an error creating the profile for user {}."
-msgstr ""
+msgstr "Hubo un error al crear el perfil para el usuario {}"
 
 #: alumnica_model/validators.py:9
 msgid "An Ambit with the name \"{}\", already exists"
-msgstr ""
+msgstr "Ya existe un Ámbito con el nombre \"{}\""
 
 #: alumnica_model/validators.py:22
 msgid "Unsupported file extension"
-msgstr ""
+msgstr "Extensión de archivo no soportada"
 
 #: alumnica_model/validators.py:29
 msgid "File too large. Size should not exceed 2 MB."
@@ -48,11 +48,11 @@ msgstr "Esta materia ya existe"
 
 #: studio/forms/user_forms.py:21 studio/forms/user_forms.py:32
 msgid "Invalid password or email."
-msgstr ""
+msgstr "Correo o contraseña inválida"
 
 #: studio/forms/user_forms.py:27
 msgid "Invalid credentials"
-msgstr ""
+msgstr "Credenciales inválidas"
 
 #: studio/urls/ambit_urls.py:8
 #, fuzzy
@@ -62,27 +62,27 @@ msgstr "crear_ambito"
 
 #: studio/views/ambit_views.py:50
 msgid "It is not possible to edit ambit {} because is already published"
-msgstr ""
+msgstr "No es posible editar el ámbito {} porque ya está publicado"
 
 #: studio/views/subject_views.py:75
 msgid "Error in section {} image: {}"
-msgstr ""
+msgstr "Error en la imagen del bloque {}: {}"
 
 #: studio/views/subject_views.py:194
 msgid "Error in section {} file: {}"
-msgstr ""
+msgstr "Error en el archivo del bloque {}: {}"
 
 #: studio_webapp/settings.py:142
 msgid "English"
-msgstr ""
+msgstr "Inglés"
 
 #: studio_webapp/settings.py:143
 msgid "Spanish"
-msgstr ""
+msgstr "Español"
 
 #: studio_webapp/urls.py:36
 msgid "users/"
-msgstr ""
+msgstr "usuarios/"
 
 #: studio_webapp/urls.py:37
 #, fuzzy
@@ -92,23 +92,23 @@ msgstr "ambitos"
 
 #: studio_webapp/urls.py:38
 msgid "subjects/"
-msgstr ""
+msgstr "materias/"
 
 #: studio_webapp/urls.py:39
 msgid "odas/"
-msgstr ""
+msgstr "odas/"
 
 #: studio_webapp/urls.py:40
 msgid "images/"
-msgstr ""
+msgstr "imagenes/"
 
 #: studio_webapp/urls.py:41
 msgid "admin/"
-msgstr ""
+msgstr "admin/"
 
 #: studio_webapp/urls.py:42
 msgid "api/"
-msgstr ""
+msgstr "api/"
 
 #: studio_webapp/urls.py:43
 msgid "api-auth/"
@@ -118,34 +118,126 @@ msgstr ""
 msgid "jsi18n/"
 msgstr ""
 
+#: templates/studio/dashboard/ambitos-edit.html:13
+#: templates/studio/dashboard/ambitos.html:15
+msgid "Create new Ambit"
+msgstr "Crear nuevo Ámbito"
+
+#: templates/studio/dashboard/ambitos-edit.html:19
+msgid "Instructions:"
+msgstr "Instrucciones:"
+
+#: templates/studio/dashboard/ambitos-edit.html:28
+#: templates/studio/dashboard/ambitos.html:23
+msgid "Title"
+msgstr "Título"
+
+#: templates/studio/dashboard/ambitos-edit.html:65
+msgid "Background color"
+msgstr "Color de fondo"
+
+#: templates/studio/dashboard/ambitos-edit.html:153
+msgid "Ambit image"
+msgstr "Imagen del ámbito"
+
+#: templates/studio/dashboard/ambitos-edit.html:158
+msgid "Upload image"
+msgstr "Subir imagen"
+
+#: templates/studio/dashboard/ambitos-edit.html:162
+msgid "Image library"
+msgstr "Biblioteca de imágenes"
+
+#: templates/studio/dashboard/ambitos-edit.html:182
+msgid "Assigned subjects"
+msgstr "Materias asignadas"
+
+#: templates/studio/dashboard/ambitos-edit.html:206
+msgid "Publication details"
+msgstr "Detalles de publicación"
+
+#: templates/studio/dashboard/ambitos-edit.html:210
+msgid "Unpublished"
+msgstr "Sin publicar"
+
+#: templates/studio/dashboard/ambitos-edit.html:213
+#: templates/studio/dashboard/ambitos.html:114
+msgid "Published"
+msgstr "Publicado"
+
+#: templates/studio/dashboard/ambitos-edit.html:224
+msgid "Save"
+msgstr "Guardar"
+
+#: templates/studio/dashboard/ambitos-edit.html:231
+#: templates/studio/dashboard/ambitos-edit.html:236
+msgid "Publish on EVA"
+msgstr "Publicar en EVA"
+
+#: templates/studio/dashboard/ambitos-edit.html:250
+msgid "Subejct selection"
+msgstr "Selección de materias"
+
+#: templates/studio/dashboard/ambitos-edit.html:254
+msgid "Search in image library"
+msgstr "Buscar en biblioteca de imágenes"
+
+#: templates/studio/dashboard/ambitos-edit.html:267
+msgid "Add"
+msgstr "Añadir"
+
 #: templates/studio/dashboard/ambitos.html:8
-msgid "Ámbitos"
+#, fuzzy
+#| msgid "Ámbitos"
+msgid "Ambits"
 msgstr "Ámbitos"
 
-#: templates/studio/dashboard/ambitos.html:15
-msgid "Crear nuevo Ámbito"
-msgstr ""
-
-#: templates/studio/dashboard/ambitos.html:23
-msgid "Titulo"
-msgstr ""
-
 #: templates/studio/dashboard/ambitos.html:26
-msgid "Materias"
-msgstr ""
+msgid "Subjects"
+msgstr "Materias"
 
 #: templates/studio/dashboard/ambitos.html:27
 msgid "Tags"
 msgstr ""
 
 #: templates/studio/dashboard/ambitos.html:28
-msgid "Fecha"
-msgstr ""
+msgid "Date"
+msgstr "Fecha"
 
 #: templates/studio/dashboard/ambitos.html:29
 msgid "Autor"
 msgstr ""
 
 #: templates/studio/dashboard/ambitos.html:30
-msgid "Estado"
-msgstr ""
+msgid "State"
+msgstr "Estado"
+
+#: templates/studio/dashboard/ambitos.html:50
+#: templates/studio/dashboard/ambitos.html:66
+msgid "Edit"
+msgstr "Editar"
+
+#: templates/studio/dashboard/ambitos.html:54
+#: templates/studio/dashboard/ambitos.html:70
+msgid "Delete"
+msgstr "Borrar"
+
+#: templates/studio/dashboard/ambitos.html:58
+#: templates/studio/dashboard/ambitos.html:74
+msgid "Edit Tags"
+msgstr "Editar Tags"
+
+#: templates/studio/dashboard/ambitos.html:117
+msgid "Draft"
+msgstr "Borrador"
+
+#: templates/studio/dashboard/ambitos.html:119
+msgid "Waiting for approval"
+msgstr "En espera de aprobación"
+
+#: templates/studio/dashboard/ambitos.html:128
+msgid "Unpublish from EVA"
+msgstr "Quitar del EVA"
+
+#~ msgid "Ámbitos"
+#~ msgstr "Ámbitos"
