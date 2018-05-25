@@ -148,7 +148,7 @@ class UpdateAmbitForm(forms.ModelForm):
                     ambit.subjects.add(subject_model)
                 except Subject.DoesNotExist:
                     pass
-        for subject in ambit.subjects:
+        for subject in ambit.subjects.all():
             if subject.name not in subjects:
                 ambit.subjects.remove(subject)
         ambit.is_draft = False

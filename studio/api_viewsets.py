@@ -17,7 +17,7 @@ class ImageViewSet(ModelViewSet):
     def get_queryset(self):
         raw_filter_data = self.request.query_params.get('statuses')
         if raw_filter_data is None:
-            return super(ImageViewSet, self).get_queryset()
+            return super(ImageViewSet, self).get_queryset(), []
 
         decoded_filter_data = urllib.parse.unquote(urllib.parse.unquote(raw_filter_data))
         filters = json.loads(decoded_filter_data)
