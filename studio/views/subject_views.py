@@ -81,7 +81,7 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
         if action == 'save':
             return redirect(to='materias_view')
         else:
-            return redirect(to='odas_section_view', pk=subject.pk, section=1)
+            return redirect(to='odas_position_view', pk=subject.pk, section=1)
 
     def form_invalid(self, form):
         if form['name'].errors:
