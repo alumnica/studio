@@ -24,8 +24,8 @@ class ImageViewSet(ModelViewSet):
 
         filter_params = {}
         sort_params = []
-        paging_value = ''
-        paging = 1
+        paging_value = None
+        current_page = None
 
         for filter in filters:
             action = filter['action']
@@ -34,9 +34,20 @@ class ImageViewSet(ModelViewSet):
                 if data != '':
                     filter_params.update({'folder_contains': data, 'file_name_contains': data})
             elif action == 'paging':
-                data = filter['data']['number']
-                if data != '':
-                    paging_value = filter['data']['number']
+
+                    try:
+                        paging = filter['data']['number']
+                        if paging != 'all':
+                            paging_value = int(paging)
+                        else:
+                            paging_value='all'
+                    except KeyError or ValueError:
+                        pass
+                    try:
+                        current_page = filter['data']['currentPage']
+                    except KeyError:
+                        pass
+
             elif action == 'sort':
                 pass
 
@@ -46,12 +57,20 @@ class ImageViewSet(ModelViewSet):
             for item in filter_params:
                 filter |= Q(**{item: filter_params[item]})
 
-            queryset = Image.objects.filter(filter)
+            if paging_value == 'all':
+                queryset = Image.objects.filter(filter)
+            else:
+                queryset = Image.objects.filter(filter)[(paging_value*current_page):((paging_value*current_page)+(paging_value))]
             count = len(queryset)
 
             return queryset, count
         else:
-            return Image.objects.all(), Image.objects.count()
+            if paging_value == 'all':
+                return \
+                    Image.objects.all(), Image.objects.count()
+            else:
+                return Image.objects.all()[(paging_value*current_page):((paging_value*current_page)+(paging_value))],\
+                   Image.objects.count()
 
     def list(self, request, *args, **kwargs):
         self.object_list, count = self.get_queryset()
