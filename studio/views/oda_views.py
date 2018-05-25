@@ -1,13 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.forms import formset_factory
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, UpdateView, ListView, CreateView
 
 from alumnica_model.models import Subject, ODA, Tag, Moment
-from studio.forms.oda_forms import ODAsSectionForm, ODAForm, BaseODAFormset, ODAsPositionForm, ODACreateForm, \
+from studio.forms.oda_forms import ODAsPositionForm, ODACreateForm, \
     ODAUpdateForm
 
 

@@ -1,68 +1,9 @@
-import os
 
 from django import forms
 
 from alumnica_model.models import ODA
-from alumnica_model.models.content import Image, Subject, Tag, Moment, \
+from alumnica_model.models.content import Subject, Tag, Moment, \
     MicroODA
-from alumnica_model.validators import file_size
-
-
-class ODAForm(forms.Form):
-    oda_name = forms.CharField(required=True, max_length=120)
-    active_icon = forms.ImageField(validators=[file_size], widget=forms.FileInput(attrs={'class': 'is-hidden',
-                                                                                         'type': 'file'}))
-    completed_icon = forms.ImageField(validators=[file_size], widget=forms.FileInput(attrs={'class': 'is-hidden',
-                                                                                            'type': 'file'}))
-
-    def save_form(self, user, section):
-        cleaned_data = self.clean()
-        oda_name = cleaned_data.get('oda_name')
-
-        active_image = cleaned_data.get('active_icon')
-        if isinstance(active_image, Image):
-            active_icon = Image.objects.get(folder=active_image.folder,
-                                            file=active_image.file)
-            active_icon.name = '{}-oda_active_icon'.format(oda_name)
-            active_icon.save()
-        else:
-            active_icon = Image.objects.create(name='{}-oda_active_icon'.format(oda_name),
-                                               folder="odas", file=active_image)
-
-            active_icon.file_name = os.path.basename(active_icon.file.name)
-            active_icon.save()
-
-        completed_image = cleaned_data.get('completed_icon')
-        if isinstance(completed_image, Image):
-            completed_icon = Image.objects.get(folder=completed_image.folder,
-                                               file=completed_image.file)
-            completed_icon.name = '{}-oda_completed_icon'.format(oda_name)
-            completed_icon.save()
-        else:
-            completed_icon = Image.objects.create(name='{}-oda_completed_icon'.format(oda_name),
-                                                  folder="odas", file=completed_image)
-
-            completed_icon.file_name = os.path.basename(active_icon.file.name)
-            completed_icon.save()
-
-        oda, created = ODA.objects.get_or_create(name=oda_name, created_by=user, section=section,
-                                                                     active_icon=active_icon,
-                                                                     completed_icon=completed_icon)
-
-        if not created:
-            oda.active_icon = active_icon
-            oda.completed_icon = completed_icon
-
-        oda.save()
-        return oda
-
-
-class BaseODAFormset(forms.BaseFormSet):
-
-    def __init__(self, *args, **kwargs):
-        super(BaseODAFormset, self).__init__(*args, **kwargs)
-        for form in self.forms:
-            form.empty_permitted = False
 
 
 class ODAsSectionForm(forms.ModelForm):
@@ -83,14 +24,18 @@ class ODAsPreviewForm(forms.Form):
 
 class ODACreateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'oda-name'}))
+    tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': ''}))
 
     class Meta:
         model = ODA
-        fields = ['name']
+        fields = ['name', 'tags', 'active_icon', 'completed_icon']
 
-    def save_form(self, user, tags, moments):
+    def save_form(self, user, tags, moments, is_draft=False):
+
         oda = super(ODACreateForm, self).save(commit=False)
+        cleaned_data = super(ODACreateForm, self).clean()
         oda.created_by = user
+        oda.temporal = is_draft
         oda.save()
         if tags is not None:
             tags = tags.split(',')
@@ -120,12 +65,14 @@ class ODACreateForm(forms.ModelForm):
 
 class ODAUpdateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'oda-name'}))
+    tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': ''}))
 
     class Meta:
         model = ODA
-        fields = ['name']
+        fields = ['name', 'tags', 'active_icon', 'completed_icon']
 
-    def save_form(self, user, tags, moments):
+    def save_form(self, user, tags, moments, is_draft=False):
+        cleaned_data = super(ODAUpdateForm, self).clean()
         oda = super(ODAUpdateForm, self).save(commit=False)
 
         if tags is not None:
@@ -155,6 +102,7 @@ class ODAUpdateForm(forms.ModelForm):
                     if moment.name not in moments_names:
                         microoda.activities.remove(moment)
                     microoda.save()
+        oda.temporal = is_draft
         oda.save()
 
         return oda
