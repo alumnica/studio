@@ -1,5 +1,69 @@
+// Tags odas
+
+var odaTags = [
+    {name: 'tag2', value: 't2'},
+    {name: 'tag1', value: 't1'},
+    {name: 'tag3', value: 't3'},
+    {name: 'cosa', value: 'cs'},
+    {name: 'tag5', value: 't5'},
+    {name: 'OTHER', value: 'ot'},
+    {name: 'tag7', value: 't7'},
+];
+
+$('#oda-tags').selectize({
+    labelField: 'name',
+    valueField: 'name',
+    searchField: 'name',
+    hideSelected: true,
+    persist: false,
+    createOnBlur: true,
+    create: function(input) {
+        return {
+            value: input,
+            name: input
+        }
+    },
+    options: odaTags,
+    preload: false,
+    maxItems: 20,
+});
+
 // seleccion de momentos dentro de Oda-edit
 
+var odaTagsList = [ 
+    {name: 'tag1', code: 'AF'}, 
+    {name: 'another tag', code: 'AX'}, 
+    {name: 'YOLO', code: 'AL'},
+];
+
+ // enable selectize for all inputs in modals
+
+ $('#oda-tags').selectize({
+    maxItems: 1,
+    labelField: 'name',
+    valueField: 'name',
+    searchField: 'name',
+    hideSelected: true,
+    persist: false,
+    createOnBlur: true,
+    create: function(input) {
+        return {
+            value: input,
+            name: input
+        }
+    },
+    options: odaTagsList,
+    preload: false,
+});
+
+
+// seleccion de momentos dentro de Oda-edit
+
+var momentosList = [ 
+    {name: 'Momento A', code: 'AF'}, 
+    {name: 'Slideshow X', code: 'AX'}, 
+    {name: 'Hostspot Y', code: 'AL'},
+];
 
  // enable selectize for all inputs in modals
 
@@ -63,6 +127,7 @@ $('.oda-sort').on('click', '.mom-preview', function(){
 
     
 });
+
 
 // pasa el orden de los momentos en cada uoda a su text input escondido
 // para que en post tengamos al info correcta
@@ -131,72 +196,4 @@ $('#save-on').on('mouseenter mouseleave', function () {
         $('#eval-momentos').val(evalTexts);
     });
 
-});
-
-$(document).ready(function () {
-    for (let i=0; i<apli.length; i++){
-        var text = apli[i].name;
-        var value = apli[i].code;
-
-
-        $('#apli ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+value+'"></i>'  + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
-        $('#apli ul').sortable('refresh');
-        if ($('#apli ul li').length > 4) {
-            $('#apli .add-materia').hide();
-        }
-    }
-
-    for (let i=0; i<forma.length; i++){
-        var text = forma[i].name;
-        var value = forma[i].code;
-
-        $('#forma ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+value+'"></i>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
-        $('#forma ul').sortable('refresh');
-        if ($('#forma ul li').length > 4) {
-            $('#forma .add-materia').hide();
-        }
-    }
-
-    for (let i=0; i<activa.length; i++){
-        var text = activa[i].name;
-        var value = activa[i].code;
-
-        $('#activ ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+value+'"></i>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
-        $('#activ ul').sortable('refresh');
-        if ($('#activ ul li').length > 4) {
-            $('#activ .add-materia').hide();
-        }
-    }
-    for (let i=0; i<ejem.length; i++){
-        var text = ejem[i].name;
-        var value = ejem[i].code;
-
-        $('#ejemp ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+value+'"></i>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
-        $('#ejemp ul').sortable('refresh');
-        if ($('#ejemp ul li').length > 4) {
-            $('#ejemp .add-materia').hide();
-        }
-    }
-
-    for (let i=0; i<sens.length; i++){
-        var text = sens[i].name;
-        var value = sens[i].code;
-
-        $('#sens ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+value+'"></i>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
-        $('#sens ul').sortable('refresh');
-        if ($('#sens ul li').length > 4) {
-            $('#sens .add-materia').hide();
-        }
-    }
-
-    for (let i=0; i<evalu.length; i++){
-        var text = evalu[i].name;
-        var value = evalu[i].code;
-
-        $('#eval ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+value+'"></i>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
-        $('#eval ul').sortable('refresh');
-        if ($('#eval ul li').length > 4) {
-            $('#eval .add-materia').hide();
-        }
-    }
 });

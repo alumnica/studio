@@ -88,16 +88,11 @@ $(document).ready(function () {
     $(".materia-preview img").attr({id:"preview-mp", class:"materia-cover" });
     // ambitos-edit.html
     $("form#ambito-creation img").attr({id:"preview-ap", class:"ambito-cover" });
-    // materias-edit-oda
-    $("form#odas-seccion-1 .img-preview-a img").each(function () {
-        $(this).attr("id", "preview-form-" + i + "-active_icon");
-        i++;        
-    });
+    // oda-edit
+    $("form#oda-edit .oda-a-preview img").attr({id:"preview-oda-a", class:"oda-cover"});
 
-    $("form#odas-seccion-1 .img-preview-b img").each(function () {
-        $(this).attr("id", "preview-form-" + y + "-completed_icon");
-        y++;
-    });
+    $("form#oda-edit .oda-b-preview img").attr({id:"preview-oda-b", class:"oda-cover"});
+     
 });
 
 $(document).ready(function () {
@@ -126,8 +121,12 @@ $(document).ready(function () {
     $("#ambito-u").change(function () {
         readURL(this);
     });
+    
+    $("#oda-a").change(function () {
+        readURL(this);
+    });
 
-    $("form#odas-seccion-1 input[type='file']").change(function () {
+    $("#oda-b").change(function () {
         readURL(this);
     });
 });
