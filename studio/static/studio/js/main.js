@@ -89,9 +89,9 @@ $(document).ready(function () {
     // ambitos-edit.html
     $("form#ambito-creation img").attr({id:"preview-ap", class:"ambito-cover" });
     // oda-edit
-    $("form#oda-edit .oda-a-preview img").attr({id:"preview-oda-a", class:"oda-cover"});
+    $("form#oda-edit .active_icon-preview img").attr({id:"preview-active_icon", class:"oda-cover"});
 
-    $("form#oda-edit .oda-b-preview img").attr({id:"preview-oda-b", class:"oda-cover"});
+    $("form#oda-edit .completed_icon-preview img").attr({id:"preview-completed_icon", class:"oda-cover"});
      
 });
 
@@ -122,11 +122,11 @@ $(document).ready(function () {
         readURL(this);
     });
     
-    $("#oda-a").change(function () {
+    $("#id_active_icon").change(function () {
         readURL(this);
     });
 
-    $("#oda-b").change(function () {
+    $("#id_completed_icon").change(function () {
         readURL(this);
     });
 });

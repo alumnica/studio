@@ -126,7 +126,7 @@ class ODACreateView(LoginRequiredMixin, CreateView):
 
         bloques_list = []
 
-        for subject in Subject.objects.all():
+        for subject in Subject.objects.filter(temporal=False):
             bloques = []
             for section in range(1, subject.number_of_sections+1):
                 if len(subject.odas.filter(section=section)) < 8:
@@ -142,7 +142,6 @@ class ODACreateView(LoginRequiredMixin, CreateView):
                        'subjects_sections': subjects_sections})
 
     def form_valid(self, form):
-        tags = self.request.POST.get('oda-tags')
         moments = []
 
         aplication = self.request.POST.get('apli-momentos')
@@ -169,7 +168,12 @@ class ODACreateView(LoginRequiredMixin, CreateView):
         template = ['evaluation', evaluation]
         moments.append(template)
 
-        form.save_form(self.request.user, tags, moments)
+        is_draft = True
+        action = self.request.POST.get('action')
+        if action == 'finalize':
+            is_draft = False
+
+        form.save_form(self.request.user,  moments, is_draft)
 
         return redirect(to='oda_dashboard_view')
 
@@ -186,7 +190,7 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         context = super(ODAUpdateView, self).get_context_data(**kwargs)
         tags_list = Tag.objects.all()
         moments_list = Moment.objects.all()
-        self_oda_in_subject = self.object.subject
+        self_oda_in_subject = self.object.subworld
         self_tags = self.object.tags.all()
 
         apli_list = self.object.microodas.filter(type='aplication')
@@ -194,7 +198,7 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         activ_list = self.object.microodas.filter(type='activation')
         ejem_list = self.object.microodas.filter(type='exemplification')
         sens_list = self.object.microodas.filter(type='sensitization')
-        eval_list = self.object.microodas.filter(type='evaluation')
+        eval_list = self.object.evaluation
 
         context.update(
             {'self_oda_in_subject': self_oda_in_subject, 'tags_list': tags_list, 'moments_list': moments_list,
@@ -204,7 +208,6 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        tags = self.request.POST.get('oda-tags')
         moments = []
 
         aplication = self.request.POST.get('apli-momentos')
@@ -231,7 +234,12 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         template = ['evaluation', evaluation]
         moments.append(template)
 
-        form.save_form(self.request.user, tags, moments)
+        is_draft = True
+        action = self.request.POST.get('action')
+        if action == 'finalize':
+            is_draft = False
+
+        form.save_form(self.request.user, moments, is_draft)
 
         return redirect(to='oda_dashboard_view')
 

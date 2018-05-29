@@ -1,13 +1,4 @@
 
-
-// seleccion de momentos dentro de Oda-edit
-
-var momentosList = [ 
-    {name: 'Momento A', code: 'AF'}, 
-    {name: 'Slideshow X', code: 'AX'}, 
-    {name: 'Hostspot Y', code: 'AL'},
-];
-
  // enable selectize for all inputs in modals
 
  $('#select-momentos').selectize({

@@ -7,11 +7,12 @@
         <i class="fas fa-list-alt"></i> Crear nueva ODA
     </h1>
     <hr>
-    <form id="oda-edit" method="POST">
+    <form id="oda-edit" method="POST" enctype="multipart/form-data" onsubmit="return is_valid_form_odas_section()">
+    {% csrf_token %}
         <div class="grid-x grid-margin-x ">
             <div class="cell medium-6">
-                <label for="oda-title">Titulo</label>
-                <input type="text" name="oda-title" id="oda-title">
+                <label for="id_name">Titulo</label>
+                {{ form.name }}
 
                 <!-- tags -->
 
@@ -28,13 +29,13 @@
                             </div>
                             <div class="grid-x grid-margin-x">
                                 <div class="cell small-6">
-                                    <div class="oda-a-preview">
-                                        <img src="#" alt="ODA A" />
+                                    <div class="active_icon-preview">
+                                        <img src="{{ oda.active_icon.file.url }}" alt="ODA A" />
                                     </div>
                                 </div>
                                 <div class="cell small-6 align-self-middle">
-                                    <label for="oda-a" class="button small expanded">Subir Imagen</label>
-                                    <input id="oda-a" name="oda-a" type="file" class="show-for-sr">
+                                    <label for="id_active_icon" class="button small expanded">Subir Imagen</label>
+                                    {{ form.active_icon }}
 
                                     <button type="button" class="button expanded small">
                                         <i class="fa fa-th"></i> Imagenes
@@ -50,13 +51,13 @@
                             </div>
                             <div class="grid-x grid-margin-x">
                                 <div class="cell small-6">
-                                    <div class="oda-b-preview">
-                                        <img src="#" alt="ODA B" />
+                                    <div class="completed_icon-preview">
+                                        <img src="{{ oda.completed_icon.file.url }}" alt="ODA B" />
                                     </div>
                                 </div>
                                 <div class="cell small-6 align-self-middle">
-                                    <label for="oda-b" class="button small expanded">Subir Imagen</label>
-                                    <input id="oda-b" name="oda-b" type="file" class="show-for-sr">
+                                    <label for="id_completed_icon" class="button small expanded">Subir Imagen</label>
+                                    {{ form.completed_icon }}
 
                                     <button type="button" class="button expanded small">
                                         <i class="fa fa-th"></i> Imagenes
@@ -81,12 +82,18 @@
                         let odaTags = [];
                         let self_tags_selectize = [];
                         let subject_bloques = [];
+                        let momentosList = [];
+                        let odaList = [];
                         {% for tag in tags_list %}
                             odaTags.push({name:"{{ tag.name|safe }}", value:"{{ tag.id|safe }}"});
                         {% endfor %}
 
                         {% for tag in oda.tags.all %}
                             self_tags_selectize.push("{{ tag.name|safe }}");
+                        {% endfor %}
+
+                        {% for moment in moments_list %}
+                            momentosList.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                         {% endfor %}
 
 
@@ -226,11 +233,13 @@
                 <input type="hidden" id="eval-momentos" name="eval-momentos">
 
 
-                <button class="button">
+                <button type="submit" class="button" name="save">
                     <i class="fa fa-save"></i> Guardar</button>
                 &nbsp;
-                <button class="button success">
+                <button type="submit" class="button success" name="finalize">
                     <i class="fa fa-check"></i> FINALIZAR</button>
+
+                <input type="hidden" name="action" id="action" />
             </div>
         </div>
     </form>
@@ -277,4 +286,5 @@
     {% block scripts %}
         <script src="{% static "studio/js/momentos.js" %}"></script>
         <script src="{% static "studio/js/oda-tags.js" %}"></script>
+        <script src="{% static "studio/js/oda.js" %}"></script>
     {% endblock %}
