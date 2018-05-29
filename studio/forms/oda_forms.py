@@ -24,16 +24,19 @@ class ODAsPreviewForm(forms.Form):
 
 class ODACreateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'oda-name'}))
-    tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': ''}))
+    tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized', 'id':'oda-tags'}))
 
     class Meta:
         model = ODA
         fields = ['name', 'tags', 'active_icon', 'completed_icon']
 
+
     def save_form(self, user, tags, moments, is_draft=False):
 
         oda = super(ODACreateForm, self).save(commit=False)
         cleaned_data = super(ODACreateForm, self).clean()
+
+
         oda.created_by = user
         oda.temporal = is_draft
         oda.save()

@@ -121,9 +121,25 @@ class ODACreateView(LoginRequiredMixin, CreateView):
 
     def get(self, request, *args, **kwargs):
         tags_list = Tag.objects.all()
-        moments_list = Moment.objects.all()
+        moments_list = Moment.objects.filter(microodas=None)
+        subjects_list = []
+
+        bloques_list = []
+
+        for subject in Subject.objects.all():
+            bloques = []
+            for section in range(1, subject.number_of_sections+1):
+                if len(subject.odas.filter(section=section)) < 8:
+                    bloques.append(section)
+            if len(bloques)>0:
+                subjects_list.append(subject)
+                bloques_list.append(bloques)
+
+        subjects_sections = zip(subjects_list, bloques_list)
+
         return render(request, self.template_name,
-                      {'form': self.form_class, 'tags_list': tags_list, 'moments_list': moments_list})
+                      {'form': self.form_class, 'tags_list': tags_list, 'moments_list': moments_list,
+                       'subjects_sections': subjects_sections})
 
     def form_valid(self, form):
         tags = self.request.POST.get('oda-tags')

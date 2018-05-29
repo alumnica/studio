@@ -16,7 +16,8 @@
                 <!-- tags -->
 
                 <label for="tags-oda">Tags</label>
-                <input name="tags-oda" type="text" id="oda-tags" class="u-margin-bottom-small">
+                {{ form.tags }}
+{#                <input name="tags-oda" type="text" id="oda-tags" class="u-margin-bottom-small">#}
 
                 <!-- end tags -->
                 <div class="grid-x grid-margin-x grid-margin-y">
@@ -78,10 +79,9 @@
                     </p>
                     <select name="materia-a-oda">
                         <option disabled selected></option>
-                        <option value="volvo">Volvo</option>
-                        <option value="saab">Saab</option>
-                        <option value="mercedes">Mercedes</option>
-                        <option value="audi">Audi</option>
+                        {% for subject, bloques in subjects_sections %}
+                            <option value="{{ subject.name }}">{{ subject.name }}</option>
+                        {% endfor %}
                     </select>
                     <label for="bloque-a-oda">Selecciona Bloque</label>
                     <p class="oda-info">
@@ -218,6 +218,20 @@
                     <i class="fa fa-check"></i> FINALIZAR</button>
             </div>
         </div>
+         <script type="text/javascript">
+                        let odaTags = [];
+                        let self_tags_selectize = [];
+                        {% for tag in tags_list %}
+                            odaTags.push({name:"{{ tag.name|safe }}", value:"{{ tag.id|safe }}"});
+                        {% endfor %}
+
+                        {% for tag in oda.tags.all %}
+                            self_tags_selectize.push("{{ tag.name|safe }}");
+                        {% endfor %}
+
+
+
+         </script>
     </form>
 
 </div>
