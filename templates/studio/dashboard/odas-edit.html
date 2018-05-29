@@ -77,22 +77,37 @@
                     <p class="oda-info">
                         Solo se muestran materias con bloques que tengan espacios disponibles para añadir una oda
                     </p>
-                    <select name="materia-a-oda">
+                <script type="text/javascript">
+                        let odaTags = [];
+                        let self_tags_selectize = [];
+                        let subject_bloques = [];
+                        {% for tag in tags_list %}
+                            odaTags.push({name:"{{ tag.name|safe }}", value:"{{ tag.id|safe }}"});
+                        {% endfor %}
+
+                        {% for tag in oda.tags.all %}
+                            self_tags_selectize.push("{{ tag.name|safe }}");
+                        {% endfor %}
+
+
+
+                </script>
+                    <select name="materia-a-oda" id="materia-a-oda">
                         <option disabled selected></option>
+
                         {% for subject, bloques in subjects_sections %}
                             <option value="{{ subject.name }}">{{ subject.name }}</option>
+                            <script type="text/javascript">
+                                    subject_bloques.push({name: "{{ subject.name }}", bloques:{{ bloques }}});
+                            </script>
                         {% endfor %}
                     </select>
                     <label for="bloque-a-oda">Selecciona Bloque</label>
                     <p class="oda-info">
                         Solo se muestran los bloques que tengan espacio disponubles para añadir una oda.
                     </p>
-                    <select name="bloque-a-oda">
+                    <select name="bloque-a-oda" id="bloque-a-oda">
                         <option disabled selected></option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
                     </select>
 
                 </div>
@@ -218,20 +233,6 @@
                     <i class="fa fa-check"></i> FINALIZAR</button>
             </div>
         </div>
-         <script type="text/javascript">
-                        let odaTags = [];
-                        let self_tags_selectize = [];
-                        {% for tag in tags_list %}
-                            odaTags.push({name:"{{ tag.name|safe }}", value:"{{ tag.id|safe }}"});
-                        {% endfor %}
-
-                        {% for tag in oda.tags.all %}
-                            self_tags_selectize.push("{{ tag.name|safe }}");
-                        {% endfor %}
-
-
-
-         </script>
     </form>
 
 </div>
