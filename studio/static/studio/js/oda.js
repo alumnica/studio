@@ -92,14 +92,13 @@ $(document).ready(function () {
 
 
 function is_valid_form_position (){
-    let position_inputs = document.getElementsByTagName('input');
+    let position_inputs = document.getElementById('oda-position');
 
-    for(let i = 0; i < position_inputs.length; i++){
-        if(position_inputs[i].value == "" || position_inputs[i].value == null){
-            swal("Error", "Coloca todas las ODAs en la imagen de sección", "error");
-            return false;
-        }
+    if(position_inputs.value == "" || position_inputs.value == null){
+        swal("Error", "Posiciona al menos una oda en el bloque para guardar", "error");
+        return false;
     }
+
     return true;
 
 }

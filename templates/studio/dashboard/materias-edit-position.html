@@ -10,7 +10,7 @@
     <p>
         <strong>Instrucciones:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, nihil.</p>
     <hr>
-    <form method="POST" id="inputs-h">
+    <form method="POST" id="inputs-h" onsubmit="return is_valid_form_position()">
         {% csrf_token %}
         {{ form.name }}
         <div class="grid-x grid-margin-y">
