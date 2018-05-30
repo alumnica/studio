@@ -98,7 +98,7 @@ class ODACreateForm(forms.ModelForm):
                 completed_icon_object.file_name = os.path.basename(completed_icon_object.file.name)
             completed_icon_object.save()
             oda.completed_icon = completed_icon_object
-        if evaluation is not None:
+        if evaluation is not None and evaluation is not '':
             oda.evaluation = Evaluation.objects.get(name=evaluation)
 
         oda.save()
@@ -183,7 +183,7 @@ class ODAUpdateForm(forms.ModelForm):
             completed_icon_object.save()
             oda.completed_icon = completed_icon_object
 
-        if evaluation is not None:
+        if evaluation is not None and evaluation is not '':
             oda.evaluation = Evaluation.objects.get(name=evaluation)
         oda.temporal = is_draft
         oda.save()
