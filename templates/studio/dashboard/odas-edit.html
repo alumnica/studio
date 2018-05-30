@@ -83,7 +83,9 @@
                         let self_tags_selectize = [];
                         let subject_bloques = [];
                         let momentosList = [];
-                        let odaList = [];
+                        let self_subject = "{{ oda.subworld.name }}";
+                        let self_section = "{{ oda.section }}";
+
                         {% for tag in tags_list %}
                             odaTags.push({name:"{{ tag.name|safe }}", value:"{{ tag.id|safe }}"});
                         {% endfor %}
@@ -109,6 +111,7 @@
                             </script>
                         {% endfor %}
                     </select>
+
                     <label for="bloque-a-oda">Selecciona Bloque</label>
                     <p class="oda-info">
                         Solo se muestran los bloques que tengan espacio disponubles para añadir una oda.

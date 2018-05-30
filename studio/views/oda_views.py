@@ -97,21 +97,9 @@ class ODADashboardView(LoginRequiredMixin, ListView):
     login_url = 'login_view'
     model = ODA
     template_name = 'studio/dashboard/odas.html'
+    queryset = ODA.objects.all()
     context_object_name = 'odas_list'
 
-    def get_context_data(self, **kwargs):
-        context = super(ODADashboardView, self).get_context_data(**kwargs)
-        tags_list = []
-        tags = Tag.objects.all()
-
-        for tag in tags:
-            if len(tag.odas.all()) > 0:
-                tags_list.append(tag)
-
-        subjects_list = Subject.objects.all()
-        context.update({'subject_list': subjects_list, 'tags_list': tags_list})
-
-        return context
 
 
 class ODACreateView(LoginRequiredMixin, CreateView):
@@ -168,6 +156,7 @@ class ODACreateView(LoginRequiredMixin, CreateView):
         template = ['evaluation', evaluation]
         moments.append(template)
 
+
         is_draft = True
         action = self.request.POST.get('action')
         if action == 'finalize':
@@ -200,8 +189,25 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         sens_list = self.object.microodas.filter(type='sensitization')
         eval_list = self.object.evaluation
 
+        subjects_list = []
+        bloques_list = []
+
+        for subject in Subject.objects.filter(temporal=False):
+            bloques = []
+            for section in range(1, subject.number_of_sections+1):
+                if len(subject.odas.filter(section=section)) < 8:
+                    bloques.append(section)
+                else:
+                    if self.object.subworld == subject and self.object.section == section:
+                        bloques.append(section)
+            if len(bloques)>0:
+                subjects_list.append(subject)
+                bloques_list.append(bloques)
+
+        subjects_sections = zip(subjects_list, bloques_list)
+
         context.update(
-            {'self_oda_in_subject': self_oda_in_subject, 'tags_list': tags_list, 'moments_list': moments_list,
+            {'subjects_sections': subjects_sections, 'tags_list': tags_list, 'moments_list': moments_list,
              'self_tags': self_tags, 'apli_list': apli_list, 'forma_list': forma_list,
              'activ_list': activ_list, 'ejem_list': ejem_list,
              'sens_list': sens_list, 'eval_list': eval_list})
