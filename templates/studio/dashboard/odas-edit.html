@@ -209,7 +209,7 @@
                 <div class="panel" id="eval">
                     <div class="panel__title">
                         Evaluación
-                        <span class="add-materia" data-open="Modal-1">
+                        <span class="add-eval" data-open="evalModal">
                             <i class="fas fa-plus-square"></i>
                         </span>
                     </div>
@@ -282,6 +282,30 @@
     </button>
 </div>
 
+
+
+<div class="reveal" id="evalModal" data-reveal="">
+    <h4>Seleccion de Evaluaciones</h4>
+    <br>
+
+    <label for="eval-select">Busca en la Biblioteca de Evaluaciones</label>
+    <select name="eval-select" id="eval-select">
+        <option value=""></option>
+        <option value="Evaluación 1">Evaluación 1</option>
+        <option value="Evaluación 2">Evaluación 2</option>
+    </select>
+
+
+    <br />
+    <br>
+    <br>
+    <input id="eval-adder" class='button expanded' type='submit' disabled value='Añadir' data-close/>
+
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+</div>
 
 
 {% endblock content %}

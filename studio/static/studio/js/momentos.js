@@ -47,6 +47,34 @@ $("#momento-adder").click(function (e) {
     }
 });
 
+
+
+//pasa la evaluacion  elegida en el modal a la lista sorteable en ambitos-edit
+$("#eval-adder").click(function (e) {
+    e.preventDefault();
+    // var text = $("#eval-select").text();
+    var value = $("#eval-select").val();
+    // var uodaToGo = $('#Modal-1').attr('uoda');
+
+    $('#eval ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+value+'"></i>' + value + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
+    $('#eval ul').sortable('refresh');
+    if ($('#eval ul li').length > 4) {
+        $('#eval .add-materia').hide();
+    }
+});
+
+
+// enable and disable button to add oda
+$('#eval-select').change(function () {
+    if (!$("#eval-select").val()) {
+        $('#eval-adder').prop("disabled", true);
+    }
+    else {
+        $('#eval-adder').prop("disabled", false);
+    }
+});
+
+
 $(".oda-sort").on('click', '.remove_materia', function () {
     $(this).parent().remove();
     if ($(this).parent().length < 4) {
