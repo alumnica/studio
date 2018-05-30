@@ -56,6 +56,9 @@ class CreateAmbitForm(forms.ModelForm):
                 except Subject.DoesNotExist:
                     pass
         ambit.is_draft = False
+        ambit.is_published = True
+        if ambit.position == 0:
+            ambit.position = Ambit.objects.all().count()
         ambit.save()
 
     def save_as_draft(self, user, subjects, tags, color):
@@ -152,6 +155,9 @@ class UpdateAmbitForm(forms.ModelForm):
             if subject.name not in subjects:
                 ambit.subjects.remove(subject)
         ambit.is_draft = False
+        ambit.is_published = True
+        if ambit.position == 0:
+            ambit.position = Ambit.objects.all().count()
         ambit.save()
 
     def save_as_draft(self, subjects, tags, color):
@@ -190,34 +196,3 @@ class UpdateAmbitForm(forms.ModelForm):
                     pass
         ambit.is_draft = True
         ambit.save()
-
-
-def verify_ambits_position(new_ambit):
-    ambits_list_raw = Ambit.objects.all().exclude(pk=new_ambit.pk)
-    ambits_list = ['na'] * 30
-    position = new_ambit.position
-
-    for ambit in ambits_list_raw:
-        ambits_list[ambit.position - 1] = ambit
-
-    first_section = ambits_list[0:position - 1]
-    second_section = ambits_list[position - 1:]
-    counter = 1
-    try:
-        second_section_space = second_section.index('na')
-
-        for ambit in second_section[0:second_section_space + 1]:
-            if isinstance(ambit, Ambit):
-                ambit.position = position + counter
-                ambit.save()
-            counter += 1
-
-    except ValueError:
-        first_section_space = [i for i, x in enumerate(first_section) if x == 'na']
-        Ambit(second_section[0]).position = position - counter
-        Ambit(second_section[0]).save()
-        for ambit in first_section[first_section_space[len(first_section_space) - 1] - 1:]:
-            if isinstance(ambit, Ambit):
-                counter += 1
-                ambit.position = position - counter
-                ambit.save()
