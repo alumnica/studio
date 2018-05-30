@@ -1,8 +1,4 @@
 $(document).ready(function () {
-    $(":submit").click(function () { $("#action").val(this.name); });
-     $('#materia-a-oda').val(self_subject);
-     $('#bloque-a-oda').val(self_section);
-
 
     $('#materia-a-oda').change(function () {
        subject_name = this.value;
@@ -11,12 +7,20 @@ $(document).ready(function () {
        bloques = subject[0].bloques;
        select_bloques = $('#bloque-a-oda');
        select_bloques.empty();
-       select_bloques.prepend('<option disabled selected></option>');
        for(let i=0; i<bloques.length; i++){
            option = $('<option></option>').attr("value", bloques[i]).text(bloques[i]);
            select_bloques.append(option);
        }
    });
+
+    $(":submit").click(function () { $("#action").val(this.name); });
+     $('#materia-a-oda').val(self_subject);
+     $('#materia-a-oda').trigger('change');
+
+     $('#bloque-a-oda').val(self_section);
+
+
+
 });
 
 

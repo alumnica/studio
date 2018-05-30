@@ -83,7 +83,7 @@
                         let self_tags_selectize = [];
                         let subject_bloques = [];
                         let momentosList = [];
-                        let self_subject = "{{ oda.subworld.name }}";
+                        let self_subject = "{{ oda.subject.name }}";
                         let self_section = "{{ oda.section }}";
 
                         {% for tag in tags_list %}
@@ -256,7 +256,7 @@
     <h4>Selección de Momentos</h4>
     <br>
 
-    <label for="momentos-select">Busca en la Biblioteca de Materias</label>
+    <label for="momentos-select">Busca en la Biblioteca de Momentos</label>
     <select name="momentos-select" id="select-momentos"></select>
 
 
@@ -291,8 +291,9 @@
     <label for="eval-select">Busca en la Biblioteca de Evaluaciones</label>
     <select name="eval-select" id="eval-select">
         <option value=""></option>
-        <option value="Evaluación 1">Evaluación 1</option>
-        <option value="Evaluación 2">Evaluación 2</option>
+        {% for evaluation in eval_list %}
+            <option value="{{ evaluation.name }}">{{ evaluation.name }}</option>
+        {% endfor %}
     </select>
 
 

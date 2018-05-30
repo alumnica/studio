@@ -34,7 +34,7 @@ class ODACreateForm(forms.ModelForm):
         model = ODA
         fields = ['name', 'tags']
 
-    def save_form(self, user, moments, is_draft=False):
+    def save_form(self, user, moments, subject, bloque, is_draft=False):
 
         oda = super(ODACreateForm, self).save(commit=False)
         cleaned_data = super(ODACreateForm, self).clean()
@@ -45,6 +45,15 @@ class ODACreateForm(forms.ModelForm):
         oda.created_by = user
         oda.temporal = is_draft
         oda.save()
+
+        if subject is not None:
+            subject_model = Subject.objects.get(name=subject)
+            subject_model.odas.add(oda)
+            subject_model.save()
+
+        if bloque is not None:
+            oda.section = bloque
+
         if tags is not None and tags is not '':
             tags = tags.split(',')
             for tag_name in tags:
@@ -106,12 +115,20 @@ class ODAUpdateForm(forms.ModelForm):
         model = ODA
         fields = ['name', 'tags']
 
-    def save_form(self, user, moments, is_draft=False):
+    def save_form(self, user, moments, subject, bloque, is_draft=False):
         cleaned_data = super(ODAUpdateForm, self).clean()
         tags = cleaned_data.get('tags')
         completed_icon = cleaned_data.get('completed_icon')
         active_icon = cleaned_data.get('active_icon')
         oda = super(ODAUpdateForm, self).save(commit=False)
+
+        if subject is not None:
+            subject_model = Subject.objects.get(name=subject)
+            subject_model.odas.add(oda)
+            subject_model.save()
+
+        if bloque is not None:
+            oda.section = bloque
 
         if tags is not None and tags is not '':
             tags = tags.split(',')
