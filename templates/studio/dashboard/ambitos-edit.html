@@ -16,11 +16,6 @@
 
     <div class="grid-x">
         <div class="cell medium-12">
-            <p class="h5">{% trans "Instructions:" %}</p>
-            <p>Lorem ipsum dolor sit amet</p>
-            <hr>
-        </div>
-        <div class="cell medium-12">
             <form method="POST" id="ambito-creation" enctype="multipart/form-data" onsubmit="return is_valid_form()">
                 {% csrf_token %}
                 <div class="grid-x grid-margin-x">
@@ -251,7 +246,7 @@
             <br>
 
             {# Cargar lista de Materias #}
-            <label for="select-materias">{% trans "Search in image library" %}</label>
+            <label for="select-materias">{% trans "Search in Subject library" %}</label>
             <select name="materias-select" id="select-materias"></select>
             <script type="text/javascript">
                         let materiasList = [];
