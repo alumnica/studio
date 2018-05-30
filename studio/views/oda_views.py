@@ -155,8 +155,6 @@ class ODACreateView(LoginRequiredMixin, CreateView):
         moments.append(template)
 
         evaluation = self.request.POST.get('eval-momentos')
-        template = ['evaluation', evaluation]
-        moments.append(template)
 
         subject = self.request.POST.get('materia-a-oda')
         bloque = self.request.POST.get('bloque-a-oda')
@@ -166,7 +164,7 @@ class ODACreateView(LoginRequiredMixin, CreateView):
         if action == 'finalize':
             is_draft = False
 
-        form.save_form(self.request.user,  moments, subject, bloque, is_draft)
+        form.save_form(self.request.user,  moments, subject, bloque, evaluation, is_draft)
 
         return redirect(to='oda_dashboard_view')
 
@@ -241,8 +239,6 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         moments.append(template)
 
         evaluation = self.request.POST.get('eval-momentos')
-        template = ['evaluation', evaluation]
-        moments.append(template)
 
         subject = self.request.POST.get('materia-a-oda')
         bloque = self.request.POST.get('bloque-a-oda')
@@ -252,7 +248,7 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         if action == 'finalize':
             is_draft = False
 
-        form.save_form(self.request.user, moments, subject, bloque, is_draft)
+        form.save_form(self.request.user, moments, subject, bloque, evaluation, is_draft)
 
         return redirect(to='oda_dashboard_view')
 

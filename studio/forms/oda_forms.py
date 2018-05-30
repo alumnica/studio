@@ -4,7 +4,7 @@ from django import forms
 
 from alumnica_model.models import ODA
 from alumnica_model.models.content import Subject, Tag, Moment, \
-    MicroODA, Image
+    MicroODA, Image, Evaluation
 
 
 class ODAsSectionForm(forms.ModelForm):
@@ -34,7 +34,7 @@ class ODACreateForm(forms.ModelForm):
         model = ODA
         fields = ['name', 'tags']
 
-    def save_form(self, user, moments, subject, bloque, is_draft=False):
+    def save_form(self, user, moments, subject, bloque, evaluation, is_draft=False):
 
         oda = super(ODACreateForm, self).save(commit=False)
         cleaned_data = super(ODACreateForm, self).clean()
@@ -98,6 +98,8 @@ class ODACreateForm(forms.ModelForm):
                 completed_icon_object.file_name = os.path.basename(completed_icon_object.file.name)
             completed_icon_object.save()
             oda.completed_icon = completed_icon_object
+        if evaluation is not None:
+            oda.evaluation = Evaluation.objects.get(name=evaluation)
 
         oda.save()
         return oda
@@ -115,7 +117,7 @@ class ODAUpdateForm(forms.ModelForm):
         model = ODA
         fields = ['name', 'tags']
 
-    def save_form(self, user, moments, subject, bloque, is_draft=False):
+    def save_form(self, user, moments, subject, bloque, evaluation,  is_draft=False):
         cleaned_data = super(ODAUpdateForm, self).clean()
         tags = cleaned_data.get('tags')
         completed_icon = cleaned_data.get('completed_icon')
@@ -181,6 +183,8 @@ class ODAUpdateForm(forms.ModelForm):
             completed_icon_object.save()
             oda.completed_icon = completed_icon_object
 
+        if evaluation is not None:
+            oda.evaluation = Evaluation.objects.get(name=evaluation)
         oda.temporal = is_draft
         oda.save()
 

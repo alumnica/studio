@@ -19,6 +19,73 @@ $(document).ready(function () {
 
      $('#bloque-a-oda').val(self_section);
 
+     for (let i=0; i<apli.length; i++){
+        let text = apli[i].name;
+        let value = apli[i].code;
+
+
+        $('#apli ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+value+'"></i>'  + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
+        $('#apli ul').sortable('refresh');
+        if ($('#apli ul li').length > 4) {
+            $('#apli .add-materia').hide();
+        }
+    }
+
+    for (let i=0; i<forma.length; i++){
+        let text = forma[i].name;
+        let value = forma[i].code;
+
+        $('#forma ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+value+'"></i>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
+        $('#forma ul').sortable('refresh');
+        if ($('#forma ul li').length > 4) {
+            $('#forma .add-materia').hide();
+        }
+    }
+
+    for (let i=0; i<activa.length; i++){
+        let text = activa[i].name;
+        let value = activa[i].code;
+
+        $('#activ ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+value+'"></i>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
+        $('#activ ul').sortable('refresh');
+        if ($('#activ ul li').length > 4) {
+            $('#activ .add-materia').hide();
+        }
+    }
+    for (let i=0; i<ejem.length; i++){
+        let text = ejem[i].name;
+        let value = ejem[i].code;
+
+        $('#ejemp ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+value+'"></i>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
+        $('#ejemp ul').sortable('refresh');
+        if ($('#ejemp ul li').length > 4) {
+            $('#ejemp .add-materia').hide();
+        }
+    }
+
+    for (let i=0; i<sens.length; i++){
+        let text = sens[i].name;
+        let value = sens[i].code;
+
+        $('#sens ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+value+'"></i>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
+        $('#sens ul').sortable('refresh');
+        if ($('#sens ul li').length > 4) {
+            $('#sens .add-materia').hide();
+        }
+    }
+
+    for (let i=0; i<evalu.length; i++){
+        let text = evalu[i].name;
+        let value = evalu[i].code;
+
+        $('#eval ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+value+'"></i>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
+        $('#eval ul').sortable('refresh');
+        if ($('#eval ul li').length >= 1) {
+            $('#eval .add-materia').hide();
+        }
+    }
+
+
 
 
 });

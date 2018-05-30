@@ -99,6 +99,31 @@
                         {% endfor %}
 
 
+                        let apli= [];
+                        {% for moment in apli_list.all.0.activities.all %}
+                                apli.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
+                            {% endfor %}
+
+                        let forma = [];
+                        {% for moment in forma_list.all.0.activities.all %}
+                                forma.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
+                            {% endfor %}
+                        let activa = [];
+                        {% for moment in activ_list.all.0.activities.all %}
+                                activa.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
+                            {% endfor %}
+                        let ejem= [];
+                            {% for moment in ejem_list.all.0.activities.all %}
+                                ejem.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
+                            {% endfor %}
+                        let sens = [];
+                        {% for moment in sens_list.all.0.activities.all %}
+                                sens.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
+                            {% endfor %}
+                        let evalu =  [{name:"{{ oda.evaluation.name|safe }}", code:"{{ oda.evaluation.name|safe }}"}];
+
+
+
 
                 </script>
                     <select name="materia-a-oda" id="materia-a-oda">
