@@ -1,20 +1,18 @@
 {% extends "studio/base-main.html" %}
-
+{% load i18n %}
 {% block content %}
-
-
 
 <div class="container dashboard">
 
-
     <h1 class="title">
-        <i class="fas fa-map"></i> Ámbitos  </h1>
+        <i class="fas fa-map"></i> {% trans "Ambits" %}
+    </h1>
     <hr>
 
     <div class="grid-x">
         <div class="cell medium-6">
             {# Crear nuevo ambito #}
-            <a href="{% url 'create_ambit_view' %}" class="button">Crear nuevo Ámbito</a>
+            <a href="{% url 'create_ambit_view' %}" class="button">{% trans "Create new Ambit" %}</a>
         </div>
         
         <div class="cell medium-12">
@@ -22,14 +20,14 @@
                 <table id="tabla-ambitos" class=" no-wrap">
                     <thead>
                         <tr>
-                            <th id="titulo-ambito" class="all">Titulo</th>
+                            <th id="titulo-ambito" class="all">{% trans "Title" %}</th>
                             <th id="numero-ambtio" class="not-mobile">#</th>
                             
-                            <th id="materias-ambito" class="not-mobile">Materias</th>
-                            <th id="tags-ambito" class="not-mobile tag-length">Tags</th>
-                            <th id="fecha-ambito" class="not-mobile">Fecha</th>
-                            <th id="autor-ambito" class="not-mobile">Autor</th>
-                            <th id="estado-ambito" class="not-mobile">Estado</th>
+                            <th id="materias-ambito" class="not-mobile">{% trans "Subjects" %}</th>
+                            <th id="tags-ambito" class="not-mobile tag-length">{% trans "Tags" %}</th>
+                            <th id="fecha-ambito" class="not-mobile">{% trans "Date" %}</th>
+                            <th id="autor-ambito" class="not-mobile">{% trans "Autor" %}</th>
+                            <th id="estado-ambito" class="not-mobile">{% trans "State" %}</th>
                             {% ifequal request.user.user_type 'SUPERVISOR'%}
                                 <th id="eva-ambito" class="not-mobile"><i class="fas fa-calendar-times"></i> EVA</th>
                             {% endifequal %}
@@ -40,7 +38,6 @@
                     {% for ambit in ambit_list %}
                         <tr>
                             <td>
-
                                 {# Titulo de Ambito #}
                                 <div class="titulo_lista">
                                     {{ ambit.name }}
@@ -50,32 +47,26 @@
                                         <div class="title-edit-menu">
                                         <span class="editar">
                                             {# Link a editar este ambito en especifico #}
-                                            <a href="{% url 'update_ambit_view' ambit.pk %}">Editar</a>
+                                            <a href="{% url 'update_ambit_view' ambit.pk %}">{% trans "Edit" %}</a>
                                         </span> |
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                            <a href="{% url 'delete_ambit_view' ambit.pk %}">Borrar</a>
-                                        </span> |
-                                        <span class="editar-tag">
-                                            {# Falta #}
-                                            <a href="#">Editar Tags</a>
+                                            <a href="{% url 'delete_ambit_view' ambit.pk %}">{% trans "Delete" %}</a>
                                         </span>
+                                        
                                     </div>
                                     {% endifequal %}
                                     {% else %}
                                     <div class="title-edit-menu">
                                         <span class="editar">
                                             {# Link a editar este ambito en especifico #}
-                                            <a href="{% url 'update_ambit_view' ambit.pk %}">Editar</a>
+                                            <a href="{% url 'update_ambit_view' ambit.pk %}">{% trans "Edit" %}</a>
                                         </span> |
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                            <a href="{% url 'delete_ambit_view' ambit.pk %}">Borrar</a>
-                                        </span> |
-                                        <span class="editar-tag">
-                                            {# Falta #}
-                                            <a href="#">Editar Tags</a>
+                                            <a href="{% url 'delete_ambit_view' ambit.pk %}">{% trans "Delete" %}</a>
                                         </span>
+                                        
                                     </div>
                                 {% endif %}
                             </td>
@@ -87,7 +78,7 @@
                             
                             {# Materias asignadas a este Ambito #}
                             <td>
-                                {% for subject in ambit.subjects%}
+                                {% for subject in ambit.subjects.all %}
                                     {{ subject.name }}
                                 {% endfor %}
 
@@ -95,7 +86,7 @@
                             {# Lista de Tags#}
                             <td>
                                 <div class="tag-list">
-                                    {% for tag in ambit.tags %}
+                                    {% for tag in ambit.tags.all %}
                                         <a href="#">{{ tag.name }}</a>
                                     {% endfor %}
 
@@ -113,15 +104,14 @@
                             </td>
                             <td>
                                 <div class="estado">
-                                    {% if ambit.is_published%}
-                                        Publicado
+                                    {% if ambit.is_published %}
+                                        {% trans "Published" %}
                                     {% else %}
-                                        {% if ambit.is_draft%}
-                                            Borrador
+                                        {% if ambit.is_draft %}
+                                            {% trans "Draft" %}
                                         {% else %}
-                                            En espera de aprobación
+                                            {% trans "Waiting for approval" %}
                                         {% endif %}
-
                                     {% endif %}
                                 </div>
                             </td>
@@ -129,7 +119,9 @@
                              <td class="text-center">
                              {% if ambit.is_published %}
                                  <div class="button small alert remover">
-                                    <a href="{% url 'unpublish_ambit_view' ambit.pk %}" title="Dar de baja en EVA"><i class="fas fa-times"></i></a>
+                                    <a href="{% url 'unpublish_ambit_view' ambit.pk %}" title="{% trans "Unpublish from EVA" %}">
+                                        <i class="fas fa-times"></i>
+                                    </a>
                                 </div>
                              {% endif %}
 

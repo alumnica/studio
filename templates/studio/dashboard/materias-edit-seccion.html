@@ -12,7 +12,7 @@
     <hr>
     <form method="POST" id="seccion-img" enctype="multipart/form-data" onsubmit="return is_valid_form_images()">
         {% csrf_token %}
-        {{ form.name_field }}
+        {{ form.name }}
         <div class="grid-x grid-margin-x grid-margin-y">
             <div class="cell medium-12">
                 <p class="h5">Instrucciones:</p>
@@ -35,8 +35,8 @@
                             <div class="grid-x">
                                 <div class="small-6 cell">
                                         {# Atencion a el nombre de las ID y NAME #}
-                                    <label for="id_{{ form.file_field.html_name }}" class="button">Subir Imagen</label>
-                                    {{ form.file_field }}
+                                    <label for="id_{{ form.file.html_name }}" class="button">Subir Imagen</label>
+                                    {{ form.file }}
                                     <!--input id="section-u1" name="u1" type="file" class="show-for-sr"-->
                                 </div>
                                 <div class="small-6 text-right">
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                                 <div class="section-preview">
-                                        <img src="{{ MEDIA_URL }} {{ form.initial.file_field.url }}" alt="your image" />
+                                        <img src="{{ MEDIA_URL }} {{ form.initial.file.url }}" alt="your image" />
                                 </div>
                         </div>
                     </div>

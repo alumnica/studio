@@ -1,7 +1,7 @@
 
 // cambiar texto de el image preview al escribir
 
-$('#id_name_field').keyup(function () {
+$('#id_name').keyup(function () {
     let textToChange = $(this).val();
     $('.ttc2').text(textToChange);
 });
@@ -79,7 +79,7 @@ $(document).ready(function () {
 
     // Materias-edit-seccion.html
     $("#seccion-img img").each(function () {
-        $(this).attr("id", "preview-form-" + i + "-file_field");
+        $(this).attr("id", "preview-form-" + i + "-file");
         i++;
 
     });
@@ -88,16 +88,11 @@ $(document).ready(function () {
     $(".materia-preview img").attr({id:"preview-mp", class:"materia-cover" });
     // ambitos-edit.html
     $("form#ambito-creation img").attr({id:"preview-ap", class:"ambito-cover" });
-    // materias-edit-oda
-    $("form#odas-seccion-1 .img-preview-a img").each(function () {
-        $(this).attr("id", "preview-form-" + i + "-active_icon_field");
-        i++;        
-    });
+    // oda-edit
+    $("form#oda-edit .active_icon-preview img").attr({id:"preview-active_icon", class:"oda-cover"});
 
-    $("form#odas-seccion-1 .img-preview-b img").each(function () {
-        $(this).attr("id", "preview-form-" + y + "-completed_icon_field");
-        y++;
-    });
+    $("form#oda-edit .completed_icon-preview img").attr({id:"preview-completed_icon", class:"oda-cover"});
+     
 });
 
 $(document).ready(function () {
@@ -126,15 +121,19 @@ $(document).ready(function () {
     $("#ambito-u").change(function () {
         readURL(this);
     });
+    
+    $("#id_active_icon").change(function () {
+        readURL(this);
+    });
 
-    $("form#odas-seccion-1 input[type='file']").change(function () {
+    $("#id_completed_icon").change(function () {
         readURL(this);
     });
 });
 
 $(document).ready(function () {
     $('.selectize-input input[type=text]').attr('maxlength', '20');
-     $(".title span").append($("#id_name_field").val());
+     $(".title span").append($("#id_name").val());
 
 });
 

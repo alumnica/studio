@@ -2,9 +2,9 @@ from django import forms
 from django.contrib import admin
 from django.core.exceptions import ValidationError
 
-from alumnica_model.alumnica_entities.users import UserType
-from alumnica_model.models import AuthUser
+from alumnica_model.models import AuthUser, users
 from django.contrib.auth.admin import UserAdmin
+from django.utils.translation import gettext_lazy as _
 
 
 class UserLoginForm(forms.Form):
@@ -18,18 +18,18 @@ class UserLoginForm(forms.Form):
         try:
             user = AuthUser.objects.get(email=email)
             if not user.check_password(password):
-                error = ValidationError("Invalid password or email.", code='credentials_error')
+                error = ValidationError(_("Invalid password or email."), code='credentials_error')
                 self.add_error('password', error)
                 self.add_error('email', error)
 
-            if not user.user_type == UserType.CONTENT_CREATOR:
-                if not user.user_type == UserType.SUPERVISOR:
-                    error = ValidationError("Invalid credentials", code='permission denied')
+            if not user.user_type == users.TYPE_CONTENT_CREATOR:
+                if not user.user_type == users.TYPE_SUPERVISOR:
+                    error = ValidationError(_("Invalid credentials"), code='permission denied')
                     self.add_error('password', error)
                     self.add_error('email', error)
 
         except AuthUser.DoesNotExist:
-            error = ValidationError("Invalid password or email.", code='credentials_error')
+            error = ValidationError(_("Invalid password or email."), code='credentials_error')
             self.add_error('password', error)
             self.add_error('email', error)
         return cleaned_data

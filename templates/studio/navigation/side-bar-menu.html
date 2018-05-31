@@ -1,40 +1,69 @@
+{% load studio_extras %}
+
 <ul class="vertical menu sidebar-menu__ul">
     <li id="dash-nav">
-        <a href="{% url 'dashboard_view' %}"><div class="menu-image fas fa-home"></div><div class="m-text">Dashboard</div></a>
+        <a href="{% url 'dashboard_view' %}">
+            <div class="menu-image fas fa-home"></div>
+            <div class="m-text">Dashboard</div>
+        </a>
     </li>
     <li id="publicar-nav">
-        <a href="#"><div class="menu-image fas fa-share-square"></div>Ámbitos a Publicar <div class="pub-counter">2</div></a>
+        <a href="#">
+            <div class="menu-image fas fa-share-square"></div>
+            Ámbitos a Publicar
+            <div class="pub-counter">2</div>
+        </a>
     </li>
     <li>
         &nbsp;
     </li>
     <li id="ambito-nav">
-        <a href="{% url 'ambits_view' %}"><div class="menu-image fas fa-map"></div><div>Ámbitos</div></a>
+        <a href="{% url 'ambits_view' %}">
+            <div class="menu-image fas fa-map"></div>
+            <div>Ámbitos</div>
+        </a>
     </li>
     <li id="materia-nav">
-        <a href="{% url 'materias_view' %}"><div class="menu-image fas fa-clone"></div><div>Materias</div></a>
+        <a href="{% url 'materias_view' %}">
+            <div class="menu-image fas fa-clone"></div>
+            <div>Materias</div>
+        </a>
     </li>
     <li id="oda-nav">
-        <a href="{% url 'oda_dashboard_view' %}"><div class="menu-image fas fa-list-alt"></div><div>ODAs</div></a>
+        <a href="{% url 'oda_dashboard_view' %}">
+            <div class="menu-image fas fa-list-alt"></div>
+            <div>ODAs</div>
+        </a>
     </li>
     <li>
         &nbsp;
     </li>
     <li id="momento-nav">
-        <a href=""><div class="menu-image fas fa-play-circle"></div><div>Momentos</div></a>
+        <a href="">
+            <div class="menu-image fas fa-play-circle"></div>
+            <div>Momentos</div>
+        </a>
     </li>
     <li>
         &nbsp;
     </li>
     <li id="bib-nav">
-        <a href="{% url 'library_view' %}"><div class="menu-image fas fa-images"></div><div>Biblioteca de Imagenes</div></a>
+        <a href="{% url 'library_view' %}">
+            <div class="menu-image fas fa-images"></div>
+            <div>Biblioteca de Imagenes</div>
+        </a>
     </li>
 </ul>
 
 
 <ul class="vertical menu logout">
-        <li>
-            <a href="{% url 'logout_view' %}"><div class="menu-image fas fa-times-circle"></div><div>Cerrar Sesión</div></a>
-        </li>
-        
-    </ul>
+    <li>
+        <a href="{% url 'logout_view' %}">
+            <div class="menu-image fas fa-times-circle"></div>
+            <div>Cerrar Sesión</div>
+        </a>
+    </li>
+    <li class="version">
+        {% version_number %}
+    </li>
+</ul>

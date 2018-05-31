@@ -17,12 +17,12 @@
                 <div class="cell shrink">
                 <div id="section-{{ forloop.counter }}">
                     {% for oda in odas %}
-                        <img data-n="{{ forloop.parentloop.counter }}-{{ oda.zone_field }}" src="{{ MEDIA_URL }} {{ oda.active_icon_field.file_field.url}}">
+                        <img data-n="{{ forloop.parentloop.counter }}-{{ oda.zone }}" src="{{ MEDIA_URL }} {{ oda.active_icon.file.url}}">
                     {% endfor %}
                 </div>
                     <div class="canvas">
                 <!-- imagen de la seccion actual -->
-                <img src="{{ MEDIA_URL }} {{ section_images.file_field.url}}" alt="" class="drop-bg">
+                <img src="{{ MEDIA_URL }} {{ section_images.file.url}}" alt="" class="drop-bg">
                 <div class="frame">
                     <div id="{{ forloop.counter }}-1" class="drop-area"></div>
                     <div id="{{ forloop.counter }}-2" class="drop-area"></div>

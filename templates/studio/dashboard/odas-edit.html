@@ -7,218 +7,284 @@
         <i class="fas fa-list-alt"></i> Crear nueva ODA
     </h1>
     <hr>
-    <p>
-        <strong>Instrucciones:</strong>
-        <br> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate officia ad nostrum!</p>
-    <form method="POST">
-        {% csrf_token %}
-        <div class="grid-x grid-margin-x align-stretch">
-        <div class="cell medium-12">
-                <label for="name_field">Nombre de la ODA</label>
-            {{ form.name_field }}
-        </div>
-        <div class="cell medium-6">
+    <form id="oda-edit" method="POST" enctype="multipart/form-data" onsubmit="return is_valid_form_odas_section()">
+    {% csrf_token %}
+        <div class="grid-x grid-margin-x ">
+            <div class="cell medium-6">
+                <label for="id_name">Titulo</label>
+                {{ form.name }}
 
-            <div class="panel full">
-                <div class="panel__title">
-                    Asignada a las siguientes materias:
+                <!-- tags -->
+
+                <label for="tags-oda">Tags</label>
+                {{ form.tags }}
+{#                <input name="tags-oda" type="text" id="oda-tags" class="u-margin-bottom-small">#}
+
+                <!-- end tags -->
+                <div class="grid-x grid-margin-x grid-margin-y">
+                    <div class="cell medium-6">
+                        <div class="panel">
+                            <div class="panel__title">
+                                Imagen A
+                            </div>
+                            <div class="grid-x grid-margin-x">
+                                <div class="cell small-6">
+                                    <div class="active_icon-preview">
+                                        <img src="{{ oda.active_icon.file.url }}" alt="ODA A" />
+                                    </div>
+                                </div>
+                                <div class="cell small-6 align-self-middle">
+                                    <label for="id_active_icon" class="button small expanded">Subir Imagen</label>
+                                    {{ form.active_icon }}
+
+                                    <button type="button" class="button expanded small">
+                                        <i class="fa fa-th"></i> Imagenes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cell medium-6">
+                        <div class="panel">
+                            <div class="panel__title">
+                                Imagen B
+                            </div>
+                            <div class="grid-x grid-margin-x">
+                                <div class="cell small-6">
+                                    <div class="completed_icon-preview">
+                                        <img src="{{ oda.completed_icon.file.url }}" alt="ODA B" />
+                                    </div>
+                                </div>
+                                <div class="cell small-6 align-self-middle">
+                                    <label for="id_completed_icon" class="button small expanded">Subir Imagen</label>
+                                    {{ form.completed_icon }}
+
+                                    <button type="button" class="button expanded small">
+                                        <i class="fa fa-th"></i> Imagenes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="panel__content">
-                    <ul class="assigned-to_materias">
-                        {% for oda_in_subject in self_oda_in_subject %}
-                            {% for subject in oda_in_subject.subject.all %}
-                                <li>{{ subject.name_field }}</li>
-                                {% endfor %}
-                        {% endfor %}
-                    </ul>
-                </div>
+
             </div>
-        </div>
-        <div class="cell medium-6">
-            <div class="panel">
-                <div class="panel__title">
-                    Tags:
-                </div>
+            <div class="cell medium-6">
+                <div class="panel u-margin-top-small">
+                    <div class="panel__title">
+                        Asignacion de Materia a ODA actual
+                    </div>
+                    <label for="materia-a-oda">Selecciona Materia</label>
+                    <p class="oda-info">
+                        Solo se muestran materias con bloques que tengan espacios disponibles para añadir una oda
+                    </p>
                 <script type="text/javascript">
                         let odaTags = [];
                         let self_tags_selectize = [];
+                        let subject_bloques = [];
                         let momentosList = [];
+                        let self_subject = "{{ oda.subject.name }}";
+                        let self_section = "{{ oda.section }}";
+
+                        {% for tag in tags_list %}
+                            odaTags.push({name:"{{ tag.name|safe }}", value:"{{ tag.id|safe }}"});
+                        {% endfor %}
+
+                        {% for tag in oda.tags.all %}
+                            self_tags_selectize.push("{{ tag.name|safe }}");
+                        {% endfor %}
+
+                        {% for moment in moments_list %}
+                            momentosList.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
+                        {% endfor %}
+
 
                         let apli= [];
-                        {% for moment in apli_list.all.0.activities_field.all %}
-                                apli.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                        {% for moment in apli_list.all.0.activities.all %}
+                                apli.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
 
                         let forma = [];
-                        {% for moment in forma_list.all.0.activities_field.all %}
-                                forma.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                        {% for moment in forma_list.all.0.activities.all %}
+                                forma.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
                         let activa = [];
-                        {% for moment in activ_list.all.0.activities_field.all %}
-                                activa.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                        {% for moment in activ_list.all.0.activities.all %}
+                                activa.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
                         let ejem= [];
-                            {% for moment in ejem_list.all.0.activities_field.all %}
-                                ejem.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                            {% for moment in ejem_list.all.0.activities.all %}
+                                ejem.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
                         let sens = [];
-                        {% for moment in sens_list.all.0.activities_field.all %}
-                                sens.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
+                        {% for moment in sens_list.all.0.activities.all %}
+                                sens.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
-                        let evalu = [];
-                        {% for moment in eval_list.all.0.activities_field.all %}
-                                evalu.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
-                            {% endfor %}
+                        let evalu =  [{name:"{{ oda.evaluation.name|safe }}", code:"{{ oda.evaluation.name|safe }}"}];
 
-                            {% for tag in tags_list %}
-                                odaTags.push({name:"{{ tag.name_field|safe }}", value:"{{ tag.id|safe }}"});
-                            {% endfor %}
 
-                        {% for tag in self_tags %}
-                                self_tags_selectize.push("{{ tag.name_field|safe }}");
-                            {% endfor %}
 
-                        {% for moment in moments_list %}
-                                momentosList.push({name:"{{ moment.name_field|safe }}", code:"{{ moment.content_field|safe }}"});
-                            {% endfor %}
 
-                        </script>
-                <div class="panel__content">
-                    <input required name="oda-tags" type="text" id="oda-tags">
+                </script>
+                    <select name="materia-a-oda" id="materia-a-oda">
+                        <option disabled selected></option>
+
+                        {% for subject, bloques in subjects_sections %}
+                            <option value="{{ subject.name }}">{{ subject.name }}</option>
+                            <script type="text/javascript">
+                                    subject_bloques.push({name: "{{ subject.name }}", bloques:{{ bloques }}});
+                            </script>
+                        {% endfor %}
+                    </select>
+
+                    <label for="bloque-a-oda">Selecciona Bloque</label>
+                    <p class="oda-info">
+                        Solo se muestran los bloques que tengan espacio disponubles para añadir una oda.
+                    </p>
+                    <select name="bloque-a-oda" id="bloque-a-oda">
+                        <option disabled selected></option>
+                    </select>
+
                 </div>
             </div>
-        </div>
-        <div class="cell medium-12">
-            <p class="h6">Momentos por µODA</p>
-        </div>
-        <div class="cell medium-4">
-            <div class="panel"  id="apli">
-                <div class="panel__title">
-                    Aplicación
-                    <span class="add-materia" data-open="Modal-1">
-                        <i class="fas fa-plus-square"></i>
-                    </span>
-                </div>
-                <div class="panel__content">
-                    <ul class="oda-sort" id="uoda-1">
+            <div class="cell medium-12">
+                <hr>
+                <p class="h6">Momentos por µODA</p>
+            </div>
+            <div class="cell medium-4">
+                <div class="panel" id="apli">
+                    <div class="panel__title">
+                        Aplicación
+                        <span class="add-materia" data-open="Modal-1">
+                            <i class="fas fa-plus-square"></i>
+                        </span>
+                    </div>
+                    <div class="panel__content">
+                        <ul class="oda-sort" id="uoda-1">
 
-                    </ul>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="cell medium-4">
+                <div class="panel" id="forma">
+                    <div class="panel__title">
+                        Formalización
+                        <span class="add-materia" data-open="Modal-1">
+                            <i class="fas fa-plus-square"></i>
+                        </span>
+                    </div>
+                    <div class="panel__content">
+                        <ul class="oda-sort" id="uoda-2"></ul>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="cell medium-4">
+                <div class="panel" id="activ">
+                    <div class="panel__title">
+                        Activación
+                        <span class="add-materia" data-open="Modal-1">
+                            <i class="fas fa-plus-square"></i>
+                        </span>
+                    </div>
+                    <div class="panel__content">
+                        <ul class="oda-sort" id="uoda-3">
+
+                        </ul>
+                    </div>
                 </div>
             </div>
+            <div class="cell medium-4">
+                <div class="panel" id="ejemp">
+                    <div class="panel__title">
+                        Ejemplificación
+                        <span class="add-materia" data-open="Modal-1">
+                            <i class="fas fa-plus-square"></i>
+                        </span>
+                    </div>
+                    <div class="panel__content">
+                        <ul class="oda-sort" id="uoda-4">
 
-        </div>
-        <div class="cell medium-4">
-            <div class="panel"   id="forma">
-                <div class="panel__title">
-                    Formalización
-                    <span class="add-materia" data-open="Modal-1">
-                        <i class="fas fa-plus-square"></i>
-                    </span>
+                        </ul>
+                    </div>
                 </div>
-                <div class="panel__content">
-                    <ul class="oda-sort" id="uoda-2">
 
-                    </ul>
-                </div>
             </div>
+            <div class="cell medium-4">
+                <div class="panel" id="sens">
+                    <div class="panel__title">
+                        Sensibilzación
+                        <span class="add-materia" data-open="Modal-1">
+                            <i class="fas fa-plus-square"></i>
+                        </span>
+                    </div>
+                    <div class="panel__content">
+                        <ul class="oda-sort" id="uoda-5">
 
-        </div>
-        <div class="cell medium-4">
-            <div class="panel"  id="activ">
-                <div class="panel__title">
-                    Activación
-                    <span class="add-materia" data-open="Modal-1">
-                        <i class="fas fa-plus-square"></i>
-                    </span>
+                        </ul>
+                    </div>
                 </div>
-                <div class="panel__content">
-                    <ul class="oda-sort" id="uoda-3">
 
-                    </ul>
+            </div>
+            <div class="cell medium-4">
+                <div class="panel" id="eval">
+                    <div class="panel__title">
+                        Evaluación
+                        <span class="add-eval" data-open="evalModal">
+                            <i class="fas fa-plus-square"></i>
+                        </span>
+                    </div>
+                    <div class="panel__content">
+                        <ul class="oda-sort" id="uoda-6">
+
+                        </ul>
+                    </div>
                 </div>
+
+            </div>
+            <div class="cell medium-12" id="save-on">
+                <!-- hidden input to pass momentos and order -->
+                <input type="hidden" id="apli-momentos" name="apli-momentos">
+                <!-- hidden input to pass momentos and order -->
+                <input type="hidden" id="forma-momentos" name="forma-momentos">
+                <!-- hidden input to pass momentos and order -->
+                <input type="hidden" id="activ-momentos" name="activ-momentos">
+                <!-- hidden input to pass momentos and order -->
+                <input type="hidden" id="ejem-momentos" name="ejem-momentos">
+                <!-- hidden input to pass momentos and order -->
+                <input type="hidden" id="sens-momentos" name="sens-momentos">
+                <!-- hidden input to pass momentos and order -->
+                <input type="hidden" id="eval-momentos" name="eval-momentos">
+
+
+                <button type="submit" class="button" name="save">
+                    <i class="fa fa-save"></i> Guardar</button>
+                &nbsp;
+                <button type="submit" class="button success" name="finalize">
+                    <i class="fa fa-check"></i> FINALIZAR</button>
+
+                <input type="hidden" name="action" id="action" />
             </div>
         </div>
-        <div class="cell medium-4">
-            <div class="panel" id="ejemp">
-                <div class="panel__title">
-                    Ejemplificación
-                    <span class="add-materia" data-open="Modal-1">
-                        <i class="fas fa-plus-square"></i>
-                    </span>
-                </div>
-                <div class="panel__content">
-                    <ul class="oda-sort" id="uoda-4">
-
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-        <div class="cell medium-4">
-            <div class="panel" id="sens">
-                <div class="panel__title">
-                    Sensibilzación
-                    <span class="add-materia" data-open="Modal-1">
-                        <i class="fas fa-plus-square"></i>
-                    </span>
-                </div>
-                <div class="panel__content">
-                    <ul class="oda-sort" id="uoda-5">
-
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-        <div class="cell medium-4">
-            <div class="panel" id="eval">
-                <div class="panel__title">
-                    Evaluación
-                    <span class="add-materia" data-open="Modal-1">
-                        <i class="fas fa-plus-square"></i>
-                    </span>
-                </div>
-                <div class="panel__content">
-                    <ul class="oda-sort" id="uoda-6">
-
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-        <div class="cell medium-12 text-right" id="save-on">
-            <!-- hidden input to pass momentos and order -->
-            <input required type="hidden" name="apli-momentos" id="apli-momentos">
-            <!-- hidden input to pass momentos and order -->
-            <input required type="hidden" name="forma-momentos" id="forma-momentos">
-            <!-- hidden input to pass momentos and order -->
-            <input required type="hidden" name="activ-momentos" id="activ-momentos">
-            <!-- hidden input to pass momentos and order -->
-            <input required type="hidden" name="ejem-momentos" id="ejem-momentos">
-            <!-- hidden input to pass momentos and order -->
-            <input required type="hidden" name="sens-momentos" id="sens-momentos">
-            <!-- hidden input to pass momentos and order -->
-            <input required type="hidden" name="eval-momentos" id="eval-momentos">
-
-            <button class="button" type="submit">Guardar</button>
-        </div>
-    </div>
     </form>
-
 
 </div>
 
 
- <!-- modal Aplicacion -->
+<!-- modal Aplicacion -->
 
 <div class="reveal m-adder" id="Modal-1" data-reveal>
     <h4>Selección de Momentos</h4>
     <br>
 
-    <label for="momentos-select">Busca en la Biblioteca de Materias</label>
+    <label for="momentos-select">Busca en la Biblioteca de Momentos</label>
     <select name="momentos-select" id="select-momentos"></select>
 
-    
+
     <br />
     <br>
     <br>
@@ -231,16 +297,41 @@
 
 
 <div class="large reveal" id="Modal-2" data-reveal>
-        
+
     <div class="h5p-preview">
-            <iframe src=""></iframe>
+        <iframe src="www.google.com"></iframe>
     </div>
 
-        <button class="close-button" data-close aria-label="Close modal" type="button">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 
+
+
+<div class="reveal" id="evalModal" data-reveal="">
+    <h4>Seleccion de Evaluaciones</h4>
+    <br>
+
+    <label for="eval-select">Busca en la Biblioteca de Evaluaciones</label>
+    <select name="eval-select" id="eval-select">
+        <option value=""></option>
+        {% for evaluation in eval_list %}
+            <option value="{{ evaluation.name }}">{{ evaluation.name }}</option>
+        {% endfor %}
+    </select>
+
+
+    <br />
+    <br>
+    <br>
+    <input id="eval-adder" class='button expanded' type='submit' disabled value='Añadir' data-close/>
+
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+</div>
 
 
 {% endblock content %}
@@ -248,4 +339,5 @@
     {% block scripts %}
         <script src="{% static "studio/js/momentos.js" %}"></script>
         <script src="{% static "studio/js/oda-tags.js" %}"></script>
+        <script src="{% static "studio/js/oda.js" %}"></script>
     {% endblock %}

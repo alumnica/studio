@@ -13,29 +13,29 @@
         <div class="grid-x grid-margin-x">
             <div class="cell medium-6">
                 <label for="titulo-materia">Titulo</label>
-                {{ form.name_field }}
+                {{ form.name }}
                 <!--input name="titulo-materia" type="text" placeholder="titulo"-->
 
                 <!-- tags -->
 
                 <label for="tags-materias">Tags</label>
-                {{ form.tags_field }}
+                {{ form.tags }}
 
                 <script type="text/javascript">
                     let ambitoTags = [];
                     let materiasTags = [];
                     let self_tags_selectize = [];
                     {% for tag in tags %}
-                    materiasTags.push({ name: "{{ tag.name_field|safe }}", value: "{{ tag.id|safe }}" });
+                    materiasTags.push({ name: "{{ tag.name|safe }}", value: "{{ tag.id|safe }}" });
                     {% endfor %}
                     {% for self_tag in self_tags %}
-                    self_tags_selectize.push("{{ self_tag.name_field|safe }}");
+                    self_tags_selectize.push("{{ self_tag.name|safe }}");
                     {% endfor %}
                 </script>
                 <!-- end tags -->
                 <br>
                 <label for="seleccion-ambito">Selecciona Ámbito al que pertenece esta Materia</label>
-                {{ form.ambit_field }}
+                {{ form.ambit }}
             </div>
             <!-- end first column -->
 
@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="materia-preview">
-                            <img src="{{ background_img.file_field.url }}" alt="Portada de Materia" />
+                            <img src="{{ background_img.file.url }}" alt="Portada de Materia" />
                         </div>
                     </div>
                 </div>
@@ -80,8 +80,8 @@
                             <div class="panel__content">
                                 <div class="grid-x grid-margin-x">
                                     <div class="small-6 cell">
-                                        <label for="id_{{ form.file_field.html_name }}" class="button small expanded">Subir Imagen</label>
-                                        {{ form.file_field }}
+                                        <label for="id_{{ form.file.html_name }}" class="button small expanded">Subir Imagen</label>
+                                        {{ form.file }}
                                         <input type="hidden" name="{{ form.prefix }}-DELETE" id="{{ form.prefix }}-DELETE" />
                                     </div>
                                     <div class="small-6 cell">
@@ -90,9 +90,9 @@
                                     </div>
                                 </div>
                                 <div class="section-preview">
-                                    <img src="{{ form.initial.file_field.url }}" alt="Imagen Bloque 1" />
+                                    <img src="{{ form.initial.file.url }}" alt="Imagen Bloque 1" />
                                 </div>
-                                <button class="button u-margin-top-small small expanded"><i class="fa fa-pencil-alt"></i> Editar Posición de ODAs</button>
+                                <button type="submit" class="button u-margin-top-small small expanded" name="position-{{ form.prefix }}"><i class="fa fa-pencil-alt"></i> Editar Posición de ODAs</button>
                             </div>
                         </div>
                     </div>

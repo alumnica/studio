@@ -14,10 +14,9 @@
     <input type="hidden" id="theNames">
     <hr>
     <div id="img-jplist">
-       <div class="grid-x grid-margin-x filter-panel">
+       <div class="grid-x grid-margin-x jplist-panel">
            <div class="cell medium-2">
 
-{% comment %}
                   <select
                      class=""
                      data-control-type="items-per-page-select"
@@ -29,7 +28,7 @@
                      <option data-number="5"> 5 per page </option>
                      <option data-number="10" data-default="true"> 10 per page </option>
                      <option data-number="all"> view all </option>
-                  </select>{% endcomment %}
+                  </select>
 
            </div>
            <div class="cell medium-2">
@@ -39,8 +38,8 @@
                  <!--data-control-name="sort"-->
                  <!--data-control-action="sort">-->
                    <!--<option data-path="default">Sort by</option>-->
-                   <!--<option data-path=".date_field" data-order="asc" data-type="datetime">Date asc</option>-->
-                   <!--<option data-path=".date_field" data-order="desc" data-type="datetime">Date desc</option>-->
+                   <!--<option data-path=".date data-order="asc" data-type="datetime">Date asc</option>-->
+                   <!--<option data-path=".date data-order="desc" data-type="datetime">Date desc</option>-->
               <!--</select>-->
            </div>
            <div class="cell medium-4">
@@ -48,24 +47,18 @@
            </div>
            <div class="cell medium-4">
                <div class="input-group">
+                   <span class="input-group-label"><i class="fa fa-search"></i></span>
                    <input class="input-group-field"
                           type="text"
-                          data-path=".folder_field, .file_name_field"
-                          data-button="#searchButton"
+                          data-path=".folder .file_name"
+
                           value=""
                           placeholder="Busqueda"
                           data-control-type="textbox"
                           data-control-name="title-filter"
                           data-control-action="filter"
                    />
-                   <div class="input-group-button">
-                       <button
-                            class="button secondary"
-                            type="button"
-                            id="searchButton">
-                            <i class="fa fa-search"></i> Buscar
-                       </button>
-                   </div>
+
                </div>
 
            </div>
@@ -103,20 +96,19 @@
                 </div>
 
         </div>
-        {% comment %}<div class="grid-x">
+       <div class="grid-x">
             <div class="cell medium-6">
-                <div class="filter-panel">
+                <div class="jplist-panel">
                 <div
                         class="jplist-pagination float-right"
                         data-control-type="pagination"
                         data-control-name="paging"
-                        data-control-action="paging"
-                        data-items-per-page="5">
+                        data-control-action="paging">
                         </div>
 
                 </div>
             </div>
-        </div>{% endcomment %}
+        </div>
 
 
 
@@ -132,26 +124,24 @@
 
 <div class="cell img-box">
 
-    <div class="checkbox">
-        <input class="deleter" name="deleter" type="checkbox">
-    </div>
+
     <div class="image" data-open="imgModal">
         <div class="is-hidden">
-            <div class="date_field">{{created_at_field}}</div>
+            <div class="date">{{created_at}}</div>
             <div class="complete_file">{{url}}</div>
-            <div class="file_field">{{file_field}}</div>
-            <div class="name_field">{{name_field}}</div>
+            <div class="file">{{file}}</div>
+            <div class="name">{{name}}</div>
         </div>
 
 
         <!-- <label for="image-01" class="check"></label>
             <input type="checkbox" id="image-01"> -->
         <div class="image__thumbnail">
-            <img class="img_contain" src="{{file_field}}" alt="">
+            <img class="img_contain" src="{{file}}" alt="">
         </div>
         <div class="text-center">
-            <div class="file_name_field">{{file_name_field}}</div>
-            <div class="folder_field">{{folder_field}}</div>
+            <div class="file_name">{{file_name}}</div>
+            <div class="folder">{{folder}}</div>
         </div>
     </div>
 </div>

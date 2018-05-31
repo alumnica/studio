@@ -5,7 +5,7 @@ from django.views.generic import FormView
 from django.views.generic.base import TemplateView, RedirectView
 from sweetify import sweetify
 
-from alumnica_model.models import AmbitModel, SubjectModel
+from alumnica_model.models import Ambit, Subject
 from studio.forms.user_forms import UserLoginForm
 
 
@@ -49,6 +49,6 @@ class ProfileView(LoginRequiredMixin, FormView):
     template_name = 'studio/dashboard/dashboard.html'
 
     def get(self, request, *args, **kwargs):
-        ambits = AmbitModel.objects.all().count()
-        subjects = SubjectModel.objects.all().count()
+        ambits = Ambit.objects.all().count()
+        subjects = Subject.objects.all().count()
         return render(request, self.template_name, {'form': self.form_class, 'ambits': ambits, 'subjects': subjects})
