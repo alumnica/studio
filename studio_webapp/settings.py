@@ -17,7 +17,7 @@ import sys
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
 
-VERSION_NUMBER = 'v0.5.0'
+VERSION_NUMBER = 'v0.6.0'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'd4$itpp&epvrm)%4(dd&qox0$wwv21g!fo3c$^y8ta^e@d((bt'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'd4$itpp&epvrm)%4(dd&qox0$wwv21g!fo3c$^y8ta^e@d((bt')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not os.environ.get('ON_HEROKU', False)
@@ -153,12 +153,13 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 
-if not DEBUG:
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+
+if all([AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME]):
     # Use S3 from Amazon Web Services to store uploaded files
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
     AWS_S3_OBJECT_PARAMETERS = {
         'CacheControl': 'max-age=86400',
     }
@@ -173,8 +174,6 @@ if admin_names and admin_emails:
     admin_emails = admin_emails.split(';')
 
     ADMINS = list(zip(admin_names, admin_emails))
-
-    print('ADMINS = {}'.format(ADMINS))
 
 LOGGING = {
     'version': 1,

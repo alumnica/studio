@@ -28,7 +28,7 @@ $('document').ready(function () {
 
         itemsBox: '.list'
         , itemPath: '.img-box'
-        , panelPath: '.filter-panel'
+        , panelPath: '.jplist-panel'
 //      ,redrawCallback: function(collection, $dataview, statuses){
 //        fill();
 //       }

@@ -1,3 +1,4 @@
+{% load studio_extras %}
 <ul class="vertical menu mobile-menu">
     <li class="menu-text a-title">Alumnica CCS</li>
     <li>
@@ -61,5 +62,8 @@
             <div class="menu-image fas fa-times-circle"></div>
             <div>Cerrar Sesión</div>
         </a>
+    </li>
+    <li>
+        {% version_number %}
     </li>
 </ul>

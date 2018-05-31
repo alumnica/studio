@@ -52,11 +52,8 @@
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
                                             <a href="{% url 'delete_ambit_view' ambit.pk %}">{% trans "Delete" %}</a>
-                                        </span> |
-                                        <span class="editar-tag">
-                                            {# Falta #}
-                                            <a href="#">{% trans "Edit Tags" %}</a>
                                         </span>
+                                        
                                     </div>
                                     {% endifequal %}
                                     {% else %}
@@ -68,11 +65,8 @@
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
                                             <a href="{% url 'delete_ambit_view' ambit.pk %}">{% trans "Delete" %}</a>
-                                        </span> |
-                                        <span class="editar-tag">
-                                            {# Falta #}
-                                            <a href="#">{% trans "Edit Tags" %}</a>
                                         </span>
+                                        
                                     </div>
                                 {% endif %}
                             </td>
