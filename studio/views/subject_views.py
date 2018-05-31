@@ -78,10 +78,12 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
                 i += 1
             return render(self.request, self.template_name, context=context)
 
-        if action == 'save':
+        if action == 'save' or action == 'eva-publish':
             return redirect(to='materias_view')
         else:
-            return redirect(to='odas_position_view', pk=subject.pk, section=1)
+            action_array = action.split('-')
+            section = int(action_array[(len(action_array)-1)])
+            return redirect(to='odas_position_view',  pk=subject.pk, section=(section+1))
 
     def form_invalid(self, form):
         if form['name'].errors:
@@ -198,10 +200,12 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
                 i += 1
             return render(self.request, self.template_name, context=context)
 
-        if action == 'save':
+        if action == 'save' or action == 'eva-publish':
             return redirect(to='materias_view')
         else:
-            return redirect(to='odas_position_view', pk=subject.pk, section=1)
+            action_array = action.split('-')
+            section = int(action_array[(len(action_array)-1)])
+            return redirect(to='odas_position_view',  pk=subject.pk, section=(section+1))
 
 
 class SubjectView(LoginRequiredMixin, ListView):

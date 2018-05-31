@@ -100,6 +100,15 @@ $(document).ready(function () {
                     });
         }
             }
+            let position_btn = row.getElementsByTagName('button');
+            for (index = 0; index < position_btn.length; ++index) {
+                let name = $(position_btn[index]).attr('name');
+                if (name != '' && name!=null && typeof name !== typeof undefined){
+                     $(position_btn[index]).attr('name','position-form'+formCount);
+                }
+            }
+
+
             let labels = row.getElementsByTagName('label');
             for (index = 0; index < labels.length; ++index) {
                 updateElementIndex(labels[index], prefix, formCount);
@@ -159,7 +168,7 @@ $(document).ready(function () {
 
 
 function is_valid_form_subject(){
-    if($('#action').val() == "save"){
+    if($('#action').val() != "eva-publish"){
         return true;
     }
     else{
