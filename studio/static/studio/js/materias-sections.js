@@ -104,7 +104,7 @@ $(document).ready(function () {
             for (index = 0; index < position_btn.length; ++index) {
                 let name = $(position_btn[index]).attr('name');
                 if (name != '' && name!=null && typeof name !== typeof undefined){
-                     $(position_btn[index]).attr('name','position-form'+formCount);
+                     $(position_btn[index]).attr('name','position-form-'+formCount);
                 }
             }
 
@@ -146,7 +146,7 @@ $(document).ready(function () {
             });
             // Update the total form count
             $("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
-
+            $(":submit").click(function () { $("#action").val(this.name); });
             if(formCount==3){
                 $('#bloque-add').hide();
             }
@@ -169,6 +169,23 @@ $(document).ready(function () {
 
 function is_valid_form_subject(){
     if($('#action').val() != "eva-publish"){
+        if($('#action').val() != "save"){
+           let btn_name = $('#action').val();
+           let btn = document.getElementsByName(btn_name);
+           let img_preview = $(btn).parents('.my_item').find('.img-preview').attr('src');
+           let match_found = img_preview.search('.png');
+
+                if (img_preview == "" || source_image == null) {
+                    swal("Error", "Sube una imágen PNG ante de editar las posiciones", "error");
+                    return false;
+                }
+
+                if(match_found == -1){
+                    swal("Error", "Sube una imágen PNG ante de editar las posiciones", "error");
+                    return false;
+                }
+
+        }
         return true;
     }
     else{
