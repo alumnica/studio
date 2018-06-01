@@ -85,13 +85,13 @@ $(document).ready(function () {
     });
 
     // materias-edit.html
-    $(".materia-preview img").attr({id:"preview-mp", class:"materia-cover" });
+    $(".materia-preview img").attr({id:"preview-mp", class:"materia-cover is-hidden" });
     // ambitos-edit.html
-    $("form#ambito-creation img").attr({id:"preview-ap", class:"ambito-cover" });
+    $("form#ambito-creation img").attr({id:"preview-ap", class:"ambito-cover is-hidden" });
     // oda-edit
-    $("form#oda-edit .active_icon-preview img").attr({id:"preview-active_icon", class:"oda-cover"});
+    $("form#oda-edit .active_icon-preview img").attr({id:"preview-active_icon", class:"oda-cover is-hidden"});
 
-    $("form#oda-edit .completed_icon-preview img").attr({id:"preview-completed_icon", class:"oda-cover"});
+    $("form#oda-edit .completed_icon-preview img").attr({id:"preview-completed_icon", class:"oda-cover is-hidden"});
      
 });
 
@@ -116,18 +116,23 @@ $(document).ready(function () {
 
     $("#materia-u").change(function () {
         readURL(this);
+        $("#preview-mp").removeClass("is-hidden");
     });
 
     $("#ambito-u").change(function () {
         readURL(this);
+        $("#preview-ap").removeClass("is-hidden");
     });
     
     $("#id_active_icon").change(function () {
         readURL(this);
+        $("#preview-active_icon").removeClass("is-hidden");
+
     });
 
     $("#id_completed_icon").change(function () {
         readURL(this);
+        $("#preview-completed_icon").removeClass("is-hidden");
     });
 });
 
