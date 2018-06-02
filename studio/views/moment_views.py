@@ -1,11 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
+from django.views.generic import CreateView
 
 from alumnica_model.models import Moment
 
 
-class MomentsView(LoginRequiredMixin, ListView):
+class MomentsView(LoginRequiredMixin, CreateView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/momentos.html'
-    queryset = Moment.objects.all()
-    context_object_name = 'moments_list'
