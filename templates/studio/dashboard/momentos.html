@@ -82,7 +82,8 @@
 
 
 <div class="reveal" id="uploadModal" data-reveal>
-    <form id="uploadForm">
+    <form id="uploadForm" enctype="multipart/form-data" onsubmit="return is_valid_form()">
+        {% csrf_token %}
         <div class="momento-modal">
             <h4 class="u-margin-bottom-small">Subir nuevo momento
                 <small>Paquete H5P</small>
@@ -91,7 +92,7 @@
                 <div class="cell medium-4">
                     <label for="h5p-upload" class="button">
                         <i class="fa fa-upload"></i> Subir Paquete</label>
-                    <input id="h5p-upload" name="h5p-upload" type="file" class="show-for-sr">
+                    {{ form.content }}
                 </div>
                 <div class="cell medium-8">
                     <p class="h5 thefile" id="fileName">
@@ -102,7 +103,7 @@
                     <!-- tags -->
 
                     <label for="tags-momento">Tags</label>
-                    <input name="tags-momento" type="text" id="momento-tags" class="u-margin-bottom-small">
+                    {{ form.tags }}
 
                     <!-- end tags -->
                     <button type="submit" class="button expanded u-margin-top-medium"><i class="fa fa-upload"></i> Subir Paquete</button>
@@ -115,7 +116,12 @@
         </button>
     </form>
 </div>
-
+<script type="text/javascript">
+                    let momentoTags = [];
+                    {% for tag in tags %}
+                    momentoTags.push({ name: "{{ tag.name|safe }}", value: "{{ tag.id|safe }}" });
+                    {% endfor %}
+                </script>
 <!-- makes sidebar menu active -->
 <script>
     document.querySelector('#momento-nav').classList.add("is-active");
@@ -124,5 +130,5 @@
 
 {% endblock content %}
 {% block scripts %}
-        <script src="{% static "studio/js/theMoments.js" %}"></script>
+        <script src="{% static "studio/js/momentos.js" %}"></script>
 {% endblock %}
