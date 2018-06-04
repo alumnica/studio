@@ -89,9 +89,14 @@
                 <small>Paquete H5P</small>
             </h4>
             <div class="grid-x">
-                <div class="cell medium-12">
+                <div class="cell medium-12 u-margin-bottom-small">
                     <label for="h5p-name">Nombre del Paquete</label>
                     {{ form.name }}
+
+                    <!-- assign oda -->
+                    <label for="oda-list">Busca en la Biblioteca de ODAs</label>
+                    <select name="oda-list" id="oda-list"></select>
+
                 </div>
                 <div class="cell medium-4">
                     <label for="h5p-upload" class="button">
@@ -104,6 +109,11 @@
                     </p>
                 </div>
                 <div class="cell medium-12">
+                    
+                    <!-- tipo de momento -->
+                    <label for="tipo-momento">Selecciona el tipo de Momento</label>
+                    <select name="tipo-momento" id="tipo-momento"></select>
+
                     <!-- tags -->
 
                     <label for="tags-momento">Tags</label>
