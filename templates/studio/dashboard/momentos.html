@@ -82,13 +82,17 @@
 
 
 <div class="reveal" id="uploadModal" data-reveal>
-    <form id="uploadForm" enctype="multipart/form-data" onsubmit="return is_valid_form()">
+    <form method="POST" id="uploadForm" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="momento-modal">
             <h4 class="u-margin-bottom-small">Subir nuevo momento
                 <small>Paquete H5P</small>
             </h4>
             <div class="grid-x">
+                <div class="cell medium-12">
+                    <label for="h5p-name">Nombre del Paquete</label>
+                    {{ form.name }}
+                </div>
                 <div class="cell medium-4">
                     <label for="h5p-upload" class="button">
                         <i class="fa fa-upload"></i> Subir Paquete</label>

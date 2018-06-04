@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.views.generic import CreateView
 
 from alumnica_model.models import Moment, Tag
@@ -16,3 +17,10 @@ class MomentsView(LoginRequiredMixin, CreateView):
         context = super(MomentsView, self).get_context_data(**kwargs)
         context.update({'moments_list': moments_list, 'tags':tags})
         return context
+
+    def form_invalid(self, form):
+        pass
+
+    def form_valid(self, form):
+        form.save_form(self.request.user)
+        return redirect(to='momentos_view')
