@@ -38,6 +38,7 @@ urlpatterns += i18n_patterns(
                   path(_('subjects/'), include('studio.urls.subject_urls')),
                   path(_('odas/'), include('studio.urls.oda_urls')),
                   path(_('images/'), include('studio.urls.image_urls')),
+                  path(_('moments/'), include('studio.urls.moment_urls')),
                   path(_('admin/'), admin.site.urls),
                   path(_('api/'), include(router.urls)),
                   path(_('api-auth/'), include('rest_framework.urls', namespace='rest_framework')),
