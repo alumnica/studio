@@ -8,23 +8,24 @@ class MomentCreateForm(forms.ModelForm):
     tags = forms.CharField(widget=forms.TextInput(attrs={'id':'momento-tags',
                                                          'class':'u-margin-bottom-small selectized'}))
     content = forms.FileField(widget=forms.FileInput(attrs={'class': 'show-for-sr', 'id': 'h5p-upload'}))
-    oda = forms.CharField(widget=forms.TextInput(attrs={'id': 'oda', 'class': 'selectized'}))
-    microoda = forms.CharField(widget=forms.Select(attrs={'id': 'micro-oda'}))
 
     class Meta:
         model = Moment
         fields = ['name', 'tags', 'content']
 
-    def save_form(self, user):
+    def save_form(self, user, oda_name, microoda_type):
         cleaned_data = super(MomentCreateForm, self).clean()
         moment = super(MomentCreateForm, self).save(commit=False)
         tags = cleaned_data.get('tags').split(',')
-        oda_name = cleaned_data.get('oda')
+
         oda = ODA.objects.get(name=oda_name)
+        microoda = oda.microodas.get(type=microoda_type)
 
         moment.folder = 'moments'
         moment.created_by = user
         moment.save()
+        microoda.activities.add(moment)
+        microoda.save()
 
         for tag_name in tags:
             tag, created = Tag.objects.get_or_create(name=tag_name)
