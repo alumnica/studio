@@ -24,6 +24,19 @@
                         </tr>
                     </thead>
                     <tbody>
+
+                    <script type="text/javascript">
+                        let momentoTags = [];
+                        let oda_microodas = [];
+                        let odaList = [];
+                        {% for tag in tags %}
+                        momentoTags.push({ name: "{{ tag.name|safe }}"});
+                        {% endfor %}
+
+                        {% for oda in odas %}
+                        odaList.push({ name: "{{ oda.name|safe }}"});
+                        {% endfor %}
+                    </script>
                     {% for momento in moments_list %}
                         <tr>
                             <td>
@@ -88,15 +101,27 @@
             <h4 class="u-margin-bottom-small">Subir nuevo momento
                 <small>Paquete H5P</small>
             </h4>
-            <div class="grid-x">
-                <div class="cell medium-12 u-margin-bottom-small">
+            <div class="grid-x grid-margin-x">
+                <div class="cell medium-12">
                     <label for="h5p-name">Nombre del Paquete</label>
                     {{ form.name }}
-
-                    <!-- assign oda -->
-                    <label for="oda-list">Busca en la Biblioteca de ODAs</label>
-                    <select name="oda-list" id="oda-list"></select>
-
+                </div>
+                <div class="cell small-6">
+                     <!-- assign oda -->
+                    <label for="oda-list">ODA</label>
+                    <select name="oda-list" id="oda-list">
+                        <option disabled selected></option>
+                        {% for oda, microodas in odas_microodas %}
+                            <option value="{{ oda.name }}">{{ oda.name }}</option>
+                            <script type="text/javascript">
+                                    oda_microodas.push({name:"{{ oda.name|safe }}", microodas:{{ microodas|safe }}});
+                            </script>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="cell small-6">
+                    <label for="micro-oda">Micro ODA</label>
+                    <select name="micro-oda" class = "micro-oda" id="micro-oda"></select>
                 </div>
                 <div class="cell medium-4">
                     <label for="h5p-upload" class="button">
@@ -130,12 +155,7 @@
         </button>
     </form>
 </div>
-<script type="text/javascript">
-                    let momentoTags = [];
-                    {% for tag in tags %}
-                    momentoTags.push({ name: "{{ tag.name|safe }}", value: "{{ tag.id|safe }}" });
-                    {% endfor %}
-                </script>
+
 <!-- makes sidebar menu active -->
 <script>
     document.querySelector('#momento-nav').classList.add("is-active");

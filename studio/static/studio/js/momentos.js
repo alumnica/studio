@@ -5,6 +5,20 @@ $('#h5p-upload').change( function(){
 });
 
 
+ $('#oda-list').change(function () {
+       oda_name = this.value;
+
+       oda = oda_microodas.filter(x => x.name === oda_name);
+       microoda = oda[0].microodas;
+       select_microodas = $('#micro-oda');
+       select_microodas.empty();
+       for(let i=0; i<microoda.length; i++){
+           option = $('<option></option>').attr("value", microoda[i]).text(microoda[i]);
+           select_microodas.append(option);
+       }
+   });
+
+
 $('#momento-tags').selectize({
     labelField: 'name',
     valueField: 'name',
@@ -24,22 +38,17 @@ $('#momento-tags').selectize({
     maxOptions: 3,
 });
 
-// list of ODAs
 
-var odaList = [ 
-    {name: 'ODA A'}, 
-    {name: 'Yolo'}, 
-    {name: 'Yo Mama'},
-];
 
-$('#oda-list').selectize({
+/*$('#oda-list').selectize({
     maxItems: 1,
     labelField: 'name',
     valueField: 'name',
     searchField: 'name',
     options: odaList,
     preload: true,
-});
+});*/
+
 
 
 // list of tipos de momentos
