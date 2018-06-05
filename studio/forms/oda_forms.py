@@ -62,19 +62,21 @@ class ODACreateForm(forms.ModelForm):
         counter = 1
         for moment_object in moments:
 
+            microoda, created = MicroODA.objects.get_or_create(name='odas',
+                                                               created_by=user,
+                                                               type=moment_object[0],
+                                                               default_position=counter, oda=oda)
+            counter += 1
+
             if moment_object[1] is not None and moment_object[1] is not '':
 
                 moments_names = moment_object[1].split(',')
-                microoda, created = MicroODA.objects.get_or_create(name='odas',
-                                                                   created_by=user,
-                                                                   type=moment_object[0],
-                                                                   default_position=counter, oda=oda)
-                counter += 1
 
                 for moment_name in moments_names:
                     moment = Moment.objects.get(name=moment_name)
                     microoda.activities.add(moment)
-                    microoda.save()
+            microoda.save()
+
 
         if active_icon is not None:
             if isinstance(active_icon, Image):

@@ -180,7 +180,7 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ODAUpdateView, self).get_context_data(**kwargs)
         tags_list = Tag.objects.all()
-        moments_list = Moment.objects.all()
+        moments_list = Moment.objects.filter(microodas=None)
         self_oda_in_subject = self.object.subject
         self_tags = self.object.tags.all()
 

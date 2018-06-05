@@ -120,8 +120,9 @@
                         {% for moment in sens_list.all.0.activities.all %}
                                 sens.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
-                        let evalu =  [{name:"{{ oda.evaluation.name|safe }}", code:"{{ oda.evaluation.name|safe }}"}];
-
+                        {% if oda.evaluation != None %}
+                            let evalu =  [{name:"{{ oda.evaluation.name|safe }}", code:"{{ oda.evaluation.name|safe }}"}];
+                        {% endif %}
 
 
 

@@ -53,16 +53,6 @@ $('#momento-tags').selectize({
 
 // list of tipos de momentos
 
-var typeList = [ 
-    {name: 'Tipo A'}, 
-    {name: 'Tipo B'}, 
-    {name: 'Tipo C'}, 
-    {name: 'Tipo D'}, 
-    {name: 'Tipo E'}, 
-    {name: 'Tipo F'}, 
-    {name: 'Tipo G'}, 
-    
-];
 
 $('#tipo-momento').selectize({
     maxItems: 1,

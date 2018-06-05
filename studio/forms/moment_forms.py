@@ -1,6 +1,7 @@
 from django import forms
 
 from alumnica_model.models import Moment, Tag, ODA
+from alumnica_model.models.content import MomentType
 
 
 class MomentCreateForm(forms.ModelForm):
@@ -13,7 +14,7 @@ class MomentCreateForm(forms.ModelForm):
         model = Moment
         fields = ['name', 'tags', 'content']
 
-    def save_form(self, user, oda_name, microoda_type):
+    def save_form(self, user, oda_name, microoda_type, moment_type):
         cleaned_data = super(MomentCreateForm, self).clean()
         moment = super(MomentCreateForm, self).save(commit=False)
         tags = cleaned_data.get('tags').split(',')
@@ -23,6 +24,7 @@ class MomentCreateForm(forms.ModelForm):
 
         moment.folder = 'moments'
         moment.created_by = user
+        moment.type = MomentType.objects.get(name=moment_type)
         moment.save()
         microoda.activities.add(moment)
         microoda.save()

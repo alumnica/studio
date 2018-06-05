@@ -29,6 +29,7 @@
                         let momentoTags = [];
                         let oda_microodas = [];
                         let odaList = [];
+                        let typeList = [];
                         {% for tag in tags %}
                         momentoTags.push({ name: "{{ tag.name|safe }}"});
                         {% endfor %}
@@ -36,6 +37,11 @@
                         {% for oda in odas %}
                         odaList.push({ name: "{{ oda.name|safe }}"});
                         {% endfor %}
+
+                        {% for type in moment_type_list %}
+                        typeList.push({ name: "{{ type.name|safe }}"});
+                        {% endfor %}
+
                     </script>
                     {% for momento in moments_list %}
                         <tr>
@@ -109,7 +115,7 @@
                 <div class="cell small-6">
                      <!-- assign oda -->
                     <label for="oda-list">ODA</label>
-                    <select name="oda-list" id="oda-list">
+                    <select required name="oda-list" id="oda-list">
                         <option disabled selected></option>
                         {% for oda, microodas in odas_microodas %}
                             <option value="{{ oda.name }}">{{ oda.name }}</option>
@@ -121,7 +127,7 @@
                 </div>
                 <div class="cell small-6">
                     <label for="micro-oda">Micro ODA</label>
-                    <select name="micro-oda" class = "micro-oda" id="micro-oda"></select>
+                    <select required name="micro-oda" class = "micro-oda" id="micro-oda"></select>
                 </div>
                 <div class="cell medium-4">
                     <label for="h5p-upload" class="button">
@@ -137,7 +143,7 @@
                     
                     <!-- tipo de momento -->
                     <label for="tipo-momento">Selecciona el tipo de Momento</label>
-                    <select name="tipo-momento" id="tipo-momento"></select>
+                    <select required name="tipo-momento" id="tipo-momento"></select>
 
                     <!-- tags -->
 
