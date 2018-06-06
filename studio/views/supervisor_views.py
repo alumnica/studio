@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, FormView
 
-from alumnica_model.models import Ambit, users, Subject
+from alumnica_model.models import Ambit, users, Subject, ODA
 
 
 class AproveToPublishDashboard(LoginRequiredMixin, ListView):
@@ -61,7 +61,7 @@ class GridPositionView(LoginRequiredMixin, FormView):
         return redirect(to="")
 
 
-class OdasPositionSubjectPreview(LoginRequiredMixin, FormView):
+class ODAsPositionSubjectPreview(LoginRequiredMixin, FormView):
     login_url = "login_view"
     template_name = ""
 
@@ -69,11 +69,10 @@ class OdasPositionSubjectPreview(LoginRequiredMixin, FormView):
         if request.user.type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
-            return super(OdasPositionSubjectPreview, self).dispatch(self, request, *args, **kwargs)
+            return super(ODAsPositionSubjectPreview, self).dispatch(self, request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(OdasPositionSubjectPreview, self).get_context_data(**kwargs)
-        pk = self.kwargs['pk']
+        context = super(ODAsPositionSubjectPreview, self).get_context_data(**kwargs)
         subject = Subject.objects.get(pk=self.kwargs['pk'])
         section_images_list = subject.sections_images.all()
         odas_list = []
@@ -86,3 +85,19 @@ class OdasPositionSubjectPreview(LoginRequiredMixin, FormView):
         context.update({'content_images': content_images})
         return context
 
+
+class MicroodaPreview(LoginRequiredMixin, FormView):
+    login_url = "login_view"
+    template_name = ""
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.type != users.TYPE_SUPERVISOR:
+            return redirect(to="dashboard_view")
+        else:
+            return super(MicroodaPreview, self).dispatch(self, request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(MicroodaPreview, self).get_context_data(**kwargs)
+        microodas = ODA.objects.get(pk=kwargs['pk']).microodas.all()
+        context.update({'microodas': microodas})
+        return context
