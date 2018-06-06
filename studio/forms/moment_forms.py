@@ -6,8 +6,8 @@ from alumnica_model.models.content import MomentType
 
 class MomentCreateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'id': 'h5p-name'}))
-    tags = forms.CharField(widget=forms.TextInput(attrs={'id':'momento-tags',
-                                                         'class':'u-margin-bottom-small selectized'}))
+    tags = forms.CharField(widget=forms.TextInput(attrs={'id': 'momento-tags',
+                                                         'class': 'u-margin-bottom-small selectized'}))
     content = forms.FileField(widget=forms.FileInput(attrs={'class': 'show-for-sr', 'id': 'h5p-upload'}))
 
     class Meta:

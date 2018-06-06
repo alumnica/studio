@@ -40,7 +40,7 @@ class ImageViewSet(ModelViewSet):
                         if paging != 'all':
                             paging_value = int(paging)
                         else:
-                            paging_value='all'
+                            paging_value ='all'
                     except KeyError or ValueError:
                         pass
                     try:
@@ -51,7 +51,6 @@ class ImageViewSet(ModelViewSet):
             elif action == 'sort':
                 pass
 
-        x = len(filter_params)
         if len(filter_params) != 0:
             filter = Q()
             for item in filter_params:
@@ -60,7 +59,8 @@ class ImageViewSet(ModelViewSet):
             if paging_value == 'all':
                 queryset = Image.objects.filter(filter)
             else:
-                queryset = Image.objects.filter(filter)[(paging_value*current_page):((paging_value*current_page)+(paging_value))]
+                queryset = Image.objects.filter(filter)[(paging_value*current_page):
+                                                        ((paging_value*current_page)+paging_value)]
             count = len(queryset)
 
             return queryset, count
@@ -69,7 +69,7 @@ class ImageViewSet(ModelViewSet):
                 return \
                     Image.objects.all(), Image.objects.count()
             else:
-                return Image.objects.all()[(paging_value*current_page):((paging_value*current_page)+(paging_value))],\
+                return Image.objects.all()[(paging_value*current_page):((paging_value*current_page)+paging_value)],\
                    Image.objects.count()
 
     def list(self, request, *args, **kwargs):

@@ -131,7 +131,7 @@ $('#deleterBtn').on('mouseenter mouseleave', function () {
         $('#theNames').val(names);
 
 
-        var str = '<ul>'
+        var str = '<ul>';
 
         names.forEach(function (slide) {
             str += '<li>' + slide + '</li>';
