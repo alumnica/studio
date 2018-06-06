@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, FormView
 
-from alumnica_model.models import Ambit, users
+from alumnica_model.models import Ambit, users, Subject
 
 
 class AproveToPublishDashboard(LoginRequiredMixin, ListView):
@@ -59,3 +59,30 @@ class GridPositionView(LoginRequiredMixin, FormView):
             ambit.position = ambit_position[1]
             ambit.save()
         return redirect(to="")
+
+
+class OdasPositionSubjectPreview(LoginRequiredMixin, FormView):
+    login_url = "login_view"
+    template_name = ""
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.type != users.TYPE_SUPERVISOR:
+            return redirect(to="dashboard_view")
+        else:
+            return super(OdasPositionSubjectPreview, self).dispatch(self, request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(OdasPositionSubjectPreview, self).get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        subject = Subject.objects.get(pk=self.kwargs['pk'])
+        section_images_list = subject.sections_images.all()
+        odas_list = []
+        section_counter = 1
+        for section in subject.sections_images.all():
+            odas_list.append(subject.odas.all().filter(section=section_counter))
+            section_counter += 1
+
+        content_images = zip(odas_list, section_images_list)
+        context.update({'content_images': content_images})
+        return context
+
