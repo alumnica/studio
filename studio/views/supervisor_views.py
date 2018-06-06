@@ -47,7 +47,7 @@ class GridPositionView(LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super(GridPositionView, self).get_context_data(**kwargs)
-        ambits_list = Ambit.objects.filter(is_published=True)
+        ambits_list = Ambit.objects.filter(is_published=True).order_by('position')
         ambit = Ambit.objects.get(pk=kwargs['pk'])
         context.update({'ambits_list': ambits_list, 'new_ambit': ambit})
 
