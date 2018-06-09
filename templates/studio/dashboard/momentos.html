@@ -1,26 +1,27 @@
 {% extends "studio/base-main.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 
 <div class="container dashboard">
     <h1 class="title">
-        <i class="fas fa-play-circle"></i> Momentos </h1>
+        <i class="fas fa-play-circle"></i> {% trans "Moments" %} </h1>
     <hr>
     <div class="grid-x">
         <div class="cell medium-6">
-            <button type="button" data-open="uploadModal" class="button"><i class="fa fa-upload"></i> Nuevo momento</button>
+            <button type="button" data-open="uploadModal" class="button"><i class="fa fa-upload"></i> {% trans "New moment" %}</button>
         </div>
         <div class="cell medium-12">
             <div class="panel">
                 <table id="tabla-momentos" class=" no-wrap">
                     <thead>
                         <tr>
-                            <th id="titulo-momento" class="all">Titulo</th>
+                            <th id="titulo-momento" class="all">{% trans "Title" %}</th>
                             <th id="numero-momento" class="not-mobile">ODA</th>
                             <th id="tags-momento" class="not-mobile tag-length">Tags</th>
-                            <th id="fecha-momento" class="not-mobile">Fecha</th>
+                            <th id="fecha-momento" class="not-mobile">{% trans "Date" %}</th>
                             <th id="autor-momento" class="not-mobile">Autor</th>
-                            <th id="eva-momento" class="not-mobile">en EVA</th>
+                            <th id="eva-momento" class="not-mobile">{% trans "in" %} EVA</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -104,12 +105,12 @@
     <form method="POST" id="uploadForm" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="momento-modal">
-            <h4 class="u-margin-bottom-small">Subir nuevo momento
-                <small>Paquete H5P</small>
+            <h4 class="u-margin-bottom-small">{% trans "Upload new moment" %}
+                <small>{% trans "H5P file" %}</small>
             </h4>
             <div class="grid-x grid-margin-x">
                 <div class="cell medium-12">
-                    <label for="h5p-name">Nombre del Paquete</label>
+                    <label for="h5p-name">{% trans "File name" %}</label>
                     {{ form.name }}
                 </div>
                 <div class="cell small-6">
@@ -131,18 +132,18 @@
                 </div>
                 <div class="cell medium-4">
                     <label for="h5p-upload" class="button">
-                        <i class="fa fa-upload"></i> Subir Paquete</label>
+                        <i class="fa fa-upload"></i> {% trans "Upload file" %}</label>
                     {{ form.content }}
                 </div>
                 <div class="cell medium-8">
                     <p class="h5 thefile" id="fileName">
-                        <small>Filename</small>
+                        <small>{% trans "File name" %}</small>
                     </p>
                 </div>
                 <div class="cell medium-12">
                     
                     <!-- tipo de momento -->
-                    <label for="tipo-momento">Selecciona el tipo de Momento</label>
+                    <label for="tipo-momento">{% trans "Select the moment type" %}</label>
                     <select required name="tipo-momento" id="tipo-momento"></select>
 
                     <!-- tags -->
@@ -151,7 +152,7 @@
                     {{ form.tags }}
 
                     <!-- end tags -->
-                    <button type="submit" class="button expanded u-margin-top-medium"><i class="fa fa-upload"></i> Subir Paquete</button>
+                    <button type="submit" class="button expanded u-margin-top-medium"><i class="fa fa-upload"></i> {% trans "Upload file" %}</button>
                 </div>
             </div>
         </div>

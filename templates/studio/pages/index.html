@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
     <section class="home-bg">
         <div class="grid-container">
@@ -12,7 +12,7 @@
                         <div class="cell medium-6"></div>
                         <div class="cell medium-6">
                             <h2 class="u-margin-bottom-small">alumnica</h2>
-                            <a href="{% url 'login_view' %}" class="button large login-btn">Iniciar Sesión</a>
+                            <a href="{% url 'login_view' %}" class="button large login-btn">{% trans "Login" %}</a>
                         </div>
                     </div>
                 </div>

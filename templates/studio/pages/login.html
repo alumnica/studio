@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
     <section class="login-bg">
         <div class="grid-container">
@@ -9,17 +9,17 @@
                 <div class="cell medium-7 small-11">
                     <div class="grid-x">
                         <div class="cell medium-4">
-                            <h3>MI CUENTA</h3>
+                            <h3>{% trans "My account" %}</h3>
                             <form class="u-margin-bottom-small" method="POST" role="form">{% csrf_token %}
-                                <label>CORREO
+                                <label>{% trans "EMAIL" %}
                                     {{ form.email }}
                                 </label>
-                                <label>CONTRASEÑA
+                                <label>{% trans "PASSWORD" %}
                                     {{ form.password }}
                                 </label>
                                 <input type="submit" class="button login-btn expanded" value="ENTRAR">
                             </form>
-                            <a href="#">¿Olvidaste tu contraseña?</a>
+                            <a href="#">{% trans "I forgot my password" %}</a>
 
                         </div>
                     </div>

@@ -1,4 +1,5 @@
 {% load studio_extras %}
+{% load i18n %}
 <ul class="vertical menu mobile-menu">
     <li class="menu-text a-title">Alumnica CCS</li>
     <li>
@@ -13,7 +14,7 @@
         </a>
     </li>
     <li id="publicar-nav">
-        <a href="#"><div class="menu-image fas fa-share-square"></div>Ámbitos a Publicar <div class="pub-counter">2</div></a>
+        <a href="#"><div class="menu-image fas fa-share-square"></div>{% trans "Ambits to publish" %} <div class="pub-counter">2</div></a>
     </li>
     <li>
         &nbsp;
@@ -21,13 +22,13 @@
     <li>
         <a href="{% url 'ambits_view' %}">
             <div class="menu-image fas fa-map"></div>
-            <div>Ámbitos</div>
+            <div>{% trans "Ambits" %}</div>
         </a>
     </li>
     <li>
         <a href="{% url 'materias_view' %}">
             <div class="menu-image fas fa-clone"></div>
-            <div>Materias</div>
+            <div>{% trans "Subjects" %}</div>
         </a>
     </li>
     <li>
@@ -42,7 +43,7 @@
     <li>
         <a href="{% url 'momentos_view' %}">
             <div class="menu-image fas fa-play-circle"></div>
-            <div>Momentos</div>
+            <div>{% trans "Moments" %}</div>
         </a>
     </li>
     <li>
@@ -51,7 +52,7 @@
     <li>
         <a href="{% url 'library_view' %}">
             <div class="menu-image fas fa-images"></div>
-            <div>Biblioteca de Imagenes</div>
+            <div>{% trans "Image library" %}</div>
         </a>
     </li>
     <li>
@@ -60,7 +61,7 @@
     <li>
         <a href="#">
             <div class="menu-image fas fa-times-circle"></div>
-            <div>Cerrar Sesión</div>
+            <div>{% trans "Logout" %}</div>
         </a>
     </li>
     <li>

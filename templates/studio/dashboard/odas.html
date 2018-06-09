@@ -1,5 +1,6 @@
 {% extends "studio/base-main.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 
 <div class="dashboard container">
@@ -9,7 +10,7 @@
     <hr>
     <div class="grid-x">
         <div class="cell medium-6">
-            <a href="{% url 'odas_create_view' %}" class="button">Crear nueva ODA</a>
+            <a href="{% url 'odas_create_view' %}" class="button">{% trans "New ODA" %}</a>
         </div>
 
         <div class="cell medium-12">
@@ -17,15 +18,15 @@
                 <table id="tabla-odas" class=" no-wrap">
                     <thead>
                         <tr>
-                            <th id="titulo-oda" class="all">Titulo</th>
-                            <th id="materia-oda" class="not-mobile">Materia</th>
-                            <th id="bloque-oda" class="not-mobile">Bloque</th>
-                            <th id="uoda-oda" class="not-mobile"># de Momentos</th>
+                            <th id="titulo-oda" class="all">{% trans "Title" %}</th>
+                            <th id="materia-oda" class="not-mobile">{% trans "Subject" %}</th>
+                            <th id="bloque-oda" class="not-mobile">{% trans "Section" %}</th>
+                            <th id="uoda-oda" class="not-mobile">{% trans "Moments #" %}</th>
                             <th id="tags-oda" class="not-mobile tag-length">Tags</th>
-                            <th id="fecha-oda" class="not-mobile">Fecha</th>
+                            <th id="fecha-oda" class="not-mobile">{% trans "Date" %}</th>
                             <th id="autor-oda" class="not-mobile">Autor</th>
-                            <th id="estado-oda" class="not-mobile">Estado</th>
-                            <th id="eva-oda" class="not-mobile">En EVA</th>
+                            <th id="estado-oda" class="not-mobile">{% trans "State" %}</th>
+                            <th id="eva-oda" class="not-mobile">{% trans "in" %} EVA</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,10 +42,10 @@
                                 </div>
                                 <div class="title-edit-menu">
                                     <span class="editar">
-                                        <a href="{% url 'odas_update_view' oda.pk %}">Editar</a>
+                                        <a href="{% url 'odas_update_view' oda.pk %}">{% trans "Edit" %}</a>
                                     </span> |
                                     <span class="borrar">
-                                        <a href="#">Borrar</a>
+                                        <a href="#">{% trans "Delete" %}</a>
                                     </span>
                                 </div>
                             </td>
@@ -77,9 +78,9 @@
                             <td>
                                 <div class="estado">
                                     {% if oda.temporal %}
-                                        Borrador
+                                        {% trans "Draft" %}
                                     {% else %}
-                                        Finalizado
+                                        {% trans "Finalized" %}
                                     {% endif %}
                                 </div>
                             </td>
