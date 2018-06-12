@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView
 
 from alumnica_model.models import Moment, Tag, ODA
-from alumnica_model.models.content import MomentType
+from alumnica_model.models.content import MomentType, Subject
 from studio.forms.moment_forms import MomentCreateForm
 
 
@@ -16,25 +16,32 @@ class MomentsView(LoginRequiredMixin, CreateView):
         moments_list = Moment.objects.all()
         tags = Tag.objects.all()
         moment_type_list = MomentType.objects.all()
+        subjects_list = []
         odas_list = []
 
-        microodas_list = []
+        for subject in Subject.objects.all():
+            odas = []
+            microodas_list = []
+            for oda in subject.odas.all():
+                microodas = []
+                for microoda in oda.microodas.all():
+                    if microoda.activities.all().count() < 3:
+                        microodas.append(microoda.type)
 
-        for oda in ODA.objects.filter():
-            microodas = []
-            for microoda in oda.microodas.all():
-                if microoda.activities.all().count() < 3:
-                    microodas.append(microoda.type)
-            if len(microodas) > 0:
-                odas_list.append(oda)
-                microodas_list.append(microodas)
+                if len(microodas) > 0:
+                    odas.append(oda)
+                    microodas_list.append(microodas)
+            if len(odas) > 0:
+                odas_zip = zip(odas, microodas_list)
+                odas_list.append(odas_zip)
+                subjects_list.append(subject)
 
-        odas_microodas = zip(odas_list, microodas_list)
+        subject_odas = zip(subjects_list, odas_list)
 
         context = super(MomentsView, self).get_context_data(**kwargs)
         context.update({'moments_list': moments_list,
                         'tags': tags,
-                        'odas_microodas': odas_microodas,
+                        'subject_odas': subject_odas,
                         'moment_type_list': moment_type_list})
         return context
 

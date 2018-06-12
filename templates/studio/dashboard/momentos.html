@@ -28,6 +28,7 @@
 
                     <script type="text/javascript">
                         let momentoTags = [];
+                        let subject_odas = [];
                         let oda_microodas = [];
                         let odaList = [];
                         let typeList = [];
@@ -115,20 +116,28 @@
                 </div>
                 <div class="cell medium-12">
                     <label for="materia-list">Materia</label>
-                    <select required name="materia-list" id="materia-list"></select>
-                    <option></option>
+                    <select required name="materia-list" id="materia-list">
+                     <option disabled selected></option>
+                        {% for subject, odas_zip in subject_odas %}
+                            <option value="{{ subject.name }}">{{ subject.name }}</option>
+                            <script type="text/javascript">
+                                subject_odas.push({name:"{{ subject.name|safe }}", odas:[]})
+                            </script>
+                            {% for oda, microodas in odas_zip %}
+                                <script type="text/javascript">
+                                    let subject= subject_odas.filter(x => x.name==="{{ subject.name|safe }}");
+                                    subject[0].odas.push({name:"{{ oda.name|safe }}"});
+                                    oda_microodas.push({ name:"{{ oda.name|safe }}", microodas:{{ microodas|safe }}});
+                                </script>
+                            {% endfor %}
+
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="cell small-6">
                      <!-- assign oda -->
                     <label for="oda-list">ODA</label>
                     <select required name="oda-list" id="oda-list">
-                        <option disabled selected></option>
-                        {% for oda, microodas in odas_microodas %}
-                            <option value="{{ oda.name }}">{{ oda.name }}</option>
-                            <script type="text/javascript">
-                                    oda_microodas.push({name:"{{ oda.name|safe }}", microodas:{{ microodas|safe }}});
-                            </script>
-                        {% endfor %}
                     </select>
                 </div>
                 <div class="cell small-6">

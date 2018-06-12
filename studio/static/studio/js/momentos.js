@@ -6,18 +6,32 @@ $('#h5p-upload').change( function(){
 
 
  $('#oda-list').change(function () {
-       oda_name = this.value;
-
-       oda = oda_microodas.filter(x => x.name === oda_name);
-       microoda = oda[0].microodas;
-       select_microodas = $('#micro-oda');
+       let oda_name = this.value;
+       let oda = oda_microodas.filter(x => x.name === oda_name);
+       let microoda = oda[0].microodas;
+       let select_microodas = $('#micro-oda');
        select_microodas.empty();
+       select_microodas.append('<option disabled selected></option>');
        for(let i=0; i<microoda.length; i++){
            option = $('<option></option>').attr("value", microoda[i]).text(microoda[i]);
            select_microodas.append(option);
        }
    });
 
+
+ $('#materia-list').change(function () {
+       let subject_name = this.value;
+       let subject = subject_odas.filter(x => x.name === subject_name);
+       let odas = subject[0].odas;
+       let select_odas = $('#oda-list');
+       select_odas.empty();
+       select_odas.append('<option disabled selected></option>');
+       for(let i=0; i<odas.length; i++){
+           option = $('<option></option>').attr("value", odas[i].name).text(odas[i].name);
+           select_odas.append(option);
+       }
+
+   });
 
 $('#momento-tags').selectize({
     labelField: 'name',
