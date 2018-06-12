@@ -46,8 +46,9 @@ class MomentsView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
+        subject = self.request.POST.get('materia-list')
         oda = self.request.POST.get('oda-list')
         microoda = self.request.POST.get('micro-oda')
         moment_type = self.request.POST.get('tipo-momento')
-        form.save_form(self.request.user, oda, microoda, moment_type)
+        form.save_form(self.request.user, subject, oda, microoda, moment_type)
         return redirect(to='momentos_view')
