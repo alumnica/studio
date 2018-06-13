@@ -14,7 +14,7 @@ class MomentCreateForm(forms.ModelForm):
         model = Moment
         fields = ['name', 'tags', 'content']
 
-    def save_form(self, user, subject_name, oda_name, microoda_type, moment_type):
+    def save_form(self, user, subject_name, oda_name, microoda_type, moment_type, h5p_url):
         cleaned_data = super(MomentCreateForm, self).clean()
         moment = super(MomentCreateForm, self).save(commit=False)
         tags = cleaned_data.get('tags').split(',')
@@ -25,6 +25,7 @@ class MomentCreateForm(forms.ModelForm):
         moment.folder = 'moments'
         moment.created_by = user
         moment.type = MomentType.objects.get(name=moment_type)
+        moment.file_name = h5p_url
         moment.save()
         microoda.activities.add(moment)
         microoda.save()

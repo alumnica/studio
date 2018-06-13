@@ -166,11 +166,11 @@
                     {{ form.tags }}
 
                     <!-- end tags -->
-                    <button type="submit" class="button expanded u-margin-top-medium"><i class="fa fa-upload"></i> {% trans "Upload file" %}</button>
+                    <button type="button" id="submit_button" class="button expanded u-margin-top-medium"><i class="fa fa-upload"></i> {% trans "Upload file" %}</button>
                 </div>
             </div>
         </div>
-
+        <input type="hidden" name="url_h5p" id="url_h5p">
         <button class="close-button" data-close aria-label="Close modal" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
