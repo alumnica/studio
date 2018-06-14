@@ -50,5 +50,6 @@ class MomentsView(LoginRequiredMixin, CreateView):
         oda = self.request.POST.get('oda-list')
         microoda = self.request.POST.get('micro-oda')
         moment_type = self.request.POST.get('tipo-momento')
-        form.save_form(self.request.user, subject, oda, microoda, moment_type)
+        h5p_url = self.request.POST.get('url_h5p')
+        form.save_form(self.request.user, subject, oda, microoda, moment_type, h5p_url)
         return redirect(to='momentos_view')

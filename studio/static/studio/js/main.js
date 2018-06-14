@@ -134,6 +134,16 @@ $(document).ready(function () {
         readURL(this);
         $("#preview-completed_icon").removeClass("is-hidden");
     });
+
+    $("img").each(function () {
+//        let this = $this;
+        if($(this).attr("src")== ""){
+            //do nothing
+        }else {
+        $(this).removeClass("is-hidden");
+        }
+    })
+
 });
 
 $(document).ready(function () {
