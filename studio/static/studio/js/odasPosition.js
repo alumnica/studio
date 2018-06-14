@@ -19,7 +19,7 @@ $(document).ready(function () {
             ui.draggable.detach().appendTo($(this));
             var blockId = ui.draggable.attr("id"),
                 blockId = blockId.split("-").pop();
-            var closBtnContent = ('<div class="return-button" block-val="ob-' + blockId + '"><i class="fa fa-times"></i></div>')
+            var closBtnContent = ('<div class="return-button" block-val="ob-' + blockId + '"><i class="fa fa-times"></i></div>');
 
             ui.draggable.append(closBtnContent);
             $(this).droppable('option', 'accept', ui.draggable);
@@ -36,7 +36,7 @@ $(document).ready(function () {
         var shadowContent = $('.block', this).html();
         $('.shadow-block', this).append(shadowContent);
 
-    })
+    });
     $('.block').each(function () {
         var attr = $(this).attr('data-n');
 
@@ -46,7 +46,7 @@ $(document).ready(function () {
             //return button
             var blockId = $(this).attr("id"),
                 blockId = blockId.split("-").pop();
-            var closBtnContent = ('<div class="return-button" block-val="ob-' + blockId + '"><i class="fa fa-times"></i></div>')
+            var closBtnContent = ('<div class="return-button" block-val="ob-' + blockId + '"><i class="fa fa-times"></i></div>');
             $(this).append(closBtnContent);
             //append to section if already has data-n
             var theBlocknum = $(this).attr('data-n');
@@ -68,7 +68,7 @@ $(document).ready(function () {
     
     $('#psBtn').on('mouseover', function(){
         var posTotal = '';
-        $('#oda-position').val(posTotal)
+        $('#oda-position').val(posTotal);
         $('.dropzone').each(function(){
             if ( $(this).children().length > 0 ) {                
                 var blockNum = $(this).children().attr('id').split("-").pop();

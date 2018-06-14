@@ -13,7 +13,7 @@ class UserLoginForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(UserLoginForm, self).clean()
-        email = cleaned_data.get('email')
+        email = cleaned_data.get('email').lower()
         password = cleaned_data.get('password')
         try:
             user = AuthUser.objects.get(email=email)
@@ -36,7 +36,7 @@ class UserLoginForm(forms.Form):
 
     def get_user(self):
         cleaned_data = super(UserLoginForm, self).clean()
-        email = cleaned_data.get('email')
+        email = cleaned_data.get('email').lower()
         user = AuthUser.objects.get(email=email)
         return user
 
@@ -48,6 +48,7 @@ class AuthUserCreateForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super(AuthUserCreateForm, self).save(commit=False)
+        user.email = user.email.lower()
         user.set_password(self.cleaned_data.get('password'))
         if commit:
             user.save()

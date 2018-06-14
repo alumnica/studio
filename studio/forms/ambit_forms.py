@@ -6,6 +6,7 @@ from alumnica_model.models import Ambit
 from alumnica_model.models.content import Tag, Subject, Image, Program
 from alumnica_model.validators import unique_ambit_name_validator, file_size
 
+
 class CreateAmbitForm(forms.ModelForm):
     name = forms.CharField(required=False, max_length=50, widget=forms.TextInput(attrs={'class': 'text_number'}),
                            validators=[unique_ambit_name_validator])

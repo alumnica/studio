@@ -1,0 +1,190 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+
+<div class="container dashboard">
+    <h1 class="title">
+        <i class="fas fa-play-circle"></i> {% trans "Moments" %} </h1>
+    <hr>
+    <div class="grid-x">
+        <div class="cell medium-6">
+            <button type="button" data-open="uploadModal" class="button"><i class="fa fa-upload"></i> {% trans "New moment" %}</button>
+        </div>
+        <div class="cell medium-12">
+            <div class="panel">
+                <table id="tabla-momentos" class=" no-wrap">
+                    <thead>
+                        <tr>
+                            <th id="titulo-momento" class="all">{% trans "Title" %}</th>
+                            <th id="numero-momento" class="not-mobile">ODA</th>
+                            <th id="tags-momento" class="not-mobile tag-length">Tags</th>
+                            <th id="fecha-momento" class="not-mobile">{% trans "Date" %}</th>
+                            <th id="autor-momento" class="not-mobile">Autor</th>
+                            <th id="eva-momento" class="not-mobile">{% trans "in" %} EVA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    <script type="text/javascript">
+                        let momentoTags = [];
+                        let subject_odas = [];
+                        let oda_microodas = [];
+                        let odaList = [];
+                        let typeList = [];
+                        {% for tag in tags %}
+                        momentoTags.push({ name: "{{ tag.name|safe }}"});
+                        {% endfor %}
+
+                        {% for oda in odas %}
+                        odaList.push({ name: "{{ oda.name|safe }}"});
+                        {% endfor %}
+
+                        {% for type in moment_type_list %}
+                        typeList.push({ name: "{{ type.name|safe }}"});
+                        {% endfor %}
+
+                    </script>
+                    {% for momento in moments_list %}
+                        <tr>
+                            <td>
+                                <div class="titulo_lista">
+                                    <a href="#">
+                                        <strong>{{ momento.name }}</strong>
+                                    </a>
+                                </div>
+                                <div class="title-edit-menu">
+                                    <span class="editar">
+                                        <a href="#">Editar</a>
+                                    </span> |
+                                    <span class="borrar">
+                                        <a href="#">Borrar</a>
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                {{ momento.microodas.all.0.oda }}
+
+                            </td>
+
+                            <td>
+                                <div class="tag-list">
+                                    {% for tag in momento.tags.all %}
+                                        <a href="#">{{ tag.name }}</a>
+                                    {% endfor %}
+
+                                </div>
+                            </td>
+                            <td>
+                                <div id="edit-date">
+                                    {{ momento.created_at }}
+                                </div>
+                            </td>
+                            <td>
+                                {{ momento.created_by }}
+                            </td>
+
+                            <td class="text-center">
+                                {% if momento.microodas.all.0.oda.subject.ambit.is_published %}
+                                    <i class="fa fa-check"></i>
+                                {% endif %}
+                        </tr>
+                    {% endfor %}
+
+
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="reveal" id="uploadModal" data-reveal>
+    <form method="POST" id="uploadForm" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="momento-modal">
+            <h4 class="u-margin-bottom-small">{% trans "Upload new moment" %}
+                <small>{% trans "H5P file" %}</small>
+            </h4>
+            <div class="grid-x grid-margin-x">
+                <div class="cell medium-12">
+                    <label for="h5p-name">{% trans "File name" %}</label>
+                    {{ form.name }}
+                </div>
+                <div class="cell medium-12">
+                    <label for="materia-list">Materia</label>
+                    <select required name="materia-list" id="materia-list">
+                     <option disabled selected></option>
+                        {% for subject, odas_zip in subject_odas %}
+                            <option value="{{ subject.name }}">{{ subject.name }}</option>
+                            <script type="text/javascript">
+                                subject_odas.push({name:"{{ subject.name|safe }}", odas:[]})
+                            </script>
+                            {% for oda, microodas in odas_zip %}
+                                <script type="text/javascript">
+                                    let subject= subject_odas.filter(x => x.name==="{{ subject.name|safe }}");
+                                    subject[0].odas.push({name:"{{ oda.name|safe }}"});
+                                    oda_microodas.push({ name:"{{ oda.name|safe }}", microodas:{{ microodas|safe }}});
+                                </script>
+                            {% endfor %}
+
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="cell small-6">
+                     <!-- assign oda -->
+                    <label for="oda-list">ODA</label>
+                    <select required name="oda-list" id="oda-list">
+                    </select>
+                </div>
+                <div class="cell small-6">
+                    <label for="micro-oda">Micro ODA</label>
+                    <select required name="micro-oda" class = "micro-oda" id="micro-oda"></select>
+                </div>
+                <div class="cell medium-4">
+                    <label for="h5p-upload" class="button">
+                        <i class="fa fa-upload"></i> {% trans "Upload file" %}</label>
+                    {{ form.content }}
+                </div>
+                <div class="cell medium-8">
+                    <p class="h5 thefile" id="fileName">
+                        <small>{% trans "File name" %}</small>
+                    </p>
+                </div>
+                <div class="cell medium-12">
+                    
+                    <!-- tipo de momento -->
+                    <label for="tipo-momento">{% trans "Select the moment type" %}</label>
+                    <select required name="tipo-momento" id="tipo-momento"></select>
+
+                    <!-- tags -->
+
+                    <label for="tags-momento">Tags</label>
+                    {{ form.tags }}
+
+                    <!-- end tags -->
+                    <button type="button" id="submit_button" class="button expanded u-margin-top-medium"><i class="fa fa-upload"></i> {% trans "Upload file" %}</button>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="url_h5p" id="url_h5p">
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </form>
+
+</div>
+
+<!-- makes sidebar menu active -->
+<script>
+    document.querySelector('#momento-nav').classList.add("is-active");
+</script>
+
+
+{% endblock content %}
+{% block scripts %}
+        <script src="{% static "studio/js/momentos.js" %}"></script>
+{% endblock %}

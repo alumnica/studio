@@ -1,5 +1,5 @@
 {% extends "studio/base-main.html" %}
-
+{% load i18n %}
 {% block content %}
 
 
@@ -19,14 +19,15 @@
                             <i class="fas fa-user"></i> {{ request.user.first_name }} </div>
                         <div class="panel__content">
                             <div class="last-login">
-                                <strong>Última sesión:</strong> {{ request.user.last_login }} </div>
+                                <strong>{% trans "Last session:" %}</strong> {{ request.user.last_login }} </div>
                         </div>
                     </div>
                 </div>
                 <div class="cell medium-12">
                     <div class="panel">
                         <div class="panel__title">
-                            Resumen de Educación Media Superior
+
+                            {% trans "Summary of High School" %}
                         </div>
                         <div class="panel__content">
                             <div class="grid-x grid-margin-x grid-margin-y">
@@ -38,7 +39,7 @@
                                         {{ ambits }}
                                     </div>
                                     <div class="d-box__title">
-                                        Ámbitos
+                                        {% trans "Ambits" %}
                                     </div>
                                 </a>
 
@@ -49,7 +50,7 @@
                                         {{ subjects }}
                                     </div>
                                     <div class="d-box__title">
-                                        Materias
+                                        {% trans "Subjects" %}
                                     </div>
                                 </a>
 
@@ -71,7 +72,7 @@
                                         800
                                     </div>
                                     <div class="d-box__title">
-                                        Momentos
+                                        {% trans "Moments" %}
                                     </div>
                                 </a>
                             </div>

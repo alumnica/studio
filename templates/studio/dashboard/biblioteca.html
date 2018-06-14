@@ -1,11 +1,12 @@
 {% extends "studio/base-main.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
 
 <div class="dashboard container">
     <h1 class="title">
-        <i class="menu-image fas fa-images"></i> Biblioteca de Imagenes </h1>
+        <i class="menu-image fas fa-images"></i> {% trans "Image library" %} </h1>
     <form method="POST" id="deletions">
 
         <input type="hidden" id="toBeDeleted">
@@ -92,7 +93,7 @@
 
         <!-- no results found -->
                 <div class="jplist-no-results">
-                    <p>No results found</p>
+                    <p>{% trans "No results found" %}</p>
                 </div>
 
         </div>
@@ -166,8 +167,8 @@
         <div class="medium-3 cell">
             <div class="image-detail">
                 <ul>
-                    <li id="nombre">Nombre:</li>
-                    <li id="fecha">Fecha:</li>
+                    <li id="nombre">{% trans "Name" %}:</li>
+                    <li id="fecha">{% trans "Date" %}:</li>
                 </ul>
             </div>
             <div class="image-attached">
@@ -177,7 +178,7 @@
 
                 <div class="bottom-buttons">
                     <a id="dloadBtn" download="" href="" class="button secondary">
-                        <i class="fa fa-download"></i> Descargar</a>
+                        <i class="fa fa-download"></i> {% trans "Download" %}</a>
                 </div>
             </div>
         </div>
@@ -187,13 +188,13 @@
 
 
 <div class="reveal" id="deleteModal" data-reveal>
-    <p class="h5 text-center u-margin-bottom-small">¿Está seguro que desea eliminas estas imagenes?</p>
+    <p class="h5 text-center u-margin-bottom-small">{% trans "Do you want to delete these images?" %}</p>
     <div id="deleteList">
 
     </div>
     <div class="u-margin-top-medium">
-        <button class="button secondary" data-close aria-label="Close modal" type="button"><i class="fa fa-times"></i> Cancelar</button>
-        <button  id="delete_images" class="button float-right"><i class="fa fa-check"></i> Aceptar</button>
+        <button class="button secondary" data-close aria-label="Close modal" type="button"><i class="fa fa-times"></i> {% trans "Cancel" %}</button>
+        <button  id="delete_images" class="button float-right"><i class="fa fa-check"></i> {% trans "Accept" %}</button>
     </div>
 </div>
 

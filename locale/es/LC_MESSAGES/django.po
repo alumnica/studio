@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-24 17:10-0500\n"
+"POT-Creation-Date: 2018-06-08 19:01-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "Can't get profile for invalid user type: {}"
 msgstr "No se puede obtener el perfil para tipo de usuario inválido: {}"
 
-#: alumnica_model/models/users.py:161
+#: alumnica_model/models/users.py:163
 msgid "Invalid user type selected: {}"
 msgstr "Tipo de usuario inválido seleccionado: {}"
 
-#: alumnica_model/models/users.py:164
+#: alumnica_model/models/users.py:166
 msgid "There was an error creating the profile for user {}."
 msgstr "Hubo un error al crear el perfil para el usuario {}"
 
@@ -40,7 +40,7 @@ msgstr "Extensión de archivo no soportada"
 
 #: alumnica_model/validators.py:29
 msgid "File too large. Size should not exceed 2 MB."
-msgstr ""
+msgstr "El archivo es muy grande. El tamaño no debe exceder 2 MB"
 
 #: studio/forms/subject_forms.py:35
 msgid "Subject already exists."
@@ -68,15 +68,15 @@ msgstr "No es posible editar el ámbito {} porque ya está publicado"
 msgid "Error in section {} image: {}"
 msgstr "Error en la imagen del bloque {}: {}"
 
-#: studio/views/subject_views.py:194
+#: studio/views/subject_views.py:196
 msgid "Error in section {} file: {}"
 msgstr "Error en el archivo del bloque {}: {}"
 
-#: studio_webapp/settings.py:142
+#: studio_webapp/settings.py:143
 msgid "English"
 msgstr "Inglés"
 
-#: studio_webapp/settings.py:143
+#: studio_webapp/settings.py:144
 msgid "Spanish"
 msgstr "Español"
 
@@ -103,96 +103,136 @@ msgid "images/"
 msgstr "imagenes/"
 
 #: studio_webapp/urls.py:41
+msgid "moments/"
+msgstr ""
+
+#: studio_webapp/urls.py:42
 msgid "admin/"
 msgstr "admin/"
 
-#: studio_webapp/urls.py:42
+#: studio_webapp/urls.py:43
 msgid "api/"
 msgstr "api/"
 
-#: studio_webapp/urls.py:43
+#: studio_webapp/urls.py:44
 msgid "api-auth/"
 msgstr ""
 
-#: studio_webapp/urls.py:44
+#: studio_webapp/urls.py:45
 msgid "jsi18n/"
 msgstr ""
+
+#: templates/studio/base-main.html:13
+msgid "Alumnica Content Creation Studio"
+msgstr "Estudio de Creación de Contenido Alumnica"
 
 #: templates/studio/dashboard/ambitos-edit.html:13
 #: templates/studio/dashboard/ambitos.html:15
 msgid "Create new Ambit"
 msgstr "Crear nuevo Ámbito"
 
-#: templates/studio/dashboard/ambitos-edit.html:19
-msgid "Instructions:"
-msgstr "Instrucciones:"
-
-#: templates/studio/dashboard/ambitos-edit.html:28
+#: templates/studio/dashboard/ambitos-edit.html:23
 #: templates/studio/dashboard/ambitos.html:23
+#: templates/studio/dashboard/materias-edit.html:15
+#: templates/studio/dashboard/materias.html:24
+#: templates/studio/dashboard/momentos.html:19
+#: templates/studio/dashboard/odas-edit.html:15
+#: templates/studio/dashboard/odas.html:21
 msgid "Title"
 msgstr "Título"
 
-#: templates/studio/dashboard/ambitos-edit.html:65
+#: templates/studio/dashboard/ambitos-edit.html:59
 msgid "Background color"
 msgstr "Color de fondo"
 
-#: templates/studio/dashboard/ambitos-edit.html:153
+#: templates/studio/dashboard/ambitos-edit.html:147
 msgid "Ambit image"
 msgstr "Imagen del ámbito"
 
-#: templates/studio/dashboard/ambitos-edit.html:158
+#: templates/studio/dashboard/ambitos-edit.html:152
+#: templates/studio/dashboard/materias-edit.html:51
+#: templates/studio/dashboard/materias-edit.html:83
+#: templates/studio/dashboard/odas-edit.html:38
 msgid "Upload image"
 msgstr "Subir imagen"
 
-#: templates/studio/dashboard/ambitos-edit.html:162
+#: templates/studio/dashboard/ambitos-edit.html:156
+#: templates/studio/dashboard/biblioteca.html:9
+#: templates/studio/dashboard/materias-edit.html:55
+#: templates/studio/navigation/mobile-menu.html:55
+#: templates/studio/navigation/side-bar-menu.html:54
 msgid "Image library"
 msgstr "Biblioteca de imágenes"
 
-#: templates/studio/dashboard/ambitos-edit.html:182
+#: templates/studio/dashboard/ambitos-edit.html:176
 msgid "Assigned subjects"
 msgstr "Materias asignadas"
 
-#: templates/studio/dashboard/ambitos-edit.html:206
+#: templates/studio/dashboard/ambitos-edit.html:200
 msgid "Publication details"
 msgstr "Detalles de publicación"
 
-#: templates/studio/dashboard/ambitos-edit.html:210
+#: templates/studio/dashboard/ambitos-edit.html:204
 msgid "Unpublished"
 msgstr "Sin publicar"
 
-#: templates/studio/dashboard/ambitos-edit.html:213
-#: templates/studio/dashboard/ambitos.html:114
+#: templates/studio/dashboard/ambitos-edit.html:207
+#: templates/studio/dashboard/ambitos.html:108
+#: templates/studio/dashboard/materias.html:78
 msgid "Published"
 msgstr "Publicado"
 
-#: templates/studio/dashboard/ambitos-edit.html:224
+#: templates/studio/dashboard/ambitos-edit.html:218
+#: templates/studio/dashboard/materias-edit.html:119
+#: templates/studio/dashboard/odas-edit.html:267
 msgid "Save"
 msgstr "Guardar"
 
-#: templates/studio/dashboard/ambitos-edit.html:231
-#: templates/studio/dashboard/ambitos-edit.html:236
+#: templates/studio/dashboard/ambitos-edit.html:225
+#: templates/studio/dashboard/ambitos-edit.html:229
 msgid "Publish on EVA"
 msgstr "Publicar en EVA"
 
-#: templates/studio/dashboard/ambitos-edit.html:250
-msgid "Subejct selection"
+#: templates/studio/dashboard/ambitos-edit.html:227
+msgid ""
+"When an ambit is published, all subjects within it will be added to th EVA "
+"in their current form. Please check all sections, ODAs and moments have been "
+"added correctly"
+msgstr ""
+"Cuando un ámbito es publicado, todas las materias asignadas a él son "
+"añadidas al EVAen su forma actual. Favor de revisar que todos los bloques, "
+"ODAs y momentos hayyan sido añadidos correctamente"
+
+#: templates/studio/dashboard/ambitos-edit.html:243
+#, fuzzy
+#| msgid "Subejct selection"
+msgid "Subject selection"
 msgstr "Selección de materias"
 
-#: templates/studio/dashboard/ambitos-edit.html:254
-msgid "Search in image library"
+#: templates/studio/dashboard/ambitos-edit.html:247
+#, fuzzy
+#| msgid "Search in image library"
+msgid "Search in Subject library"
 msgstr "Buscar en biblioteca de imágenes"
 
-#: templates/studio/dashboard/ambitos-edit.html:267
+#: templates/studio/dashboard/ambitos-edit.html:260
 msgid "Add"
 msgstr "Añadir"
 
 #: templates/studio/dashboard/ambitos.html:8
+#: templates/studio/dashboard/dashboard.html:42
+#: templates/studio/navigation/mobile-menu.html:25
+#: templates/studio/navigation/side-bar-menu.html:24
 #, fuzzy
 #| msgid "Ámbitos"
 msgid "Ambits"
 msgstr "Ámbitos"
 
 #: templates/studio/dashboard/ambitos.html:26
+#: templates/studio/dashboard/dashboard.html:53
+#: templates/studio/dashboard/materias.html:11
+#: templates/studio/navigation/mobile-menu.html:31
+#: templates/studio/navigation/side-bar-menu.html:30
 msgid "Subjects"
 msgstr "Materias"
 
@@ -201,6 +241,10 @@ msgid "Tags"
 msgstr ""
 
 #: templates/studio/dashboard/ambitos.html:28
+#: templates/studio/dashboard/biblioteca.html:172
+#: templates/studio/dashboard/materias.html:28
+#: templates/studio/dashboard/momentos.html:22
+#: templates/studio/dashboard/odas.html:26
 msgid "Date"
 msgstr "Fecha"
 
@@ -209,35 +253,334 @@ msgid "Autor"
 msgstr ""
 
 #: templates/studio/dashboard/ambitos.html:30
+#: templates/studio/dashboard/materias.html:29
+#: templates/studio/dashboard/odas.html:28
 msgid "State"
 msgstr "Estado"
 
 #: templates/studio/dashboard/ambitos.html:50
-#: templates/studio/dashboard/ambitos.html:66
+#: templates/studio/dashboard/ambitos.html:63
+#: templates/studio/dashboard/materias.html:46
+#: templates/studio/dashboard/odas.html:45
 msgid "Edit"
 msgstr "Editar"
 
 #: templates/studio/dashboard/ambitos.html:54
-#: templates/studio/dashboard/ambitos.html:70
+#: templates/studio/dashboard/ambitos.html:67
+#: templates/studio/dashboard/materias.html:50
+#: templates/studio/dashboard/odas.html:48
 msgid "Delete"
 msgstr "Borrar"
 
-#: templates/studio/dashboard/ambitos.html:58
-#: templates/studio/dashboard/ambitos.html:74
-msgid "Edit Tags"
-msgstr "Editar Tags"
-
-#: templates/studio/dashboard/ambitos.html:117
+#: templates/studio/dashboard/ambitos.html:111
+#: templates/studio/dashboard/odas.html:81
 msgid "Draft"
 msgstr "Borrador"
 
-#: templates/studio/dashboard/ambitos.html:119
+#: templates/studio/dashboard/ambitos.html:113
 msgid "Waiting for approval"
 msgstr "En espera de aprobación"
 
-#: templates/studio/dashboard/ambitos.html:128
+#: templates/studio/dashboard/ambitos.html:122
 msgid "Unpublish from EVA"
 msgstr "Quitar del EVA"
+
+#: templates/studio/dashboard/biblioteca.html:97
+msgid "No results found"
+msgstr "No se encontraron resultados"
+
+#: templates/studio/dashboard/biblioteca.html:171
+msgid "Name"
+msgstr "Nombre"
+
+#: templates/studio/dashboard/biblioteca.html:182
+msgid "Download"
+msgstr "Descargar"
+
+#: templates/studio/dashboard/biblioteca.html:192
+msgid "Do you want to delete these images?"
+msgstr "¿Quieres eliminar estas imágenes?"
+
+#: templates/studio/dashboard/biblioteca.html:197
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: templates/studio/dashboard/biblioteca.html:198
+msgid "Accept"
+msgstr "Aceptar"
+
+#: templates/studio/dashboard/dashboard.html:22
+msgid "Last session:"
+msgstr "Última sesión"
+
+#: templates/studio/dashboard/dashboard.html:30
+msgid "Summary of High School"
+msgstr "Resumen de Educación Media Superior"
+
+#: templates/studio/dashboard/dashboard.html:75
+#: templates/studio/dashboard/momentos.html:8
+#: templates/studio/navigation/mobile-menu.html:46
+#: templates/studio/navigation/side-bar-menu.html:45
+msgid "Moments"
+msgstr "Momentos"
+
+#: templates/studio/dashboard/materias-edit.html:8
+#: templates/studio/dashboard/materias.html:16
+#, fuzzy
+#| msgid "Create new Ambit"
+msgid "Create a new Subject"
+msgstr "Crear nueva Materia"
+
+#: templates/studio/dashboard/materias-edit.html:37
+msgid "Select an Ambit for this Subject"
+msgstr "selecciona un Ámbito para esta Materia"
+
+#: templates/studio/dashboard/materias-edit.html:45
+#, fuzzy
+#| msgid "Upload image"
+msgid "Cover image"
+msgstr "Imagen de portada"
+
+#: templates/studio/dashboard/materias-edit.html:46
+msgid "Only PNG files. Maximal size 150x300 px"
+msgstr "Sólo archivos PNG. El támaño máximo es 150x300 px"
+
+#: templates/studio/dashboard/materias-edit.html:76
+#: templates/studio/dashboard/odas.html:23
+msgid "Section"
+msgstr "Bloque"
+
+#: templates/studio/dashboard/materias-edit.html:89
+#: templates/studio/dashboard/odas-edit.html:42
+#: templates/studio/dashboard/odas-edit.html:64
+#, fuzzy
+#| msgid "images/"
+msgid "Images"
+msgstr "Imágenes"
+
+#: templates/studio/dashboard/materias-edit.html:95
+msgid "Edit ODAs position"
+msgstr "Editar posición de ODAs"
+
+#: templates/studio/dashboard/materias-edit.html:109
+msgid "Add section"
+msgstr "Añadir bloque"
+
+#: templates/studio/dashboard/materias-edit.html:122
+#: templates/studio/dashboard/odas-edit.html:270
+msgid "Finalize"
+msgstr "Finalizar"
+
+#: templates/studio/dashboard/materias.html:25
+#, fuzzy
+#| msgid "Ámbitos"
+msgid "Ambit"
+msgstr "Ámbito"
+
+#: templates/studio/dashboard/materias.html:73
+#, fuzzy
+#| msgid "Edit"
+msgid "Edited"
+msgstr "Editar"
+
+#: templates/studio/dashboard/momentos.html:12
+msgid "New moment"
+msgstr "Nuevo momento"
+
+#: templates/studio/dashboard/momentos.html:24
+#: templates/studio/dashboard/odas.html:29
+msgid "in"
+msgstr "en"
+
+#: templates/studio/dashboard/momentos.html:108
+#, fuzzy
+#| msgid "Upload image"
+msgid "Upload new moment"
+msgstr "Subir nuevo momento"
+
+#: templates/studio/dashboard/momentos.html:109
+msgid "H5P file"
+msgstr "Archivo H5P"
+
+#: templates/studio/dashboard/momentos.html:113
+#: templates/studio/dashboard/momentos.html:140
+msgid "File name"
+msgstr "Nombre del archivo"
+
+#: templates/studio/dashboard/momentos.html:135
+#: templates/studio/dashboard/momentos.html:155
+#, fuzzy
+#| msgid "Upload image"
+msgid "Upload file"
+msgstr "Subir archivo"
+
+#: templates/studio/dashboard/momentos.html:146
+msgid "Select the moment type"
+msgstr "selecciona un tipo de momento"
+
+#: templates/studio/dashboard/odas-edit.html:8
+#, fuzzy
+#| msgid "Create new Ambit"
+msgid "Create new ODA"
+msgstr "Crear nuevo ODA"
+
+#: templates/studio/dashboard/odas-edit.html:29
+#, fuzzy
+#| msgid "images/"
+msgid "Image A"
+msgstr "Imagen A"
+
+#: templates/studio/dashboard/odas-edit.html:51
+#, fuzzy
+#| msgid "images/"
+msgid "Image B"
+msgstr "Imagen B"
+
+#: templates/studio/dashboard/odas-edit.html:60
+#, fuzzy
+#| msgid "Upload image"
+msgid "upload image"
+msgstr "Subir imagen"
+
+#: templates/studio/dashboard/odas-edit.html:76
+#, fuzzy
+#| msgid "Assigned subjects"
+msgid "Assign current ODA to subject"
+msgstr "Asigna el ODA actual a materia"
+
+#: templates/studio/dashboard/odas-edit.html:78
+#, fuzzy
+#| msgid "Subjects"
+msgid "Select subject"
+msgstr "Seleccionar Materia"
+
+#: templates/studio/dashboard/odas-edit.html:80
+#: templates/studio/dashboard/odas-edit.html:144
+msgid "Only appears subjects with section spaces for ODAs"
+msgstr "Sólo aparecen las materias con espacios en bloques para ODAs"
+
+#: templates/studio/dashboard/odas-edit.html:142
+#, fuzzy
+#| msgid "Subejct selection"
+msgid "Select a section"
+msgstr "Seleccionar un bloque"
+
+#: templates/studio/dashboard/odas-edit.html:154
+#, fuzzy
+#| msgid "Moments"
+msgid "Moments by µODA"
+msgstr "Momentos por µODA"
+
+#: templates/studio/dashboard/odas-edit.html:159
+msgid "Aplication"
+msgstr "Aplicación"
+
+#: templates/studio/dashboard/odas-edit.html:175
+msgid "Formalization"
+msgstr "Formalización"
+
+#: templates/studio/dashboard/odas-edit.html:191
+msgid "Activation"
+msgstr "Activación"
+
+#: templates/studio/dashboard/odas-edit.html:206
+msgid "Exemplification"
+msgstr "Ejemplificación"
+
+#: templates/studio/dashboard/odas-edit.html:222
+#, fuzzy
+#| msgid "Section"
+msgid "Sensitization"
+msgstr "Sensibilización"
+
+#: templates/studio/dashboard/odas-edit.html:238
+msgid "Evaluation"
+msgstr "Evaluación"
+
+#: templates/studio/dashboard/odas-edit.html:283
+#, fuzzy
+#| msgid "Subejct selection"
+msgid "Moments selection"
+msgstr "Selección de momentos"
+
+#: templates/studio/dashboard/odas-edit.html:286
+#, fuzzy
+#| msgid "Search in image library"
+msgid "Search in the moments library"
+msgstr "Buscar en biblioteca de momentos"
+
+#: templates/studio/dashboard/odas-edit.html:315
+#, fuzzy
+#| msgid "Subejct selection"
+msgid "Evaluation selection"
+msgstr "Selección de evaluación"
+
+#: templates/studio/dashboard/odas-edit.html:318
+#, fuzzy
+#| msgid "Search in image library"
+msgid "Search in the evaluation library"
+msgstr "Buscar en biblioteca de evaluaciones"
+
+#: templates/studio/dashboard/odas.html:13
+msgid "New ODA"
+msgstr "Nuevo ODA"
+
+#: templates/studio/dashboard/odas.html:22
+#, fuzzy
+#| msgid "Subjects"
+msgid "Subject"
+msgstr "Materias"
+
+#: templates/studio/dashboard/odas.html:24
+#, fuzzy
+#| msgid "Moments"
+msgid "Moments #"
+msgstr "# de Momentos"
+
+#: templates/studio/dashboard/odas.html:83
+#, fuzzy
+#| msgid "Finalize"
+msgid "Finalized"
+msgstr "Finalizado"
+
+#: templates/studio/navigation/mobile-menu.html:17
+#: templates/studio/navigation/side-bar-menu.html:14
+msgid "Ambits to publish"
+msgstr "Ambitos a publicar"
+
+#: templates/studio/navigation/mobile-menu.html:64
+#: templates/studio/navigation/side-bar-menu.html:64
+msgid "Logout"
+msgstr "Cerrar sesión"
+
+#: templates/studio/pages/index.html:15
+msgid "Login"
+msgstr "Iniciar sesión"
+
+#: templates/studio/pages/login.html:12
+msgid "My account"
+msgstr "Mi cuenta"
+
+#: templates/studio/pages/login.html:14
+msgid "EMAIL"
+msgstr "CORREO"
+
+#: templates/studio/pages/login.html:17
+msgid "PASSWORD"
+msgstr "CONTRASEÑA"
+
+#: templates/studio/pages/login.html:22
+msgid "I forgot my password"
+msgstr "Olvidé mi contraseña"
+
+#~ msgid "Ambtis"
+#~ msgstr "Ámbitos"
+
+#~ msgid "Instructions:"
+#~ msgstr "Instrucciones:"
+
+#~ msgid "Edit Tags"
+#~ msgstr "Editar Tags"
 
 #~ msgid "Ámbitos"
 #~ msgstr "Ámbitos"

@@ -102,7 +102,6 @@ class ODADashboardView(LoginRequiredMixin, ListView):
     context_object_name = 'odas_list'
 
 
-
 class ODACreateView(LoginRequiredMixin, CreateView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/odas-edit.html'
@@ -120,7 +119,7 @@ class ODACreateView(LoginRequiredMixin, CreateView):
             for section in range(1, subject.number_of_sections+1):
                 if len(subject.odas.filter(section=section)) < 8:
                     bloques.append(section)
-            if len(bloques)>0:
+            if len(bloques) > 0:
                 subjects_list.append(subject)
                 bloques_list.append(bloques)
 
@@ -180,8 +179,7 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ODAUpdateView, self).get_context_data(**kwargs)
         tags_list = Tag.objects.all()
-        moments_list = Moment.objects.all()
-        self_oda_in_subject = self.object.subject
+        moments_list = Moment.objects.filter(microodas=None)
         self_tags = self.object.tags.all()
 
         apli_list = self.object.microodas.filter(type='aplication')
@@ -202,7 +200,7 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
                 else:
                     if self.object.subworld == subject and self.object.section == section:
                         bloques.append(section)
-            if len(bloques)>0:
+            if len(bloques) > 0:
                 subjects_list.append(subject)
                 bloques_list.append(bloques)
 
