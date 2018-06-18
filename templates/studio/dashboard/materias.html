@@ -75,7 +75,11 @@
                                 </td>
                                 <td>
                                     <div class="estado">
-                                        {% trans "Published" %}
+                                         {% if subject.temporal %}
+                                             {% trans "Draft" %}
+                                         {% else %}
+                                             {% trans "Finalized" %}
+                                        {% endif %}
                                     </div>
                                 </td>
                             </tr>

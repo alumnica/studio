@@ -217,5 +217,5 @@ class SubjectView(LoginRequiredMixin, ListView):
 
 class DeleteSubjectView(View):
     def dispatch(self, request, *args, **kwargs):
-        Subject.objects.filter(pk=self.kwargs['pk']).delete()
+        Subject.objects.get(pk=self.kwargs['pk']).pre_delete()
         return redirect('materias_view')

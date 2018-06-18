@@ -90,7 +90,7 @@ class AmbitView(LoginRequiredMixin, ListView):
 
 class DeleteAmbitView(View):
     def dispatch(self, request, *args, **kwargs):
-        Ambit.objects.filter(pk=self.kwargs['pk']).delete()
+        Ambit.objects.get(pk=self.kwargs['pk']).pre_delete()
         return redirect('ambits_view')
 
 
