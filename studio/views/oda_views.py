@@ -133,8 +133,8 @@ class ODACreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         moments = []
 
-        aplication = self.request.POST.get('apli-momentos')
-        template = ['aplication', aplication]
+        application = self.request.POST.get('apli-momentos')
+        template = ['application', application]
         moments.append(template)
 
         formalization = self.request.POST.get('forma-momentos')
@@ -182,7 +182,7 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         moments_list = Moment.objects.filter(microodas=None)
         self_tags = self.object.tags.all()
 
-        apli_list = self.object.microodas.filter(type='aplication')
+        apli_list = self.object.microodas.filter(type='application')
         forma_list = self.object.microodas.filter(type='formalization')
         activ_list = self.object.microodas.filter(type='activation')
         ejem_list = self.object.microodas.filter(type='exemplification')

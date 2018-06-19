@@ -3,7 +3,7 @@ import xlrd
 import json
 from django import forms
 from alumnica_model.models import ODA
-from alumnica_model.models.content import Subject, Tag, Moment, MicroODA, Image, Evaluation
+from alumnica_model.models.content import Subject, Tag, Moment, MicroODA, Image, Evaluation, MicroODAType
 from alumnica_model.models.questions import *
 
 
@@ -118,33 +118,39 @@ class ODACreateForm(forms.ModelForm):
         file_read = file.read()
         relationship_questions = get_json_from_excel(file_read, 0)
         for question_data in relationship_questions:
-            question = RelationShipQuestion.objects.create(questions=question_data['Preguntas'],
-                                                           answers=question_data['Respuestas'], evaluation=evaluation)
+            question = RelationShipQuestion.objects.create(microoda=MicroODAType.objects.get(name=question_data['mODA']),
+                                                           questions=question_data['Preguntas'],
+                                                           answers=question_data['Respuestas'],
+                                                           evaluation=evaluation)
 
         multiple_option_questions = get_json_from_excel(file_read, 1)
         for question_data in multiple_option_questions:
-            question = MultipleOptionQuestion.objects.create(question=question_data['Pregunta'],
+            question = MultipleOptionQuestion.objects.create(microoda=MicroODAType.objects.get(name=question_data['mODA']),
+                                                             question=question_data['Pregunta'],
                                                              correct_answer=question_data['RespuestaOK'],
                                                              incorrect_answers=question_data['RespuestasNOK'],
                                                              evaluation=evaluation)
 
         multiple_answer_questions = get_json_from_excel(file_read, 2)
         for question_data in multiple_answer_questions:
-            question = MultipleAnswerQuestion.objects.create(question=question_data['Pregunta'],
+            question = MultipleAnswerQuestion.objects.create(microoda=MicroODAType.objects.get(name=question_data['mODA']),
+                                                             question=question_data['Pregunta'],
                                                              correct_answers=question_data['RespuestasOK'],
                                                              incorrect_answers=question_data['RespuestasNOK'],
                                                              evaluation=evaluation)
 
         numeric_questions = get_json_from_excel(file_read, 3)
         for question_data in numeric_questions:
-            question = NumericQuestion.objects.create(question=question_data['Pregunta'],
+            question = NumericQuestion.objects.create(microoda=MicroODAType.objects.get(name=question_data['mODA']),
+                                                      question=question_data['Pregunta'],
                                                       min_limit=question_data['LimiteMenor'],
                                                       max_limit=question_data['LimiteMayor'],
                                                       evaluation=evaluation)
 
         pull_down_list_questions = get_json_from_excel(file_read, 4)
         for question_data in pull_down_list_questions:
-            question = PullDownListQuestion.objects.create(questions=question_data['Preguntas'],
+            question = PullDownListQuestion.objects.create(microoda=MicroODAType.objects.get(name=question_data['mODA']),
+                                                           questions=question_data['Preguntas'],
                                                            answers=question_data['Respuestas'], evaluation=evaluation)
 
         return evaluation
@@ -194,9 +200,9 @@ class ODAUpdateForm(forms.ModelForm):
                 moments_names = moment_object[1].split(',')
 
                 try:
-                    microoda = MicroODA.objects.get(name='odas', type=moment_object[0], oda=oda)
+                    microoda = MicroODA.objects.get(name='odas', type=MicroODAType.objects.get(name=moment_object[0]), oda=oda)
                 except MicroODA.DoesNotExist:
-                    microoda = MicroODA.objects.create(name='odas', type=moment_object[0],
+                    microoda = MicroODA.objects.create(name='odas', type=MicroODAType.objects.get(moment_object[0]),
                                                        created_by=user, oda=oda)
 
                 for moment_name in moments_names:
