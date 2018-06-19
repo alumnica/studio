@@ -1,10 +1,9 @@
 import os
 
 from django import forms
-
 from alumnica_model.models import ODA
-from alumnica_model.models.content import Subject, Tag, Moment, \
-    MicroODA, Image, Evaluation
+from alumnica_model.models.content import Subject, Tag, Moment, MicroODA, Image, Evaluation
+
 
 
 class ODAsSectionForm(forms.ModelForm):
@@ -27,9 +26,12 @@ class ODACreateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput())
     tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                          'id': 'oda-tags'}))
-    active_icon = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
+    active_icon = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden image',
+                                                                                 'type': 'file'}))
     completed_icon = forms.ImageField(required=False,
-                                      widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
+                                      widget=forms.FileInput(attrs={'class': 'is-hidden image', 'type': 'file'}))
+    evaluation_file = forms.FileField(required=False, widget=forms.FileInput(attrs={'id': 'evaluation_file',
+                                                                                    'accept': '.xlsx'}))
 
     class Meta:
         model = ODA
@@ -42,6 +44,7 @@ class ODACreateForm(forms.ModelForm):
         tags = cleaned_data.get('tags')
         completed_icon = cleaned_data.get('completed_icon')
         active_icon = cleaned_data.get('active_icon')
+        evaluation_file = cleaned_data.get('evaluation_file')
 
         oda.created_by = user
         oda.temporal = is_draft
@@ -102,8 +105,14 @@ class ODACreateForm(forms.ModelForm):
         if evaluation is not None and evaluation is not '':
             oda.evaluation = Evaluation.objects.get(name=evaluation)
 
+        if evaluation_file is not None:
+            pass
+
         oda.save()
         return oda
+
+    def set_evaluation(self, file):
+        pass
 
 
 class ODAUpdateForm(forms.ModelForm):
@@ -115,6 +124,8 @@ class ODAUpdateForm(forms.ModelForm):
     active_icon = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
     completed_icon = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden',
                                                                                     'type': 'file'}))
+    evaluation_file = forms.FileField(required=False, widget=forms.FileInput(attrs={'id': 'evaluation_file',
+                                                                                    'accept': '.xlsx'}))
 
     class Meta:
         model = ODA
