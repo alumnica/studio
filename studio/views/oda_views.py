@@ -4,7 +4,7 @@ from django.views import View
 from django.views.generic import FormView, UpdateView, ListView, CreateView
 
 from alumnica_model.models import Subject, ODA, Tag, Moment
-from alumnica_model.models.content import Evaluation
+from alumnica_model.models.content import Evaluation, MicroODAType
 from studio.forms.oda_forms import ODAsPositionForm, ODACreateForm, \
     ODAUpdateForm
 
@@ -153,8 +153,6 @@ class ODACreateView(LoginRequiredMixin, CreateView):
         template = ['sensitization', sensitization]
         moments.append(template)
 
-        evaluation = self.request.POST.get('eval-momentos')
-
         subject = self.request.POST.get('materia-a-oda')
         bloque = self.request.POST.get('bloque-a-oda')
 
@@ -163,7 +161,7 @@ class ODACreateView(LoginRequiredMixin, CreateView):
         if action == 'finalize':
             is_draft = False
 
-        form.save_form(self.request.user,  moments, subject, bloque, evaluation, is_draft)
+        form.save_form(self.request.user,  moments, subject, bloque, is_draft)
 
         return redirect(to='oda_dashboard_view')
 
@@ -182,11 +180,11 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         moments_list = Moment.objects.filter(microodas=None)
         self_tags = self.object.tags.all()
 
-        apli_list = self.object.microodas.filter(type='application')
-        forma_list = self.object.microodas.filter(type='formalization')
-        activ_list = self.object.microodas.filter(type='activation')
-        ejem_list = self.object.microodas.filter(type='exemplification')
-        sens_list = self.object.microodas.filter(type='sensitization')
+        apli_list = self.object.microodas.filter(type=MicroODAType.objects.get(name='application'))
+        forma_list = self.object.microodas.filter(type=MicroODAType.objects.get(name='formalization'))
+        activ_list = self.object.microodas.filter(type=MicroODAType.objects.get(name='activation'))
+        ejem_list = self.object.microodas.filter(type=MicroODAType.objects.get(name='exemplification'))
+        sens_list = self.object.microodas.filter(type=MicroODAType.objects.get(name='sensitization'))
         eval_list = Evaluation.objects.filter(oda=None)
 
         subjects_list = []

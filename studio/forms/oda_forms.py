@@ -38,7 +38,7 @@ class ODACreateForm(forms.ModelForm):
         model = ODA
         fields = ['name', 'tags']
 
-    def save_form(self, user, moments, subject, bloque, evaluation, is_draft=False):
+    def save_form(self, user, moments, subject, bloque, is_draft=False):
 
         oda = super(ODACreateForm, self).save(commit=False)
         cleaned_data = super(ODACreateForm, self).clean()
@@ -69,7 +69,7 @@ class ODACreateForm(forms.ModelForm):
 
             microoda, created = MicroODA.objects.get_or_create(name='odas',
                                                                created_by=user,
-                                                               type=moment_object[0],
+                                                               type=MicroODAType.objects.get(name=moment_object[0]),
                                                                default_position=counter, oda=oda)
             counter += 1
 
@@ -103,57 +103,16 @@ class ODACreateForm(forms.ModelForm):
                 completed_icon_object.file_name = os.path.basename(completed_icon_object.file.name)
             completed_icon_object.save()
             oda.completed_icon = completed_icon_object
-        if evaluation is not None and evaluation is not '':
-            oda.evaluation = Evaluation.objects.get(name=evaluation)
 
         if evaluation_file is not None:
-            evaluation_object = self.set_evaluation(oda, evaluation_file)
-            oda.evaluation = evaluation_object
+            evaluation_instance = Evaluation.objects.create(
+                name='{}_evaluation'.format(oda.name),
+                file=evaluation_file,
+                file_name=evaluation_file.name)
+            set_evaluation(evaluation_instance, evaluation_file)
+            oda.evaluation = evaluation_instance
         oda.save()
         return oda
-
-    def set_evaluation(self, oda, file):
-        evaluation = Evaluation.objects.create(name='{}_evaluation'.format(oda.name), file=file, file_name=file.name)
-        file.seek(0)
-        file_read = file.read()
-        relationship_questions = get_json_from_excel(file_read, 0)
-        for question_data in relationship_questions:
-            question = RelationShipQuestion.objects.create(microoda=MicroODAType.objects.get(name=question_data['mODA']),
-                                                           questions=question_data['Preguntas'],
-                                                           answers=question_data['Respuestas'],
-                                                           evaluation=evaluation)
-
-        multiple_option_questions = get_json_from_excel(file_read, 1)
-        for question_data in multiple_option_questions:
-            question = MultipleOptionQuestion.objects.create(microoda=MicroODAType.objects.get(name=question_data['mODA']),
-                                                             question=question_data['Pregunta'],
-                                                             correct_answer=question_data['RespuestaOK'],
-                                                             incorrect_answers=question_data['RespuestasNOK'],
-                                                             evaluation=evaluation)
-
-        multiple_answer_questions = get_json_from_excel(file_read, 2)
-        for question_data in multiple_answer_questions:
-            question = MultipleAnswerQuestion.objects.create(microoda=MicroODAType.objects.get(name=question_data['mODA']),
-                                                             question=question_data['Pregunta'],
-                                                             correct_answers=question_data['RespuestasOK'],
-                                                             incorrect_answers=question_data['RespuestasNOK'],
-                                                             evaluation=evaluation)
-
-        numeric_questions = get_json_from_excel(file_read, 3)
-        for question_data in numeric_questions:
-            question = NumericQuestion.objects.create(microoda=MicroODAType.objects.get(name=question_data['mODA']),
-                                                      question=question_data['Pregunta'],
-                                                      min_limit=question_data['LimiteMenor'],
-                                                      max_limit=question_data['LimiteMayor'],
-                                                      evaluation=evaluation)
-
-        pull_down_list_questions = get_json_from_excel(file_read, 4)
-        for question_data in pull_down_list_questions:
-            question = PullDownListQuestion.objects.create(microoda=MicroODAType.objects.get(name=question_data['mODA']),
-                                                           questions=question_data['Preguntas'],
-                                                           answers=question_data['Respuestas'], evaluation=evaluation)
-
-        return evaluation
 
 
 class ODAUpdateForm(forms.ModelForm):
@@ -177,6 +136,7 @@ class ODAUpdateForm(forms.ModelForm):
         tags = cleaned_data.get('tags')
         completed_icon = cleaned_data.get('completed_icon')
         active_icon = cleaned_data.get('active_icon')
+        evaluation_file = cleaned_data.get('evaluation_file')
         oda = super(ODAUpdateForm, self).save(commit=False)
 
         if subject is not None:
@@ -237,8 +197,20 @@ class ODAUpdateForm(forms.ModelForm):
             completed_icon_object.save()
             oda.completed_icon = completed_icon_object
 
-        if evaluation is not None and evaluation is not '':
-            oda.evaluation = Evaluation.objects.get(name=evaluation)
+        if evaluation_file is not None:
+            if oda.evaluation is None:
+                evaluation_instance = Evaluation.objects.create(
+                    name='{}_evaluation'.format(oda.name),
+                    file=evaluation_file,
+                    file_name=evaluation_file.name)
+            else:
+                evaluation_instance = oda.evaluation
+
+            set_evaluation(evaluation_instance, evaluation_file)
+            oda.evaluation = evaluation_instance
+        else:
+            if evaluation is not None and evaluation is not '':
+                oda.evaluation = Evaluation.objects.get(name=evaluation)
         oda.temporal = is_draft
         oda.save()
 
@@ -261,3 +233,89 @@ def get_json_from_excel(file, sheet_name):
 
     json_output = json.loads(json.dumps(data))
     return json_output
+
+
+def set_evaluation(evaluation, file):
+    file.seek(0)
+    file_read = file.read()
+
+    relationship_questions = get_json_from_excel(file_read, 0)
+    relationship_questions_instances = []
+
+    for question_data in relationship_questions:
+        question, created = RelationShipQuestion.objects.get_or_create(
+            microoda=MicroODAType.objects.get(pk=question_data['mODA']),
+            sentence=question_data['Enunciado'],
+            options=question_data['Opciones'],
+            answers=question_data['Respuestas'],
+            evaluation=evaluation)
+        relationship_questions_instances.append(question)
+
+    for question_in_evaluation in evaluation.relationship_questions.all():
+        if question_in_evaluation not in relationship_questions_instances:
+            question_in_evaluation.delete()
+
+    multiple_option_questions = get_json_from_excel(file_read, 1)
+    multiple_option_questions_instances = []
+
+    for question_data in multiple_option_questions:
+        question, created = MultipleOptionQuestion.objects.get_or_create(
+            microoda=MicroODAType.objects.get(pk=question_data['mODA']),
+            sentence=question_data['Enunciado'],
+            correct_answer=question_data['RespuestaOK'],
+            incorrect_answers=question_data['RespuestasNOK'],
+            evaluation=evaluation)
+        multiple_option_questions_instances.append(question)
+
+    for question_in_evaluation in evaluation.multiple_option_questions.all():
+        if question_in_evaluation not in multiple_option_questions_instances:
+            question_in_evaluation.delete()
+
+    multiple_answer_questions = get_json_from_excel(file_read, 2)
+    multiple_answer_questions_instances = []
+
+    for question_data in multiple_answer_questions:
+        question, created = MultipleAnswerQuestion.objects.get_or_create(
+            microoda=MicroODAType.objects.get(pk=question_data['mODA']),
+            sentence=question_data['Enunciado'],
+            correct_answers=question_data['RespuestasOK'],
+            incorrect_answers=question_data['RespuestasNOK'],
+            evaluation=evaluation)
+        multiple_answer_questions_instances.append(question)
+
+    for question_in_evaluation in evaluation.multiple_answer_questions.all():
+        if question_in_evaluation not in multiple_answer_questions_instances:
+            question_in_evaluation.delete()
+
+    numeric_questions = get_json_from_excel(file_read, 3)
+    numeric_questions_instances = []
+
+    for question_data in numeric_questions:
+        question, created = NumericQuestion.objects.get_or_create(
+            microoda=MicroODAType.objects.get(pk=question_data['mODA']),
+            sentence=question_data['Enunciado'],
+            min_limit=question_data['LimiteMenor'],
+            max_limit=question_data['LimiteMayor'],
+            evaluation=evaluation)
+        numeric_questions_instances.append(question)
+
+    for question_in_evaluation in evaluation.numeric_questions.all():
+        if question_in_evaluation not in numeric_questions_instances:
+            question_in_evaluation.delete()
+
+    pull_down_list_questions = get_json_from_excel(file_read, 4)
+    pull_down_list_questions_instances = []
+
+    for question_data in pull_down_list_questions:
+        question, created = PullDownListQuestion.objects.get_or_create(
+            microoda=MicroODAType.objects.get(pk=question_data['mODA']),
+            sentence=question_data['Enunciado'],
+            options=question_data['Opciones'],
+            answers=question_data['Respuestas'],
+            evaluation=evaluation)
+        pull_down_list_questions_instances.append(question)
+
+    for question_in_evaluation in evaluation.pull_down_list_questions.all():
+        if question_in_evaluation not in pull_down_list_questions_instances:
+            question_in_evaluation.delete()
+
