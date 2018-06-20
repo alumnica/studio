@@ -236,9 +236,10 @@
                 <div class="panel" id="eval">
                     <div class="panel__title">
                         {% trans "Evaluation" %}
-                        <span class="add-eval" data-open="evalModal">
+                        {% comment %}<span class="add-eval" data-open="evalModal">
                             <i class="fas fa-plus-square"></i>
-                        </span>
+                        </span>{% endcomment %}
+                        {{ form.evaluation_file }}
                     </div>
                     <div class="panel__content">
                         <ul class="oda-sort" id="uoda-6">

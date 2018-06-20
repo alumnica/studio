@@ -131,7 +131,7 @@ function is_valid_form_odas_section(){
         }
 
         //images
-        let inputs = $("form input[type='file']");
+        let inputs = $("input.image:file");
         for (let i=0; i<inputs.length; i++) {
             if (!$(inputs[i]).parents('.my_item').hasClass('is-hidden')){
                 if (inputs[i].files.length > 0) {
@@ -176,7 +176,7 @@ function is_valid_form_odas_section(){
 
 
         //microodas
-        let aplicacion = document.getElementById('apli-momentos').value;
+        /*let aplicacion = document.getElementById('apli-momentos').value;
         if (aplicacion == '' || aplicacion == null){
             swal("Error", "Selecciona al menos un momento para la microoda Aplicación", "error");
             return  false;
@@ -204,10 +204,17 @@ function is_valid_form_odas_section(){
         if (sensibilizacion == '' || sensibilizacion == null){
             swal("Error", "Selecciona al menos un momento para la microoda Sensibilización", "error");
             return  false;
-        }
+        }*/
 
-        let evaluacion = document.getElementById('eval-momentos').value;
-        if (evaluacion == '' || evaluacion == null){
+        let evaluacion = document.getElementById('evaluation_file');
+        if (evaluacion.files.length > 0) {
+            let evaluacion_size = evaluacion.files[0].size / 1024 / 1024;
+                if (evaluacion_size > 10) {
+                    swal("Error", "El archivo de seleccionado excede los 10 MB", "error");
+                    return false;
+                }
+        }
+        else{
             swal("Error", "Selecciona una evaluación", "error");
             return  false;
         }

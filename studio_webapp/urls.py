@@ -26,6 +26,7 @@ from django.views.i18n import JavaScriptCatalog
 
 router = routers.DefaultRouter()
 router.register(r'images', api_viewsets.ImageViewSet)
+router.register(r'evaluations', api_viewsets.EvaluationViewSet)
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
