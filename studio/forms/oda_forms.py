@@ -239,7 +239,7 @@ def set_evaluation(evaluation, file):
     file.seek(0)
     file_read = file.read()
 
-    relationship_questions = get_json_from_excel(file_read, 0)
+    relationship_questions = get_json_from_excel(file_read, 1)
     relationship_questions_instances = []
 
     for question_data in relationship_questions:
@@ -249,13 +249,16 @@ def set_evaluation(evaluation, file):
             options=question_data['Opciones'],
             answers=question_data['Respuestas'],
             evaluation=evaluation)
+        question.success_description = question_data['DescripcionOK']
+        question.fail_description = question_data['DescripcionNOK']
+        question.save()
         relationship_questions_instances.append(question)
 
     for question_in_evaluation in evaluation.relationship_questions.all():
         if question_in_evaluation not in relationship_questions_instances:
             question_in_evaluation.delete()
 
-    multiple_option_questions = get_json_from_excel(file_read, 1)
+    multiple_option_questions = get_json_from_excel(file_read, 2)
     multiple_option_questions_instances = []
 
     for question_data in multiple_option_questions:
@@ -265,13 +268,16 @@ def set_evaluation(evaluation, file):
             correct_answer=question_data['RespuestaOK'],
             incorrect_answers=question_data['RespuestasNOK'],
             evaluation=evaluation)
+        question.success_description = question_data['DescripcionOK']
+        question.fail_description = question_data['DescripcionNOK']
+        question.save()
         multiple_option_questions_instances.append(question)
 
     for question_in_evaluation in evaluation.multiple_option_questions.all():
         if question_in_evaluation not in multiple_option_questions_instances:
             question_in_evaluation.delete()
 
-    multiple_answer_questions = get_json_from_excel(file_read, 2)
+    multiple_answer_questions = get_json_from_excel(file_read, 3)
     multiple_answer_questions_instances = []
 
     for question_data in multiple_answer_questions:
@@ -281,13 +287,16 @@ def set_evaluation(evaluation, file):
             correct_answers=question_data['RespuestasOK'],
             incorrect_answers=question_data['RespuestasNOK'],
             evaluation=evaluation)
+        question.success_description = question_data['DescripcionOK']
+        question.fail_description = question_data['DescripcionNOK']
+        question.save()
         multiple_answer_questions_instances.append(question)
 
     for question_in_evaluation in evaluation.multiple_answer_questions.all():
         if question_in_evaluation not in multiple_answer_questions_instances:
             question_in_evaluation.delete()
 
-    numeric_questions = get_json_from_excel(file_read, 3)
+    numeric_questions = get_json_from_excel(file_read, 4)
     numeric_questions_instances = []
 
     for question_data in numeric_questions:
@@ -297,13 +306,16 @@ def set_evaluation(evaluation, file):
             min_limit=question_data['LimiteMenor'],
             max_limit=question_data['LimiteMayor'],
             evaluation=evaluation)
+        question.success_description = question_data['DescripcionOK']
+        question.fail_description = question_data['DescripcionNOK']
+        question.save()
         numeric_questions_instances.append(question)
 
     for question_in_evaluation in evaluation.numeric_questions.all():
         if question_in_evaluation not in numeric_questions_instances:
             question_in_evaluation.delete()
 
-    pull_down_list_questions = get_json_from_excel(file_read, 4)
+    pull_down_list_questions = get_json_from_excel(file_read, 5)
     pull_down_list_questions_instances = []
 
     for question_data in pull_down_list_questions:
@@ -313,6 +325,9 @@ def set_evaluation(evaluation, file):
             options=question_data['Opciones'],
             answers=question_data['Respuestas'],
             evaluation=evaluation)
+        question.success_description = question_data['DescripcionOK']
+        question.fail_description = question_data['DescripcionNOK']
+        question.save()
         pull_down_list_questions_instances.append(question)
 
     for question_in_evaluation in evaluation.pull_down_list_questions.all():
