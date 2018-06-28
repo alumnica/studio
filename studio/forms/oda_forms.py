@@ -109,7 +109,7 @@ class ODACreateForm(forms.ModelForm):
                 name='{}_evaluation'.format(oda.name),
                 file=evaluation_file,
                 file_name=evaluation_file.name)
-            set_evaluation(evaluation_instance, evaluation_file)
+            set_evaluation(evaluation_instance)
             oda.evaluation = evaluation_instance
         oda.save()
         return oda
@@ -206,7 +206,7 @@ class ODAUpdateForm(forms.ModelForm):
             else:
                 evaluation_instance = oda.evaluation
 
-            set_evaluation(evaluation_instance, evaluation_file)
+            set_evaluation(evaluation_instance)
             oda.evaluation = evaluation_instance
         else:
             if evaluation is not None and evaluation is not '':
@@ -235,9 +235,8 @@ def get_json_from_excel(file, sheet_name):
     return json_output
 
 
-def set_evaluation(evaluation, file):
-    file.seek(0)
-    file_read = file.read()
+def set_evaluation(evaluation):
+    file_read = evaluation.file.read()
 
     relationship_questions = get_json_from_excel(file_read, 1)
     relationship_questions_instances = []
