@@ -57,7 +57,7 @@
                                     </div>
                                 </div>
                                 <div class="cell small-6 align-self-middle">
-                                    <label for="id_completed_icon" class="button small expanded">{% trans "upload image" %}</label>
+                                    <label for="id_completed_icon" class="button small expanded">{% trans "Upload image" %}</label>
                                     {{ form.completed_icon }}
 
                                     <button type="button" class="button expanded small">
@@ -151,7 +151,7 @@
             </div>
             <div class="cell medium-12">
                 <hr>
-                <p class="h6">{% trans "Moments by µODA" %}</p>
+                <p class="h6">{% trans "Momentos by µODA" %}</p>
             </div>
             <div class="cell medium-4">
                 <div class="panel" id="apli">
@@ -236,9 +236,10 @@
                 <div class="panel" id="eval">
                     <div class="panel__title">
                         {% trans "Evaluation" %}
-                        <span class="add-eval" data-open="evalModal">
+                        {% comment %}<span class="add-eval" data-open="evalModal">
                             <i class="fas fa-plus-square"></i>
-                        </span>
+                        </span>{% endcomment %}
+                        {{ form.evaluation_file }}
                     </div>
                     <div class="panel__content">
                         <ul class="oda-sort" id="uoda-6">
@@ -280,10 +281,10 @@
 <!-- modal Aplicacion -->
 
 <div class="reveal m-adder" id="Modal-1" data-reveal>
-    <h4>{% trans "Moments selection" %}</h4>
+    <h4>{% trans "Momentos selection" %}</h4>
     <br>
 
-    <label for="momentos-select">{% trans "Search in the moments library" %}</label>
+    <label for="momentos-select">{% trans "Search in the Momentos library" %}</label>
     <select name="momentos-select" id="select-momentos"></select>
 
 

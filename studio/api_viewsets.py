@@ -6,8 +6,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from alumnica_model.models.content import Image
-from studio.serializers import ImageHyperlinkedModelSerializer
+from alumnica_model.models.content import Image, Evaluation
+from studio.serializers import ImageHyperlinkedModelSerializer, EvaluationHyperlinkedModelSerializer
 
 
 class ImageViewSet(ModelViewSet):
@@ -76,3 +76,8 @@ class ImageViewSet(ModelViewSet):
         self.object_list, count = self.get_queryset()
         serializer = self.get_serializer(self.object_list, many=True)
         return Response({'status': status.HTTP_200_OK, 'count': count, 'data': serializer.data})
+
+
+class EvaluationViewSet(ModelViewSet):
+    queryset = Evaluation.objects.all()
+    serializer_class = EvaluationHyperlinkedModelSerializer

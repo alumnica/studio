@@ -47,7 +47,7 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         if ambit.is_published:
             if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
                 sweetify.error(self.request,
-                               _('It is not possible to edit ambit {} because is already published'.format(ambit.name)),
+                               _('It is not possible to edit Ámbito {} because is already published'.format(ambit.name)),
                                persistent='Ok')
                 return redirect(to='ambits_view')
         return super(UpdateAmbitView, self).dispatch(request, *args, **kwargs)
@@ -90,7 +90,7 @@ class AmbitView(LoginRequiredMixin, ListView):
 
 class DeleteAmbitView(View):
     def dispatch(self, request, *args, **kwargs):
-        Ambit.objects.filter(pk=self.kwargs['pk']).delete()
+        Ambit.objects.get(pk=self.kwargs['pk']).pre_delete()
         return redirect('ambits_view')
 
 

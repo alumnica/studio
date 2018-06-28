@@ -1,5 +1,6 @@
 {% extends "studio/base-main.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 
 <div class="dashboard container">
@@ -46,6 +47,9 @@
             </div>
             <div class="cell medium-8">
                 <ul class="oda-list">
+                {% if odas_list|length == 0 %}
+                    {% trans  "No ODAs have been assigner to this Bloque. Assign ODAs to this Materia and Bloque before attempting to place them in the grid"%}
+                {% endif %}
                     {% for oda in odas_list %}
                         <li class="oda-block" id="ob-{{ oda.pk }}">
                             <div class="shadow-block"></div>

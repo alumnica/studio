@@ -22,7 +22,7 @@
                         <thead>
                             <tr>
                                 <th id="titulo-materia" class="all">{% trans "Title" %}</th>
-                                <th id="numero-materia" class="not-mobile">{% trans "Ambit" %}</th>
+                                <th id="numero-materia" class="not-mobile">{% trans "Ámbito" %}</th>
                                 
                                 <th id="tags-materia" class="not-mobile tag-length">Tags</th>
                                 <th id="fecha-materia" class="not-mobile">{% trans "Date" %}</th>
@@ -75,7 +75,11 @@
                                 </td>
                                 <td>
                                     <div class="estado">
-                                        {% trans "Published" %}
+                                         {% if subject.temporal %}
+                                             {% trans "Draft" %}
+                                         {% else %}
+                                             {% trans "Finalized" %}
+                                        {% endif %}
                                     </div>
                                 </td>
                             </tr>

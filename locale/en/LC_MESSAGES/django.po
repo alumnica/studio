@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-08 19:01-0500\n"
+"POT-Creation-Date: 2018-06-15 15:32-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid "There was an error creating the profile for user {}."
 msgstr ""
 
 #: alumnica_model/validators.py:9
-msgid "An Ambit with the name \"{}\", already exists"
+msgid "An Ámbito with the name \"{}\", already exists"
 msgstr ""
 
 #: alumnica_model/validators.py:22
@@ -57,11 +57,11 @@ msgstr ""
 #: studio/urls/ambit_urls.py:8
 #, fuzzy
 #| msgid "Ámbitos"
-msgid "create_ambit/"
+msgid "create_ambito/"
 msgstr "Ambits"
 
 #: studio/views/ambit_views.py:50
-msgid "It is not possible to edit ambit {} because is already published"
+msgid "It is not possible to edit Ámbito {} because is already published"
 msgstr ""
 
 #: studio/views/subject_views.py:75
@@ -87,7 +87,7 @@ msgstr ""
 #: studio_webapp/urls.py:37
 #, fuzzy
 #| msgid "Ámbitos"
-msgid "ambits/"
+msgid "ambitos/"
 msgstr "Ambits"
 
 #: studio_webapp/urls.py:38
@@ -103,7 +103,7 @@ msgid "images/"
 msgstr ""
 
 #: studio_webapp/urls.py:41
-msgid "moments/"
+msgid "momentos/"
 msgstr ""
 
 #: studio_webapp/urls.py:42
@@ -130,7 +130,7 @@ msgstr ""
 #: templates/studio/dashboard/ambitos.html:15
 #, fuzzy
 #| msgid "Ámbitos"
-msgid "Create new Ambit"
+msgid "Create new Ámbito"
 msgstr "Ambits"
 
 #: templates/studio/dashboard/ambitos-edit.html:23
@@ -148,13 +148,14 @@ msgid "Background color"
 msgstr ""
 
 #: templates/studio/dashboard/ambitos-edit.html:147
-msgid "Ambit image"
+msgid "Ámbito image"
 msgstr ""
 
 #: templates/studio/dashboard/ambitos-edit.html:152
 #: templates/studio/dashboard/materias-edit.html:51
 #: templates/studio/dashboard/materias-edit.html:83
 #: templates/studio/dashboard/odas-edit.html:38
+#: templates/studio/dashboard/odas-edit.html:60
 msgid "Upload image"
 msgstr ""
 
@@ -197,7 +198,7 @@ msgstr ""
 
 #: templates/studio/dashboard/ambitos-edit.html:227
 msgid ""
-"When an ambit is published, all subjects within it will be added to th EVA "
+"When an Ámbito is published, all subjects within it will be added to th EVA "
 "in their current form. Please check all sections, ODAs and moments have been "
 "added correctly"
 msgstr ""
@@ -220,7 +221,7 @@ msgstr ""
 #: templates/studio/navigation/side-bar-menu.html:24
 #, fuzzy
 #| msgid "Ámbitos"
-msgid "Ambits"
+msgid "Ámbitos"
 msgstr "Ambits"
 
 #: templates/studio/dashboard/ambitos.html:26
@@ -316,7 +317,13 @@ msgstr ""
 #: templates/studio/dashboard/momentos.html:8
 #: templates/studio/navigation/mobile-menu.html:46
 #: templates/studio/navigation/side-bar-menu.html:45
-msgid "Moments"
+msgid "Momentos"
+msgstr ""
+
+#: templates/studio/dashboard/materias-edit-position.html:51
+msgid ""
+"No ODAs have been assigner to this Bloque. Assign ODAs to this Materia and "
+"Bloque before attempting to place them in the grid"
 msgstr ""
 
 #: templates/studio/dashboard/materias-edit.html:8
@@ -327,7 +334,7 @@ msgid "Create a new Subject"
 msgstr "Ambits"
 
 #: templates/studio/dashboard/materias-edit.html:37
-msgid "Select an Ambit for this Subject"
+msgid "Select an Ámbito for this Subject"
 msgstr ""
 
 #: templates/studio/dashboard/materias-edit.html:45
@@ -365,7 +372,7 @@ msgstr ""
 #: templates/studio/dashboard/materias.html:25
 #, fuzzy
 #| msgid "Ámbitos"
-msgid "Ambit"
+msgid "Ámbito"
 msgstr "Ambits"
 
 #: templates/studio/dashboard/materias.html:73
@@ -373,7 +380,7 @@ msgid "Edited"
 msgstr ""
 
 #: templates/studio/dashboard/momentos.html:12
-msgid "New moment"
+msgid "New Momento"
 msgstr ""
 
 #: templates/studio/dashboard/momentos.html:24
@@ -381,26 +388,34 @@ msgstr ""
 msgid "in"
 msgstr ""
 
-#: templates/studio/dashboard/momentos.html:108
+#: templates/studio/dashboard/momentos.html:109
 msgid "Upload new moment"
 msgstr ""
 
-#: templates/studio/dashboard/momentos.html:109
+#: templates/studio/dashboard/momentos.html:110
 msgid "H5P file"
 msgstr ""
 
-#: templates/studio/dashboard/momentos.html:113
-#: templates/studio/dashboard/momentos.html:140
+#: templates/studio/dashboard/momentos.html:114
+#: templates/studio/dashboard/momentos.html:154
 msgid "File name"
 msgstr ""
 
-#: templates/studio/dashboard/momentos.html:135
-#: templates/studio/dashboard/momentos.html:155
-msgid "Upload file"
+#: templates/studio/dashboard/momentos.html:118
+#: templates/studio/dashboard/odas.html:22
+msgid "Subject"
 msgstr ""
 
-#: templates/studio/dashboard/momentos.html:146
-msgid "Select the moment type"
+#: templates/studio/dashboard/momentos.html:149
+msgid "Select file"
+msgstr ""
+
+#: templates/studio/dashboard/momentos.html:160
+msgid "Select the Momento type"
+msgstr ""
+
+#: templates/studio/dashboard/momentos.html:169
+msgid "Upload file"
 msgstr ""
 
 #: templates/studio/dashboard/odas-edit.html:8
@@ -415,10 +430,6 @@ msgstr ""
 
 #: templates/studio/dashboard/odas-edit.html:51
 msgid "Image B"
-msgstr ""
-
-#: templates/studio/dashboard/odas-edit.html:60
-msgid "upload image"
 msgstr ""
 
 #: templates/studio/dashboard/odas-edit.html:76
@@ -439,7 +450,7 @@ msgid "Select a section"
 msgstr ""
 
 #: templates/studio/dashboard/odas-edit.html:154
-msgid "Moments by µODA"
+msgid "Momentos by µODA"
 msgstr ""
 
 #: templates/studio/dashboard/odas-edit.html:159
@@ -467,11 +478,11 @@ msgid "Evaluation"
 msgstr ""
 
 #: templates/studio/dashboard/odas-edit.html:283
-msgid "Moments selection"
+msgid "Momentos selection"
 msgstr ""
 
 #: templates/studio/dashboard/odas-edit.html:286
-msgid "Search in the moments library"
+msgid "Search in the Momentos library"
 msgstr ""
 
 #: templates/studio/dashboard/odas-edit.html:315
@@ -486,12 +497,8 @@ msgstr ""
 msgid "New ODA"
 msgstr ""
 
-#: templates/studio/dashboard/odas.html:22
-msgid "Subject"
-msgstr ""
-
 #: templates/studio/dashboard/odas.html:24
-msgid "Moments #"
+msgid "Momentos #"
 msgstr ""
 
 #: templates/studio/dashboard/odas.html:83
@@ -500,7 +507,7 @@ msgstr ""
 
 #: templates/studio/navigation/mobile-menu.html:17
 #: templates/studio/navigation/side-bar-menu.html:14
-msgid "Ambits to publish"
+msgid "Ámbitos to publish"
 msgstr ""
 
 #: templates/studio/navigation/mobile-menu.html:64

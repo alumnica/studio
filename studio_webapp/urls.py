@@ -26,6 +26,7 @@ from django.views.i18n import JavaScriptCatalog
 
 router = routers.DefaultRouter()
 router.register(r'images', api_viewsets.ImageViewSet)
+router.register(r'evaluations', api_viewsets.EvaluationViewSet)
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
@@ -34,11 +35,11 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
                   path('', IndexView.as_view(), name="index_view"),
                   path(_('users/'), include('studio.urls.user_urls')),
-                  path(_('ambits/'), include('studio.urls.ambit_urls')),
+                  path(_('ambitos/'), include('studio.urls.ambit_urls')),
                   path(_('subjects/'), include('studio.urls.subject_urls')),
                   path(_('odas/'), include('studio.urls.oda_urls')),
                   path(_('images/'), include('studio.urls.image_urls')),
-                  path(_('moments/'), include('studio.urls.moment_urls')),
+                  path(_('momentos/'), include('studio.urls.moment_urls')),
                   path(_('admin/'), admin.site.urls),
                   path(_('api/'), include(router.urls)),
                   path(_('api-auth/'), include('rest_framework.urls', namespace='rest_framework')),
