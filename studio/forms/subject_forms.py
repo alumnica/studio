@@ -24,7 +24,7 @@ class SubjectForm(forms.ModelForm):
         super(SubjectForm, self).__init__(*args, **kwargs)
         self.fields['ambit'].required = False
         self.fields['ambit'].queryset = Ambit.objects.filter(id__in=[ambit.id for ambit in
-                                                                     Ambit.objects.filter(is_published=False)
+                                                                     Ambit.objects.filter(is_draft=True)
                                                                      if ambit.subjects.count() < 4])
 
     def clean(self):
@@ -56,6 +56,8 @@ class SubjectForm(forms.ModelForm):
                     file=background_image,
                     folder='subjects'
                 )
+                new_image.file_name = os.path.basename(background_image.name)
+                new_image.save()
                 subject.background_image = new_image
 
         subject.save()
@@ -68,9 +70,19 @@ class SubjectForm(forms.ModelForm):
             tag, created = Tag.objects.get_or_create(name=tag_name)
             subject.tags.add(tag)
 
-        subject.temporal = is_draft
+        oda_finalized = False
+        finalized = False
+
+        if not is_draft:
+            for oda in subject.odas.all():
+                if not oda.temporal and oda.section != 0 and oda.zone != 0:
+                    oda_finalized = True
+                    finalized = True
+                    subject.temporal = is_draft
+        else:
+            subject.temporal = is_draft
         subject.save()
-        return subject
+        return subject, finalized
 
 
 class UpdateSubjectForm(forms.ModelForm):
@@ -88,7 +100,7 @@ class UpdateSubjectForm(forms.ModelForm):
         subject = kwargs['instance']
         self.fields['ambit'].required = False
         self.fields['ambit'].queryset = Ambit.objects.filter(id__in=[ambit.id for ambit in
-                                                                     Ambit.objects.filter(is_draft=False) if
+                                                                     Ambit.objects.filter(is_draft=True) if
                                                                      ambit.subjects.count() < 4
                                                                      or ambit == subject.ambit])
 
@@ -125,13 +137,24 @@ class UpdateSubjectForm(forms.ModelForm):
                     folder='subjects'
                 )
 
-                new_image.file_name = os.path.basename(new_image.filename)
+                new_image.file_name = os.path.basename(background_image.name)
                 new_image.save()
 
                 subject.background_image = new_image
-        subject.temporal = is_draft
+
+        oda_finalized = False
+        finalized = False
+
+        if not is_draft:
+            for oda in subject.odas.all():
+                if not oda.temporal and oda.section != 0 and oda.zone != 0:
+                    oda_finalized = True
+                    finalized = True
+                    subject.temporal = is_draft
+        else:
+            subject.temporal = is_draft
         subject.save()
-        return subject
+        return subject, finalized
 
 
 class ImageForm(forms.ModelForm):

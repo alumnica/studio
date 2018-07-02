@@ -176,7 +176,7 @@ function is_valid_form_odas_section(){
 
 
         //microodas
-        /*let aplicacion = document.getElementById('apli-momentos').value;
+        let aplicacion = document.getElementById('apli-momentos').value;
         if (aplicacion == '' || aplicacion == null){
             swal("Error", "Selecciona al menos un momento para la microoda Aplicación", "error");
             return  false;
@@ -204,7 +204,7 @@ function is_valid_form_odas_section(){
         if (sensibilizacion == '' || sensibilizacion == null){
             swal("Error", "Selecciona al menos un momento para la microoda Sensibilización", "error");
             return  false;
-        }*/
+        }
 
         let evaluacion = document.getElementById('evaluation_file');
         if (evaluacion.files.length > 0) {
