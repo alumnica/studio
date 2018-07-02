@@ -24,7 +24,7 @@ class SubjectForm(forms.ModelForm):
         super(SubjectForm, self).__init__(*args, **kwargs)
         self.fields['ambit'].required = False
         self.fields['ambit'].queryset = Ambit.objects.filter(id__in=[ambit.id for ambit in
-                                                                     Ambit.objects.filter(is_draft=False)
+                                                                     Ambit.objects.filter(is_published=False)
                                                                      if ambit.subjects.count() < 4])
 
     def clean(self):
