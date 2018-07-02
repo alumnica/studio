@@ -8,7 +8,7 @@ from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 from sweetify import sweetify
 
-from alumnica_model.models import Tag, Subject, Ambit
+from alumnica_model.models import Tag, Subject, Ambit, users
 from studio.forms.subject_forms import SubjectForm, BaseImageFormset, ImageForm, UpdateSubjectForm
 
 
@@ -99,6 +99,17 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
     template_name = 'studio/dashboard/materias-edit.html'
     model = Subject
     form_class = UpdateSubjectForm
+
+    def dispatch(self, request, *args, **kwargs):
+        subject = Subject.objects.get(pk=self.kwargs['pk'])
+        if subject.ambit.is_published:
+            if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
+                sweetify.error(
+                    self.request,
+                    _('It is not possible to edit subject {} because it belongs to a published ambit'.format(subject.name)),
+                    persistent='Ok')
+                return redirect(to='ambits_view')
+        return super(UpdateSubjectView, self).dispatch(request, *args, **kwargs)
 
     def get_image_formset_class(self):
         num_sections = self.object.number_of_sections

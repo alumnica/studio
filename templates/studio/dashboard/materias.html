@@ -40,16 +40,33 @@
                                             {{ subject.name }}
                                         </a>
                                     </div>
-                                    <div class="title-edit-menu">
-                                            {# Link a editar este ambito en especifico #}
+                                    {% if subject.ambit.is_published %}
+                                    {% ifequal request.user.user_type 'SUPERVISOR'%}
+                                        <div class="title-edit-menu">
                                         <span class="editar">
+                                            {# Link a editar este ambito en especifico #}
                                             <a href="{% url 'update_subject_view' subject.pk %}">{% trans "Edit" %}</a>
                                         </span> |
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
                                             <a href="{% url 'delete_subject_view' subject.pk %}">{% trans "Delete" %}</a>
                                         </span>
+
                                     </div>
+                                    {% endifequal %}
+                                    {% else %}
+                                    <div class="title-edit-menu">
+                                        <span class="editar">
+                                            {# Link a editar este ambito en especifico #}
+                                            <a href="{% url 'update_subject_view' subject.pk %}">{% trans "Edit" %}</a>
+                                        </span> |
+                                        <span class="borrar">
+                                            {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
+                                            <a href="{% url 'delete_subject_view' subject.pk %}">{% trans "Delete" %}</a>
+                                        </span>
+
+                                    </div>
+                                {% endif %}
                                 </td>
                                 {#Ambito al que a sifo asignada esta Materia#}
                                 <td>
