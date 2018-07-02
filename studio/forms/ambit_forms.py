@@ -56,11 +56,19 @@ class CreateAmbitForm(forms.ModelForm):
                     ambit.subjects.add(subject_model)
                 except Subject.DoesNotExist:
                     pass
-        ambit.is_draft = False
-        ambit.is_published = True
+        all_subjects_finalized = True
+        for subject in ambit.subjects.all():
+            if subject.temporal:
+                all_subjects_finalized = False
+                break
+
+        ambit.is_draft = not all_subjects_finalized
+        ambit.is_published = all_subjects_finalized
         if ambit.position == 0:
             ambit.position = Ambit.objects.all().count()
         ambit.save()
+
+        return ambit, all_subjects_finalized
 
     def save_as_draft(self, user, subjects, tags, color):
         cleaned_data = super(CreateAmbitForm, self).clean()
@@ -155,11 +163,20 @@ class UpdateAmbitForm(forms.ModelForm):
         for subject in ambit.subjects.all():
             if subject.name not in subjects:
                 ambit.subjects.remove(subject)
-        ambit.is_draft = False
-        ambit.is_published = True
+
+        all_subjects_finalized = True
+        for subject in ambit.subjects.all():
+            if subject.temporal:
+                all_subjects_finalized = False
+                break
+
+        ambit.is_draft = not all_subjects_finalized
+        ambit.is_published = all_subjects_finalized
         if ambit.position == 0:
             ambit.position = Ambit.objects.all().count()
         ambit.save()
+
+        return ambit, all_subjects_finalized
 
     def save_as_draft(self, subjects, tags, color):
         cleaned_data = super(UpdateAmbitForm, self).clean()

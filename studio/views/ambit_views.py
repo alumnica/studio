@@ -33,7 +33,12 @@ class CreateAmbitView(LoginRequiredMixin, FormView):
         if action == 'save':
             form.save_as_draft(request.user, subjects, tags, color)
         elif action == 'eva-publish':
-            form.save_form(request.user, subjects, tags, color)
+            ambit, published = form.save_form(request.user, subjects, tags, color)
+            if not published:
+                sweetify.error(
+                    self.request,
+                    _('Error saving ámbito {}. Not all subjects are finalized'.format(ambit.name)), persistent='Ok')
+                return redirect('update_ambit_view', pk=ambit.pk)
         return redirect(to='ambits_view')
 
 
@@ -77,7 +82,13 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         if action == 'save':
             form.save_as_draft(subjects, tags, color)
         elif action == 'eva-publish':
-            form.save_form(subjects, tags, color)
+            ambit, published = form.save_form(subjects, tags, color)
+            if not published:
+                sweetify.error(
+                    self.request,
+                    _('Error saving ámbito {}. Not all subjects are finalized'.format(ambit.name)), persistent='Ok')
+
+                return redirect('update_ambit_view', pk=ambit.pk)
         return redirect(to='ambits_view')
 
 

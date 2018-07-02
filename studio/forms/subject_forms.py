@@ -88,7 +88,7 @@ class UpdateSubjectForm(forms.ModelForm):
         subject = kwargs['instance']
         self.fields['ambit'].required = False
         self.fields['ambit'].queryset = Ambit.objects.filter(id__in=[ambit.id for ambit in
-                                                                     Ambit.objects.filter(is_draft=False) if
+                                                                     Ambit.objects.filter(is_published=False) if
                                                                      ambit.subjects.count() < 4
                                                                      or ambit == subject.ambit])
 
