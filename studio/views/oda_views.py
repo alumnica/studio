@@ -15,6 +15,16 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
     form_class = ODAsPositionForm
     template_name = 'studio/dashboard/materias-edit-position.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        subject = Subject.objects.get(pk=kwargs['pk'])
+        if len(subject.sections_images.all()) == 0:
+            sweetify.error(
+                self.request,
+                _('It is not possible to position ODAs. Assign an image to a section first'),
+                persistent='Ok')
+            return redirect(to='update_subject_view', pk=self.kwargs['pk'])
+        return super(ODAsPositionView, self).dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         section = self.kwargs['section']
         pk = self.kwargs['pk']
@@ -27,7 +37,7 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
         subject = Subject.objects.get(pk=self.kwargs['pk'])
 
         if section <= 0:
-            return redirect(to='materias_sections_view', pk=self.kwargs['pk'])
+            return redirect(to='update_subject_view', pk=subject.pk)
         context = self.get_context_data()
         if section <= subject.number_of_sections:
             section_img = subject.sections_images.all()[section - 1]
@@ -165,8 +175,9 @@ class ODACreateView(LoginRequiredMixin, CreateView):
         if action == 'finalize':
             is_draft = False
 
-        form.save_form(self.request.user,  moments, subject, bloque, is_draft)
-
+        oda = form.save_form(self.request.user,  moments, subject, bloque, is_draft)
+        if action == 'edit_position':
+            return redirect('odas_position_view', pk=oda.subject.pk, section=oda.section)
         return redirect(to='oda_dashboard_view')
 
 
@@ -263,11 +274,12 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
 
         is_draft = True
         action = self.request.POST.get('action')
-        if action == 'finalize':
+        if action != 'save':
             is_draft = False
 
-        form.save_form(self.request.user, moments, subject, bloque, evaluation, is_draft)
-
+        oda = form.save_form(self.request.user, moments, subject, bloque, evaluation, is_draft)
+        if action == 'edit_position':
+            return redirect('odas_position_view', pk=oda.subject.pk, section=oda.section)
         return redirect(to='oda_dashboard_view')
 
 

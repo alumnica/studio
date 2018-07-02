@@ -109,13 +109,14 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         subject = Subject.objects.get(pk=self.kwargs['pk'])
-        if subject.ambit.is_published:
-            if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
-                sweetify.error(
-                    self.request,
-                    _('It is not possible to edit subject {} because it belongs to a published ambit'.format(subject.name)),
-                    persistent='Ok')
-                return redirect(to='materias_view')
+        if subject.ambit is not None:
+            if subject.ambit.is_published:
+                if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
+                    sweetify.error(
+                        self.request,
+                        _('It is not possible to edit subject {} because it belongs to a published ambit'.format(subject.name)),
+                        persistent='Ok')
+                    return redirect(to='materias_view')
         return super(UpdateSubjectView, self).dispatch(request, *args, **kwargs)
 
     def get_image_formset_class(self):
