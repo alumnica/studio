@@ -2,8 +2,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import FormView, UpdateView, ListView, CreateView
-
-from alumnica_model.models import Subject, ODA, Tag, Moment
+from sweetify import sweetify
+from django.utils.translation import gettext_lazy as _
+from alumnica_model.models import Subject, ODA, Tag, Moment, users
 from alumnica_model.models.content import Evaluation, MicroODAType
 from studio.forms.oda_forms import ODAsPositionForm, ODACreateForm, \
     ODAUpdateForm
@@ -31,7 +32,7 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
         if section <= subject.number_of_sections:
             section_img = subject.sections_images.all()[section - 1]
             form = ODAsPositionForm(initial={'name': subject.name})
-            odas_list = subject.odas.filter(section=section)
+            odas_list = subject.odas.filter(section=section, temporal=False)
             context.update({'form': form, 'section_img': section_img, 'odas_list': odas_list})
             return render(request, self.template_name, context=context)
         else:
@@ -114,8 +115,11 @@ class ODACreateView(LoginRequiredMixin, CreateView):
 
         bloques_list = []
 
-        for subject in Subject.objects.filter(temporal=False):
+        for subject in Subject.objects.filter(temporal=True):
             bloques = []
+            if subject.ambit is not None:
+                if not subject.ambit.is_draft:
+                    continue
             for section in range(1, subject.number_of_sections+1):
                 if len(subject.odas.filter(section=section)) < 8:
                     bloques.append(section)
@@ -171,6 +175,20 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'studio/dashboard/odas-edit.html'
     form_class = ODAUpdateForm
 
+    def dispatch(self, request, *args, **kwargs):
+        oda = ODA.objects.get(pk=self.kwargs['pk'])
+        if oda.subject is not None:
+            if oda.subject.ambit is not None:
+                if oda.subject.ambit.is_published:
+                    if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
+                        sweetify.error(
+                            self.request,
+                            _('It is not possible to edit oda {} because it belongs to a published ambit'.format(
+                                oda.name)),
+                            persistent='Ok')
+                        return redirect(to='oda_dashboard_view')
+        return super(ODAUpdateView, self).dispatch(request, *args, **kwargs)
+
     def get_object(self, queryset=None):
         return ODA.objects.get(pk=self.kwargs['pk'])
 
@@ -190,8 +208,12 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         subjects_list = []
         bloques_list = []
 
-        for subject in Subject.objects.filter(temporal=False):
+        for subject in Subject.objects.filter(temporal=True):
             bloques = []
+
+            if subject.ambit is not None:
+                if not subject.ambit.is_draft:
+                    continue
             for section in range(1, subject.number_of_sections+1):
                 if len(subject.odas.filter(section=section)) < 8:
                     bloques.append(section)

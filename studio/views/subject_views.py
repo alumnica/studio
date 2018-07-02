@@ -48,7 +48,7 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
         context = self.get_context_data()
         action = self.request.POST.get('action')
 
-        subject = form.save_form(self.request.user, action == 'save')
+        subject, finalized = form.save_form(self.request.user, action == 'save')
         formset = context['formset']
         section = 1
         formset_count = 0
@@ -79,6 +79,13 @@ class CreateSubjectView(LoginRequiredMixin, CreateView):
             return render(self.request, self.template_name, context=context)
 
         if action == 'save' or action == 'eva-publish':
+            if action == 'eva-publish' and not finalized:
+                sweetify.error(
+                    self.request,
+                    _("Error finalizing. There is not any ODA positioned"),
+                    persistent='Ok'
+                )
+                return redirect('update_subject_view', pk=subject.pk)
             return redirect(to='materias_view')
         else:
             action_array = action.split('-')
@@ -108,7 +115,7 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
                     self.request,
                     _('It is not possible to edit subject {} because it belongs to a published ambit'.format(subject.name)),
                     persistent='Ok')
-                return redirect(to='ambits_view')
+                return redirect(to='materias_view')
         return super(UpdateSubjectView, self).dispatch(request, *args, **kwargs)
 
     def get_image_formset_class(self):
@@ -161,7 +168,7 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
         context = self.get_context_data()
 
         action = self.request.POST.get('action')
-        subject = form.save_form(action == 'save')
+        subject, finalized = form.save_form(action == 'save')
 
         formset = context['formset']
         section = 1
@@ -212,6 +219,13 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
             return render(self.request, self.template_name, context=context)
 
         if action == 'save' or action == 'eva-publish':
+            if action == 'eva-publish' and not finalized:
+                sweetify.error(
+                    self.request,
+                    _("Error finalizing. There is not any ODA positioned"),
+                    persistent='Ok'
+                )
+                return redirect('update_subject_view', pk=subject.pk)
             return redirect(to='materias_view')
         else:
             action_array = action.split('-')
