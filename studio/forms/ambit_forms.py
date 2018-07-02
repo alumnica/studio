@@ -63,7 +63,7 @@ class CreateAmbitForm(forms.ModelForm):
                 break
 
         ambit.is_draft = not all_subjects_finalized
-        ambit.is_published = all_subjects_finalized
+        ambit.is_published = False
         if ambit.position == 0:
             ambit.position = Ambit.objects.all().count()
         ambit.save()
@@ -171,7 +171,7 @@ class UpdateAmbitForm(forms.ModelForm):
                 break
 
         ambit.is_draft = not all_subjects_finalized
-        ambit.is_published = all_subjects_finalized
+        ambit.is_published = False
         if ambit.position == 0:
             ambit.position = Ambit.objects.all().count()
         ambit.save()
