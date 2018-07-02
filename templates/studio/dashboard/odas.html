@@ -41,7 +41,7 @@
                                     </a>
                                 </div>
 
-                                {% if oda.subject.ambit.is_published %}
+                                {% if not oda.subject.ambit.is_draft %}
                                     {% ifequal request.user.user_type 'SUPERVISOR'%}
                                         <div class="title-edit-menu">
                                         <span class="editar">

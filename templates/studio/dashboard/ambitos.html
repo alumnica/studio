@@ -42,7 +42,7 @@
                                 <div class="titulo_lista">
                                     {{ ambit.name }}
                                 </div>
-                                {% if ambit.is_published %}
+                                {% if not ambit.is_draft %}
                                     {% ifequal request.user.user_type 'SUPERVISOR'%}
                                         <div class="title-edit-menu">
                                         <span class="editar">
