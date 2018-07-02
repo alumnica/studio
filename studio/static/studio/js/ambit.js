@@ -17,6 +17,7 @@ function is_valid_form (){
         let color_selected = false;
         let image_selected_source = document.getElementById('preview-ap').src;
         let ambit_name = document.getElementById('id_name').value;
+        let subjects_selected = document.getElementById('class_name').value;
 
         if (ambit_name == '' || ambit_name == null){
             swal("Error", gettext("The name field is required"), "error");
@@ -64,6 +65,10 @@ function is_valid_form (){
             }
         }
 
+        if (subjects_selected == '' || subjects_selected == null){
+            swal("Error", gettext("Select at least one subject to publish"), "error");
+            return false;
+        }
 
         return true;
     }
