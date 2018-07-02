@@ -1,7 +1,7 @@
 from django import forms
 
 from alumnica_model.models import Moment, Tag, ODA
-from alumnica_model.models.content import MomentType, Subject
+from alumnica_model.models.content import MomentType, Subject, MicroODAType
 
 
 class MomentCreateForm(forms.ModelForm):
@@ -20,7 +20,7 @@ class MomentCreateForm(forms.ModelForm):
         tags = cleaned_data.get('tags').split(',')
         subject = Subject.objects.get(name=subject_name)
         oda = subject.odas.get(name=oda_name)
-        microoda = oda.microodas.get(type=microoda_type)
+        microoda = oda.microodas.get(type=MicroODAType.objects.get(name=microoda_type))
 
         moment.folder = 'moments'
         moment.created_by = user

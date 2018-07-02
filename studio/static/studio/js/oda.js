@@ -215,10 +215,14 @@ function is_valid_form_odas_section(){
                 }
         }
         else{
-            swal("Error", "Selecciona una evaluación", "error");
-            return  false;
-        }
+            let evaluation_object = document.getElementById('eval-momentos').value;
+            if (evaluation_object == "" || evaluation_object == null){
+                swal("Error", "Selecciona una evaluación", "error");
+                return  false;
+            }
 
+        }
+        return true;
     }
 
 

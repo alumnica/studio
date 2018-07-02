@@ -31,7 +31,7 @@ class MomentsView(LoginRequiredMixin, CreateView):
                 microodas = []
                 for microoda in oda.microodas.all():
                     if microoda.activities.all().count() < 3:
-                        microodas.append(microoda.type)
+                        microodas.append(microoda.type.name)
 
                 if len(microodas) > 0:
                     odas.append(oda)

@@ -248,7 +248,7 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         moments = []
 
         aplication = self.request.POST.get('apli-momentos')
-        template = ['aplication', aplication]
+        template = ['application', aplication]
         moments.append(template)
 
         formalization = self.request.POST.get('forma-momentos')

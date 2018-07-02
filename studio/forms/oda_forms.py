@@ -155,15 +155,13 @@ class ODAUpdateForm(forms.ModelForm):
 
         for moment_object in moments:
 
+            try:
+                microoda = MicroODA.objects.get(name='odas', type=MicroODAType.objects.get(name=moment_object[0]), oda=oda)
+            except MicroODA.DoesNotExist:
+                microoda = MicroODA.objects.create(name='odas', type=MicroODAType.objects.get(moment_object[0]),
+                                                   created_by=user, oda=oda)
             if moment_object[1] is not '' or None:
-
                 moments_names = moment_object[1].split(',')
-
-                try:
-                    microoda = MicroODA.objects.get(name='odas', type=MicroODAType.objects.get(name=moment_object[0]), oda=oda)
-                except MicroODA.DoesNotExist:
-                    microoda = MicroODA.objects.create(name='odas', type=MicroODAType.objects.get(moment_object[0]),
-                                                       created_by=user, oda=oda)
 
                 for moment_name in moments_names:
                     moment = Moment.objects.get(name=moment_name)
@@ -174,6 +172,7 @@ class ODAUpdateForm(forms.ModelForm):
                     if moment.name not in moments_names:
                         microoda.activities.remove(moment)
                     microoda.save()
+
 
         if active_icon is not None:
             if isinstance(active_icon, Image):
