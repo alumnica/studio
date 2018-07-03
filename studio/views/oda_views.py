@@ -219,12 +219,13 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         subjects_list = []
         bloques_list = []
 
-        for subject in Subject.objects.filter(temporal=True):
+        for subject in Subject.objects.filter():
             bloques = []
 
-            if subject.ambit is not None:
-                if not subject.ambit.is_draft:
-                    continue
+            if self.object.subject != subject:
+                if subject.ambit is not None:
+                    if not subject.ambit.is_draft and not subject.temporal:
+                        continue
             for section in range(1, subject.number_of_sections+1):
                 if len(subject.odas.filter(section=section)) < 8:
                     bloques.append(section)

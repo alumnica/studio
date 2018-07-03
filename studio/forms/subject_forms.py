@@ -100,9 +100,9 @@ class UpdateSubjectForm(forms.ModelForm):
         subject = kwargs['instance']
         self.fields['ambit'].required = False
         self.fields['ambit'].queryset = Ambit.objects.filter(id__in=[ambit.id for ambit in
-                                                                     Ambit.objects.filter(is_draft=True) if
+                                                                     Ambit.objects.all() if
                                                                      ambit.subjects.count() < 4
-                                                                     or ambit == subject.ambit])
+                                                                     and (ambit == subject.ambit or ambit.is_draft)])
 
     def save_form(self, is_draft=False):
         cleaned_data = super(UpdateSubjectForm, self).clean()
