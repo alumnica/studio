@@ -41,20 +41,21 @@
                                     </a>
                                 </div>
 
-                                {% if not oda.subject.ambit.is_draft %}
-                                    {% ifequal request.user.user_type 'SUPERVISOR'%}
-                                        <div class="title-edit-menu">
-                                        <span class="editar">
-                                            {# Link a editar este ambito en especifico #}
-                                            <a href="{% url 'odas_update_view' oda.pk %}">{% trans "Edit" %}</a>
-                                        </span> |
-                                        <span class="borrar">
-                                            {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                            <a href="#">{% trans "Delete" %}</a>
-                                        </span>
+                                {% if oda.subject != None and oda.subject.ambit != None and not oda.subject.ambit.is_draft%}
+                                            {% ifequal request.user.user_type 'SUPERVISOR'%}
+                                                <div class="title-edit-menu">
+                                                    <span class="editar">
+                                                        {# Link a editar este ambito en especifico #}
+                                                        <a href="{% url 'odas_update_view' oda.pk %}">{% trans "Edit" %}</a>
+                                                    </span> |
+                                                    <span class="borrar">
+                                                        {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
+                                                        <a href="#">{% trans "Delete" %}</a>
+                                                    </span>
 
-                                    </div>
-                                    {% endifequal %}
+
+                                                    </div>
+                                            {% endifequal %}
                                     {% else %}
                                     <div class="title-edit-menu">
                                         <span class="editar">

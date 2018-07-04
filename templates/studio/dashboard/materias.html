@@ -40,7 +40,7 @@
                                             {{ subject.name }}
                                         </a>
                                     </div>
-                                    {% if not subject.ambit.is_draft %}
+                                    {% if subject.ambit != None and not subject.ambit.is_draft %}
                                     {% ifequal request.user.user_type 'SUPERVISOR'%}
                                         <div class="title-edit-menu">
                                         <span class="editar">
