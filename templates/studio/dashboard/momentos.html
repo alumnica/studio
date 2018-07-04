@@ -53,14 +53,38 @@
                                         <strong>{{ momento.name }}</strong>
                                     </a>
                                 </div>
-                                <div class="title-edit-menu">
-                                    <span class="editar">
-                                        <a href="#">Editar</a>
-                                    </span> |
-                                    <span class="borrar">
-                                        <a href="#">Borrar</a>
-                                    </span>
-                                </div>
+
+
+
+                                {% if momento.microodas.all.0.oda != None and momento.microodas.all.0.oda.subject != None and momento.microodas.all.0.oda.subject.ambit != None and not momento.microodas.all.0.oda.subject.ambit.is_draft%}
+                                            {% ifequal request.user.user_type 'SUPERVISOR'%}
+                                                <div class="title-edit-menu">
+                                                    <span class="editar">
+                                                        {# Link a editar este ambito en especifico #}
+                                                        <a href="#">{% trans "Edit" %}</a>
+                                                    </span> |
+                                                    <span class="borrar">
+                                                        {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
+                                                        <a href="#">{% trans "Delete" %}</a>
+                                                    </span>
+
+
+                                                    </div>
+                                            {% endifequal %}
+                                    {% else %}
+                                    <div class="title-edit-menu">
+                                        <span class="editar">
+                                            {# Link a editar este ambito en especifico #}
+                                            <a href="#">{% trans "Edit" %}</a>
+                                        </span> |
+                                        <span class="borrar">
+                                            {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
+                                            <a href="#">{% trans "Delete" %}</a>
+                                        </span>
+
+                                    </div>
+                                {% endif %}
+
                             </td>
                             <td>
                                 {{ momento.microodas.all.0.oda }}
