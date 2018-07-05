@@ -28,6 +28,7 @@
 
                     <script type="text/javascript">
                         let momentoTags = [];
+                        let subject = null;
                         let subject_odas = [];
                         let oda_microodas = [];
                         let odaList = [];
@@ -149,7 +150,7 @@
                             </script>
                             {% for oda, microodas in odas_zip %}
                                 <script type="text/javascript">
-                                    let subject= subject_odas.filter(x => x.name==="{{ subject.name|safe }}");
+                                    subject= subject_odas.filter(x => x.name==="{{ subject.name|safe }}");
                                     subject[0].odas.push({name:"{{ oda.name|safe }}"});
                                     oda_microodas.push({ name:"{{ oda.name|safe }}", microodas:{{ microodas|safe }}});
                                 </script>
