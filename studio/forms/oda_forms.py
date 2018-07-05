@@ -67,7 +67,7 @@ class ODACreateForm(forms.ModelForm):
         counter = 1
         for moment_object in moments:
 
-            microoda, created = MicroODA.objects.get_or_create(name='odas',
+            microoda, created = MicroODA.objects.get_or_create(name='{}_oda_{}'.format(oda.name, moment_object[0]),
                                                                created_by=user,
                                                                type=MicroODAType.objects.get(name=moment_object[0]),
                                                                default_position=counter, oda=oda)
