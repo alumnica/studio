@@ -1,0 +1,83 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+<div class="dashboard container">
+    <h1 class="title">
+        <i class="fa fa-share-square"></i> Ámbitos a Publicar</i>
+    </h1>
+    <hr>
+    <div class="grid-x">
+        <div class="cell medium-12">
+            <p class="inst">Los siguientes Ambitos han sido marcados como ‘Listos para publicar’ por un creador de contenido. Favor revisar
+                contenido y aporbar su publicacionen el EVA</p>
+            <a href="#" class="button">
+                <i class="fa fa-th"></i> Editar Posiciones</a>
+        </div>
+        <div class="cell medium-12">
+            <div class="cell medium-12">
+                <div class="panel">
+                    <table id="tabla-superv" class=" no-wrap">
+                        <thead>
+                            <tr>
+                                <th class="not-mobile">Ambito</th>
+                                <th class="not-mobile">Posición</th>
+
+                                <th class="not-mobile">Materias</th>
+                                <th class="not-mobile">ODAs</th>
+                                <th class="not-mobile">Momentos</th>
+                                <th class="not-mobile">Autor</th>
+                                <th class="not-mobile">Vista previa</th>
+                                <th class="not-mobile">Publicar en EVA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Propedeutico de Magia</td>
+                                <td>1</td>
+                                <td>
+                                    <ul class="sup-mat">
+                                        <li>Libros de Encanto</li>
+                                        <li>Burjas</li>
+                                        <li>Otra cosa larga y rara</li>
+                                        <li>Cuarta para verla</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    24
+                                </td>
+                                <td>
+                                    102
+                                </td>
+                                <td>
+                                    Diego Cevallos
+                                </td>
+                                <td class="text-center">
+                                    <a href="supervisor-vp-ambito.html" class="button secondary small">
+                                        <i class="fa fa-eye"></i> Vista Previa</a>
+                                </td>
+                                <td class="text-center">
+                                    <a href="#" class="button small">
+                                        <i class="fa fa-share-square"></i> Publicar</a>
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- makes sidebar menu active -->
+<script>
+    document.querySelector('#supervisor-nav').classList.add("is-active");
+</script>
+
+{% endblock content %}
+

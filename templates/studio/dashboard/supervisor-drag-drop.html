@@ -1,0 +1,51 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+<div class="container dashboard">
+    
+    <h1 class="title">
+       Asignar pisicion en pantalla de Ámbitos
+    </h1>
+    <hr>
+
+
+    <form method="POST">
+        <input type="hidden" id="order">
+        <button class="button">Guardar</button>
+    </form>
+
+
+    <div class="container-of-grid">
+        <div class="grid">
+
+            <div class="item" pk="2" subject-qty="2">
+                <div class="item-content {{ ambit.color }}">
+                    <div class="ambito-image">
+                        <img src="../assets/img/ph/ambitos-01.png" alt="propedeutico X">
+                    </div>
+                    <div class="ambito-title {{ ambit.color }}_text">
+                            Propedeutico de Ciencias Marciales 
+                    </div>
+                </div>
+            </div>
+
+           
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    document.querySelector('#supervisor-nav').classList.add("is-active");
+</script>
+
+{% endblock content %}
+
+{% block scripts %}
+{#        <script src="{% static "studio/js/drag-drop.js" %}"></script>#}
+{% endblock %}

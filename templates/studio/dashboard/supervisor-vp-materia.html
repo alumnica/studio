@@ -1,0 +1,152 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+
+<div class="dashboard container">
+    <h1 class="title">
+        Vista Previa - Propedeutico de Magia - Materia
+    </h1>
+    <hr>
+    <div class="grid-x align-center">
+        <div id="the-odas">
+
+            {% for oda, state in odas_zip %}
+                {% if oda.section == 1 %}
+
+                    <div class="block" id="oda-{{ oda.pk }}" data-n="a-{{ oda.zone }}" state="{{ state }}">
+                        <div class="thetip" style="display: none">
+                            <div class="tip-title">
+                                {{ oda.name }}
+                            </div>
+                            <div class="oda-progress">
+                                <i class="fa fa-star gold"></i>x3 &nbsp; <i class="fas fa-flag-checkered clip"></i>
+                            </div>
+                            <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
+                                <i class="fa fa-play"></i>
+                            </a>
+                        </div>
+                        <div class="oda-image">
+                            {% if state != 'finalized' %}
+                                <img src="{{ oda.active_icon.file.url }}" alt="">
+                            
+                        </div>
+                    </div>
+
+                {% elif oda.section == 2 %}
+
+                    <div class="block" id="oda-{{ oda.pk }}" data-n="b-{{ oda.zone }}" state="{{ state }}">
+                        <div class="thetip" style="display: none">
+                            <div class="tip-title">
+                                {{ oda.name }}
+                            </div>
+                            <div class="oda-progress">
+                                <i class="fa fa-star gold"></i>x3 &nbsp; <i class="fas fa-flag-checkered clip"></i>
+                            </div>
+                            <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
+                                <i class="fa fa-play"></i>
+                            </a>
+                        </div>
+                        <div  class="oda-image">
+                            {% if state != 'finalized' %}
+                                <img src="{{ oda.active_icon.file.url }}" alt="">
+                            
+                        </div>
+                    </div>
+
+                {% elif oda.section == 3 %}
+
+                    <div class="block" id="oda-{{ oda.pk }}" data-n="c-{{ oda.zone }}" state="{{ state }}">
+                        <div class="thetip" style="display: none">
+                            <div class="tip-title">
+                                {{ oda.name }}
+                            </div>
+                            <div class="oda-progress">
+                                <i class="fa fa-star gold"></i>x3 &nbsp; <i class="fas fa-flag-checkered clip"></i>
+                            </div>
+                            <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
+                                <i class="fa fa-play"></i>
+                            </a>
+                        </div>
+                        <div  class="oda-image">
+                            {% if state != 'finalized' %}
+                                <img src="{{ oda.active_icon.file.url }}" alt="">
+                            
+                        </div>
+                    </div>
+
+                {% elif oda.section == 4 %}
+
+                    <div class="block" id="oda-{{ oda.pk }}" data-n="d-{{ oda.zone }}" state="{{ state }}">
+                            <div class="thetip" style="display: none">
+                                    <div class="tip-title">
+                                        {{ oda.name }}
+                                    </div>
+                                    <div class="oda-progress">
+                                        <i class="fa fa-star gold"></i>x3 &nbsp; <i class="fas fa-flag-checkered clip"></i>
+                                    </div>
+                                    <a href="{% url 'oda_view' oda.pk %}" class="play-btn">
+                                        <i class="fa fa-play"></i>
+                                    </a>
+                                </div>
+                        <div class="oda-image">
+                            {% if state != 'finalized' %}
+                                <img src="{{ oda.active_icon.file.url }}" alt="">
+                            
+                        </div>
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+           
+        </div>
+
+        {% for section, zone in subject_zip %}
+            <div class="cell medium-4 large-3">
+            <div class="canvas" style="background-image: url({{ section.file.url }})">
+                <div class="frame">
+                    <div id="{{ zone }}-1" class="drop-area"></div>
+                    <div id="{{ zone }}-2" class="drop-area"></div>
+                    <div id="{{ zone }}-3" class="drop-area"></div>
+                    <div id="{{ zone }}-4" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="{{ zone }}-5" class="drop-area"></div>
+                    <div id="{{ zone }}-6" class="drop-area"></div>
+                    <div id="{{ zone }}-7" class="drop-area"></div>
+                    <div id="{{ zone }}-8" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="{{ zone }}-9" class="drop-area"></div>
+                    <div id="{{ zone }}-10" class="drop-area"></div>
+                    <div id="{{ zone }}-11" class="drop-area"></div>
+                    <div id="{{ zone }}-12" class="drop-area"></div>
+                </div>
+                <div class="frame">
+                    <div id="{{ zone }}-13" class="drop-area"></div>
+                    <div id="{{ zone }}-14" class="drop-area"></div>
+                    <div id="{{ zone }}-15" class="drop-area"></div>
+                    <div id="{{ zone }}-16" class="drop-area"></div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+
+</div>
+
+
+<!-- makes sidebar menu active -->
+<script>
+    document.querySelector('#supervisor-nav').classList.add("is-active");
+</script>
+
+
+{% endblock content %}
+
+{% block scripts %}
+{#        <script src="{% static "studio/js/vp-materia.js" %}"></script>#}
+{% endblock %}

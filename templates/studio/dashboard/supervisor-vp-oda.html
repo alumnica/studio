@@ -1,0 +1,102 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+<div class="dashboard container">
+    <h1 class="title">
+        Vista Previa - Propedeutico de Magia - ODA
+    </h1>
+    <hr>
+    <div class="grid-container">
+        <div class="grid-x grid-margin-x grid-margin-y">
+            <div class="cell small-4 oda-box">
+                <div class="oda-title">
+                    Titulo de la ODA
+                </div>
+                <div class="oda-description">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda maiores soluta ex adipisci sint, deserunt sed laudantium?
+                    Expedita, ratione molestiae.
+                </div>
+                <div class="oda-tags">
+                    <ul>
+                        <li>tag 1</li>
+                        <li>the other tag</li>
+                        <li>one more</li>
+                        <li>tag 1</li>
+                        <li>one more</li>
+                        <li>tag 1</li>
+                        <li>the other tag</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="cell small-4 oda-box">              
+                <a href="#" class="micro-image">
+                    <ul class="micro-momentos">
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+                </a>
+            </div>
+            <div class="cell small-4 oda-box">              
+                <a href="#" class="micro-image">
+                    <ul class="micro-momentos">
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+                </a>
+            </div>
+            <div class="cell small-4 oda-box">              
+                <a href="#" class="micro-image">
+                    <ul class="micro-momentos">
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+                </a>
+            </div>
+            <div class="cell small-4 oda-box">              
+                <a href="#" class="micro-image">
+                    <ul class="micro-momentos">
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+                </a>
+            </div>
+            <div class="cell small-4 oda-box">              
+                <a href="#" class="micro-image">
+                    <ul class="micro-momentos">
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+                </a>
+            </div>
+            
+            <div class="cell small-12 text-center">
+                
+                <a href="supervisor.html" class="button"><i class="fa fa-list"></i> Regresar a la lista</a>
+                <br>
+                <a href="supervisor-vp-materia.html" class="button secondary"><i class="fa fa-undo"></i> Regresar a Anterior</a>
+            </div>
+            <div class="cell small-6 text-center">
+            </div>
+           
+
+        </div>
+    </div>
+
+
+</div>
+
+
+<!-- makes sidebar menu active -->
+<script>
+    document.querySelector('#supervisor-nav').classList.add("is-active");
+</script>
+
+
+
+{% endblock content %}

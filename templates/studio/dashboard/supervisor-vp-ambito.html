@@ -1,0 +1,51 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+
+<div class="dashboard container">
+    <h1 class="title">
+        Vista Previa - Propedeutico de Magia - Ámbito
+    </h1>
+    <hr>
+    <div class="grid-x align-center">
+        <div class="cell medium-6">
+            <div class="card-front {{ ambit.color }}">
+                <div class="ambito-image-prev">
+                    <img src="../assets/img/ph/ambitos-01.png" alt="propedeutico X">
+                </div>
+                <div class="ambito-title {{ ambit.color }}_text">
+                    Propedecutico de Magia
+                </div>
+            </div>
+            <div class="card-back {{ ambit.color }}">
+                <div class="{{ ambit.color }}_text">
+                    Propedeutico de Magia
+                </div>
+
+                <!-- las materias del ambito -->
+                <a href="supervisor-vp-materia.html" class="materia">
+                    materia
+                </a>
+                <a href="supervisor-vp-materia.html" class="materia">
+                    materia
+                </a>
+                <a href="supervisor-vp-materia.html" class="materia">
+                    materia
+                </a>
+
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- makes sidebar menu active -->
+<script>
+    document.querySelector('#supervisor-nav').classList.add("is-active");
+</script>
+
+{% endblock content %}
