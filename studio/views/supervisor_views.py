@@ -5,17 +5,28 @@ from django.views.generic import ListView, DetailView, FormView
 from alumnica_model.models import Ambit, users, Subject, ODA
 
 
-class AproveToPublishDashboard(LoginRequiredMixin, ListView):
+class ApproveToPublishDashboard(LoginRequiredMixin, FormView):
     login_url = "login_view"
-    template_name = ""
-    queryset = Ambit.objects.filter(is_draft=False, is_published=False)
-    context_object_name = "ambits_2_aprove_list"
+    template_name = "studio/dashboard/supervisor.html"
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.type != users.TYPE_SUPERVISOR:
+        if request.user.user_type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
-            return super(AproveToPublishDashboard, self).dispatch(self, request, *args, **kwargs)
+            return super(ApproveToPublishDashboard, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ambits = Ambit.objects.filter(is_draft=False, is_published=False)
+        ambits_list = []
+        for ambit in ambits:
+            odas = [len(subject.odas.all()) for subject in ambit.subjects.all()]
+            moments = []
+            for subject in ambit.subjects.all():
+                for oda in subject.odas.all():
+                    moments = [len(microoda.activities.all()) for microoda in oda.microodas.all()]
+
+            ambits_list.append([ambit, sum(odas), sum(moments)])
+        return {'ambits_list': ambits_list}
 
 
 class AmbitPreviewView(LoginRequiredMixin, DetailView):
@@ -23,7 +34,7 @@ class AmbitPreviewView(LoginRequiredMixin, DetailView):
     template_name = ""
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.type != users.TYPE_SUPERVISOR:
+        if request.user.user_type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
             return super(AmbitPreviewView, self).dispatch(self, request, *args, **kwargs)
@@ -40,7 +51,7 @@ class GridPositionView(LoginRequiredMixin, FormView):
     template_name = ""
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.type != users.TYPE_SUPERVISOR:
+        if request.user.user_type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
             return super(GridPositionView, self).dispatch(self, request, *args, **kwargs)
@@ -66,7 +77,7 @@ class ODAsPositionSubjectPreview(LoginRequiredMixin, FormView):
     template_name = ""
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.type != users.TYPE_SUPERVISOR:
+        if request.user.user_type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
             return super(ODAsPositionSubjectPreview, self).dispatch(self, request, *args, **kwargs)
@@ -91,7 +102,7 @@ class MicroodaPreview(LoginRequiredMixin, FormView):
     template_name = ""
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.type != users.TYPE_SUPERVISOR:
+        if request.user.user_type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
             return super(MicroodaPreview, self).dispatch(self, request, *args, **kwargs)
