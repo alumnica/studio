@@ -156,9 +156,11 @@ class ODAUpdateForm(forms.ModelForm):
         for moment_object in moments:
 
             try:
-                microoda = MicroODA.objects.get(name='odas', type=MicroODAType.objects.get(name=moment_object[0]), oda=oda)
+                microoda = MicroODA.objects.get(name='{}_oda_{}'.format(oda.name, moment_object[0]),
+                                                type=MicroODAType.objects.get(name=moment_object[0]), oda=oda)
             except MicroODA.DoesNotExist:
-                microoda = MicroODA.objects.create(name='odas', type=MicroODAType.objects.get(moment_object[0]),
+                microoda = MicroODA.objects.create(name='{}_oda_{}'.format(oda.name, moment_object[0]),
+                                                   type=MicroODAType.objects.get(moment_object[0]),
                                                    created_by=user, oda=oda)
             if moment_object[1] is not '' or None:
                 moments_names = moment_object[1].split(',')
@@ -207,9 +209,6 @@ class ODAUpdateForm(forms.ModelForm):
 
             set_evaluation(evaluation_instance)
             oda.evaluation = evaluation_instance
-        else:
-            if evaluation is not None and evaluation is not '':
-                oda.evaluation = Evaluation.objects.get(name=evaluation)
         oda.temporal = is_draft
         oda.save()
 
