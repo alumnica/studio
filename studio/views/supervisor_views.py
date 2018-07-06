@@ -29,19 +29,19 @@ class ApproveToPublishDashboard(LoginRequiredMixin, FormView):
         return {'ambits_list': ambits_list}
 
 
-class AmbitPreviewView(LoginRequiredMixin, DetailView):
+class AmbitPreviewView(LoginRequiredMixin, FormView):
     login_url = "login_view"
-    template_name = ""
+    template_name = "studio/dashboard/supervisor-vp-ambito.html"
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.user_type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
-            return super(AmbitPreviewView, self).dispatch(self, request, *args, **kwargs)
+            return super(AmbitPreviewView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(AmbitPreviewView, self).get_context_data(**kwargs)
-        ambit = Ambit.objects.get(pk=kwargs['pk'])
+        context = {}
+        ambit = Ambit.objects.get(pk=self.kwargs['pk'])
         context.update({'ambit': ambit})
         return context
 
@@ -54,12 +54,12 @@ class GridPositionView(LoginRequiredMixin, FormView):
         if request.user.user_type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
-            return super(GridPositionView, self).dispatch(self, request, *args, **kwargs)
+            return super(GridPositionView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(GridPositionView, self).get_context_data(**kwargs)
         ambits_list = Ambit.objects.filter(is_published=True).order_by('position')
-        ambit = Ambit.objects.get(pk=kwargs['pk'])
+        ambit = Ambit.objects.get(pk=self.kwargs['pk'])
         context.update({'ambits_list': ambits_list, 'new_ambit': ambit})
 
     def form_valid(self, form):
@@ -74,16 +74,16 @@ class GridPositionView(LoginRequiredMixin, FormView):
 
 class ODAsPositionSubjectPreview(LoginRequiredMixin, FormView):
     login_url = "login_view"
-    template_name = ""
+    template_name = "studio/dashboard/supervisor-vp-materia.html"
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.user_type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
-            return super(ODAsPositionSubjectPreview, self).dispatch(self, request, *args, **kwargs)
+            return super(ODAsPositionSubjectPreview, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(ODAsPositionSubjectPreview, self).get_context_data(**kwargs)
+        context = {}
         subject = Subject.objects.get(pk=self.kwargs['pk'])
         section_images_list = subject.sections_images.all()
         odas_list = []
@@ -92,8 +92,9 @@ class ODAsPositionSubjectPreview(LoginRequiredMixin, FormView):
             odas_list.append(subject.odas.all().filter(section=section_counter))
             section_counter += 1
 
-        content_images = zip(odas_list, section_images_list)
-        context.update({'content_images': content_images})
+        zones = ['a', 'b', 'c', 'd']
+        subject_zip = zip(section_images_list, zones)
+        context.update({'subject_zip': subject_zip, 'odas_list': odas_list})
         return context
 
 
@@ -105,10 +106,10 @@ class MicroodaPreview(LoginRequiredMixin, FormView):
         if request.user.user_type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
-            return super(MicroodaPreview, self).dispatch(self, request, *args, **kwargs)
+            return super(MicroodaPreview, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(MicroodaPreview, self).get_context_data(**kwargs)
-        microodas = ODA.objects.get(pk=kwargs['pk']).microodas.all()
+        microodas = ODA.objects.get(pk=self.kwargs['pk']).microodas.all()
         context.update({'microodas': microodas})
         return context

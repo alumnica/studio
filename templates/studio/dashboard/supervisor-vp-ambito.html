@@ -12,27 +12,22 @@
         <div class="cell medium-6">
             <div class="card-front {{ ambit.color }}">
                 <div class="ambito-image-prev">
-                    <img src="../assets/img/ph/ambitos-01.png" alt="propedeutico X">
+                    <img src="{{ ambit.background_image.file.url }}" alt="propedeutico X">
                 </div>
                 <div class="ambito-title {{ ambit.color }}_text">
-                    Propedecutico de Magia
+                    {{ ambit.name }}
                 </div>
             </div>
             <div class="card-back {{ ambit.color }}">
                 <div class="{{ ambit.color }}_text">
-                    Propedeutico de Magia
+                    {{ ambit.name }}
                 </div>
+                {% for subject in ambit.subjects.all %}
+                    <a href="{% url 'subject_preview_view' subject.pk %}" class="materia">
+                    {{ subject.name }}
+                </a>
+                {% endfor %}
 
-                <!-- las materias del ambito -->
-                <a href="supervisor-vp-materia.html" class="materia">
-                    materia
-                </a>
-                <a href="supervisor-vp-materia.html" class="materia">
-                    materia
-                </a>
-                <a href="supervisor-vp-materia.html" class="materia">
-                    materia
-                </a>
 
 
 
