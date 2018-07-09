@@ -74,7 +74,7 @@ $(document).ready(function () {
         }
     }
 
-    for (let i=0; i<evalu.length; i++){
+   /* for (let i=0; i<evalu.length; i++){
         let text = evalu[i].name;
         let value = evalu[i].code;
 
@@ -82,10 +82,18 @@ $(document).ready(function () {
         $('#eval ul').sortable('refresh');
         if ($('#eval ul li').length >= 1) {
             $('#eval .add-materia').hide();
-        }
-    }
+        }*/
 
-
+        var dloadFile;
+        var theUrl = '/api/evaluations/'+evalu.pk;
+        $.ajax({
+            url: theUrl,
+            dataType: 'json',
+            success: function(data) {
+            dloadFile = data.file;
+            $('#eval-dload').attr('href', dloadFile);
+            }
+        });
 
 
 });

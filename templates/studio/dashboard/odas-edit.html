@@ -71,7 +71,7 @@
 
             </div>
             <div class="cell medium-6">
-                <div class="panel u-margin-top-small">
+                <div class="panel">
                     <div class="panel__title">
                         {% trans "Assign current ODA to subject" %}
                     </div>
@@ -122,7 +122,7 @@
                                 sens.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
                         {% if oda.evaluation != None %}
-                            let evalu =  [{name:"{{ oda.evaluation.name|safe }}", code:"{{ oda.evaluation.name|safe }}"}];
+                            let evalu =  ({name:"{{ oda.evaluation.name|safe }}", pk:"{{ oda.evaluation.pk|safe }}"});
                         {% endif %}
 
 
@@ -146,6 +146,9 @@
                     <select name="bloque-a-oda" id="bloque-a-oda">
                         <option disabled selected></option>
                     </select>
+                      <button type="submit" name="edit_position" class="button secondary">
+                        <i class="fa fa-pencil-alt"></i> &nbsp; {% trans "Edit this ODA position within the selected Section" %}o
+                    </button>
 
                 </div>
             </div>
@@ -166,6 +169,9 @@
 
                         </ul>
                     </div>
+                     <hr>
+                    <label for="apli-tags">Tags</label>
+                    <input name="apli-tags" type="text" id="apli-tags">
                 </div>
 
             </div>
@@ -182,6 +188,9 @@
 
                         </ul>
                     </div>
+                    <hr>
+                    <label for="forma-tags">Tags</label>
+                    <input name="forma-tags" type="text" id="forma-tags">
                 </div>
 
             </div>
@@ -198,6 +207,9 @@
 
                         </ul>
                     </div>
+                     <hr>
+                    <label for="activ-tags">Tags</label>
+                    <input name="activ-tags" type="text" id="activ-tags">
                 </div>
             </div>
             <div class="cell medium-4">
@@ -213,6 +225,9 @@
 
                         </ul>
                     </div>
+                    <hr>
+                    <label for="ejemp-tags">Tags</label>
+                    <input name="ejemp-tags" type="text" id="ejemp-tags">
                 </div>
 
             </div>
@@ -229,6 +244,9 @@
 
                         </ul>
                     </div>
+                    <hr>
+                    <label for="sens-tags">Tags</label>
+                    <input name="sens-tags" type="text" id="sens-tags">
                 </div>
 
             </div>
@@ -236,15 +254,20 @@
                 <div class="panel" id="eval">
                     <div class="panel__title">
                         {% trans "Evaluation" %}
-                        {% comment %}<span class="add-eval" data-open="evalModal">
-                            <i class="fas fa-plus-square"></i>
-                        </span>{% endcomment %}
-                        {{ form.evaluation_file }}
+
                     </div>
                     <div class="panel__content">
-                        <ul class="oda-sort" id="uoda-6">
-
-                        </ul>
+                        <div  id="uoda-6">
+                            {{ oda.evaluation.name }}
+                        </div>
+                        <hr>
+                        <div class="text-center">
+                             <label for="evaluation_file" class="button small expanded">{% trans "Upload new evaluation" %}</label>
+                        {{ form.evaluation_file }}
+                            <a href="" id="eval-dload" download target="_blank" class="button secondary small expanded">
+                                {% trans "Download current Evaluation" %}
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -267,9 +290,7 @@
                 <button type="submit" class="button" name="save">
                     <i class="fa fa-save"></i> {% trans "Save" %}</button>
 
-                <button type="submit" class="button" name="edit_position">
-                    <i class="fa fa-save"></i> {% trans "Edit position" %}</button>
-                &nbsp;
+              
                 <button type="submit" class="button success" name="finalize">
                     <i class="fa fa-check"></i> {% trans "Finalize" %}</button>
 
@@ -338,6 +359,11 @@
     </button>
 
 </div>
+
+<!-- makes sidebar menu active -->
+<script>
+    document.querySelector('#oda-nav').classList.add("is-active");
+</script>
 
 
 {% endblock content %}

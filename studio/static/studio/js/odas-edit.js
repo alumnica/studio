@@ -1,20 +1,20 @@
 //More (Expand) or Less (Collapse)
 $('.oda-materias').each(function(){
     let filterAmount = $(this).find('li').length;
-    if( filterAmount > 5){    
+    if( filterAmount > 5){
       $('li', this).eq(4).nextAll().hide().addClass('toggleable');
-      $(this).append('<li class="more">Más &darr;</li>');    
-    }  
-  });
-  
-  $('.oda-materias').on('click','.more', function(){
-    if( $(this).hasClass('less') ){    
-      $(this).text('Más \u2193').removeClass('less');    
-    }else{
-      $(this).text('Menos \u2191').addClass('less'); 
+      $(this).append('<li class="more">Más &darr;</li>');
     }
-    $(this).siblings('li.toggleable').slideToggle(); 
-  }); 
+  });
+
+  $('.oda-materias').on('click','.more', function(){
+    if( $(this).hasClass('less') ){
+      $(this).text('Más \u2193').removeClass('less');
+    }else{
+      $(this).text('Menos \u2191').addClass('less');
+    }
+    $(this).siblings('li.toggleable').slideToggle();
+  });
 
 
 let sinMomentos = 0;
@@ -34,27 +34,27 @@ $('#sinMomentos').find('span').html(sinMomentos);
 
 
 $('document').ready(function(){
-        
-    $('#odaSortList').jplist({				
-        itemsBox: '.odas-list', 
-        itemPath: '.oda-container', 
-        panelPath: '.jplist-panel'	
-    });  
-    
+
+    $('#odaSortList').jplist({
+        itemsBox: '.odas-list',
+        itemPath: '.oda-container',
+        panelPath: '.jplist-panel'
+    });
+
 });
 
 
 $('.assigned-to_materias li').each(function() {
         let theClass = $(this).text().replace(/\s/g,"-");
-        
-       $(this).addClass(theClass); 
+
+       $(this).addClass(theClass);
 });
 
 $('.oda-tags li').each(function(){
         let theClass = $(this).text().replace(/\s/g,"-");
-       $(this).addClass(theClass); 
+       $(this).addClass(theClass);
 });
-    
+
 
 
 $('.oda-materias li').each(function(){
@@ -81,7 +81,7 @@ $('.oda-tags-list li').each(function(){
 		"data-control-action":"filter",
         "data-selected":" false",
         "data-control-name": tagName,
-        "data-path":"."+tagName,		
+        "data-path":"."+tagName,
 	})
 });
 
@@ -96,6 +96,6 @@ $('.oda-materias li').each(function(){
 		"data-control-action":"filter",
         "data-selected":" false",
         "data-control-name": matName,
-        "data-path":"."+matName,		
+        "data-path":"."+matName,
 	})
 });

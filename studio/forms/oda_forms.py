@@ -31,7 +31,8 @@ class ODACreateForm(forms.ModelForm):
                                                                                  'type': 'file'}))
     completed_icon = forms.ImageField(required=False,
                                       widget=forms.FileInput(attrs={'class': 'is-hidden image', 'type': 'file'}))
-    evaluation_file = forms.FileField(required=False, widget=forms.FileInput(attrs={'id': 'evaluation_file',
+    evaluation_file = forms.FileField(required=False,
+                                      widget=forms.FileInput(attrs={'class': 'is-hidden', 'id': 'evaluation_file',
                                                                                     'accept': '.xlsx'}))
 
     class Meta:
@@ -124,7 +125,7 @@ class ODAUpdateForm(forms.ModelForm):
     active_icon = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
     completed_icon = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden',
                                                                                     'type': 'file'}))
-    evaluation_file = forms.FileField(required=False, widget=forms.FileInput(attrs={'id': 'evaluation_file',
+    evaluation_file = forms.FileField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden', 'id': 'evaluation_file',
                                                                                     'accept': '.xlsx'}))
 
     class Meta:

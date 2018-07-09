@@ -1,4 +1,4 @@
-$('.item').each(function(){
+$('.m-item').each(function(){
     var sbjQty = $(this).attr('subject-qty')
     if (sbjQty == 3){
         $(this).addClass('taller')
