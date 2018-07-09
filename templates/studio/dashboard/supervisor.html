@@ -32,28 +32,28 @@
                             </tr>
                         </thead>
                         <tbody>
+                        {% for ambit in ambits_list %}
                             <tr>
-                                <td>Propedeutico de Magia</td>
-                                <td>1</td>
+                                <td>{{ ambit.0.name }}</td>
+                                <td>{{ ambit.0.position }}</td>
                                 <td>
                                     <ul class="sup-mat">
-                                        <li>Libros de Encanto</li>
-                                        <li>Burjas</li>
-                                        <li>Otra cosa larga y rara</li>
-                                        <li>Cuarta para verla</li>
+                                        {% for subject in ambit.0.subjects.all %}
+                                            <li>{{ subject.name }}</li>
+                                        {% endfor %}
                                     </ul>
                                 </td>
                                 <td>
-                                    24
+                                    {{ ambit.1 }}
                                 </td>
                                 <td>
-                                    102
+                                    {{ ambit.2 }}
                                 </td>
                                 <td>
-                                    Diego Cevallos
+                                    {{ ambit.0.created_by }}
                                 </td>
                                 <td class="text-center">
-                                    <a href="supervisor-vp-ambito.html" class="button secondary small">
+                                    <a href="{% url 'ambit_preview_view' ambit.0.pk %}" class="button secondary small">
                                         <i class="fa fa-eye"></i> Vista Previa</a>
                                 </td>
                                 <td class="text-center">
@@ -62,7 +62,7 @@
                                 </td>
                             </tr>
 
-
+                        {% endfor %}
                         </tbody>
                     </table>
 
