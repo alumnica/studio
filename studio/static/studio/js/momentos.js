@@ -1,4 +1,26 @@
+$(document).ready(function () {
+    if(self_subject != "" && self_subject!= null){
+        $('#materia-list').val(self_subject);
+        $('#materia-list').trigger('change');
+
+        if(self_subject != "" && self_subject!= null){
+            $('#oda-list').val(self_oda);
+            $('#oda-list').trigger('change');
+
+
+            if(self_subject != "" && self_subject!= null){
+            $('#micro-oda').val(self_microoda);
+            $('#micro-oda').trigger('change');
+            }
+        }
+
+    }
+
+});
+
+
 $('#h5p-upload').change( function(){
+    let value =  $('#h5p-upload');
     var filename = $('#h5p-upload').val().split('\\').pop();
 
     $('#fileName').html(filename);
@@ -167,6 +189,10 @@ $('#momento-tags').selectize({
         }
     },
     options: momentoTags,
+    onInitialize: function() {
+        let selectize = this;
+        selectize.setValue(self_tags_selectize)
+    },
     preload: false,
     maxItems: 20,
     maxOptions: 3,
@@ -195,5 +221,9 @@ $('#tipo-momento').selectize({
     searchField: 'name',
     options: typeList,
     preload: true,
+    onInitialize: function() {
+        let selectize = this;
+        selectize.setValue(self_type)
+    },
     maxOptions: 4,
 });

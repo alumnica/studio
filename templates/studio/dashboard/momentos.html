@@ -27,26 +27,6 @@
                     </thead>
                     <tbody>
 
-                    <script type="text/javascript">
-                        let momentoTags = [];
-                        let subject = null;
-                        let subject_odas = [];
-                        let oda_microodas = [];
-                        let odaList = [];
-                        let typeList = [];
-                        {% for tag in tags %}
-                        momentoTags.push({ name: "{{ tag.name|safe }}"});
-                        {% endfor %}
-
-                        {% for oda in odas %}
-                        odaList.push({ name: "{{ oda.name|safe }}"});
-                        {% endfor %}
-
-                        {% for type in moment_type_list %}
-                        typeList.push({ name: "{{ type.name|safe }}"});
-                        {% endfor %}
-
-                    </script>
                     {% for momento in moments_list %}
                         <tr>
                             <td>
@@ -63,7 +43,7 @@
                                                 <div class="title-edit-menu">
                                                     <span class="editar">
                                                         {# Link a editar este ambito en especifico #}
-                                                        <a href="#">{% trans "Edit" %}</a>
+                                                        <a href="{% url 'update_momentos_view' momento.pk %}">{% trans "Edit" %}</a>
                                                     </span> |
                                                     <span class="borrar">
                                                         {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
@@ -77,7 +57,7 @@
                                     <div class="title-edit-menu">
                                         <span class="editar">
                                             {# Link a editar este ambito en especifico #}
-                                            <a href="#">{% trans "Edit" %}</a>
+                                            <a href="{% url 'update_momentos_view' momento.pk %}">{% trans "Edit" %}</a>
                                         </span> |
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}

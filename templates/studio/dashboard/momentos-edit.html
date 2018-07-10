@@ -11,6 +11,35 @@
 
     <form method="POST"  id="uploadForm" enctype="multipart/form-data">
         {% csrf_token %}
+     <script type="text/javascript">
+        let momentoTags = [];
+        let self_tags_selectize = [];
+        let subject = null;
+        let subject_odas = [];
+        let oda_microodas = [];
+        let odaList = [];
+        let typeList = [];
+        let self_subject = "{{ moment.microodas.all.0.oda.subject.name|safe }}";
+        let self_oda = "{{ moment.microodas.all.0.oda.name|safe }}";
+        let self_microoda = "{{ moment.microodas.all.0.type.name|safe }}";
+        let self_type = "{{ moment.type.name|safe }}";
+        {% for tag in tags %}
+        momentoTags.push({ name: "{{ tag.name|safe }}"});
+        {% endfor %}
+
+        {% for tag in moment.tags.all %}
+            self_tags_selectize.push("{{ tag.name|safe }}");
+        {% endfor %}
+
+        {% for oda in odas %}
+        odaList.push({ name: "{{ oda.name|safe }}"});
+        {% endfor %}
+
+        {% for type in moment_type_list %}
+        typeList.push({ name: "{{ type.name|safe }}"});
+        {% endfor %}
+
+     </script>
         <div class="grid-x grid-margin-x grid-margin-y">
             <div class="cell medium-6">
                 <label for="h5p-name">{% trans "File name" %}</label>
