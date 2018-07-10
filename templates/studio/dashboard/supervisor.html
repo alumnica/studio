@@ -11,7 +11,7 @@
         <div class="cell medium-12">
             <p class="inst">Los siguientes Ambitos han sido marcados como ‘Listos para publicar’ por un creador de contenido. Favor revisar
                 contenido y aporbar su publicacionen el EVA</p>
-            <a href="#" class="button">
+            <a href="{% url 'ambits_position_view' 0 %}" class="button">
                 <i class="fa fa-th"></i> Editar Posiciones</a>
         </div>
         <div class="cell medium-12">
@@ -57,7 +57,7 @@
                                         <i class="fa fa-eye"></i> Vista Previa</a>
                                 </td>
                                 <td class="text-center">
-                                    <a href="#" class="button small">
+                                    <a href="{% url 'ambits_position_view'  ambit.0.pk %}" class="button small">
                                         <i class="fa fa-share-square"></i> Publicar</a>
                                 </td>
                             </tr>

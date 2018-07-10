@@ -11,24 +11,39 @@
 
 
     <form method="POST">
-        <input type="hidden" id="order">
-        <button class="button">Guardar</button>
+        {% csrf_token %}
+        <input type="hidden" id="order" name="order">
+        <button type="submit" class="button">Guardar</button>
     </form>
 
 
     <div class="container-of-grid">
         <div class="grid">
         <!-- cambiar pk y subject-qty por los especificos -->
-            <div class="m-item" pk="2" subject-qty="2">
-                <div class="item-content {{ ambit.color }}">
-                    <div class="ambito-image">
-                        <img src="../assets/img/ph/ambitos-01.png" alt="propedeutico X">
-                    </div>
-                    <div class="ambito-title {{ ambit.color }}_text">
-                            Propedeutico de Ciencias Marciales 
+            {% for ambit in ambits_list %}
+                <div class="m-item" pk="{{ ambit.pk }}" subject-qty="{{ ambit.subjects.all|length }}">
+                    <div class="item-content {{ ambit.color }}">
+                        <div class="ambito-image">
+                            <img src={{ ambit.background_image.file.url }} alt="{{ ambit.name }}">
+                        </div>
+                        <div class="ambito-title {{ ambit.color }}_text">
+                                {{ ambit.name }}
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endfor %}
+            {%  if new_ambit != none %}
+                <div class="m-item" pk="{{ new_ambit.pk }}" subject-qty="{{ new_ambit.subjects.all|length }}">
+                    <div class="item-content {{ new_ambit.color }}">
+                        <div class="ambito-image">
+                            <img src={{ new_ambit.background_image.file.url }} alt="{{ new_ambit.name }}">
+                        </div>
+                        <div class="ambito-title {{ new_ambit.color }}_text">
+                                {{ new_ambit.name }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
 
            
 
@@ -47,5 +62,5 @@
 {% endblock content %}
 
 {% block scripts %}
-{#        <script src="{% static "studio/js/drag-drop.js" %}"></script>#}
+        <script src="{% static "studio/js/drag-drop.js" %}"></script>
 {% endblock %}

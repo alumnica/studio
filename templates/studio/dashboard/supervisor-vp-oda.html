@@ -4,14 +4,14 @@
 {% block content %}
 <div class="dashboard container">
     <h1 class="title">
-        Vista Previa - Propedeutico de Magia - ODA
+        Vista Previa - {{ oda.subject.name }} - ODA
     </h1>
     <hr>
     <div class="grid-container">
         <div class="grid-x grid-margin-x grid-margin-y">
             <div class="cell small-4 oda-box">
                 <div class="oda-title">
-                    Titulo de la ODA
+                    {{ oda.name }}
                 </div>
                 <div class="oda-description">
                     Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda maiores soluta ex adipisci sint, deserunt sed laudantium?
@@ -19,67 +19,30 @@
                 </div>
                 <div class="oda-tags">
                     <ul>
-                        <li>tag 1</li>
-                        <li>the other tag</li>
-                        <li>one more</li>
-                        <li>tag 1</li>
-                        <li>one more</li>
-                        <li>tag 1</li>
-                        <li>the other tag</li>
+                        {% for tag in oda.tags.all %}
+                            <li>{{ tag.name }}</li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
-            <div class="cell small-4 oda-box">              
+
+        {% for microoda in oda.microodas.all %}
+            <div class="cell small-4 oda-box">
                 <a href="#" class="micro-image">
                     <ul class="micro-momentos">
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
+                        {% for momento in microoda.activities.all %}
+                            <li>{{ forloop.counter }}</li>
+                        {% endfor %}
                     </ul>
                 </a>
             </div>
-            <div class="cell small-4 oda-box">              
-                <a href="#" class="micro-image">
-                    <ul class="micro-momentos">
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                    </ul>
-                </a>
-            </div>
-            <div class="cell small-4 oda-box">              
-                <a href="#" class="micro-image">
-                    <ul class="micro-momentos">
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                    </ul>
-                </a>
-            </div>
-            <div class="cell small-4 oda-box">              
-                <a href="#" class="micro-image">
-                    <ul class="micro-momentos">
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                    </ul>
-                </a>
-            </div>
-            <div class="cell small-4 oda-box">              
-                <a href="#" class="micro-image">
-                    <ul class="micro-momentos">
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                    </ul>
-                </a>
-            </div>
+        {% endfor %}
             
             <div class="cell small-12 text-center">
                 
-                <a href="supervisor.html" class="button"><i class="fa fa-list"></i> Regresar a la lista</a>
+                <a href="{% url 'approve_dashboard_view' %}" class="button"><i class="fa fa-list"></i> Regresar a la lista</a>
                 <br>
-                <a href="supervisor-vp-materia.html" class="button secondary"><i class="fa fa-undo"></i> Regresar a Anterior</a>
+                <a href="{% url 'subject_preview_view' oda.subject.pk %}" class="button secondary"><i class="fa fa-undo"></i> Regresar a Anterior</a>
             </div>
             <div class="cell small-6 text-center">
             </div>

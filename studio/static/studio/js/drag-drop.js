@@ -1,5 +1,5 @@
 $('.m-item').each(function(){
-    var sbjQty = $(this).attr('subject-qty')
+    var sbjQty = $(this).attr('subject-qty');
     if (sbjQty == 3){
         $(this).addClass('taller')
     } else if (sbjQty == 4){
@@ -25,7 +25,7 @@ function serializeLayout(grid) {
   var itemIds = grid.getItems().map(function (item) {
     return item.getElement().getAttribute('pk');
   });
-  return JSON.stringify(itemIds);
+  return itemIds;
 }
 
 function saveLayout(grid) {

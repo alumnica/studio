@@ -48,7 +48,7 @@ class AmbitPreviewView(LoginRequiredMixin, FormView):
 
 class GridPositionView(LoginRequiredMixin, FormView):
     login_url = "login_view"
-    template_name = ""
+    template_name = "studio/dashboard/supervisor-drag-drop.html"
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.user_type != users.TYPE_SUPERVISOR:
@@ -57,19 +57,26 @@ class GridPositionView(LoginRequiredMixin, FormView):
             return super(GridPositionView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(GridPositionView, self).get_context_data(**kwargs)
+        context = {}
         ambits_list = Ambit.objects.filter(is_published=True).order_by('position')
-        ambit = Ambit.objects.get(pk=self.kwargs['pk'])
-        context.update({'ambits_list': ambits_list, 'new_ambit': ambit})
+        pk = self.kwargs['pk']
+        if pk > 0:
+            ambit = Ambit.objects.get(pk=self.kwargs['pk'])
+            context.update({'new_ambit': ambit})
+        context.update({'ambits_list': ambits_list})
+        return context
 
-    def form_valid(self, form):
-        position_array = self.request.POST.get('positions').split(';')
+    def post(self, request, *args, **kwargs):
+        position_array = self.request.POST.get('order').split(',')
+        counter = 1
         for element in position_array:
-            ambit_position = element.split(',')
-            ambit = Ambit.objects.get(pk=ambit_position[0])
-            ambit.position = ambit_position[1]
+            ambit = Ambit.objects.get(pk=int(element))
+            ambit.position = counter
+            ambit.is_draft = False
+            ambit.is_published = True
             ambit.save()
-        return redirect(to="")
+            counter += 1
+        return redirect(to="dashboard_view")
 
 
 class ODAsPositionSubjectPreview(LoginRequiredMixin, FormView):
@@ -100,7 +107,7 @@ class ODAsPositionSubjectPreview(LoginRequiredMixin, FormView):
 
 class MicroodaPreview(LoginRequiredMixin, FormView):
     login_url = "login_view"
-    template_name = ""
+    template_name = "studio/dashboard/supervisor-vp-oda.html"
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.user_type != users.TYPE_SUPERVISOR:
@@ -109,7 +116,7 @@ class MicroodaPreview(LoginRequiredMixin, FormView):
             return super(MicroodaPreview, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(MicroodaPreview, self).get_context_data(**kwargs)
-        microodas = ODA.objects.get(pk=self.kwargs['pk']).microodas.all()
-        context.update({'microodas': microodas})
+        context = {}
+        oda = ODA.objects.get(pk=self.kwargs['pk'])
+        context.update({'oda': oda})
         return context
