@@ -43,7 +43,7 @@ class MomentUpdateForm(forms.ModelForm):
 
     tags = forms.CharField(widget=forms.TextInput(attrs={'id': 'momento-tags',
                                                          'class': 'u-margin-bottom-small selectized'}))
-    content = forms.FileField(widget=forms.FileInput(attrs={'class': 'show-for-sr', 'id': 'h5p-upload'}))
+    content = forms.FileField(required=False, widget=forms.FileInput(attrs={'class': 'show-for-sr', 'id': 'h5p-upload'}))
 
     class Meta:
         model = Moment
@@ -59,7 +59,9 @@ class MomentUpdateForm(forms.ModelForm):
 
         moment.folder = 'moments'
         moment.type = MomentType.objects.get(name=moment_type)
-        moment.file_name = h5p_url
+
+        if h5p_url is not None:
+            moment.file_name = h5p_url
         moment.save()
         microoda.activities.add(moment)
         microoda.save()

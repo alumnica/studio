@@ -1,6 +1,7 @@
 {% extends "studio/base-main.html" %}
 {% load static %}
 {% load i18n %}
+{% load studio_extras %}
 {% block content %}
 <div class="container dashboard">
     <h1 class="title">
@@ -15,6 +16,7 @@
         let momentoTags = [];
         let self_tags_selectize = [];
         let subject = null;
+        let file_name = "";
         let subject_odas = [];
         let oda_microodas = [];
         let odaList = [];
@@ -67,9 +69,12 @@
                 <label for="oda-list">ODA</label>
                 <select required name="oda-list" id="oda-list">
                 </select>
+                <option disabled></option>
+
                 <!-- microoda -->
                 <label for="micro-oda">Micro ODA</label>
                 <select required name="micro-oda" class = "micro-oda" id="micro-oda"></select>
+                <option disabled></option>
 
 
                 <!-- tipo de momento -->
@@ -97,6 +102,11 @@
                         <div class="cell medium-6">
                             <p class="h5 thefile" id="fileName">
                                 <small>{% trans "File name" %}</small>
+                                {% with  moment.content.url|split:"/" as path%}
+                                    <script type="text/javascript">
+                                    file_name = "{{ path.3 }}";
+                                    </script>
+                                {% endwith %}
                             </p>
                         </div>
                     </div>
@@ -104,11 +114,11 @@
             </div>
            <div class="cell medium-12">
                <hr>
-                <button type="submit" class="button">
+                <button class="button" id="submit_button" type="button">
                 <i class="fa fa-save"></i> {% trans "Save Moment" %}</button>
            </div>
         </div>
-
+        <input type="hidden" name="url_h5p" id="url_h5p">
 
     </form>
 </div>
