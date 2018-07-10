@@ -2,19 +2,20 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView, UpdateView
 
+from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 from alumnica_model.models import Moment, Tag, ODA
 from alumnica_model.models.content import MomentType, Subject
 from studio.forms.moment_forms import MomentCreateForm, MomentUpdateForm
 
 
-class MomentsView(LoginRequiredMixin, ListView):
+class MomentsView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/momentos.html'
     queryset = Moment.objects.all()
     context_object_name = 'moments_list'
 
 
-class CreateMomentView(LoginRequiredMixin, CreateView):
+class CreateMomentView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, CreateView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/momentos-edit.html'
     form_class = MomentCreateForm

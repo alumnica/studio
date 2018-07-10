@@ -8,11 +8,12 @@ from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 from sweetify import sweetify
 
+from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 from alumnica_model.models import Tag, Subject, Ambit, users
 from studio.forms.subject_forms import SubjectForm, BaseImageFormset, ImageForm, UpdateSubjectForm
 
 
-class CreateSubjectView(LoginRequiredMixin, CreateView):
+class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, CreateView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/materias-edit.html'
     form_class = SubjectForm
@@ -234,7 +235,7 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
             return redirect(to='odas_position_view',  pk=subject.pk, section=(section+1))
 
 
-class SubjectView(LoginRequiredMixin, ListView):
+class SubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/materias.html'
     queryset = Subject.objects.all()

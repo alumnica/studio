@@ -5,11 +5,13 @@ from django.views.generic import FormView
 from django.views.generic.base import TemplateView, RedirectView
 from sweetify import sweetify
 
+from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 from alumnica_model.models import Ambit, Subject
 from studio.forms.user_forms import UserLoginForm
 
 
-class IndexView(TemplateView):
+class IndexView(OnlyContentCreatorAndSupervisorMixin, TemplateView):
+    login_url = 'login_view'
     template_name = 'studio/pages/index.html'
 
 
@@ -44,7 +46,7 @@ class LogoutView(RedirectView):
         return super(LogoutView, self).get(request, *args, **kwargs)
 
 
-class ProfileView(LoginRequiredMixin, FormView):
+class ProfileView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, FormView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/dashboard.html'
 

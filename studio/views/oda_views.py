@@ -4,6 +4,8 @@ from django.views import View
 from django.views.generic import FormView, UpdateView, ListView, CreateView
 from sweetify import sweetify
 from django.utils.translation import gettext_lazy as _
+
+from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 from alumnica_model.models import Subject, ODA, Tag, Moment, users
 from alumnica_model.models.content import Evaluation, MicroODAType
 from studio.forms.oda_forms import ODAsPositionForm, ODACreateForm, \
@@ -66,7 +68,7 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
         return redirect(to='odas_position_view', pk=subject.pk, section=section)
 
 
-class ODAsPreviewView(LoginRequiredMixin, FormView):
+class ODAsPreviewView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, FormView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/materias-edit-preview.html'
 
@@ -105,7 +107,7 @@ class ODAsPreviewView(LoginRequiredMixin, FormView):
         return redirect(to='materias_view')
 
 
-class ODADashboardView(LoginRequiredMixin, ListView):
+class ODADashboardView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
     login_url = 'login_view'
     model = ODA
     template_name = 'studio/dashboard/odas.html'
@@ -113,7 +115,7 @@ class ODADashboardView(LoginRequiredMixin, ListView):
     context_object_name = 'odas_list'
 
 
-class ODACreateView(LoginRequiredMixin, CreateView):
+class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, CreateView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/odas-edit.html'
     form_class = ODACreateForm
@@ -303,7 +305,7 @@ class ODAsRedirect(View):
             return redirect(view, pk=pk, section=(kwargs.get('section') - 1))
 
 
-class ODAsView(LoginRequiredMixin, ListView):
+class ODAsView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
     login_url = 'login_view'
     template_name = 'studio/pages/test.html'
     queryset = ODA.objects.all()

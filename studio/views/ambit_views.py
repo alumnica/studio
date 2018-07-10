@@ -4,11 +4,13 @@ from django.views import View
 from django.views.generic import ListView, FormView, UpdateView
 from sweetify import sweetify
 from django.utils.translation import gettext_lazy as _
+
+from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 from alumnica_model.models import users
 from studio.forms.ambit_forms import *
 
 
-class CreateAmbitView(LoginRequiredMixin, FormView):
+class CreateAmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, FormView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/ambitos-edit.html'
     form_class = CreateAmbitForm
@@ -92,7 +94,7 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         return redirect(to='ambits_view')
 
 
-class AmbitView(LoginRequiredMixin, ListView):
+class AmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/ambitos.html'
     queryset = Ambit.objects.all()
