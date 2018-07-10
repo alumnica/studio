@@ -83,17 +83,19 @@ $(document).ready(function () {
         if ($('#eval ul li').length >= 1) {
             $('#eval .add-materia').hide();
         }*/
+        if (evalu != null && evalu != ""){
+            var dloadFile;
+            var theUrl = '/api/evaluations/'+evalu.pk;
+            $.ajax({
+                url: theUrl,
+                dataType: 'json',
+                success: function(data) {
+                dloadFile = data.file;
+                $('#eval-dload').attr('href', dloadFile);
+                }
+            });
+        }
 
-        var dloadFile;
-        var theUrl = '/api/evaluations/'+evalu.pk;
-        $.ajax({
-            url: theUrl,
-            dataType: 'json',
-            success: function(data) {
-            dloadFile = data.file;
-            $('#eval-dload').attr('href', dloadFile);
-            }
-        });
 
 
 });
@@ -190,9 +192,20 @@ function is_valid_form_odas_section(){
             return  false;
         }
 
+        let aplicacion_tags = document.getElementById('apli-tags').value;
+        if (aplicacion_tags == '' || aplicacion_tags == null){
+            swal("Error", "Escribe al menos un tag para la microoda Aplicación", "error");
+            return  false;
+        }
+
         let formalizacion = document.getElementById('forma-momentos').value;
         if (formalizacion == '' || formalizacion == null){
             swal("Error", "Selecciona al menos un momento para la microoda Formalización", "error");
+            return  false;
+        }
+        let formalizacion_tags = document.getElementById('forma-tags').value;
+        if (formalizacion_tags == '' || formalizacion_tags == null){
+            swal("Error", "Escribe al menos un tag para la microoda Formalización", "error");
             return  false;
         }
 
@@ -201,16 +214,31 @@ function is_valid_form_odas_section(){
             swal("Error", "Selecciona al menos un momento para la microoda Activación", "error");
             return  false;
         }
+        let activacion_tags = document.getElementById('activ-tags').value;
+        if (activacion_tags == '' || activacion_tags == null){
+            swal("Error", "Escribe al menos un tag para la microoda Activación", "error");
+            return  false;
+        }
 
         let ejemplificacion = document.getElementById('ejem-momentos').value;
         if (ejemplificacion == '' || ejemplificacion == null){
             swal("Error", "Selecciona al menos un momento para la microoda Ejemplificación", "error");
             return  false;
         }
+        let ejemplificacion_tags = document.getElementById('ejemp-tags').value;
+        if (ejemplificacion_tags == '' || ejemplificacion_tags == null){
+            swal("Error", "Escribe al menos un tag para la microoda Ejemplificación", "error");
+            return  false;
+        }
 
         let sensibilizacion = document.getElementById('sens-momentos').value;
         if (sensibilizacion == '' || sensibilizacion == null){
             swal("Error", "Selecciona al menos un momento para la microoda Sensibilización", "error");
+            return  false;
+        }
+        let sensibilizacion_tags = document.getElementById('sens-tags').value;
+        if (sensibilizacion_tags == '' || sensibilizacion_tags == null){
+            swal("Error", "Escribe al menos un tag para la microoda Sensibilización", "error");
             return  false;
         }
 
