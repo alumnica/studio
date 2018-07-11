@@ -78,7 +78,16 @@ function is_valid_form (){
 
 $(document).ready(function () {
 
-    $(":submit").click(function () { $("#action").val(this.name); });
+    $(":submit").click(function () {
+        $("#action").val(this.name);
+         let texts = [];
+        $(function () {
+            $('#sortable li').each(function () {
+                texts.push($(this).text());
+            });
+            $('#class_name').val(texts);
+        });
+    });
     for(let i=0; i<self_materias.length;i++){
         $("#sortable").append('<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s sorter"></span>' + self_materias[i] + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
         $("#sortable").sortable('refresh');

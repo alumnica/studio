@@ -1,5 +1,7 @@
 {% extends "studio/base-main.html" %}
+{% load static %}
 {% load i18n %}
+
 {% block content %}
 
 
@@ -10,9 +12,9 @@
     <h1 class="title">
         <i class="fas fa-home"></i> Dashboard</h1>
     <hr>
-    <div class="grid-x">
+    <div class="grid-x grid-margin-x">
         <div class="cell medium-6">
-            <div class="grid-x grid-margin-x grid-margin-y">
+            <div class="grid-x grid-margin-x">
                 <div class="cell medium-12">
                     <div class="panel">
                         <div class="panel__title">
@@ -58,7 +60,7 @@
 
                                 <a href="{% url 'oda_dashboard_view' %}" class="cell medium-3 small-6 d-box text-center">
                                     <div class="d-box__number">
-                                        102
+                                        {{odas}}
                                     </div>
                                     <div class="d-box__title">
                                         ODAs
@@ -67,9 +69,9 @@
 
                                 {# Numero total de Momentos#}
 
-                                <a href="" class="cell medium-3 small-6 d-box text-center">
+                                <a href="{% url 'momentos_view' %}" class="cell medium-3 small-6 d-box text-center">
                                     <div class="d-box__number">
-                                        800
+                                        {{moments}}
                                     </div>
                                     <div class="d-box__title">
                                         {% trans "Momentos" %}
@@ -81,9 +83,45 @@
                 </div>
             </div>
         </div>
+
+        <!--solo vista por el Supervisor-->
+
+         <div class="cell medium-6">
+                <div class="cell medium-6">
+                    <div class="panel">
+                        <div class="panel__title">
+                            Ámbitos a publicar
+                        </div>
+                        <div class="panel__content">
+                            <table class="table-striped">
+                                {% for ambit in ambitsToPublish %}
+                                <tr class="dash-superv">
+                                    <th>{{ ambit.name }}</th>
+                                    <th><a href="{% url 'ambit_preview_view' ambit.pk %" class="button secondary small"><i class="fas fa-eye"></i></a></th>
+                                    <th><a href="{% url 'ambits_position_view'  ambit.pk %}" class="button small">Publicar</a></th>
+                                </tr>
+                                 {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <!--end solo vista por supervisor -->
+
     </div>
 
 
 </div>
 
+<script>
+    document.querySelector('#dash-nav').classList.add("is-active");
+</script>
+
 {% endblock content %}
+
+{% block scripts %}
+
+    <script  type="text/javascript"  src="{% static "studio/js/ambit.js" %}"></script>
+{% endblock %}
+

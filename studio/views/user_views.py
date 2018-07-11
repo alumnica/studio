@@ -6,7 +6,7 @@ from django.views.generic.base import TemplateView, RedirectView
 from sweetify import sweetify
 
 from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
-from alumnica_model.models import Ambit, Subject
+from alumnica_model.models import Ambit, Subject, Moment, ODA
 from studio.forms.user_forms import UserLoginForm
 
 
@@ -52,5 +52,8 @@ class ProfileView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Form
 
     def get(self, request, *args, **kwargs):
         ambits = Ambit.objects.all().count()
+        ambitsToPublish = Ambit.objects.filter(is_draft=False, is_published=False)
         subjects = Subject.objects.all().count()
-        return render(request, self.template_name, {'form': self.form_class, 'ambits': ambits, 'subjects': subjects})
+        moments = Moment.objects.all().count()
+        odas = ODA.objects.all().count()
+        return render(request, self.template_name, {'form': self.form_class, 'ambits': ambits, 'subjects': subjects, 'odas':odas, 'moments': moments, 'ambitsToPublish': ambitsToPublish})

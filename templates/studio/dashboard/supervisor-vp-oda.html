@@ -28,13 +28,49 @@
 
         {% for microoda in oda.microodas.all %}
             <div class="cell small-4 oda-box">
-                <a href="#" class="micro-image">
+                <div class="micro-image">
+                    {% if microoda.type.name == "application" %}
+
+                        <img src="{% static "/studio/img/uodas/Desktop/uODA_desktop_aplicacion.png"%}" alt="Aplicacion">
+                    {% elif microoda.type.name == "formalization" %}
+                        <img src="{% static "/studio/img/uodas/Desktop/uODA_desktop_formalizacion.png" %}" alt="Formalizacion">
+                    {% elif microoda.type.name == "activation" %}
+                        <img src="{% static "/studio/img/uodas/Desktop/uODA_desktop_activacion.png" %}" alt="activacion">
+                    {% elif microoda.type.name == "exemplification" %}
+                        <img src="{% static "/studio/img/uodas/Desktop/uODA_desktop_ejemplificacion.png" %}" alt="ejemplificacion">
+                    {% elif microoda.type.name == "sensitization" %}
+                        <img src="{% static "/studio/img/uodas/Desktop/uODA_desktop_sensibilizacion.png" %}" alt="sensibilizacion">
+                    {% endif %}
                     <ul class="micro-momentos">
+
+
+
+                        
                         {% for momento in microoda.activities.all %}
-                            <li>{{ forloop.counter }}</li>
+
+                        {% if momento.type.group == "dynamic_presentation" %}
+                             <li>
+                                 <img src="{% static "/studio/img/Iconos/presentacion_dinamica.png" %}" alt="">
+                             </li>
+                        {% elif momento.type.group == "dynamic_scene" %}
+                            <li>
+                                  <img src="{% static "/studio/img/Iconos/Escenario_dinamico.png" %}" alt="">
+                              </li>
+                        {% elif momento.type.group == "interactive_game" %}
+                             <li>
+                                 <img src="{% static "/studio/img/Iconos/juego_interactivo.png" %}" alt="">
+                             </li>
+                        {% elif momento.type.group == "interactive_text" %}
+                             <li>
+                                 <img src="{% static "/studio/img/Iconos/texto_interactivo.png" %}" alt="">
+                             </li>
+                        {% endif %}
+
                         {% endfor %}
+
                     </ul>
-                </a>
+                </div>
+
             </div>
         {% endfor %}
             

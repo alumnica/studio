@@ -11,8 +11,8 @@
     <div class="grid-x align-center">
         <div class="cell medium-6">
             <div class="card-front {{ ambit.color }}">
-                <div class="ambito-image-prev">
-                    <img src="{{ ambit.background_image.file.url }}" alt="propedeutico X">
+                <div class="ambito-image-prev"  style="background-image: url({{ ambit.background_image.file.url }}); background-size: cover">
+                    <!--<img src="{{ ambit.background_image.file.url }}" alt="propedeutico X">-->
                 </div>
                 <div class="ambito-title {{ ambit.color }}_text">
                     {{ ambit.name }}
@@ -33,6 +33,11 @@
 
             </div>
         </div>
+        <div class="cell small-12 text-center u-margin-top-small">
+
+                <a href="{% url 'approve_dashboard_view' %}" class="button"><i class="fa fa-list"></i> Regresar a la lista</a>
+
+            </div>
     </div>
 
 </div>

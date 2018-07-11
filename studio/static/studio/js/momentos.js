@@ -131,6 +131,9 @@ let url_status = '';
           }
         });
     }
+    else{
+        $('#uploadForm').submit();
+    }
 
  });
 
