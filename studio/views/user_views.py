@@ -10,7 +10,7 @@ from alumnica_model.models import Ambit, Subject, Moment, ODA
 from studio.forms.user_forms import UserLoginForm
 
 
-class IndexView(OnlyContentCreatorAndSupervisorMixin, TemplateView):
+class IndexView(TemplateView):
     login_url = 'login_view'
     template_name = 'studio/pages/index.html'
 
