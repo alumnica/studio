@@ -1,3 +1,6 @@
+{% load studio_extras %}
+{% load i18n %}
+
 <div class="top-bar">
     <div class="top-bar-left">
         <ul class="menu">
@@ -5,9 +8,16 @@
         </ul>
     </div>
     <div class="top-bar-right">
-        <ul class="menu">
+        <ul class="menu dropdown" data-dropdown-menu>
             <li class="user-name">
-                <a href="#">{{ request.user.first_name }} {{ request.user.last_name }} &nbsp;<i class="fas fa-user"></i></a>
+                <a class="user-name-text" href="#">{{ request.user.first_name }} {{ request.user.last_name }} &nbsp; &nbsp;<i class="fas fa-user"></i></a>
+                <ul class="user-submenu">
+                    <li class="sign-out">
+                        <a href="{% url 'logout_view' %}" >
+                            <i class="fas fa-sign-out-alt"></i> {% trans "Logout" %}
+                        </a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </div>

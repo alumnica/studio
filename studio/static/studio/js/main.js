@@ -48,20 +48,7 @@ $(document).ready(function () {
 // pasa el orden de las materias en ambitos-edit a un text input escondido
 // para que en post tengamos al info correcta
 
-$('#last_panel').on('mouseenter mouseleave', function () {
 
-    let texts = [];
-
-    $(function () {
-        $('#sortable li').each(function () {
-            texts.push($(this).text());
-        });
-
-        // alert(texts);
-        $('#class_name').val(texts);
-    });
-
-});
 
 // alphanum for all inputs
 

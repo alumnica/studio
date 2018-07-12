@@ -5,11 +5,13 @@ from django.views.generic import FormView
 from django.views.generic.base import TemplateView, RedirectView
 from sweetify import sweetify
 
-from alumnica_model.models import Ambit, Subject
+from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
+from alumnica_model.models import Ambit, Subject, Moment, ODA
 from studio.forms.user_forms import UserLoginForm
 
 
 class IndexView(TemplateView):
+    login_url = 'login_view'
     template_name = 'studio/pages/index.html'
 
 
@@ -44,11 +46,14 @@ class LogoutView(RedirectView):
         return super(LogoutView, self).get(request, *args, **kwargs)
 
 
-class ProfileView(LoginRequiredMixin, FormView):
+class ProfileView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, FormView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/dashboard.html'
 
     def get(self, request, *args, **kwargs):
         ambits = Ambit.objects.all().count()
+        ambitsToPublish = Ambit.objects.filter(is_draft=False, is_published=False)
         subjects = Subject.objects.all().count()
-        return render(request, self.template_name, {'form': self.form_class, 'ambits': ambits, 'subjects': subjects})
+        moments = Moment.objects.all().count()
+        odas = ODA.objects.all().count()
+        return render(request, self.template_name, {'form': self.form_class, 'ambits': ambits, 'subjects': subjects, 'odas':odas, 'moments': moments, 'ambitsToPublish': ambitsToPublish})

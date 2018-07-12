@@ -4,18 +4,20 @@ from django.views import View
 from django.views.generic import ListView, FormView, UpdateView
 from sweetify import sweetify
 from django.utils.translation import gettext_lazy as _
+
+from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 from alumnica_model.models import users
 from studio.forms.ambit_forms import *
 
 
-class CreateAmbitView(LoginRequiredMixin, FormView):
+class CreateAmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, FormView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/ambitos-edit.html'
     form_class = CreateAmbitForm
 
     def get(self, request, *args, **kwargs):
         ambits = Ambit.objects.all()
-        subjects = Subject.objects.all()
+        subjects = Subject.objects.filter(temporal=False).filter(ambit=None)
         tags = Tag.objects.all()
         ambit_space = Ambit.objects.all().filter(is_published=True).count() < 30
         return render(request, self.template_name, {'form': self.form_class, 'subjects': subjects,
@@ -33,7 +35,12 @@ class CreateAmbitView(LoginRequiredMixin, FormView):
         if action == 'save':
             form.save_as_draft(request.user, subjects, tags, color)
         elif action == 'eva-publish':
-            form.save_form(request.user, subjects, tags, color)
+            ambit, published = form.save_form(request.user, subjects, tags, color)
+            if not published:
+                sweetify.error(
+                    self.request,
+                    _('Error saving ámbito {}. Not all subjects are finalized'.format(ambit.name)), persistent='Ok')
+                return redirect('update_ambit_view', pk=ambit.pk)
         return redirect(to='ambits_view')
 
 
@@ -58,7 +65,7 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UpdateAmbitView, self).get_context_data(**kwargs)
         ambits = Ambit.objects.all().exclude(pk=self.kwargs['pk'])
-        subjects = Subject.objects.all().exclude(ambit=self.object)
+        subjects = Subject.objects.all().exclude(ambit=self.object).filter(ambit=None)
         tags = Tag.objects.all().filter()
         ambit_space = Ambit.objects.all().filter(is_published=True).count() < 30
         context.update({'subjects': subjects, 'tags': tags, 'ambits': ambits, 'ambit_space': ambit_space})
@@ -77,11 +84,17 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         if action == 'save':
             form.save_as_draft(subjects, tags, color)
         elif action == 'eva-publish':
-            form.save_form(subjects, tags, color)
+            ambit, published = form.save_form(subjects, tags, color)
+            if not published:
+                sweetify.error(
+                    self.request,
+                    _('Error saving ámbito {}. Not all subjects are finalized'.format(ambit.name)), persistent='Ok')
+
+                return redirect('update_ambit_view', pk=ambit.pk)
         return redirect(to='ambits_view')
 
 
-class AmbitView(LoginRequiredMixin, ListView):
+class AmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
     login_url = 'login_view'
     template_name = 'studio/dashboard/ambitos.html'
     queryset = Ambit.objects.all()

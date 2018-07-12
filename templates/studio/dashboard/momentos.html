@@ -9,7 +9,8 @@
     <hr>
     <div class="grid-x">
         <div class="cell medium-6">
-            <button type="button" data-open="uploadModal" class="button"><i class="fa fa-upload"></i> {% trans "New Momento" %}</button>
+            <!--falta poner el HREF correcto-->
+            <a href="{% url 'create_momentos_view' %}" class="button"><i class="fa fa-upload"></i> {% trans "New Moment" %}</a>
         </div>
         <div class="cell medium-12">
             <div class="panel">
@@ -26,25 +27,6 @@
                     </thead>
                     <tbody>
 
-                    <script type="text/javascript">
-                        let momentoTags = [];
-                        let subject_odas = [];
-                        let oda_microodas = [];
-                        let odaList = [];
-                        let typeList = [];
-                        {% for tag in tags %}
-                        momentoTags.push({ name: "{{ tag.name|safe }}"});
-                        {% endfor %}
-
-                        {% for oda in odas %}
-                        odaList.push({ name: "{{ oda.name|safe }}"});
-                        {% endfor %}
-
-                        {% for type in moment_type_list %}
-                        typeList.push({ name: "{{ type.name|safe }}"});
-                        {% endfor %}
-
-                    </script>
                     {% for momento in moments_list %}
                         <tr>
                             <td>
@@ -53,14 +35,38 @@
                                         <strong>{{ momento.name }}</strong>
                                     </a>
                                 </div>
-                                <div class="title-edit-menu">
-                                    <span class="editar">
-                                        <a href="#">Editar</a>
-                                    </span> |
-                                    <span class="borrar">
-                                        <a href="#">Borrar</a>
-                                    </span>
-                                </div>
+
+
+
+                                {% if momento.microodas.all.0.oda != None and momento.microodas.all.0.oda.subject != None and momento.microodas.all.0.oda.subject.ambit != None and not momento.microodas.all.0.oda.subject.ambit.is_draft%}
+                                            {% ifequal request.user.user_type 'SUPERVISOR'%}
+                                                <div class="title-edit-menu">
+                                                    <span class="editar">
+                                                        {# Link a editar este ambito en especifico #}
+                                                        <a href="{% url 'update_momentos_view' momento.pk %}">{% trans "Edit" %}</a>
+                                                    </span> |
+                                                    <span class="borrar">
+                                                        {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
+                                                        <a href="#">{% trans "Delete" %}</a>
+                                                    </span>
+
+
+                                                    </div>
+                                            {% endifequal %}
+                                    {% else %}
+                                    <div class="title-edit-menu">
+                                        <span class="editar">
+                                            {# Link a editar este ambito en especifico #}
+                                            <a href="{% url 'update_momentos_view' momento.pk %}">{% trans "Edit" %}</a>
+                                        </span> |
+                                        <span class="borrar">
+                                            {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
+                                            <a href="#">{% trans "Delete" %}</a>
+                                        </span>
+
+                                    </div>
+                                {% endif %}
+
                             </td>
                             <td>
                                 {{ momento.microodas.all.0.oda }}
@@ -102,81 +108,7 @@
 </div>
 
 
-<div class="reveal" id="uploadModal" data-reveal>
-    <form method="POST" id="uploadForm" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="momento-modal">
-            <h4 class="u-margin-bottom-small">{% trans "Upload new moment" %}
-                <small>{% trans "H5P file" %}</small>
-            </h4>
-            <div class="grid-x grid-margin-x">
-                <div class="cell medium-12">
-                    <label for="h5p-name">{% trans "File name" %}</label>
-                    {{ form.name }}
-                </div>
-                <div class="cell medium-12">
-                    <label for="materia-list">{% trans "Subject" %}</label>
-                    <select required name="materia-list" id="materia-list">
-                     <option disabled selected></option>
-                        {% for subject, odas_zip in subject_odas %}
-                            <option value="{{ subject.name }}">{{ subject.name }}</option>
-                            <script type="text/javascript">
-                                subject_odas.push({name:"{{ subject.name|safe }}", odas:[]})
-                            </script>
-                            {% for oda, microodas in odas_zip %}
-                                <script type="text/javascript">
-                                    let subject= subject_odas.filter(x => x.name==="{{ subject.name|safe }}");
-                                    subject[0].odas.push({name:"{{ oda.name|safe }}"});
-                                    oda_microodas.push({ name:"{{ oda.name|safe }}", microodas:{{ microodas|safe }}});
-                                </script>
-                            {% endfor %}
 
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="cell small-6">
-                     <!-- assign oda -->
-                    <label for="oda-list">ODA</label>
-                    <select required name="oda-list" id="oda-list">
-                    </select>
-                </div>
-                <div class="cell small-6">
-                    <label for="micro-oda">Micro ODA</label>
-                    <select required name="micro-oda" class = "micro-oda" id="micro-oda"></select>
-                </div>
-                <div class="cell medium-4">
-                    <label for="h5p-upload" class="button">
-                        <i class="fa fa-upload"></i> {% trans "Select file" %}</label>
-                    {{ form.content }}
-                </div>
-                <div class="cell medium-8">
-                    <p class="h5 thefile" id="fileName">
-                        <small>{% trans "File name" %}</small>
-                    </p>
-                </div>
-                <div class="cell medium-12">
-                    
-                    <!-- tipo de momento -->
-                    <label for="tipo-momento">{% trans "Select the Momento type" %}</label>
-                    <select required name="tipo-momento" id="tipo-momento"></select>
-
-                    <!-- tags -->
-
-                    <label for="tags-momento">Tags</label>
-                    {{ form.tags }}
-
-                    <!-- end tags -->
-                    <button type="button" id="submit_button" class="button expanded u-margin-top-medium"><i class="fa fa-upload"></i> {% trans "Upload file" %}</button>
-                </div>
-            </div>
-        </div>
-        <input type="hidden" name="url_h5p" id="url_h5p">
-        <button class="close-button" data-close aria-label="Close modal" type="button">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </form>
-
-</div>
 
 <!-- makes sidebar menu active -->
 <script>

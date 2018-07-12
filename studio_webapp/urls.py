@@ -35,6 +35,7 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
                   path('', IndexView.as_view(), name="index_view"),
                   path(_('users/'), include('studio.urls.user_urls')),
+                  path(_('supervisor/'), include('studio.urls.supervisor_urls')),
                   path(_('ambitos/'), include('studio.urls.ambit_urls')),
                   path(_('subjects/'), include('studio.urls.subject_urls')),
                   path(_('odas/'), include('studio.urls.oda_urls')),

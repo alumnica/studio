@@ -8,11 +8,11 @@
             <div class="m-text">Dashboard</div>
         </a>
     </li>
-    <li id="publicar-nav">
-        <a href="#">
+    <li id="supervisor-nav">
+        <a href="{% url 'approve_dashboard_view' %}">
             <div class="menu-image fas fa-share-square"></div>
             {% trans "Ámbitos to publish" %}
-            <div class="pub-counter">2</div>
+
         </a>
     </li>
     <li>
@@ -58,12 +58,7 @@
 
 
 <ul class="vertical menu logout">
-    <li>
-        <a href="{% url 'logout_view' %}">
-            <div class="menu-image fas fa-times-circle"></div>
-            <div>{% trans "Logout" %}</div>
-        </a>
-    </li>
+
     <li class="version">
         {% version_number %}
     </li>

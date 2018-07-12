@@ -71,7 +71,7 @@
 
             </div>
             <div class="cell medium-6">
-                <div class="panel u-margin-top-small">
+                <div class="panel">
                     <div class="panel__title">
                         {% trans "Assign current ODA to subject" %}
                     </div>
@@ -104,27 +104,50 @@
                         {% for moment in apli_list.all.0.activities.all %}
                                 apli.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
+                        let apli_tags = [];
+                        {% for tag in apli_list.all.0.tags.all %}
+                                apli_tags.push("{{ tag.name|safe }}");
+                            {% endfor %}
 
                         let forma = [];
                         {% for moment in forma_list.all.0.activities.all %}
                                 forma.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
+                        let forma_tags = [];
+                        {% for tag in forma_list.all.0.tags.all %}
+                                forma_tags.push("{{ tag.name|safe }}");
+                            {% endfor %}
+
                         let activa = [];
                         {% for moment in activ_list.all.0.activities.all %}
                                 activa.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
+                        let activa_tags = [];
+                        {% for tag in activ_list.all.0.tags.all %}
+                                activa_tags.push("{{ tag.name|safe }}");
+                            {% endfor %}
+
                         let ejem= [];
                             {% for moment in ejem_list.all.0.activities.all %}
                                 ejem.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
+                        let ejem_tags = [];
+                        {% for tag in ejem_list.all.0.tags.all %}
+                                ejem_tags.push("{{ tag.name|safe }}");
+                            {% endfor %}
+
                         let sens = [];
                         {% for moment in sens_list.all.0.activities.all %}
                                 sens.push({name:"{{ moment.name|safe }}", code:"{{ moment.content|safe }}"});
                             {% endfor %}
+                        let sens_tags = [];
+                        {% for tag in sens_list.all.0.tags.all %}
+                                sens_tags.push("{{ tag.name|safe }}");
+                            {% endfor %}
+                        let evalu = null;
                         {% if oda.evaluation != None %}
-                            let evalu =  [{name:"{{ oda.evaluation.name|safe }}", code:"{{ oda.evaluation.name|safe }}"}];
+                            evalu =  ({name:"{{ oda.evaluation.name|safe }}", pk:"{{ oda.evaluation.pk|safe }}"});
                         {% endif %}
-
 
 
                 </script>
@@ -146,6 +169,9 @@
                     <select name="bloque-a-oda" id="bloque-a-oda">
                         <option disabled selected></option>
                     </select>
+                      <button type="submit" name="edit_position" class="button secondary">
+                        <i class="fa fa-pencil-alt"></i> &nbsp; {% trans "Edit this ODA position within the selected Section" %}o
+                    </button>
 
                 </div>
             </div>
@@ -166,6 +192,9 @@
 
                         </ul>
                     </div>
+                     <hr>
+                    <label for="apli-tags">Tags</label>
+                    {{ form.apli_tags }}
                 </div>
 
             </div>
@@ -182,6 +211,9 @@
 
                         </ul>
                     </div>
+                    <hr>
+                    <label for="forma-tags">Tags</label>
+                    {{ form.forma_tags }}
                 </div>
 
             </div>
@@ -198,6 +230,9 @@
 
                         </ul>
                     </div>
+                     <hr>
+                    <label for="activ-tags">Tags</label>
+                    {{ form.activ_tags }}
                 </div>
             </div>
             <div class="cell medium-4">
@@ -213,6 +248,9 @@
 
                         </ul>
                     </div>
+                    <hr>
+                    <label for="ejemp-tags">Tags</label>
+                    {{ form.ejemp_tags }}
                 </div>
 
             </div>
@@ -229,6 +267,9 @@
 
                         </ul>
                     </div>
+                    <hr>
+                    <label for="sens-tags">Tags</label>
+                    {{ form.sens_tags }}
                 </div>
 
             </div>
@@ -236,15 +277,20 @@
                 <div class="panel" id="eval">
                     <div class="panel__title">
                         {% trans "Evaluation" %}
-                        {% comment %}<span class="add-eval" data-open="evalModal">
-                            <i class="fas fa-plus-square"></i>
-                        </span>{% endcomment %}
-                        {{ form.evaluation_file }}
+
                     </div>
                     <div class="panel__content">
-                        <ul class="oda-sort" id="uoda-6">
-
-                        </ul>
+                        <div  id="uoda-6">
+                            {{ oda.evaluation.name }}
+                        </div>
+                        <hr>
+                        <div class="text-center">
+                             <label for="evaluation_file" class="button small expanded">{% trans "Upload new evaluation" %}</label>
+                        {{ form.evaluation_file }}
+                            <a href="" id="eval-dload" download target="_blank" class="button secondary small expanded">
+                                {% trans "Download current Evaluation" %}
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -266,7 +312,8 @@
 
                 <button type="submit" class="button" name="save">
                     <i class="fa fa-save"></i> {% trans "Save" %}</button>
-                &nbsp;
+
+
                 <button type="submit" class="button success" name="finalize">
                     <i class="fa fa-check"></i> {% trans "Finalize" %}</button>
 
@@ -335,6 +382,11 @@
     </button>
 
 </div>
+
+<!-- makes sidebar menu active -->
+<script>
+    document.querySelector('#oda-nav').classList.add("is-active");
+</script>
 
 
 {% endblock content %}

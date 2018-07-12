@@ -1,0 +1,66 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+<div class="container dashboard">
+    
+    <h1 class="title">
+       Asignar pisicion en pantalla de Ámbitos
+    </h1>
+    <hr>
+
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" id="order" name="order">
+        <button type="submit" class="button">Guardar</button>
+    </form>
+
+
+    <div class="container-of-grid">
+        <div class="grid">
+        <!-- cambiar pk y subject-qty por los especificos -->
+            {% for ambit in ambits_list %}
+                <div class="m-item" pk="{{ ambit.pk }}" subject-qty="{{ ambit.subjects.all|length }}">
+                    <div class="item-content {{ ambit.color }}">
+                        <div class="ambito-image">
+                            <img src={{ ambit.background_image.file.url }} alt="{{ ambit.name }}">
+                        </div>
+                        <div class="ambito-title {{ ambit.color }}_text">
+                                {{ ambit.name }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {%  if new_ambit != none %}
+                <div class="m-item" pk="{{ new_ambit.pk }}" subject-qty="{{ new_ambit.subjects.all|length }}">
+                    <div class="item-content {{ new_ambit.color }}">
+                        <div class="ambito-image">
+                            <img src={{ new_ambit.background_image.file.url }} alt="{{ new_ambit.name }}">
+                        </div>
+                        <div class="ambito-title {{ new_ambit.color }}_text">
+                                {{ new_ambit.name }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+           
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    document.querySelector('#supervisor-nav').classList.add("is-active");
+</script>
+
+{% endblock content %}
+
+{% block scripts %}
+        <script src="{% static "studio/js/drag-drop.js" %}"></script>
+{% endblock %}

@@ -17,6 +17,7 @@ function is_valid_form (){
         let color_selected = false;
         let image_selected_source = document.getElementById('preview-ap').src;
         let ambit_name = document.getElementById('id_name').value;
+        let subjects_selected = document.getElementById('class_name').value;
 
         if (ambit_name == '' || ambit_name == null){
             swal("Error", gettext("The name field is required"), "error");
@@ -64,6 +65,10 @@ function is_valid_form (){
             }
         }
 
+        if (subjects_selected == '' || subjects_selected == null){
+            swal("Error", gettext("Select at least one subject to publish"), "error");
+            return false;
+        }
 
         return true;
     }
@@ -73,7 +78,16 @@ function is_valid_form (){
 
 $(document).ready(function () {
 
-    $(":submit").click(function () { $("#action").val(this.name); });
+    $(":submit").click(function () {
+        $("#action").val(this.name);
+         let texts = [];
+        $(function () {
+            $('#sortable li').each(function () {
+                texts.push($(this).text());
+            });
+            $('#class_name').val(texts);
+        });
+    });
     for(let i=0; i<self_materias.length;i++){
         $("#sortable").append('<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s sorter"></span>' + self_materias[i] + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
         $("#sortable").sortable('refresh');

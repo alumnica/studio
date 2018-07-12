@@ -1,0 +1,134 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% load i18n %}
+{% load studio_extras %}
+{% block content %}
+<div class="container dashboard">
+    <h1 class="title">
+        <i class="fas fa-play-circle"></i> Momento
+
+    </h1>
+    <hr>
+
+    <form method="POST"  id="uploadForm" enctype="multipart/form-data">
+        {% csrf_token %}
+     <script type="text/javascript">
+        let momentoTags = [];
+        let self_tags_selectize = [];
+        let subject = null;
+        let file_name = "";
+        let subject_odas = [];
+        let oda_microodas = [];
+        let odaList = [];
+        let typeList = [];
+        let self_subject = "{{ moment.microodas.all.0.oda.subject.name|safe }}";
+        let self_oda = "{{ moment.microodas.all.0.oda.name|safe }}";
+        let self_microoda = "{{ moment.microodas.all.0.type.name|safe }}";
+        let self_type = "{{ moment.type.name|safe }}";
+        {% for tag in tags %}
+        momentoTags.push({ name: "{{ tag.name|safe }}"});
+        {% endfor %}
+
+        {% for tag in moment.tags.all %}
+            self_tags_selectize.push("{{ tag.name|safe }}");
+        {% endfor %}
+
+        {% for oda in odas %}
+        odaList.push({ name: "{{ oda.name|safe }}"});
+        {% endfor %}
+
+        {% for type in moment_type_list %}
+        typeList.push({ name: "{{ type.name|safe }}"});
+        {% endfor %}
+
+     </script>
+        <div class="grid-x grid-margin-x grid-margin-y">
+            <div class="cell medium-6">
+                <label for="h5p-name">{% trans "File name" %}</label>
+                {{ form.name }}
+                <!-- materia -->
+                <label for="materia-list">{% trans "Subject" %}</label>
+                    <select required name="materia-list" id="materia-list">
+                     <option disabled selected></option>
+                        {% for subject, odas_zip in subject_odas %}
+                            <option value="{{ subject.name }}">{{ subject.name }}</option>
+                            <script type="text/javascript">
+                                subject_odas.push({name:"{{ subject.name|safe }}", odas:[]})
+                            </script>
+                            {% for oda, microodas in odas_zip %}
+                                <script type="text/javascript">
+                                    subject= subject_odas.filter(x => x.name==="{{ subject.name|safe }}");
+                                    subject[0].odas.push({name:"{{ oda.name|safe }}"});
+                                    oda_microodas.push({ name:"{{ oda.name|safe }}", microodas:{{ microodas|safe }}});
+                                </script>
+                            {% endfor %}
+
+                        {% endfor %}
+                    </select>
+                <!-- assign oda -->
+                <label for="oda-list">ODA</label>
+                <select required name="oda-list" id="oda-list">
+                </select>
+                <option disabled></option>
+
+                <!-- microoda -->
+                <label for="micro-oda">Micro ODA</label>
+                <select required name="micro-oda" class = "micro-oda" id="micro-oda"></select>
+                <option disabled></option>
+
+
+                <!-- tipo de momento -->
+                <label for="tipo-momento">{% trans "Select the Momento type" %}</label>
+                <select name="tipo-momento" id="tipo-momento"></select>
+                <!-- tags -->
+
+                <label for="tags-momento">Tags</label>
+                {{ form.tags }}
+
+                <!-- end tags -->
+
+            </div>
+            <div class="cell medium-6">
+                <div class="panel">
+                    <div class="panel__title">
+                        Paquete H5P
+                    </div>
+                    <div class="grid-x grid-margin-x grid-margin-y">
+                        <div class="cell medium-6">
+                            <label for="h5p-upload" class="button expanded">
+                                 <i class="fa fa-upload"></i> {% trans "Select file" %}</label>
+                             {{ form.content }}
+                        </div>
+                        <div class="cell medium-6">
+                            <p class="h5 thefile" id="fileName">
+                                <small>{% trans "File name" %}</small>
+                                {% with  moment.content.url|split:"/" as path%}
+                                    <script type="text/javascript">
+                                    file_name = "{{ path.3 }}";
+                                    </script>
+                                {% endwith %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <div class="cell medium-12">
+               <hr>
+                <button class="button" id="submit_button" type="button">
+                <i class="fa fa-save"></i> {% trans "Save Moment" %}</button>
+           </div>
+        </div>
+        <input type="hidden" name="url_h5p" id="url_h5p">
+
+    </form>
+</div>
+
+
+<!-- makes sidebar menu active -->
+<script>
+    document.querySelector('#momento-nav').classList.add("is-active");
+</script>
+{% endblock content %}
+{% block scripts %}
+        <script src="{% static "studio/js/momentos.js" %}"></script>
+{% endblock %}
