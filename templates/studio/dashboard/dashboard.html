@@ -97,7 +97,7 @@
                                 {% for ambit in ambitsToPublish %}
                                 <tr class="dash-superv">
                                     <th>{{ ambit.name }}</th>
-                                    <th><a href="{% url 'ambit_preview_view' ambit.pk %" class="button secondary small"><i class="fas fa-eye"></i></a></th>
+                                    <th><a href="{% url 'ambit_preview_view' ambit.pk %}" class="button secondary small"><i class="fas fa-eye"></i></a></th>
                                     <th><a href="{% url 'ambits_position_view'  ambit.pk %}" class="button small">Publicar</a></th>
                                 </tr>
                                  {% endfor %}
