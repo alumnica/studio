@@ -235,15 +235,10 @@ class ODAUpdateForm(forms.ModelForm):
                         microoda.activities.remove(moment)
                     microoda.save()
 
-        if apli_tags is not None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='application')), apli_tags)
-        if forma_tags is not None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='formalization')), forma_tags)
-        if activ_tags is not None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='activation')), activ_tags)
-        if ejemp_tags is not None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='exemplification')), ejemp_tags)
-        if sens_tags is not None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='sensitization')), sens_tags)
 
         if active_icon is not None:
@@ -280,6 +275,8 @@ class ODAUpdateForm(forms.ModelForm):
             set_evaluation(evaluation_instance)
             oda.evaluation = evaluation_instance
         oda.temporal = is_draft
+        if is_draft:
+            oda.zone = 0
         oda.save()
 
         return oda
@@ -292,9 +289,9 @@ def set_microodas_tags(microoda, tags):
             tag, created = Tag.objects.get_or_create(name=tag_name)
             if tag not in microoda.tags.all():
                 microoda.tags.add(tag)
-        for tag in microoda.tags.all():
-            if tag.name not in tags:
-                microoda.tags.remove(tag)
+    for tag in microoda.tags.all():
+        if tag.name not in tags:
+            microoda.tags.remove(tag)
     microoda.save()
 
 
