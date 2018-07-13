@@ -215,8 +215,9 @@ class ODAUpdateForm(forms.ModelForm):
         for moment_object in moments:
 
             try:
-                microoda = MicroODA.objects.get(name='{}_oda_{}'.format(oda.name, moment_object[0]),
-                                                type=MicroODAType.objects.get(name=moment_object[0]), oda=oda)
+                microoda = MicroODA.objects.get(type=MicroODAType.objects.get(name=moment_object[0]), oda=oda)
+                microoda.name = '{}_oda_{}'.format(oda.name, moment_object[0])
+                microoda.save()
             except MicroODA.DoesNotExist:
                 microoda = MicroODA.objects.create(name='{}_oda_{}'.format(oda.name, moment_object[0]),
                                                    type=MicroODAType.objects.get(moment_object[0]),
