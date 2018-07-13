@@ -88,15 +88,14 @@ class UpdateMomentView(LoginRequiredMixin, UpdateView):
             microodas_list = []
 
             if subject.ambit is not None:
-                var = len(self.object.microodas.all())
-                if len(self.object.microodas.all()) > 0:
-                    if not subject.ambit.is_draft and self.object.microodas.all()[0].oda.subject != subject:
+                if self.object.microoda is not None:
+                    if not subject.ambit.is_draft and self.object.microoda.oda.subject != subject:
                         continue
 
             for oda in subject.odas.all():
                 microodas = []
                 for microoda in oda.microodas.all():
-                    if microoda.activities.all().count() < 3 or microoda in self.object.microodas:
+                    if microoda.activities.all().count() < 3 or microoda != self.object.microoda:
                         microodas.append(microoda.type.name)
 
                 if len(microodas) > 0:

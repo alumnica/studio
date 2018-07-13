@@ -89,20 +89,11 @@ class ODACreateForm(forms.ModelForm):
         counter = 1
         for moment_object in moments:
 
-            microoda, created = MicroODA.objects.get_or_create(name='{}_oda_{}'.format(oda.name, moment_object[0]),
-                                                               created_by=user,
-                                                               type=MicroODAType.objects.get(name=moment_object[0]),
-                                                               default_position=counter, oda=oda)
+            MicroODA.objects.get_or_create(name='{}_oda_{}'.format(oda.name, moment_object[0]),
+                                           created_by=user,
+                                           type=MicroODAType.objects.get(name=moment_object[0]),
+                                           default_position=counter, oda=oda)
             counter += 1
-
-            if moment_object[1] is not None and moment_object[1] is not '':
-
-                moments_names = moment_object[1].split(',')
-
-                for moment_name in moments_names:
-                    moment = Moment.objects.get(name=moment_name)
-                    microoda.activities.add(moment)
-            microoda.save()
 
         if apli_tags is not None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='application')), apli_tags)
@@ -222,18 +213,13 @@ class ODAUpdateForm(forms.ModelForm):
                 microoda = MicroODA.objects.create(name='{}_oda_{}'.format(oda.name, moment_object[0]),
                                                    type=MicroODAType.objects.get(moment_object[0]),
                                                    created_by=user, oda=oda)
-            if moment_object[1] is not '' or None:
-                moments_names = moment_object[1].split(',')
 
-                for moment_name in moments_names:
-                    moment = Moment.objects.get(name=moment_name)
-                    microoda.activities.add(moment)
-                    microoda.save()
+            moments_names = moment_object[1].split(',')
 
-                for moment in microoda.activities.all():
-                    if moment.name not in moments_names:
-                        microoda.activities.remove(moment)
-                    microoda.save()
+            for moment in microoda.activities.all():
+                if moment.name not in moments_names:
+                    microoda.activities.remove(moment)
+                microoda.save()
 
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='application')), apli_tags)
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='formalization')), forma_tags)
