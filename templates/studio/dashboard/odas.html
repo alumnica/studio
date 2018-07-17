@@ -21,7 +21,7 @@
                             <th id="titulo-oda" class="all">{% trans "Title" %}</th>
                             <th id="materia-oda" class="not-mobile">{% trans "Subject" %}</th>
                             <th id="bloque-oda" class="not-mobile">{% trans "Section" %}</th>
-                            <th id="uoda-oda" class="not-mobile">{% trans "Momentos #" %}</th>
+{#                            <th id="uoda-oda" class="not-mobile">{% trans "Momentos #" %}</th>#}
                             <th id="tags-oda" class="not-mobile tag-length">Tags</th>
                             <th id="fecha-oda" class="not-mobile">{% trans "Date" %}</th>
                             <th id="autor-oda" class="not-mobile">Autor</th>
@@ -77,9 +77,9 @@
                             <td>
                                 {{ oda.section}}
                             </td>
-                            <td>
+                           {% comment %} <td>
                                 31
-                            </td>
+                            </td>{% endcomment %}
                             <td>
                                 <div class="tag-list">
 
