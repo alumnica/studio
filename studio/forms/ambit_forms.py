@@ -28,12 +28,12 @@ class CreateAmbitForm(forms.ModelForm):
 
         image = cleaned_data.get('ap')
         if isinstance(image, Image):
-            image_model = Image.objects.get(folder="ambits", file=image.file)
+            image_model = Image.objects.get(folder="Ambitos", file=image.file)
             image_model.name = '{}-ambit_image'.format(ambit.name)
             image_model.save()
         else:
             image_model = Image.objects.create(name='{}-ambit_image'.format(ambit.name),
-                                               folder="ambits", file=image)
+                                               folder="Ambitos", file=image)
 
         image_model.file_name = os.path.basename(image_model.file.name)
         image_model.save()
@@ -80,12 +80,12 @@ class CreateAmbitForm(forms.ModelForm):
         if cleaned_data.get('ap') is not None:
             image = cleaned_data.get('ap')
             if isinstance(image, Image):
-                image_model = Image.objects.get(folder="ambits", file=image.file)
+                image_model = Image.objects.get(folder="Ambitos", file=image.file)
                 image_model.name = '{}-ambit_image'.format(ambit.name)
                 image_model.save()
             else:
                 image_model = Image.objects.create(name='{}-ambit_image'.format(ambit.name),
-                                                   folder="ambits", file=image)
+                                                   folder="Ambitos", file=image)
 
             image_model.file_name = os.path.basename(image_model.file.name)
             image_model.save()
@@ -132,12 +132,12 @@ class UpdateAmbitForm(forms.ModelForm):
 
         if image is not None:
             if isinstance(image, Image):
-                image_model = Image.objects.get(folder="ambits", file=image.file)
+                image_model = Image.objects.get(folder="Ambitos", file=image.file)
                 image_model.name = '{}-ambit_image'.format(ambit.name)
                 image_model.save()
             else:
                 image_model = Image.objects.create(name='{}-ambit_image'.format(ambit.name),
-                                                   folder="ambits", file=image)
+                                                   folder="Ambitos", file=image)
             image_model.file_name = os.path.basename(image_model.file.name)
             image_model.save()
             image_model.save()
@@ -186,12 +186,12 @@ class UpdateAmbitForm(forms.ModelForm):
         if cleaned_data.get('ap') is not None:
             image = cleaned_data.get('ap')
             if isinstance(image, Image):
-                image_model = Image.objects.get(folder="ambits", file=image.file)
+                image_model = Image.objects.get(folder="Ambitos", file=image.file)
                 image_model.name = '{}-ambit_image'.format(ambit.name)
                 image_model.save()
             else:
                 image_model = Image.objects.create(name='{}-ambit_image'.format(ambit.name),
-                                                   folder="ambits", file=image)
+                                                   folder="Ambitos", file=image)
 
             image_model.file_name = os.path.basename(image_model.file.name)
             image_model.save()

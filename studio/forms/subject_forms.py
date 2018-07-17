@@ -54,7 +54,7 @@ class SubjectForm(forms.ModelForm):
                 new_image = Image.objects.create(
                     name='{}-subject_background_image'.format(subject.name),
                     file=background_image,
-                    folder='subjects'
+                    folder='Materias'
                 )
                 new_image.file_name = os.path.basename(background_image.name)
                 new_image.save()
@@ -134,7 +134,7 @@ class UpdateSubjectForm(forms.ModelForm):
                 new_image = Image.objects.create(
                     name='{}-subject_background_image'.format(subject.name),
                     file=background_image,
-                    folder='subjects'
+                    folder='Materias'
                 )
 
                 new_image.file_name = os.path.basename(background_image.name)
