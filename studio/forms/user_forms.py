@@ -6,7 +6,7 @@ from alumnica_model.models import AuthUser, users
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from alumnica_model.models.users import TYPE_CONTENT_CREATOR, TYPE_SUPERVISOR
+from alumnica_model.models.users import TYPE_CONTENT_CREATOR, TYPE_SUPERVISOR, ContentCreator, Supervisor
 
 
 class UserLoginForm(forms.Form):
@@ -44,6 +44,7 @@ class UserLoginForm(forms.Form):
 
 
 class CreateUserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
     class Meta:
         model = AuthUser
         fields = ['email', 'password', 'first_name', 'last_name', 'user_type']
@@ -67,6 +68,45 @@ class CreateUserForm(forms.ModelForm):
         user.email = user.email.lower()
         user.set_password(self.cleaned_data.get('password'))
         if commit:
+            user.save()
+        return user
+
+
+class UpdateUserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    class Meta:
+        model = AuthUser
+        fields = ['email', 'password', 'first_name', 'last_name', 'user_type']
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateUserForm, self).__init__(*args, **kwargs)
+        self.fields['user_type'].choices = ((TYPE_CONTENT_CREATOR, _(TYPE_CONTENT_CREATOR)),
+                                            (TYPE_SUPERVISOR, _(TYPE_SUPERVISOR)))
+
+    def clean(self):
+        cleaned_data = super(UpdateUserForm, self).clean()
+        user = super(UpdateUserForm, self).save(commit=False)
+        email = cleaned_data.get('email')
+        if AuthUser.objects.filter(email=email).exists() and AuthUser.objects.get(email=email) != user:
+            error = ValidationError(_("User with email already exists."), code='email_error')
+            self.add_error('email', error)
+            return cleaned_data
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = super(UpdateUserForm, self).save(commit=False)
+        user_original = AuthUser.objects.get(pk=user.pk)
+        user.email = user.email.lower()
+        new_password = self.cleaned_data.get('password')
+        if new_password is not None:
+            user.set_password(self.cleaned_data.get('password'))
+        if commit:
+            if user.user_type != user_original.user_type:
+                user_original.profile.delete()
+                if user.user_type == TYPE_CONTENT_CREATOR:
+                    obj = ContentCreator.objects.create(auth_user=user_original)
+                elif user.user_type == TYPE_SUPERVISOR:
+                    obj = Supervisor.objects.create(auth_user=user_original)
             user.save()
         return user
 
