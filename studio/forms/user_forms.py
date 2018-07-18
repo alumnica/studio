@@ -6,6 +6,8 @@ from alumnica_model.models import AuthUser, users
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
+from alumnica_model.models.users import TYPE_CONTENT_CREATOR, TYPE_SUPERVISOR
+
 
 class UserLoginForm(forms.Form):
     email = forms.CharField(max_length=100)
@@ -38,6 +40,34 @@ class UserLoginForm(forms.Form):
         cleaned_data = super(UserLoginForm, self).clean()
         email = cleaned_data.get('email').lower()
         user = AuthUser.objects.get(email=email)
+        return user
+
+
+class CreateUserForm(forms.ModelForm):
+    class Meta:
+        model = AuthUser
+        fields = ['email', 'password', 'first_name', 'last_name', 'user_type']
+
+    def __init__(self, *args, **kwargs):
+        super(CreateUserForm, self).__init__(*args, **kwargs)
+        self.fields['user_type'].choices = ((TYPE_CONTENT_CREATOR, _(TYPE_CONTENT_CREATOR)),
+                                            (TYPE_SUPERVISOR, _(TYPE_SUPERVISOR)))
+
+    def clean(self):
+        cleaned_data = super(CreateUserForm, self).clean()
+        email = cleaned_data.get('email')
+        if AuthUser.objects.filter(email=email).exists():
+            error = ValidationError(_("User with email already exists."), code='email_error')
+            self.add_error('email', error)
+            return cleaned_data
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = super(CreateUserForm, self).save(commit=False)
+        user.email = user.email.lower()
+        user.set_password(self.cleaned_data.get('password'))
+        if commit:
+            user.save()
         return user
 
 

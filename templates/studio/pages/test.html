@@ -6,11 +6,7 @@
 {% block content %}
     <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {% for item in json %}
-        {% thumbnail item.file "150x150" as im %}
-            <img id="{{ forloop.counter }}" title="{{ item.file }}" src="{{ im.url }}">
-        {% endthumbnail %}
-        {% endfor %}
+    {{ form }}
      <input type="submit" value="Guardar" class="button">
     </form>
 {% endblock %}

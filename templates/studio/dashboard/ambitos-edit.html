@@ -45,7 +45,7 @@
                             {% endfor %}
 
                         {% for subject in ambit.subjects.all %}
-                                self_materias.push("{{ subject.name|safe }}");
+                                self_materias.push({name:"{{ subject.name|safe }}", pk:{{subject.pk|safe}}});
                         {% endfor %}
 
                         {% for ambit in ambits %}

@@ -96,7 +96,7 @@ $(document).ready(function () {
 
 
     for(let i=0; i<self_materias.length;i++){
-        $("#sortable").append('<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s sorter"></span>' + self_materias[i] + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
+        $("#sortable").append('<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s sorter"></span>' + self_materias[i].name + '</a><span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
         $("#sortable").sortable('refresh');
         if ($('ul#sortable li').length > 3) {
             $('#add-materia-button').hide();
