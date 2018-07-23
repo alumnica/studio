@@ -20,28 +20,27 @@
                 </tr>
             </thead>
             <tbody>
+            {% for user in users_list %}
                 <tr>
                     <td>
                         <div class="titulo_lista">
                             <a href="users-edit.html">
-                                <strong>Diego Cevallos</strong>
+                                <strong>{{ user.first_name }} {{ user.last_name }}</strong>
                             </a>
                         </div>
                         <div class="title-edit-menu">
                             <span class="editar">
-                                <a href="users-edit.html">Editar</a>
-                            </span> |
-                            <span class="borrar">
-                                <a href="#">Borrar</a>
+                                <a href="{% url 'update_user_view' user.pk %}">Editar</a>
                             </span>
 
                         </div>
                     </td>
                     <td>
-                        Supervisor
+                        {{ user.user_type }}
                     </td>
 
                 </tr>
+            {% endfor %}
             </tbody>
         </table>
 
