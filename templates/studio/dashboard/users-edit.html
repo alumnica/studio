@@ -1,0 +1,27 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+
+<div class="dashboard container">
+    <h1 class="title">
+        <i class="fa fa-users"></i> Editar / Crear Usuario</i>
+    </h1>
+    <hr>
+    <div class="grid-x">
+        <div class="cell medium-6">
+            <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+     <input type="submit" value="Guardar" class="button">
+    </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- makes sidebar menu active -->
+<script>
+    document.querySelector('#users-nav').classList.add("is-active");
+</script>
+{% endblock %}

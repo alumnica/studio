@@ -62,7 +62,7 @@ class ProfileView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Form
 
 class CreateUserView(LoginRequiredMixin, OnlySupervisorMixin, CreateView):
     login_url = 'login_view'
-    template_name = 'studio/pages/test.html'
+    template_name = 'studio/dashboard/users-edit.html'
     form_class = CreateUserForm
     success_url = reverse_lazy('dashboard_view')
 
@@ -79,7 +79,7 @@ class CreateUserView(LoginRequiredMixin, OnlySupervisorMixin, CreateView):
 
 class UpdateUserView(LoginRequiredMixin, OnlySupervisorMixin, UpdateView):
     login_url = 'login_view'
-    template_name = 'studio/pages/test.html'
+    template_name = 'studio/dashboard/users-edit.html'
     form_class = UpdateUserForm
     success_url = reverse_lazy('dashboard_view')
 
