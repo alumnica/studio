@@ -25,6 +25,7 @@ class ODAsPreviewForm(forms.Form):
 
 class ODACreateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput())
+    description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-desc'}))
     tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                          'id': 'oda-tags'}))
 
@@ -52,7 +53,7 @@ class ODACreateForm(forms.ModelForm):
                                                               'id': 'sens-tags'}))
     class Meta:
         model = ODA
-        fields = ['name', 'tags']
+        fields = ['name', 'description','tags']
 
     def save_form(self, user, moments, subject, bloque, is_draft=False):
 
@@ -141,6 +142,7 @@ class ODACreateForm(forms.ModelForm):
 
 class ODAUpdateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'oda-name'}))
+    description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-desc'}))
     tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                          'id':
                                                                              'oda-tags'}))
@@ -168,7 +170,7 @@ class ODAUpdateForm(forms.ModelForm):
 
     class Meta:
         model = ODA
-        fields = ['name', 'tags']
+        fields = ['name', 'description', 'tags']
 
     def save_form(self, user, moments, subject, bloque, evaluation,  is_draft=False):
         cleaned_data = super(ODAUpdateForm, self).clean()
