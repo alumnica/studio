@@ -32,7 +32,7 @@ class ImageViewSet(ModelViewSet):
             if action == 'filter':
                 data = filter['data']['value']
                 if data != '':
-                    filter_params.update({'folder_contains': data, 'file_name_contains': data})
+                    filter_params.update({'folder__contains': data, 'file_name__contains': data})
             elif action == 'paging':
 
                     try:

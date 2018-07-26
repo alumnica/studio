@@ -122,7 +122,7 @@ class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Cr
 
     def get(self, request, *args, **kwargs):
         tags_list = Tag.objects.all()
-        moments_list = Moment.objects.filter(microodas=None)
+        moments_list = Moment.objects.filter(microoda=None)
         subjects_list = []
 
         bloques_list = []
@@ -208,7 +208,7 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ODAUpdateView, self).get_context_data(**kwargs)
         tags_list = Tag.objects.all()
-        moments_list = Moment.objects.filter(microodas=None)
+        moments_list = Moment.objects.filter(microoda=None)
         self_tags = self.object.tags.all()
 
         apli_list = self.object.microodas.filter(type=MicroODAType.objects.get(name='application'))

@@ -21,9 +21,9 @@
         let oda_microodas = [];
         let odaList = [];
         let typeList = [];
-        let self_subject = "{{ moment.microodas.all.0.oda.subject.name|safe }}";
-        let self_oda = "{{ moment.microodas.all.0.oda.name|safe }}";
-        let self_microoda = "{{ moment.microodas.all.0.type.name|safe }}";
+        let self_subject = "{{ moment.microoda.oda.subject.name|safe }}";
+        let self_oda = "{{ moment.microoda.oda.name|safe }}";
+        let self_microoda = "{{ moment.microoda.type.name|safe }}";
         let self_type = "{{ moment.type.name|safe }}";
         {% for tag in tags %}
         momentoTags.push({ name: "{{ tag.name|safe }}"});
@@ -104,7 +104,7 @@
                                 <small>{% trans "File name" %}</small>
                                 {% with  moment.content.url|split:"/" as path%}
                                     <script type="text/javascript">
-                                    file_name = "{{ path.3 }}";
+                                    file_name = "{{ path|last }}";
                                     </script>
                                 {% endwith %}
                             </p>

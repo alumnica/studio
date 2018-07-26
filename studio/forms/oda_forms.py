@@ -25,6 +25,7 @@ class ODAsPreviewForm(forms.Form):
 
 class ODACreateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput())
+    description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-desc'}))
     tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                          'id': 'oda-tags'}))
 
@@ -52,7 +53,7 @@ class ODACreateForm(forms.ModelForm):
                                                               'id': 'sens-tags'}))
     class Meta:
         model = ODA
-        fields = ['name', 'tags']
+        fields = ['name', 'description','tags']
 
     def save_form(self, user, moments, subject, bloque, is_draft=False):
 
@@ -89,20 +90,11 @@ class ODACreateForm(forms.ModelForm):
         counter = 1
         for moment_object in moments:
 
-            microoda, created = MicroODA.objects.get_or_create(name='{}_oda_{}'.format(oda.name, moment_object[0]),
-                                                               created_by=user,
-                                                               type=MicroODAType.objects.get(name=moment_object[0]),
-                                                               default_position=counter, oda=oda)
+            MicroODA.objects.get_or_create(name='{}_oda_{}'.format(oda.name, moment_object[0]),
+                                           created_by=user,
+                                           type=MicroODAType.objects.get(name=moment_object[0]),
+                                           default_position=counter, oda=oda)
             counter += 1
-
-            if moment_object[1] is not None and moment_object[1] is not '':
-
-                moments_names = moment_object[1].split(',')
-
-                for moment_name in moments_names:
-                    moment = Moment.objects.get(name=moment_name)
-                    microoda.activities.add(moment)
-            microoda.save()
 
         if apli_tags is not None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='application')), apli_tags)
@@ -117,10 +109,10 @@ class ODACreateForm(forms.ModelForm):
 
         if active_icon is not None:
             if isinstance(active_icon, Image):
-                    active_icon_object = Image.objects.get(folder="odas", file=active_icon.file)
+                    active_icon_object = Image.objects.get(folder="ODAs", file=active_icon.file)
                     active_icon_object.name = '{}-oda_active_icon'.format(oda.name)
             else:
-                active_icon_object = Image.objects.create(name='{}-oda_active_icon'.format(oda.name), folder="ambits",
+                active_icon_object = Image.objects.create(name='{}-oda_active_icon'.format(oda.name), folder="ODAs",
                                                           file=active_icon)
                 active_icon_object.file_name = os.path.basename(active_icon_object.file.name)
             active_icon_object.save()
@@ -128,11 +120,11 @@ class ODACreateForm(forms.ModelForm):
 
         if completed_icon is not None:
             if isinstance(completed_icon, Image):
-                completed_icon_object = Image.objects.get(folder="odas", file=completed_icon.file)
+                completed_icon_object = Image.objects.get(folder="ODAs", file=completed_icon.file)
                 completed_icon_object.name = '{}-oda_completed_icon'.format(oda.name)
             else:
                 completed_icon_object = Image.objects.create(name='{}-oda_completed_icon'.format(oda.name),
-                                                             folder="ambits", file=completed_icon)
+                                                             folder="ODAs", file=completed_icon)
                 completed_icon_object.file_name = os.path.basename(completed_icon_object.file.name)
             completed_icon_object.save()
             oda.completed_icon = completed_icon_object
@@ -150,6 +142,7 @@ class ODACreateForm(forms.ModelForm):
 
 class ODAUpdateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'oda-name'}))
+    description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-desc'}))
     tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                          'id':
                                                                              'oda-tags'}))
@@ -177,7 +170,7 @@ class ODAUpdateForm(forms.ModelForm):
 
     class Meta:
         model = ODA
-        fields = ['name', 'tags']
+        fields = ['name', 'description', 'tags']
 
     def save_form(self, user, moments, subject, bloque, evaluation,  is_draft=False):
         cleaned_data = super(ODAUpdateForm, self).clean()
@@ -215,42 +208,33 @@ class ODAUpdateForm(forms.ModelForm):
         for moment_object in moments:
 
             try:
-                microoda = MicroODA.objects.get(name='{}_oda_{}'.format(oda.name, moment_object[0]),
-                                                type=MicroODAType.objects.get(name=moment_object[0]), oda=oda)
+                microoda = MicroODA.objects.get(type=MicroODAType.objects.get(name=moment_object[0]), oda=oda)
+                microoda.name = '{}_oda_{}'.format(oda.name, moment_object[0])
+                microoda.save()
             except MicroODA.DoesNotExist:
                 microoda = MicroODA.objects.create(name='{}_oda_{}'.format(oda.name, moment_object[0]),
                                                    type=MicroODAType.objects.get(moment_object[0]),
                                                    created_by=user, oda=oda)
-            if moment_object[1] is not '' or None:
-                moments_names = moment_object[1].split(',')
 
-                for moment_name in moments_names:
-                    moment = Moment.objects.get(name=moment_name)
-                    microoda.activities.add(moment)
-                    microoda.save()
+            moments_names = moment_object[1].split(',')
 
-                for moment in microoda.activities.all():
-                    if moment.name not in moments_names:
-                        microoda.activities.remove(moment)
-                    microoda.save()
+            for moment in microoda.activities.all():
+                if moment.name not in moments_names:
+                    microoda.activities.remove(moment)
+                microoda.save()
 
-        if apli_tags is not None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='application')), apli_tags)
-        if forma_tags is not None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='formalization')), forma_tags)
-        if activ_tags is not None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='activation')), activ_tags)
-        if ejemp_tags is not None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='exemplification')), ejemp_tags)
-        if sens_tags is not None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='sensitization')), sens_tags)
 
         if active_icon is not None:
             if isinstance(active_icon, Image):
-                    active_icon_object = Image.objects.get(folder="odas", file=active_icon.file)
+                    active_icon_object = Image.objects.get(folder="ODAs", file=active_icon.file)
                     active_icon_object.name = '{}-oda_active_icon'.format(oda.name)
             else:
-                active_icon_object = Image.objects.create(name='{}-oda_active_icon'.format(oda.name), folder="ambits",
+                active_icon_object = Image.objects.create(name='{}-oda_active_icon'.format(oda.name), folder="ODAs",
                                                           file=active_icon)
                 active_icon_object.file_name = os.path.basename(active_icon_object.file.name)
             active_icon_object.save()
@@ -258,11 +242,11 @@ class ODAUpdateForm(forms.ModelForm):
 
         if completed_icon is not None:
             if isinstance(completed_icon, Image):
-                completed_icon_object = Image.objects.get(folder="odas", file=completed_icon.file)
+                completed_icon_object = Image.objects.get(folder="ODAs", file=completed_icon.file)
                 completed_icon_object.name = '{}-oda_completed_icon'.format(oda.name)
             else:
                 completed_icon_object = Image.objects.create(name='{}-oda_completed_icon'.format(oda.name),
-                                                             folder="ambits", file=completed_icon)
+                                                             folder="ODAs", file=completed_icon)
                 completed_icon_object.file_name = os.path.basename(completed_icon_object.file.name)
             completed_icon_object.save()
             oda.completed_icon = completed_icon_object
@@ -279,6 +263,8 @@ class ODAUpdateForm(forms.ModelForm):
             set_evaluation(evaluation_instance)
             oda.evaluation = evaluation_instance
         oda.temporal = is_draft
+        if is_draft:
+            oda.zone = 0
         oda.save()
 
         return oda
@@ -291,9 +277,9 @@ def set_microodas_tags(microoda, tags):
             tag, created = Tag.objects.get_or_create(name=tag_name)
             if tag not in microoda.tags.all():
                 microoda.tags.add(tag)
-        for tag in microoda.tags.all():
-            if tag.name not in tags:
-                microoda.tags.remove(tag)
+    for tag in microoda.tags.all():
+        if tag.name not in tags:
+            microoda.tags.remove(tag)
     microoda.save()
 
 

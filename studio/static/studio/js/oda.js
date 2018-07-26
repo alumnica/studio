@@ -1,5 +1,10 @@
 $(document).ready(function () {
 
+    $("input[id='evaluation_file']").change(function (e) {
+        var $this = $(this);
+       $('#uoda-6').html($this.val().split('\\').pop());
+    });
+
     $('#materia-a-oda').change(function () {
        subject_name = this.value;
 
@@ -253,8 +258,11 @@ function is_valid_form_odas_section(){
         else{
             let evaluation_object = document.getElementById('eval-momentos').value;
             if (evaluation_object == "" || evaluation_object == null){
-                swal("Error", "Selecciona una evaluación", "error");
-                return  false;
+                let evaluation_file = document.getElementById('uoda-6').innerText;
+                if(evaluation_file == "" || evaluation_file == null){
+                    swal("Error", "Selecciona una evaluación", "error");
+                    return  false;
+                }
             }
 
         }

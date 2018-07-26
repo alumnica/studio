@@ -22,13 +22,12 @@ class MomentCreateForm(forms.ModelForm):
         oda = subject.odas.get(name=oda_name)
         microoda = oda.microodas.get(type=MicroODAType.objects.get(name=microoda_type))
 
-        moment.folder = 'moments'
+        moment.folder = 'Momentos'
         moment.created_by = user
         moment.type = MomentType.objects.get(name=moment_type)
         moment.file_name = h5p_url
+        moment.microoda = microoda
         moment.save()
-        microoda.activities.add(moment)
-        microoda.save()
 
         for tag_name in tags:
             tag, created = Tag.objects.get_or_create(name=tag_name)
@@ -57,14 +56,13 @@ class MomentUpdateForm(forms.ModelForm):
         oda = subject.odas.get(name=oda_name)
         microoda = oda.microodas.get(type=MicroODAType.objects.get(name=microoda_type))
 
-        moment.folder = 'moments'
+        moment.folder = 'Momentos'
         moment.type = MomentType.objects.get(name=moment_type)
 
         if h5p_url is not None:
             moment.file_name = h5p_url
+        moment.microoda = microoda
         moment.save()
-        microoda.activities.add(moment)
-        microoda.save()
 
         for tag_name in tags:
             tag, created = Tag.objects.get_or_create(name=tag_name)
@@ -73,5 +71,4 @@ class MomentUpdateForm(forms.ModelForm):
         for tag in moment.tags.all():
             if tag.name not in tags:
                 moment.tags.remove(tag)
-
         moment.save()

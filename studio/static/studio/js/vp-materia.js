@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $('.block').each(function () {
+    $('.the-block').each(function () {
 
         var theState = $(this).attr('state');
         $(this).addClass(theState);
@@ -18,7 +18,7 @@ $(document).ready(function () {
         }
     });
 
-    $('.block').on('click', function(e){
+    $('.the-block').on('click', function(e){
         e.stopPropagation(); // <--------------stop here
         $('.thetip').fadeOut(200);
         $('.thetip', this).fadeToggle('150');
