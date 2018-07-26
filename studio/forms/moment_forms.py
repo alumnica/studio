@@ -22,7 +22,7 @@ class MomentCreateForm(forms.ModelForm):
         oda = subject.odas.get(name=oda_name)
         microoda = oda.microodas.get(type=MicroODAType.objects.get(name=microoda_type))
 
-        moment.folder = 'moments'
+        moment.folder = 'Momentos'
         moment.created_by = user
         moment.type = MomentType.objects.get(name=moment_type)
         moment.file_name = h5p_url
@@ -56,7 +56,7 @@ class MomentUpdateForm(forms.ModelForm):
         oda = subject.odas.get(name=oda_name)
         microoda = oda.microodas.get(type=MicroODAType.objects.get(name=microoda_type))
 
-        moment.folder = 'moments'
+        moment.folder = 'Momentos'
         moment.type = MomentType.objects.get(name=moment_type)
 
         if h5p_url is not None:

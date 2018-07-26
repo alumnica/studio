@@ -56,7 +56,7 @@
                             <div id="block-{{ oda.pk }}" class="block" data-n="a-{{ oda.zone }}">
                                 <img src="{{ oda.active_icon.file.url }}" alt="" class=".block-img">
                             </div>
-                            <div class="oda-desc">Oda numero 400</div>
+                            <div class="oda-desc">{{ oda.name }}</div>
                         </li>
                     {% endfor %}
                 <script type="text/javascript">

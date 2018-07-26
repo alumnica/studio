@@ -1,0 +1,55 @@
+{% extends "studio/base-main.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+
+<div class="dashboard container">
+    <h1 class="title">
+        <i class="fa fa-users"></i> Usuarios</i>
+    </h1>
+    <hr>
+    <a href="{% url 'create_user_view' %}" class="button">Crear Usuario</a>
+    <div class="panel">
+
+        <table id="tabla-usuarios" class=" no-wrap">
+            <thead>
+                <tr>
+                    <th>Nombre de Usuario</th>
+                    <th>Tipo de Usuario</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users_list %}
+                <tr>
+                    <td>
+                        <div class="titulo_lista">
+                            <a href="users-edit.html">
+                                <strong>{{ user.first_name }} {{ user.last_name }}</strong>
+                            </a>
+                        </div>
+                        <div class="title-edit-menu">
+                            <span class="editar">
+                                <a href="{% url 'update_user_view' user.pk %}">Editar</a>
+                            </span>
+
+                        </div>
+                    </td>
+                    <td>
+                        {{ user.user_type }}
+                    </td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+
+<!-- makes sidebar menu active -->
+<script>
+    document.querySelector('#users-nav').classList.add("is-active");
+</script>
+{% endblock %}

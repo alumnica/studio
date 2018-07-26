@@ -86,14 +86,13 @@ $('.img-box .complete_file').each(function () {
     $(checker).val($(this).text())
 });
 
-$('.folder').each(function(){
+/*$('.folder').each(function(){
 if ($(this).text() == 'ambits') {
     $(this).text('\xC1mbitos')
 } else if ($(this).text() == 'subjects') {
     $(this).text('Materias')
 }
-})
-;
+});*/
 
 
 $('.img-box').on('click', '.image', function () {

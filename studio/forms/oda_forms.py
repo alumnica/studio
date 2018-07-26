@@ -25,6 +25,7 @@ class ODAsPreviewForm(forms.Form):
 
 class ODACreateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput())
+    description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-desc'}))
     tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                          'id': 'oda-tags'}))
 
@@ -52,7 +53,7 @@ class ODACreateForm(forms.ModelForm):
                                                               'id': 'sens-tags'}))
     class Meta:
         model = ODA
-        fields = ['name', 'tags']
+        fields = ['name', 'description','tags']
 
     def save_form(self, user, moments, subject, bloque, is_draft=False):
 
@@ -108,10 +109,10 @@ class ODACreateForm(forms.ModelForm):
 
         if active_icon is not None:
             if isinstance(active_icon, Image):
-                    active_icon_object = Image.objects.get(folder="odas", file=active_icon.file)
+                    active_icon_object = Image.objects.get(folder="ODAs", file=active_icon.file)
                     active_icon_object.name = '{}-oda_active_icon'.format(oda.name)
             else:
-                active_icon_object = Image.objects.create(name='{}-oda_active_icon'.format(oda.name), folder="ambits",
+                active_icon_object = Image.objects.create(name='{}-oda_active_icon'.format(oda.name), folder="ODAs",
                                                           file=active_icon)
                 active_icon_object.file_name = os.path.basename(active_icon_object.file.name)
             active_icon_object.save()
@@ -119,11 +120,11 @@ class ODACreateForm(forms.ModelForm):
 
         if completed_icon is not None:
             if isinstance(completed_icon, Image):
-                completed_icon_object = Image.objects.get(folder="odas", file=completed_icon.file)
+                completed_icon_object = Image.objects.get(folder="ODAs", file=completed_icon.file)
                 completed_icon_object.name = '{}-oda_completed_icon'.format(oda.name)
             else:
                 completed_icon_object = Image.objects.create(name='{}-oda_completed_icon'.format(oda.name),
-                                                             folder="ambits", file=completed_icon)
+                                                             folder="ODAs", file=completed_icon)
                 completed_icon_object.file_name = os.path.basename(completed_icon_object.file.name)
             completed_icon_object.save()
             oda.completed_icon = completed_icon_object
@@ -141,6 +142,7 @@ class ODACreateForm(forms.ModelForm):
 
 class ODAUpdateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'oda-name'}))
+    description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-desc'}))
     tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                          'id':
                                                                              'oda-tags'}))
@@ -168,7 +170,7 @@ class ODAUpdateForm(forms.ModelForm):
 
     class Meta:
         model = ODA
-        fields = ['name', 'tags']
+        fields = ['name', 'description', 'tags']
 
     def save_form(self, user, moments, subject, bloque, evaluation,  is_draft=False):
         cleaned_data = super(ODAUpdateForm, self).clean()
@@ -229,10 +231,10 @@ class ODAUpdateForm(forms.ModelForm):
 
         if active_icon is not None:
             if isinstance(active_icon, Image):
-                    active_icon_object = Image.objects.get(folder="odas", file=active_icon.file)
+                    active_icon_object = Image.objects.get(folder="ODAs", file=active_icon.file)
                     active_icon_object.name = '{}-oda_active_icon'.format(oda.name)
             else:
-                active_icon_object = Image.objects.create(name='{}-oda_active_icon'.format(oda.name), folder="ambits",
+                active_icon_object = Image.objects.create(name='{}-oda_active_icon'.format(oda.name), folder="ODAs",
                                                           file=active_icon)
                 active_icon_object.file_name = os.path.basename(active_icon_object.file.name)
             active_icon_object.save()
@@ -240,11 +242,11 @@ class ODAUpdateForm(forms.ModelForm):
 
         if completed_icon is not None:
             if isinstance(completed_icon, Image):
-                completed_icon_object = Image.objects.get(folder="odas", file=completed_icon.file)
+                completed_icon_object = Image.objects.get(folder="ODAs", file=completed_icon.file)
                 completed_icon_object.name = '{}-oda_completed_icon'.format(oda.name)
             else:
                 completed_icon_object = Image.objects.create(name='{}-oda_completed_icon'.format(oda.name),
-                                                             folder="ambits", file=completed_icon)
+                                                             folder="ODAs", file=completed_icon)
                 completed_icon_object.file_name = os.path.basename(completed_icon_object.file.name)
             completed_icon_object.save()
             oda.completed_icon = completed_icon_object

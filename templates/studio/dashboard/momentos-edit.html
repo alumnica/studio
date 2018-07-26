@@ -104,7 +104,7 @@
                                 <small>{% trans "File name" %}</small>
                                 {% with  moment.content.url|split:"/" as path%}
                                     <script type="text/javascript">
-                                    file_name = "{{ path.3 }}";
+                                    file_name = "{{ path|last }}";
                                     </script>
                                 {% endwith %}
                             </p>
