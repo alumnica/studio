@@ -1,10 +1,12 @@
 from rest_framework import serializers
 from rest_framework.serializers import HyperlinkedModelSerializer
 
-from django_h5p.models import H5Package, H5PLibrary, H5PackageDependency, PreloadedCSS, PreloadedJS, EmbedType
 
 
 # noinspection PyAbstractClass
+from alumnica_model.models.h5p import H5Package, H5PLibrary, H5PackageDependency, PreloadedCSS, PreloadedJS, EmbedType
+
+
 class PackageUploadFileSerializer(serializers.Serializer):
     package = serializers.FileField()
 

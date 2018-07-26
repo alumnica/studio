@@ -6,8 +6,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.generic import FormView, DetailView, TemplateView
 
+from alumnica_model.models.h5p import H5Package
 from django_h5p.forms import H5PackageForm
-from django_h5p.models import H5Package
 
 
 class UploadH5PackageView(FormView):
