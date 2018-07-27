@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'd4$itpp&epvrm)%4(dd&qox0$wwv21g!fo3c$
 DEBUG = not os.environ.get('ON_HEROKU', False)
 
 ALLOWED_HOSTS = ['.herokuapp.com', 'studio.alumnica.org', 'localhost', '127.0.0.1']
-
+CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,14 +45,17 @@ INSTALLED_APPS = [
     'studio.apps.StudioConfig',
     'django_use_email_as_username.apps.DjangoUseEmailAsUsernameConfig',
     'alumnica_model.apps.AlumnicaModelConfig',
+    'django_h5p.apps.DjangoH5PConfig',
     'sweetify',
     'storages',
     'rest_framework',
     'sorl.thumbnail',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -160,6 +163,8 @@ AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 if all([AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME]):
     # Use S3 from Amazon Web Services to store uploaded files
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    AWS_AUTO_CREATE_BUCKET = True
+    AWS_S3_FILE_OVERWRITE = True
     AWS_S3_OBJECT_PARAMETERS = {
         'CacheControl': 'max-age=86400',
     }

@@ -1,0 +1,11 @@
+{
+	"title": "360 Image Viewer",
+	"language": "und",
+	"mainLibrary": "H5P.ThreeSixtyImage",
+	"embedTypes": ["div"],
+	"preloadedDependencies": [{
+		"machineName": "H5P.ThreeSixtyImage",
+		"majorVersion": "1",
+		"minorVersion": "0"
+	}]
+}

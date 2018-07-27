@@ -96,7 +96,7 @@ let url_status = '';
          return false;
      }
 
-     let url = 'https://django-h5p.herokuapp.com/api/zip_files/';
+     let url = gettext('/api/zip_files/');
      let control = document.getElementById('h5p-upload');
      let data = $('#h5p-upload').val();
      let previous_file = $('#fileName').html();
