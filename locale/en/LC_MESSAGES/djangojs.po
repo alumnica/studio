@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-22 19:10-0500\n"
+"POT-Creation-Date: 2018-07-27 13:45-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,34 +18,70 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: studio/static/studio/js/ambit.js:5 studio/static/studio/js/ambit.js:22
+#: studio/static/studio/js/ambit.js:23 studio/static/studio/js/ambit.js:41
+#: studio/static/studio/js/momentos.js:65
 msgid "The name field is required"
 msgstr ""
 
-#: studio/static/studio/js/ambit.js:9 studio/static/studio/js/ambit.js:32
+#: studio/static/studio/js/ambit.js:27 studio/static/studio/js/ambit.js:51
 msgid "This name is already taken"
 msgstr ""
 
-#: studio/static/studio/js/ambit.js:27
+#: studio/static/studio/js/ambit.js:46
 msgid "Delete an ambit before publish another"
 msgstr ""
 
-#: studio/static/studio/js/ambit.js:43
+#: studio/static/studio/js/ambit.js:62
 msgid "Select a background color"
 msgstr ""
 
-#: studio/static/studio/js/ambit.js:51
+#: studio/static/studio/js/ambit.js:70
 msgid "The size of the file must be less than 10 MB"
 msgstr ""
 
-#: studio/static/studio/js/ambit.js:58 studio/static/studio/js/ambit.js:62
+#: studio/static/studio/js/ambit.js:77 studio/static/studio/js/ambit.js:81
 msgid "Select a PNG image"
 msgstr ""
 
-#: studio/static/studio/js/app.js:22
-msgid "input"
+#: studio/static/studio/js/ambit.js:87
+msgid "Select at least one subject to publish"
 msgstr ""
 
-#: studio/static/studio/js/app.js:22
-msgid "intent"
+#: studio/static/studio/js/momentos.js:71
+msgid "The subject field is required"
+msgstr ""
+
+#: studio/static/studio/js/momentos.js:77
+msgid "The ODA field is required"
+msgstr ""
+
+#: studio/static/studio/js/momentos.js:83
+msgid "The Micro ODA field is required"
+msgstr ""
+
+#: studio/static/studio/js/momentos.js:89
+msgid "Select the moment type"
+msgstr ""
+
+#: studio/static/studio/js/momentos.js:95
+msgid "Introduce at least one tag"
+msgstr ""
+
+#: studio/static/studio/js/momentos.js:99
+msgid "/api/zip_files/"
+msgstr "/en/api/zip_files/"
+
+#: studio/static/studio/js/momentos.js:106
+msgid "Any file has been selected"
+msgstr ""
+
+#: studio/static/studio/js/momentos.js:115
+msgid "Select a H5P file"
+msgstr ""
+
+#: studio/static/studio/js/momentos.js:130
+#: studio/static/studio/js/momentos.js:155
+#: studio/static/studio/js/momentos.js:164
+#: studio/static/studio/js/momentos.js:183
+msgid "Failed loading the file, please try later"
 msgstr ""

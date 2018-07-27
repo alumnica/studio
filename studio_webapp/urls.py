@@ -54,6 +54,8 @@ urlpatterns += i18n_patterns(
                   path(_('h5p/'), include('django_h5p.urls')),
                   path(_('admin/'), admin.site.urls),
                   path(_('api/'), include(router.urls)),
+                  path(_('api/zip_files/'), PackageUploadAPIView.as_view(), name='package_upload_view'),
+                  path(_('api/jobs/<str:job_id>/'), JobAPIView.as_view(), name='job_detail_view'),
                   path(_('api-auth/'), include('rest_framework.urls', namespace='rest_framework')),
                   path(_('jsi18n/'), JavaScriptCatalog.as_view(), name='javascript-catalog'),
               )
