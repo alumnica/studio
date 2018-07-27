@@ -12,7 +12,7 @@ from rq import Queue
 from storages.backends.s3boto3 import S3Boto3Storage
 
 from alumnica_model.models.h5p import H5PLibrary
-from django_h5p import worker
+from studio_webapp import worker
 from django_h5p.saver import save_h5package
 from django_h5p.validators import validate_is_h5p, validate_h5p_library
 

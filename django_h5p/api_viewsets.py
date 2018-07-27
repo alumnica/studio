@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from alumnica_model.models.h5p import H5Package, H5PLibrary, H5PackageDependency, PreloadedCSS, PreloadedJS, EmbedType
-from django_h5p import worker
+from studio_webapp import worker
 from django_h5p.forms import H5PackageForm
 from django_h5p.serializers import H5PackageHyperlinkedModelSerializer, H5PLibraryHyperlinkedModelSerializer, \
     H5PackageDependencyHyperlinkedModelSerializer, PreloadedCSSHyperlinkedModelSerializer, \

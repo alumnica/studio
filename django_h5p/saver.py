@@ -8,7 +8,7 @@ import rq
 from storages.backends.s3boto3 import S3Boto3Storage
 
 from alumnica_model.models.h5p import EmbedType, PreloadedJS, PreloadedCSS, H5PLibrary, H5PackageDependency, H5Package
-from django_h5p import worker
+from studio_webapp import worker
 
 _logger = logging.getLogger('django_h5p')
 

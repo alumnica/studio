@@ -13,7 +13,7 @@ conn = redis.from_url(redis_url)
 
 
 def main():
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_h5p_project.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "studio_webapp.settings")
     django.setup(set_prefix=False)
 
     with Connection(conn):
