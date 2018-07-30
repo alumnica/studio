@@ -143,7 +143,7 @@ let url_status = '';
         swal("Error", data.error, 'error');
         return false;
     }
-    $('#url_h5p').val(data.job.package_url);
+    $('#url_h5p').val(data.job.package_job_id);
     url_status = data.job.job_url;
     swal('Please wait');
     swal.showLoading();
