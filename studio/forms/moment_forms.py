@@ -2,6 +2,7 @@ from django import forms
 
 from alumnica_model.models import Moment, Tag, ODA
 from alumnica_model.models.content import MomentType, Subject, MicroODAType
+from alumnica_model.models.h5p import H5Package
 
 
 class MomentCreateForm(forms.ModelForm):
@@ -14,7 +15,7 @@ class MomentCreateForm(forms.ModelForm):
         model = Moment
         fields = ['name', 'tags', 'content']
 
-    def save_form(self, user, subject_name, oda_name, microoda_type, moment_type, h5p_url):
+    def save_form(self, user, subject_name, oda_name, microoda_type, moment_type, h5p_id):
         cleaned_data = super(MomentCreateForm, self).clean()
         moment = super(MomentCreateForm, self).save(commit=False)
         tags = cleaned_data.get('tags').split(',')
@@ -25,7 +26,7 @@ class MomentCreateForm(forms.ModelForm):
         moment.folder = 'Momentos'
         moment.created_by = user
         moment.type = MomentType.objects.get(name=moment_type)
-        moment.file_name = h5p_url
+        moment.h5p_package = H5Package.objects.get(job_id=h5p_id)
         moment.microoda = microoda
         moment.save()
 
