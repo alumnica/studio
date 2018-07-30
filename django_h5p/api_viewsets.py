@@ -24,10 +24,7 @@ class PackageUploadAPIView(APIView):
             return Response({
                 'status': 'success', 'job': {
                     'id': job.id,
-                    'package_url': '{}://{}{}'.format(
-                        request.scheme,
-                        request.get_host(),
-                        reverse_lazy('package_view', kwargs={'job_id': job.id})),
+                    'package_job_id': '{}'.format(job.id),
                     'job_url': '{}://{}{}'.format(
                         request.scheme,
                         request.get_host(),
