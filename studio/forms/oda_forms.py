@@ -90,7 +90,7 @@ class ODACreateForm(forms.ModelForm):
         counter = 1
         for moment_object in moments:
 
-            MicroODA.objects.get_or_create(name='{}_oda_{}'.format(oda.name, moment_object[0]),
+            MicroODA.objects.get_or_create(name='{}'.format(moment_object[0]),
                                            created_by=user,
                                            type=MicroODAType.objects.get(name=moment_object[0]),
                                            default_position=counter, oda=oda)
@@ -212,7 +212,7 @@ class ODAUpdateForm(forms.ModelForm):
                 microoda.name = '{}_oda_{}'.format(oda.name, moment_object[0])
                 microoda.save()
             except MicroODA.DoesNotExist:
-                microoda = MicroODA.objects.create(name='{}_oda_{}'.format(oda.name, moment_object[0]),
+                microoda = MicroODA.objects.create(name='{}'.format(moment_object[0]),
                                                    type=MicroODAType.objects.get(moment_object[0]),
                                                    created_by=user, oda=oda)
 
