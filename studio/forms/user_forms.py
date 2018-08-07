@@ -1,12 +1,16 @@
+import csv
+
 from django import forms
 from django.contrib import admin
 from django.core.exceptions import ValidationError
+from django.http import HttpResponse
+from django.utils.encoding import smart_str
 
 from alumnica_model.models import AuthUser, users
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from alumnica_model.models.users import TYPE_CONTENT_CREATOR, TYPE_SUPERVISOR, ContentCreator, Supervisor
+from alumnica_model.models.users import TYPE_CONTENT_CREATOR, TYPE_SUPERVISOR, ContentCreator, Supervisor, Learner
 
 
 class UserLoginForm(forms.Form):
@@ -145,5 +149,35 @@ class CustomUserAdmin(UserAdmin):
     filter_horizontal = ()
 
 
+def DownloadLearnerUsers(modeladmin, request, queryset):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=learners.csv'
+    writer = csv.writer(response, csv.excel)
+    response.write(u'\ufeff'.encode('utf8'))  # BOM (optional...Excel needs it to open UTF-8 file properly)
+    writer.writerow([
+        smart_str(u"Name"),
+        smart_str(u"Email"),
+        smart_str(u"Birthday"),
+        smart_str(u"Learning Style"),
+    ])
+    for obj in queryset:
+        writer.writerow([
+            smart_str('{} {}'.format(obj.auth_user.first_name,obj.auth_user.last_name)),
+            smart_str(obj.auth_user.email),
+            smart_str(obj.birth_date),
+            smart_str(obj.learning_style),
+        ])
+    return response
+
+
+DownloadLearnerUsers.short_description = u"Export CSV"
+
+
+class DownloadLearnerFile(admin.ModelAdmin):
+    actions = [DownloadLearnerUsers]
+
+
 admin.site.unregister(AuthUser)
+admin.site.unregister(Learner)
+admin.site.register(Learner, DownloadLearnerFile)
 admin.site.register(AuthUser, CustomUserAdmin)
