@@ -43,14 +43,15 @@ class PackageView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PackageView, self).get_context_data(**kwargs)
-        print('getting contextdata -----------------')
-        print('getting library dir: ' + self.object.main_library.full_name + '------------------')
-        print('getting content_json: ' + json.dumps(self.object.content, ensure_ascii=False) + '------------------')
+        print('getting stylesheets: ------------------')
+        for lib in self.object.preloaded_dependencies.all():
+            print('preloaded dependecy: '+lib.id)
+
         stylesheets = list(OrderedSet({
             css for lib in self.object.preloaded_dependencies.all()
             for css in lib.get_all_stylesheets()
         }))
-        print('getting stylesheets: ' + str(len(stylesheets)) + '------------------')
+
         javascripts = list(OrderedSet([
             script for lib in self.object.preloaded_dependencies.all()
             for script in lib.get_all_javascripts()
