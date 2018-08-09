@@ -43,7 +43,7 @@ class PackageView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PackageView, self).get_context_data(**kwargs)
-
+        print('getting contextdata -----------------')
         context.update({
             'library_directory_name': self.object.main_library.full_name,
             'content_json': json.dumps(self.object.content, ensure_ascii=False),
@@ -56,7 +56,7 @@ class PackageView(DetailView):
                 for script in lib.get_all_javascripts()
             ]))
         })
-
+        print('return contextdata -----------------')
         return context
 
 
