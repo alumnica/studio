@@ -45,7 +45,9 @@ class PackageView(DetailView):
         context = super(PackageView, self).get_context_data(**kwargs)
         print('getting stylesheets: ------------------')
         for lib in self.object.preloaded_dependencies.all():
-            print('preloaded dependecy: '+lib.id)
+            print('preloaded dependecy: '+ str(lib.id))
+            var = lib.get_all_stylesheets()
+            print('stylesheets length: ' + str(len(var)))
 
         stylesheets = list(OrderedSet({
             css for lib in self.object.preloaded_dependencies.all()
