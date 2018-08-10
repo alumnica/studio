@@ -13,12 +13,14 @@
             <div class="m-text">Dashboard</div>
         </a>
     </li>
-    <li>
-        <a href="{% url 'approve_dashboard_view' %}">
-            <div class="menu-image fas fa-share-square"></div>
-            {% trans "Ámbitos to publish" %}
-            <div class="pub-counter">2</div></a>
-    </li>
+    {% ifequal request.user.user_type 'SUPERVISOR'%}
+        <li>
+            <a href="{% url 'approve_dashboard_view' %}">
+                <div class="menu-image fas fa-share-square"></div>
+                {% trans "Ámbitos to publish" %}
+                <div class="pub-counter">2</div></a>
+        </li>
+    {% endifequal %}
     <li>
         &nbsp;
     </li>
