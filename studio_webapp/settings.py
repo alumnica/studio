@@ -26,6 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'd4$itpp&epvrm)%4(dd&qox0$wwv21g!fo3c$^y8ta^e@d((bt')
+SECURE_SSL_REDIRECT = bool(os.environ.get('FORCE_SSL', False))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not os.environ.get('ON_HEROKU', False)
