@@ -2,14 +2,13 @@ import csv
 
 from django import forms
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
-
-from alumnica_model.models import AuthUser, users
-from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
+from alumnica_model.models import AuthUser, users
 from alumnica_model.models.users import TYPE_CONTENT_CREATOR, TYPE_SUPERVISOR, ContentCreator, Supervisor, Learner
 
 
@@ -49,6 +48,7 @@ class UserLoginForm(forms.Form):
 
 class CreateUserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
+
     class Meta:
         model = AuthUser
         fields = ['email', 'password', 'first_name', 'last_name', 'user_type']
@@ -78,6 +78,7 @@ class CreateUserForm(forms.ModelForm):
 
 class UpdateUserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
+
     class Meta:
         model = AuthUser
         fields = ['email', 'password', 'first_name', 'last_name', 'user_type']
@@ -162,7 +163,7 @@ def DownloadLearnerUsers(modeladmin, request, queryset):
     ])
     for obj in queryset:
         writer.writerow([
-            smart_str('{} {}'.format(obj.auth_user.first_name,obj.auth_user.last_name)),
+            smart_str('{} {}'.format(obj.auth_user.first_name, obj.auth_user.last_name)),
             smart_str(obj.auth_user.email),
             smart_str(obj.birth_date),
             smart_str(obj.learning_style),

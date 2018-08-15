@@ -2,11 +2,11 @@ import os
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 from alumnica_model.models import Subject, Tag
 from alumnica_model.models.content import Image, Ambit
 from alumnica_model.validators import validate_image_extension, file_size
-from django.utils.translation import gettext_lazy as _
 
 
 class SubjectForm(forms.ModelForm):

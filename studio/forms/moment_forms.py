@@ -1,6 +1,6 @@
 from django import forms
 
-from alumnica_model.models import Moment, Tag, ODA
+from alumnica_model.models import Moment, Tag
 from alumnica_model.models.content import MomentType, Subject, MicroODAType
 from alumnica_model.models.h5p import H5Package
 
@@ -43,7 +43,8 @@ class MomentUpdateForm(forms.ModelForm):
 
     tags = forms.CharField(widget=forms.TextInput(attrs={'id': 'momento-tags',
                                                          'class': 'u-margin-bottom-small selectized'}))
-    content = forms.FileField(required=False, widget=forms.FileInput(attrs={'class': 'show-for-sr', 'id': 'h5p-upload'}))
+    content = forms.FileField(required=False,
+                              widget=forms.FileInput(attrs={'class': 'show-for-sr', 'id': 'h5p-upload'}))
 
     class Meta:
         model = Moment
