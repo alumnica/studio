@@ -1,4 +1,5 @@
 from django.urls import path
+
 from django_h5p.views import UploadH5PackageView, PackageView, ThreeSixtyView
 
 urlpatterns = [

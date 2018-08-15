@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from rest_framework.serializers import HyperlinkedModelSerializer
 
-
-
 # noinspection PyAbstractClass
 from alumnica_model.models.h5p import H5Package, H5PLibrary, H5PackageDependency, PreloadedCSS, PreloadedJS, EmbedType
 
@@ -24,7 +22,7 @@ class JobSerializer(serializers.Serializer):
     is_queued = serializers.BooleanField()
     is_started = serializers.BooleanField()
     status = serializers.CharField(max_length=50)
-    url = serializers.CharField(max_length=50,required=False)
+    url = serializers.CharField(max_length=50, required=False)
 
 
 class H5PackageHyperlinkedModelSerializer(HyperlinkedModelSerializer):

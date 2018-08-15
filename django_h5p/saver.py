@@ -32,7 +32,7 @@ def save_h5package(aws_package_name):
 
             main_library = h5p_json['mainLibrary']
             preloaded_dependencies = h5p_json['preloadedDependencies']
-            index = [x  for x in preloaded_dependencies if x['machineName'] == main_library]
+            index = [x for x in preloaded_dependencies if x['machineName'] == main_library]
 
             for dep in preloaded_dependencies:
                 _save_package_dependency(package, dep)
@@ -170,4 +170,3 @@ def _upload_directory_to_aws(content_id, directory_to_upload, path_prefix=''):
                 remote_file = _s3.open(file_path_in_aws, 'wb')
                 remote_file.write(local_file.read())
                 remote_file.close()
-
