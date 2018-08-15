@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView, UpdateView
 
 from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
-from alumnica_model.models import Moment, Tag, ODA
+from alumnica_model.models import Moment, Tag
 from alumnica_model.models.content import MomentType, Subject
 from studio.forms.moment_forms import MomentCreateForm, MomentUpdateForm
 

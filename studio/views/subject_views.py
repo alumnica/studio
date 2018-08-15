@@ -90,8 +90,8 @@ class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin
             return redirect(to='materias_view')
         else:
             action_array = action.split('-')
-            section = int(action_array[(len(action_array)-1)])
-            return redirect(to='odas_position_view',  pk=subject.pk, section=(section+1))
+            section = int(action_array[(len(action_array) - 1)])
+            return redirect(to='odas_position_view', pk=subject.pk, section=(section + 1))
 
     def form_invalid(self, form):
         if form['name'].errors:
@@ -115,7 +115,8 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
                 if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
                     sweetify.error(
                         self.request,
-                        _('It is not possible to edit subject {} because it belongs to a published ambit'.format(subject.name)),
+                        _('It is not possible to edit subject {} because it belongs to a published ambit'.format(
+                            subject.name)),
                         persistent='Ok')
                     return redirect(to='materias_view')
         return super(UpdateSubjectView, self).dispatch(request, *args, **kwargs)
@@ -231,8 +232,8 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
             return redirect(to='materias_view')
         else:
             action_array = action.split('-')
-            section = int(action_array[(len(action_array)-1)])
-            return redirect(to='odas_position_view',  pk=subject.pk, section=(section+1))
+            section = int(action_array[(len(action_array) - 1)])
+            return redirect(to='odas_position_view', pk=subject.pk, section=(section + 1))
 
 
 class SubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):

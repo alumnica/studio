@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView, FormView
+from django.views.generic import FormView
 
 from alumnica_model.models import Ambit, users, Subject, ODA
 
@@ -101,7 +101,7 @@ class ODAsPositionSubjectPreview(LoginRequiredMixin, FormView):
 
         zones = ['a', 'b', 'c', 'd']
         subject_zip = zip(section_images_list, zones)
-        context.update({'subject_zip': subject_zip, 'odas_list': odas_list, 'ambit_pk':subject.ambit.pk})
+        context.update({'subject_zip': subject_zip, 'odas_list': odas_list, 'ambit_pk': subject.ambit.pk})
         return context
 
 

@@ -3,10 +3,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, UpdateView, CreateView, ListView
 from django.views.generic.base import TemplateView, RedirectView
 from sweetify import sweetify
-from django.utils.translation import gettext_lazy as _
+
 from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin, OnlySupervisorMixin
 from alumnica_model.models import Ambit, Subject, Moment, ODA, AuthUser
 from alumnica_model.models.users import TYPE_SUPERVISOR, TYPE_CONTENT_CREATOR
@@ -59,7 +60,9 @@ class ProfileView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Form
         subjects = Subject.objects.all().count()
         moments = Moment.objects.all().count()
         odas = ODA.objects.all().count()
-        return render(request, self.template_name, {'form': self.form_class, 'ambits': ambits, 'subjects': subjects, 'odas':odas, 'moments': moments, 'ambitsToPublish': ambitsToPublish})
+        return render(request, self.template_name,
+                      {'form': self.form_class, 'ambits': ambits, 'subjects': subjects, 'odas': odas,
+                       'moments': moments, 'ambitsToPublish': ambitsToPublish})
 
 
 class UsersView(LoginRequiredMixin, OnlySupervisorMixin, ListView):

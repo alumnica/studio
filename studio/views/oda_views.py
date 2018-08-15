@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import FormView, UpdateView, ListView, CreateView
 from sweetify import sweetify
-from django.utils.translation import gettext_lazy as _
 
 from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 from alumnica_model.models import Subject, ODA, Tag, Moment, users
@@ -132,7 +132,7 @@ class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Cr
             if subject.ambit is not None:
                 if not subject.ambit.is_draft:
                     continue
-            for section in range(1, subject.number_of_sections+1):
+            for section in range(1, subject.number_of_sections + 1):
                 if len(subject.odas.filter(section=section)) < 8:
                     bloques.append(section)
             if len(bloques) > 0:
@@ -177,7 +177,7 @@ class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Cr
         if action == 'finalize':
             is_draft = False
 
-        oda = form.save_form(self.request.user,  moments, subject, bloque, is_draft)
+        oda = form.save_form(self.request.user, moments, subject, bloque, is_draft)
         if action == 'edit_position':
             return redirect('odas_position_view', pk=oda.subject.pk, section=oda.section)
         return redirect(to='oda_dashboard_view')
@@ -228,7 +228,7 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
                 if subject.ambit is not None:
                     if not subject.ambit.is_draft and not subject.temporal:
                         continue
-            for section in range(1, subject.number_of_sections+1):
+            for section in range(1, subject.number_of_sections + 1):
                 if len(subject.odas.filter(section=section)) < 8:
                     bloques.append(section)
                 else:

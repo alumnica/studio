@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import ListView, FormView, UpdateView
 from sweetify import sweetify
-from django.utils.translation import gettext_lazy as _
 
 from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 from alumnica_model.models import users
@@ -54,7 +54,8 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         if ambit.is_published:
             if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
                 sweetify.error(self.request,
-                               _('It is not possible to edit Ámbito {} because is already published'.format(ambit.name)),
+                               _('It is not possible to edit Ámbito {} because is already published'.format(
+                                   ambit.name)),
                                persistent='Ok')
                 return redirect(to='ambits_view')
         return super(UpdateAmbitView, self).dispatch(request, *args, **kwargs)
