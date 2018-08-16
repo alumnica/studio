@@ -16,6 +16,9 @@ _s3 = S3Boto3Storage()
 
 
 def save_h5package(aws_package_name):
+    """
+Opens H5p package and saves the content
+    """
     with tempfile.NamedTemporaryFile('w+b') as downloaded_file:
         with _s3.open(aws_package_name, 'rb') as s3_file:
             downloaded_file.write(s3_file.read())
@@ -89,6 +92,9 @@ def save_h5package(aws_package_name):
 
 
 def _save_package_dependency(package, dependency):
+    """
+Gets package dependencies
+    """
     machine_name = dependency['machineName']
     major_version = dependency['majorVersion']
     minor_version = dependency['minorVersion']
@@ -104,6 +110,9 @@ def _save_package_dependency(package, dependency):
 
 
 def _save_library(root_dir, library):
+    """
+Creates library object in H5PLibrary table
+    """
     library_filename = [x for x in os.listdir(root_dir) if x.startswith(library)][0]
     library_dir = os.path.join(root_dir, library_filename)
     library_json_file = os.path.join(library_dir, 'library.json')
@@ -154,6 +163,9 @@ def _save_library(root_dir, library):
 
 
 def _upload_directory_to_aws(content_id, directory_to_upload, path_prefix=''):
+    """
+Uploads content to AWS
+    """
     for current_dir, _, filenames in os.walk(directory_to_upload):
         relative_path_to_root_dir = os.path.relpath(current_dir, directory_to_upload)
         for file in filenames:

@@ -8,6 +8,10 @@ from django.utils.translation import ugettext_lazy as _
 
 
 def validate_is_h5p(package):
+    """
+Validates if file is an H5P package and contains the json file
+    :param package: H5P file
+    """
     filename, file_extension = os.path.splitext(str(package))
 
     if file_extension != '.h5p':
@@ -34,6 +38,10 @@ def validate_is_h5p(package):
 
 
 def validate_h5p_json(h5p_json):
+    """
+Validates h5p.json file
+    :param h5p_json: h5p.json file
+    """
     required_fields = [
         'title',
         'mainLibrary',
@@ -50,6 +58,10 @@ def validate_h5p_json(h5p_json):
 
 
 def validate_h5p_library(library_directory):
+    """
+Verifies H5P package contains the library.json file
+    :param library_directory:
+    """
     if not any(x == 'library.json' for x in os.listdir(library_directory)):
         raise ValidationError(_("Library {} doesn't contain a 'library.json' file"), code='missing_library_json')
 
@@ -69,6 +81,10 @@ def validate_h5p_library(library_directory):
 
 
 def validate_library_json(library_json_data):
+    """
+Verifies content of library.json file
+    :param library_json_data: library.json content
+    """
     if library_json_data['title'].isspace():
         raise ValidationError(_('Empty library title'), code='invalid_title')
 
@@ -82,6 +98,12 @@ def validate_library_json(library_json_data):
 
 
 def validate_library_files(preloaded_js, preloaded_css, library_directory):
+    """
+Verifies libraries existance
+    :param preloaded_js: javascripts dependencies
+    :param preloaded_css: stylesheets dependencies
+    :param library_directory: library directory
+    """
     missing_files = []
     missing_files.extend([x for x in preloaded_js if not os.path.exists(os.path.join(library_directory, x))])
     missing_files.extend([x for x in preloaded_css if not os.path.exists(os.path.join(library_directory, x))])
