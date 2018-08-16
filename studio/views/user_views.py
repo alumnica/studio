@@ -24,6 +24,9 @@ class LoginView(FormView):
     template_name = 'studio/pages/login.html'
 
     def dispatch(self, request, *args, **kwargs):
+        """
+Redirects if user is staff
+        """
         if request.user.is_authenticated:
             if not request.user.is_staff:
                 return redirect(to='dashboard_view')
@@ -33,10 +36,16 @@ class LoginView(FormView):
             return super(LoginView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
+        """
+Logs in a valid user
+        """
         login(self.request, form.get_user())
         return redirect(to='dashboard_view')
 
     def form_invalid(self, form):
+        """
+Creates error messages for invalid users
+        """
         sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
         context = self.get_context_data()
         return self.render_to_response(context)
@@ -46,6 +55,9 @@ class LogoutView(RedirectView):
     pattern_name = 'login_view'
 
     def get(self, request, *args, **kwargs):
+        """
+Logs out user
+        """
         logout(request)
         return super(LogoutView, self).get(request, *args, **kwargs)
 
@@ -55,6 +67,9 @@ class ProfileView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Form
     template_name = 'studio/dashboard/dashboard.html'
 
     def get(self, request, *args, **kwargs):
+        """
+Gets general information of created objects
+        """
         ambits = Ambit.objects.all().count()
         ambitsToPublish = Ambit.objects.filter(is_draft=False, is_published=False)
         subjects = Subject.objects.all().count()
@@ -79,11 +94,17 @@ class CreateUserView(LoginRequiredMixin, OnlySupervisorMixin, CreateView):
     success_url = reverse_lazy('dashboard_view')
 
     def form_invalid(self, form):
+        """
+Creates error messages in case email field is not valid
+        """
         sweetify.error(self.request, form.errors['email'][0], persistent='Ok')
         context = self.get_context_data()
         return self.render_to_response(context)
 
     def form_valid(self, form):
+        """
+Creates new user
+        """
         user = form.save()
         sweetify.success(self.request, _('User created'), persistent='Ok')
         return super(CreateUserView, self).form_valid(form)
@@ -96,14 +117,23 @@ class UpdateUserView(LoginRequiredMixin, OnlySupervisorMixin, UpdateView):
     success_url = reverse_lazy('dashboard_view')
 
     def get_object(self, queryset=None):
+        """
+Gets user to update by pk in arguments
+        """
         return AuthUser.objects.get(pk=self.kwargs['pk'])
 
     def form_invalid(self, form):
+        """
+Creates error messages in case email field is not valid
+        """
         sweetify.error(self.request, form.errors['email'][0], persistent='Ok')
         context = self.get_context_data()
         return self.render_to_response(context)
 
     def form_valid(self, form):
+        """
+Updates user data
+        """
         user = form.save()
         sweetify.success(self.request, _('User updated'), persistent='Ok')
         return super(UpdateUserView, self).form_valid(form)

@@ -18,6 +18,9 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
     template_name = 'studio/dashboard/materias-edit-position.html'
 
     def dispatch(self, request, *args, **kwargs):
+        """
+Redirects if the section does not exist or does not have a background image
+        """
         subject = Subject.objects.get(pk=kwargs['pk'])
         if len(subject.sections_images.all()) == 0:
             sweetify.error(
@@ -28,6 +31,9 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
         return super(ODAsPositionView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        """
+Gets section number and pk
+        """
         section = self.kwargs['section']
         pk = self.kwargs['pk']
         context = super(ODAsPositionView, self).get_context_data(**kwargs)
@@ -35,6 +41,9 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
         return context
 
     def get(self, request, *args, **kwargs):
+        """
+Gets section image and ODAs array
+        """
         section = self.kwargs['section']
         subject = Subject.objects.get(pk=self.kwargs['pk'])
 
@@ -51,6 +60,9 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
             return redirect(to='update_subject_view', pk=subject.pk)
 
     def form_valid(self, form):
+        """
+Saves ODA position
+        """
         section = self.kwargs['section']
         subject = Subject.objects.get(pk=self.kwargs['pk'])
         odas_to_save = subject.odas.filter(section=section)
@@ -68,45 +80,6 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
         return redirect(to='odas_position_view', pk=subject.pk, section=section)
 
 
-class ODAsPreviewView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, FormView):
-    login_url = 'login_view'
-    template_name = 'studio/dashboard/materias-edit-preview.html'
-
-    def get(self, request, *args, **kwargs):
-        pk = self.kwargs['pk']
-        subject = Subject.objects.get(pk=self.kwargs['pk'])
-        section_images_list = subject.sections_images.all()
-        odas_list = []
-        section_counter = 1
-        for section in subject.sections_images.all():
-            odas_list.append(subject.odas.all().filter(section=section_counter))
-            section_counter += 1
-
-        content_images = zip(odas_list, section_images_list)
-
-        return render(request, self.template_name, {'content_images': content_images, 'pk': pk})
-
-    def post(self, request, *args, **kwargs):
-        subject = Subject.objects.get(pk=self.kwargs['pk'])
-        for tag in subject.tags.all():
-            tag.temporal = False
-            tag.save()
-
-        for image in subject.sections_images:
-            image.temporal = False
-            image.save()
-
-        for oda_in_subject in subject.odas:
-            oda_in_subject.temporal = False
-            oda_in_subject.active_icon.temporal = False
-            oda_in_subject.active_icon.save()
-            oda_in_subject.completed_icon.temporal = False
-            oda_in_subject.completed_icon.save()
-            oda_in_subject.save()
-
-        return redirect(to='materias_view')
-
-
 class ODADashboardView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
     login_url = 'login_view'
     model = ODA
@@ -121,6 +94,10 @@ class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Cr
     form_class = ODACreateForm
 
     def get(self, request, *args, **kwargs):
+        """
+Gets available data to create new ODA
+        :return: Context containing zip with section images per subject section, tags list, momento list and evaluation list
+        """
         tags_list = Tag.objects.all()
         moments_list = Moment.objects.filter(microoda=None)
         subjects_list = []
@@ -147,6 +124,9 @@ class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Cr
                        'subjects_sections': subjects_sections, 'eval_list': eval_list})
 
     def form_valid(self, form):
+        """
+Retrieves data to create new ODA and the Momentos by each MicroODA
+        """
         moments = []
 
         application = self.request.POST.get('apli-momentos')
@@ -189,6 +169,9 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ODAUpdateForm
 
     def dispatch(self, request, *args, **kwargs):
+        """
+Redirects if the ODA belongs to an Ambito already published when the user is not allowed to edit it
+        """
         oda = ODA.objects.get(pk=self.kwargs['pk'])
         if oda.subject is not None:
             if oda.subject.ambit is not None:
@@ -203,9 +186,16 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         return super(ODAUpdateView, self).dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
+        """
+Gets ODA from pk given by arguments
+        """
         return ODA.objects.get(pk=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
+        """
+        Gets available data to update an ODA and the Momentos assigned to each MicroODA
+        :return: Context containing zip with section images per subject section, tags list, momento list, self tags list, MicroODA objects and evaluation list
+        """
         context = super(ODAUpdateView, self).get_context_data(**kwargs)
         tags_list = Tag.objects.all()
         moments_list = Moment.objects.filter(microoda=None)
@@ -248,6 +238,9 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form):
+        """
+Retrieves data to update an ODA and the Momentos assigned to each MicroODA
+        """
         moments = []
 
         aplication = self.request.POST.get('apli-momentos')
@@ -288,6 +281,9 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
 
 class ODAsRedirect(View):
     def dispatch(self, request, *args, **kwargs):
+        """
+Redirects, depending on the view name and section, to the previous page
+        """
         view = kwargs.get('view')
         section = kwargs.get('section')
         pk = kwargs.get('pk')

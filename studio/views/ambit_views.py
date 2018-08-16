@@ -16,6 +16,10 @@ class CreateAmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, 
     form_class = CreateAmbitForm
 
     def get(self, request, *args, **kwargs):
+        """
+Gets data needed to create Ambitos
+        :return: Arguments containing form, temporal Subjects list, tags list, ambitos list and ambitos space flag
+        """
         ambits = Ambit.objects.all()
         subjects = Subject.objects.filter(temporal=False).filter(ambit=None)
         tags = Tag.objects.all()
@@ -24,6 +28,9 @@ class CreateAmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, 
                                                     'tags': tags, 'ambits': ambits, 'ambit_space': ambit_space})
 
     def post(self, request, *args, **kwargs):
+        """
+Retrieves data from template to create new Ambito
+        """
         subjects = self.request.POST.get('class_name')
         tags = self.request.POST.get('tags-ambito')
         if tags is not None:
@@ -50,6 +57,9 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
     form_class = UpdateAmbitForm
 
     def dispatch(self, request, *args, **kwargs):
+        """
+Redirects if Ambito to update is published and current user is not allowed to edit it
+        """
         ambit = Ambit.objects.get(pk=self.kwargs['pk'])
         if ambit.is_published:
             if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
@@ -61,9 +71,16 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         return super(UpdateAmbitView, self).dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
+        """
+Gets Ambito object from pk in arguments
+        """
         return Ambit.objects.get(pk=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
+        """
+        Gets all available objects to edit Ambito properties
+        :return: Context containing Subjects without ambito list, tags list, ambitos list and ambitos space flag
+        """
         context = super(UpdateAmbitView, self).get_context_data(**kwargs)
         ambits = Ambit.objects.all().exclude(pk=self.kwargs['pk'])
         subjects = Subject.objects.all().exclude(ambit=self.object).filter(ambit=None)
@@ -73,6 +90,9 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         return context
 
     def post(self, request, *args, **kwargs):
+        """
+Retrieves properties for an existing Ambito
+        """
         subjects = self.request.POST.get('class_name')
         tags = self.request.POST.get('tags-ambito')
         if tags is not None:
@@ -104,12 +124,18 @@ class AmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListVi
 
 class DeleteAmbitView(View):
     def dispatch(self, request, *args, **kwargs):
+        """
+Deletes Ambito from database
+        """
         Ambit.objects.get(pk=self.kwargs['pk']).pre_delete()
         return redirect('ambits_view')
 
 
 class UnPublishAmbitView(View):
     def dispatch(self, request, *args, **kwargs):
+        """
+Changes Ambito to unpublished and draft object:
+        """
         ambit = Ambit.objects.get(pk=self.kwargs['pk'])
         ambit.is_published = False
         ambit.is_draft = True

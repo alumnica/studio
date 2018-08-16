@@ -19,6 +19,9 @@ class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin
     form_class = SubjectForm
 
     def get_image_formset_class(self):
+        """
+Gets the Image formset
+        """
         return formset_factory(
             ImageForm,
             BaseImageFormset,
@@ -29,6 +32,9 @@ class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin
         )
 
     def get_context_data(self, **kwargs):
+        """
+Gets data for each form in the formset
+        """
         context = super(CreateSubjectView, self).get_context_data(**kwargs)
         tags = Tag.objects.all()
         initial = [{'initial': 'initial'}]
@@ -46,6 +52,11 @@ class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin
         return context
 
     def form_valid(self, form):
+        """
+Retrieves data to create a new Subject and the image for each form in the formset
+        :param form:
+        :return:
+        """
         context = self.get_context_data()
         action = self.request.POST.get('action')
 
@@ -94,6 +105,9 @@ class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin
             return redirect(to='odas_position_view', pk=subject.pk, section=(section + 1))
 
     def form_invalid(self, form):
+        """
+Creates a error message in case name or background image field are not valid
+        """
         if form['name'].errors:
             sweetify.error(self.request, form.errors['name'][0], persistent='Ok')
         if form['mp'].errors:
@@ -109,6 +123,9 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
     form_class = UpdateSubjectForm
 
     def dispatch(self, request, *args, **kwargs):
+        """
+Redirects in case Subject belongs to a published ambito and user is not allowed to edit it
+        """
         subject = Subject.objects.get(pk=self.kwargs['pk'])
         if subject.ambit is not None:
             if subject.ambit.is_published:
@@ -122,6 +139,10 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
         return super(UpdateSubjectView, self).dispatch(request, *args, **kwargs)
 
     def get_image_formset_class(self):
+        """
+Creates formset depending on Subject number of sections field
+        :return:
+        """
         num_sections = self.object.number_of_sections
         if num_sections == 0:
             num_sections = 1
@@ -135,6 +156,9 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
             can_delete=True)
 
     def get_context_data(self, **kwargs):
+        """
+Gets data to update a Subject and the data stored by the formset
+        """
         context = super(UpdateSubjectView, self).get_context_data(**kwargs)
         ambits = Ambit.objects.all()
         tags = Tag.objects.all()
@@ -160,6 +184,9 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
         return context
 
     def form_invalid(self, form):
+        """
+Creates error messages in case name or background image field are not valid
+        """
         if form['name'].errors:
             sweetify.error(self.request, form.errors['name'][0], persistent='Ok')
         if form['mp'].errors:
@@ -168,6 +195,9 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
         return render(self.request, self.template_name, context=context)
 
     def form_valid(self, form):
+        """
+Retrieves data to update Subject and images for each form in the formset
+        """
         context = self.get_context_data()
 
         action = self.request.POST.get('action')
@@ -245,5 +275,8 @@ class SubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, List
 
 class DeleteSubjectView(View):
     def dispatch(self, request, *args, **kwargs):
+        """
+Deletes Subject and redirects
+        """
         Subject.objects.get(pk=self.kwargs['pk']).pre_delete()
         return redirect('materias_view')

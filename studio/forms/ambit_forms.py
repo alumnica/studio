@@ -201,7 +201,7 @@ Updates ambit properties and saves it as not temporal object
     def save_as_draft(self, subjects, tags, color):
         """
 Updates ambit properties and saves it as temporal object
-        :param subjects: Subjects astring separated by comma
+        :param subjects: Subjects as string separated by comma
         :param tags: Tags array
         :param color: Background color
         """

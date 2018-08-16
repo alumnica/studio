@@ -10,12 +10,18 @@ class ApproveToPublishDashboard(LoginRequiredMixin, FormView):
     template_name = "studio/dashboard/supervisor.html"
 
     def dispatch(self, request, *args, **kwargs):
+        """
+Redirects if user has not SUPERVISOR profile
+        """
         if request.user.user_type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
             return super(ApproveToPublishDashboard, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        """
+Gets all ambits and its properties waiting for SUPERVISOR approval
+        """
         ambits = Ambit.objects.filter(is_draft=False, is_published=False)
         ambits_list = []
         for ambit in ambits:
@@ -34,12 +40,18 @@ class AmbitPreviewView(LoginRequiredMixin, FormView):
     template_name = "studio/dashboard/supervisor-vp-ambito.html"
 
     def dispatch(self, request, *args, **kwargs):
+        """
+Redirects if user has not SUPERVISOR profile
+        """
         if request.user.user_type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
             return super(AmbitPreviewView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        """
+Gets Ambito to approve by pk in arguments
+        """
         context = {}
         ambit = Ambit.objects.get(pk=self.kwargs['pk'])
         context.update({'ambit': ambit})
@@ -51,12 +63,18 @@ class GridPositionView(LoginRequiredMixin, FormView):
     template_name = "studio/dashboard/supervisor-drag-drop.html"
 
     def dispatch(self, request, *args, **kwargs):
+        """
+Redirects if user has not SUPERVISOR profile
+        """
         if request.user.user_type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
             return super(GridPositionView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        """
+Gets all the published ambitos by position and the new ambito to publish
+        """
         context = {}
         ambits_list = Ambit.objects.filter(is_published=True).order_by('position')
         pk = self.kwargs['pk']
@@ -67,6 +85,9 @@ class GridPositionView(LoginRequiredMixin, FormView):
         return context
 
     def post(self, request, *args, **kwargs):
+        """
+Updates ambitos position
+        """
         position_array = self.request.POST.get('order').split(',')
         counter = 1
         for element in position_array:
@@ -84,12 +105,19 @@ class ODAsPositionSubjectPreview(LoginRequiredMixin, FormView):
     template_name = "studio/dashboard/supervisor-vp-materia.html"
 
     def dispatch(self, request, *args, **kwargs):
+        """
+Redirects if user has not SUPERVISOR profile
+        """
         if request.user.user_type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
             return super(ODAsPositionSubjectPreview, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        """
+Gets section images and odas list assigned to Subject
+        :return: zip object with zones per subject section, odas assigned list and ambit pk
+        """
         context = {}
         subject = Subject.objects.get(pk=self.kwargs['pk'])
         section_images_list = subject.sections_images.all()
@@ -110,12 +138,18 @@ class MicroodaPreview(LoginRequiredMixin, FormView):
     template_name = "studio/dashboard/supervisor-vp-oda.html"
 
     def dispatch(self, request, *args, **kwargs):
+        """
+Redirects if user has not SUPERVISOR profile
+        """
         if request.user.user_type != users.TYPE_SUPERVISOR:
             return redirect(to="dashboard_view")
         else:
             return super(MicroodaPreview, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        """
+Gets ODA object by pk in arguments
+        """
         context = {}
         oda = ODA.objects.get(pk=self.kwargs['pk'])
         context.update({'oda': oda})
