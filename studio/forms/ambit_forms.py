@@ -235,6 +235,9 @@ class UpdateAmbitForm(forms.ModelForm):
             tag.temporal = True
             tag.save()
             ambit.tags.add(tag)
+        for tag in ambit.tags.all():
+            if tag.name not in tags:
+                ambit.tags.remove(tag)
 
         if subjects is not None:
             subjects = subjects.split(',')
@@ -244,5 +247,8 @@ class UpdateAmbitForm(forms.ModelForm):
                     ambit.subjects.add(subject_model)
                 except Subject.DoesNotExist:
                     pass
+        for subject in ambit.subjects.all():
+            if subject.name not in subjects:
+                ambit.subjects.remove(subject)
         ambit.is_draft = True
         ambit.save()
