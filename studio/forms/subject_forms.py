@@ -29,7 +29,7 @@ class SubjectForm(forms.ModelForm):
 
     def clean(self):
         """
-Verifies if Subejct name does not already exist
+Verifies if Subject name does not already exist
         """
         cleaned_data = super(SubjectForm, self).clean()
         name_subject = cleaned_data.get('name')
@@ -109,8 +109,8 @@ class UpdateSubjectForm(forms.ModelForm):
         self.fields['ambit'].required = False
         self.fields['ambit'].queryset = Ambit.objects.filter(id__in=[ambit.id for ambit in
                                                                      Ambit.objects.all() if
-                                                                     ambit.subjects.count() < 4
-                                                                     and (ambit == subject.ambit or ambit.is_draft)])
+                                                                     ambit == subject.ambit or
+                                                                     (ambit.subjects.count() < 4 and ambit.is_draft)])
 
     def save_form(self, is_draft=False):
         """
