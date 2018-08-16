@@ -20,15 +20,15 @@ _logger = logging.getLogger('django_h5p')
 
 
 class H5PackageForm(Form):
+    """
+    Uploads H5P package
+    """
     package = forms.FileField(validators=[validate_is_h5p])
 
     def __init__(self, *args, **kwargs):
         super(H5PackageForm, self).__init__(*args, **kwargs)
 
     def save(self):
-        """
-Saves H5P package
-        """
         uploaded_package = self.cleaned_data['package']
 
         s3 = S3Boto3Storage()
@@ -42,9 +42,6 @@ Saves H5P package
         return q.enqueue(save_h5package, s3_filename, timeout=600)
 
     def clean(self):
-        """
-Verifies  whether package or database contains libraries needed
-        """
         cleaned_data = super(H5PackageForm, self).clean()
 
         if 'package' not in cleaned_data.keys():
@@ -84,7 +81,7 @@ Verifies  whether package or database contains libraries needed
     @staticmethod
     def _check_if_library_exists_in_zip(zip_root, library):
         """
-Looks up for the libraries in the H5p package
+        Looks up for the library in the H5p zip package
         """
         if not any(x.startswith(library) for x in os.listdir(zip_root)):
             raise ValidationError(_("Main library {} hasn't been loaded and isn't included in package.".format(

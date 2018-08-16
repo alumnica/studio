@@ -15,12 +15,12 @@ from studio_webapp import worker
 
 
 class PackageUploadAPIView(APIView):
+    """
+    Receives H5P file to save
+    """
     serializer_class = PackageUploadFileSerializer
 
     def post(self, request, *args, **kwargs):
-        """
-Receives H5p package
-        """
         form = H5PackageForm(request.POST, request.FILES)
         if form.is_valid():
             job = form.save()
@@ -39,10 +39,11 @@ Receives H5p package
 
 
 class JobAPIView(APIView):
+    """
+    Returns uploading package job data
+    """
+
     def get(self, request, *args, **kwargs):
-        """
-Gets current job id
-        """
         q = rq.Queue(connection=worker.conn)
         job = q.fetch_job(job_id=kwargs.get('job_id'))
         if job:

@@ -11,14 +11,14 @@ from django_h5p.forms import H5PackageForm
 
 
 class UploadH5PackageView(FormView):
+    """
+    Uploads H5p package
+    """
     form_class = H5PackageForm
     success_url = reverse_lazy('upload_h5p_view')
     template_name = 'django_h5p/upload_h5p_form.html'
 
     def get_context_data(self, **kwargs):
-        """
-Returns H5P packages uploaded
-        """
         context = super(UploadH5PackageView, self).get_context_data(**kwargs)
         context.update({
             'packages': H5Package.objects.all()
@@ -26,23 +26,20 @@ Returns H5P packages uploaded
         return context
 
     def form_valid(self, form):
-        """
-Uploads H5P package
-        """
         form.save()
         return super(UploadH5PackageView, self).form_valid(form)
 
 
 @method_decorator(xframe_options_exempt, name='dispatch')
 class PackageView(DetailView):
+    """
+    Displays uploaded H5P package
+    """
     template_name = 'django_h5p/package_view.html'
     model = H5Package
     context_object_name = 'package'
 
     def get_object(self, queryset=None):
-        """
-Gets H5P package object from database
-        """
         if 'pk' in self.kwargs.keys():
             return self.model.objects.get(pk=self.kwargs['pk'])
         elif 'job_id' in self.kwargs.keys():
@@ -51,9 +48,6 @@ Gets H5P package object from database
             raise ValueError('Neither pk nor job_id were given as parameters')
 
     def get_context_data(self, **kwargs):
-        """
-Gets javascripts and stylesheets dependencies
-        """
         context = super(PackageView, self).get_context_data(**kwargs)
 
         context.update({

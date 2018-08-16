@@ -10,6 +10,9 @@ from django_h5p.validators import validate_is_h5p
 
 
 class H5PackageValidatorTestCase(TestCase):
+    """
+    H5P package extension and content validations
+    """
     def test_h5package_is_zip(self):
         with tempfile.NamedTemporaryFile(suffix='.h5p') as not_a_zip_file:
             try:
