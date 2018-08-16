@@ -21,6 +21,13 @@ class CreateAmbitForm(forms.ModelForm):
         fields = ['name']
 
     def save_form(self, user, subjects, tags, color):
+        """
+Creates new ambito in database as not temporal object
+        :param user: Current AuthUser creating the object
+        :param subjects: Subjects string separated by comma
+        :param tags: Tags array
+        :param color: Background color
+        """
         cleaned_data = super(CreateAmbitForm, self).clean()
         ambit = super(CreateAmbitForm, self).save(commit=False)
         ambit.created_by = user
@@ -71,6 +78,13 @@ class CreateAmbitForm(forms.ModelForm):
         return ambit, all_subjects_finalized
 
     def save_as_draft(self, user, subjects, tags, color):
+        """
+Creates new ambito in database as temporal object
+        :param user: Current AuthUser creating the object
+        :param subjects: Subjects string separated by comma
+        :param tags: Tags array
+        :param color: Background color
+        """
         cleaned_data = super(CreateAmbitForm, self).clean()
         ambit = super(CreateAmbitForm, self).save(commit=False)
         ambit.created_by = user
@@ -124,6 +138,12 @@ class UpdateAmbitForm(forms.ModelForm):
         fields = ['name']
 
     def save_form(self, subjects, tags, color):
+        """
+Updates ambit properties and saves it as not temporal object
+        :param subjects: Subjects string separated by comma
+        :param tags: Tags array
+        :param color: Background color
+        """
         cleaned_data = super(UpdateAmbitForm, self).clean()
         ambit = Ambit.objects.get(name=cleaned_data.get('name'))
         ambit.color = color
@@ -179,6 +199,12 @@ class UpdateAmbitForm(forms.ModelForm):
         return ambit, all_subjects_finalized
 
     def save_as_draft(self, subjects, tags, color):
+        """
+Updates ambit properties and saves it as temporal object
+        :param subjects: Subjects astring separated by comma
+        :param tags: Tags array
+        :param color: Background color
+        """
         cleaned_data = super(UpdateAmbitForm, self).clean()
         ambit = Ambit.objects.get(name=cleaned_data.get('name'))
         ambit.color = color

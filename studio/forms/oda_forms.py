@@ -59,7 +59,14 @@ class ODACreateForm(forms.ModelForm):
         fields = ['name', 'description', 'tags']
 
     def save_form(self, user, moments, subject, bloque, is_draft=False):
-
+        """
+Creates new ODA in database
+        :param user: Current AuthUser creating the object
+        :param moments: Momentos array
+        :param subject: Subject name
+        :param bloque: Subject section number
+        :param is_draft: Flag to save object as temporal
+        """
         oda = super(ODACreateForm, self).save(commit=False)
         cleaned_data = super(ODACreateForm, self).clean()
 
@@ -176,6 +183,14 @@ class ODAUpdateForm(forms.ModelForm):
         fields = ['name', 'description', 'tags']
 
     def save_form(self, user, moments, subject, bloque, evaluation, is_draft=False):
+        """
+Update existing ODA properties
+        :param user: Current AuthUSer modifying the object
+        :param moments: Momentos array
+        :param subject: Subject name
+        :param bloque: Subject section number
+        :param is_draft: Flag to save object as temporal
+        """
         cleaned_data = super(ODAUpdateForm, self).clean()
 
         tags = cleaned_data.get('tags')
@@ -273,6 +288,11 @@ class ODAUpdateForm(forms.ModelForm):
 
 
 def set_microodas_tags(microoda, tags):
+    """
+Adds tags to each MicroODA
+    :param microoda: MicroODA object
+    :param tags: Tags string separated by comma
+    """
     if tags is not None and tags is not '':
         tags = tags.split(',')
         for tag_name in tags:
@@ -286,6 +306,11 @@ def set_microodas_tags(microoda, tags):
 
 
 def get_json_from_excel(file, sheet_name):
+    """
+Gets data stored in excel file as json
+    :param file: File name
+    :param sheet_name: Excel sheet name
+    """
     workbook = xlrd.open_workbook(file_contents=file)
     worksheet = workbook.sheet_by_index(sheet_name)
 
@@ -304,6 +329,10 @@ def get_json_from_excel(file, sheet_name):
 
 
 def set_evaluation(evaluation):
+    """
+Creates Question objects from file and assigns them to an Evaluation object
+    :param evaluation: Evaluation object
+    """
     file_read = evaluation.file.read()
 
     relationship_questions = get_json_from_excel(file_read, 1)

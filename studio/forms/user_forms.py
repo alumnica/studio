@@ -17,6 +17,9 @@ class UserLoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
 
     def clean(self):
+        """
+Verifies email and password match and exist
+        """
         cleaned_data = super(UserLoginForm, self).clean()
         email = cleaned_data.get('email').lower()
         password = cleaned_data.get('password')
@@ -40,6 +43,9 @@ class UserLoginForm(forms.Form):
         return cleaned_data
 
     def get_user(self):
+        """
+Gets AuthUser by email
+        """
         cleaned_data = super(UserLoginForm, self).clean()
         email = cleaned_data.get('email').lower()
         user = AuthUser.objects.get(email=email)
@@ -59,6 +65,9 @@ class CreateUserForm(forms.ModelForm):
                                             (TYPE_SUPERVISOR, _(TYPE_SUPERVISOR)))
 
     def clean(self):
+        """
+Verifies email is not already registered
+        """
         cleaned_data = super(CreateUserForm, self).clean()
         email = cleaned_data.get('email')
         if AuthUser.objects.filter(email=email).exists():
@@ -68,6 +77,10 @@ class CreateUserForm(forms.ModelForm):
         return cleaned_data
 
     def save(self, commit=True):
+        """
+Creates new AuthUser
+        :param commit: Saving flag
+        """
         user = super(CreateUserForm, self).save(commit=False)
         user.email = user.email.lower()
         user.set_password(self.cleaned_data.get('password'))
@@ -89,6 +102,9 @@ class UpdateUserForm(forms.ModelForm):
                                             (TYPE_SUPERVISOR, _(TYPE_SUPERVISOR)))
 
     def clean(self):
+        """
+Verifies email is not alrady registered by a different user
+        """
         cleaned_data = super(UpdateUserForm, self).clean()
         user = super(UpdateUserForm, self).save(commit=False)
         email = cleaned_data.get('email')
@@ -99,6 +115,10 @@ class UpdateUserForm(forms.ModelForm):
         return cleaned_data
 
     def save(self, commit=True):
+        """
+Updates existing AuthUser properties
+        :param commit: Saving flag
+        """
         user = super(UpdateUserForm, self).save(commit=False)
         user_original = AuthUser.objects.get(pk=user.pk)
         user.email = user.email.lower()
@@ -122,6 +142,10 @@ class AuthUserCreateForm(forms.ModelForm):
         fields = ['email']
 
     def save(self, commit=True):
+        """
+Creates new AuthUser object
+        :param commit: Saving flag
+        """
         user = super(AuthUserCreateForm, self).save(commit=False)
         user.email = user.email.lower()
         user.set_password(self.cleaned_data.get('password'))
@@ -151,6 +175,10 @@ class CustomUserAdmin(UserAdmin):
 
 
 def DownloadLearnerUsers(modeladmin, request, queryset):
+    """
+Creates CSV file containing query objects
+    :param queryset: Objects set
+    """
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=learners.csv'
     writer = csv.writer(response, csv.excel)

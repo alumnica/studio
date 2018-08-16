@@ -28,6 +28,9 @@ class SubjectForm(forms.ModelForm):
                                                                      if ambit.subjects.count() < 4])
 
     def clean(self):
+        """
+Verifies if Subejct name does not already exist
+        """
         cleaned_data = super(SubjectForm, self).clean()
         name_subject = cleaned_data.get('name')
 
@@ -39,6 +42,11 @@ class SubjectForm(forms.ModelForm):
         return cleaned_data
 
     def save_form(self, user, is_draft=False):
+        """
+Creates new Subject in database
+        :param user: Current AuthUser creating the object
+        :param is_draft: Flag to save the object as temporal
+        """
         cleaned_data = super(SubjectForm, self).clean()
         background_image = cleaned_data.get('mp')
 
@@ -105,6 +113,10 @@ class UpdateSubjectForm(forms.ModelForm):
                                                                      and (ambit == subject.ambit or ambit.is_draft)])
 
     def save_form(self, is_draft=False):
+        """
+Updates existing Subject properties
+        :param is_draft: Flag to save object as temporal
+        """
         cleaned_data = super(UpdateSubjectForm, self).clean()
         background_image = cleaned_data.get('mp')
         subject = super(UpdateSubjectForm, self).save(commit=False)
@@ -176,6 +188,10 @@ class BaseImageFormset(forms.BaseFormSet):
         super(BaseImageFormset, self).__init__(*args, **kwargs)
 
     def get_form_kwargs(self, index):
+        """
+Gets Image Model based formset
+        :param index: Formset index
+        """
         kwargs = super(BaseImageFormset, self).get_form_kwargs(index)
 
         if len(self.form_instances) > index:
