@@ -13,13 +13,13 @@ from alumnica_model.models.users import TYPE_CONTENT_CREATOR, TYPE_SUPERVISOR, C
 
 
 class UserLoginForm(forms.Form):
+    """
+    Contains email and password field to identify an AuthUser object
+    """
     email = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput())
 
     def clean(self):
-        """
-Verifies email and password match and exist
-        """
         cleaned_data = super(UserLoginForm, self).clean()
         email = cleaned_data.get('email').lower()
         password = cleaned_data.get('password')
@@ -43,9 +43,6 @@ Verifies email and password match and exist
         return cleaned_data
 
     def get_user(self):
-        """
-Gets AuthUser by email
-        """
         cleaned_data = super(UserLoginForm, self).clean()
         email = cleaned_data.get('email').lower()
         user = AuthUser.objects.get(email=email)
@@ -53,6 +50,9 @@ Gets AuthUser by email
 
 
 class CreateUserForm(forms.ModelForm):
+    """
+    Creates a new AuthUser object
+    """
     password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
@@ -65,9 +65,6 @@ class CreateUserForm(forms.ModelForm):
                                             (TYPE_SUPERVISOR, _(TYPE_SUPERVISOR)))
 
     def clean(self):
-        """
-Verifies email is not already registered
-        """
         cleaned_data = super(CreateUserForm, self).clean()
         email = cleaned_data.get('email')
         if AuthUser.objects.filter(email=email).exists():
@@ -77,10 +74,6 @@ Verifies email is not already registered
         return cleaned_data
 
     def save(self, commit=True):
-        """
-Creates new AuthUser
-        :param commit: Saving flag
-        """
         user = super(CreateUserForm, self).save(commit=False)
         user.email = user.email.lower()
         user.set_password(self.cleaned_data.get('password'))
@@ -90,6 +83,9 @@ Creates new AuthUser
 
 
 class UpdateUserForm(forms.ModelForm):
+    """
+    Updates an existing AuthUser object
+    """
     password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
@@ -102,9 +98,6 @@ class UpdateUserForm(forms.ModelForm):
                                             (TYPE_SUPERVISOR, _(TYPE_SUPERVISOR)))
 
     def clean(self):
-        """
-Verifies email is not alrady registered by a different user
-        """
         cleaned_data = super(UpdateUserForm, self).clean()
         user = super(UpdateUserForm, self).save(commit=False)
         email = cleaned_data.get('email')
@@ -115,10 +108,6 @@ Verifies email is not alrady registered by a different user
         return cleaned_data
 
     def save(self, commit=True):
-        """
-Updates existing AuthUser properties
-        :param commit: Saving flag
-        """
         user = super(UpdateUserForm, self).save(commit=False)
         user_original = AuthUser.objects.get(pk=user.pk)
         user.email = user.email.lower()
@@ -137,15 +126,14 @@ Updates existing AuthUser properties
 
 
 class AuthUserCreateForm(forms.ModelForm):
+    """
+    Creates a new AuthUser object via Django administrator
+    """
     class Meta:
         model = AuthUser
         fields = ['email']
 
     def save(self, commit=True):
-        """
-Creates new AuthUser object
-        :param commit: Saving flag
-        """
         user = super(AuthUserCreateForm, self).save(commit=False)
         user.email = user.email.lower()
         user.set_password(self.cleaned_data.get('password'))
@@ -155,6 +143,9 @@ Creates new AuthUser object
 
 
 class CustomUserAdmin(UserAdmin):
+    """
+    Adds fields to AuthUserCreateForm in Django administrator
+    """
     # The forms to add and change user instances
     add_form = AuthUserCreateForm
     list_display = ("email",)
@@ -203,6 +194,9 @@ DownloadLearnerUsers.short_description = u"Export CSV"
 
 
 class DownloadLearnerFile(admin.ModelAdmin):
+    """
+    Adds Export CSV action to Learner model view in Django administrator
+    """
     actions = [DownloadLearnerUsers]
 
 

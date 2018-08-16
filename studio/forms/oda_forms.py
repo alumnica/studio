@@ -9,23 +9,17 @@ from alumnica_model.models.content import Subject, Tag, MicroODA, Image
 from alumnica_model.models.questions import *
 
 
-class ODAsSectionForm(forms.ModelForm):
-    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
-
-    class Meta:
-        model = Subject
-        fields = ['name']
-
-
 class ODAsPositionForm(forms.Form):
-    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
-
-
-class ODAsPreviewForm(forms.Form):
+    """
+    Contains ODA to be positioned name
+    """
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
 
 
 class ODACreateForm(forms.ModelForm):
+    """
+    Creates new ODA object
+    """
     name = forms.CharField(widget=forms.TextInput())
     description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-desc'}))
     tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
@@ -59,14 +53,6 @@ class ODACreateForm(forms.ModelForm):
         fields = ['name', 'description', 'tags']
 
     def save_form(self, user, moments, subject, bloque, is_draft=False):
-        """
-Creates new ODA in database
-        :param user: Current AuthUser creating the object
-        :param moments: Momentos array
-        :param subject: Subject name
-        :param bloque: Subject section number
-        :param is_draft: Flag to save object as temporal
-        """
         oda = super(ODACreateForm, self).save(commit=False)
         cleaned_data = super(ODACreateForm, self).clean()
 
@@ -150,6 +136,9 @@ Creates new ODA in database
 
 
 class ODAUpdateForm(forms.ModelForm):
+    """
+    Updates existing ODA object
+    """
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'oda-name'}))
     description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-desc'}))
     tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
@@ -183,14 +172,6 @@ class ODAUpdateForm(forms.ModelForm):
         fields = ['name', 'description', 'tags']
 
     def save_form(self, user, moments, subject, bloque, evaluation, is_draft=False):
-        """
-Update existing ODA properties
-        :param user: Current AuthUSer modifying the object
-        :param moments: Momentos array
-        :param subject: Subject name
-        :param bloque: Subject section number
-        :param is_draft: Flag to save object as temporal
-        """
         cleaned_data = super(ODAUpdateForm, self).clean()
 
         tags = cleaned_data.get('tags')
@@ -289,7 +270,7 @@ Update existing ODA properties
 
 def set_microodas_tags(microoda, tags):
     """
-Adds tags to each MicroODA
+    Adds tags to each MicroODA
     :param microoda: MicroODA object
     :param tags: Tags string separated by comma
     """
@@ -307,7 +288,7 @@ Adds tags to each MicroODA
 
 def get_json_from_excel(file, sheet_name):
     """
-Gets data stored in excel file as json
+    Gets data stored in excel file as json
     :param file: File name
     :param sheet_name: Excel sheet name
     """
@@ -330,7 +311,7 @@ Gets data stored in excel file as json
 
 def set_evaluation(evaluation):
     """
-Creates Question objects from file and assigns them to an Evaluation object
+    Creates Question objects from file and assigns them to an Evaluation object
     :param evaluation: Evaluation object
     """
     file_read = evaluation.file.read()

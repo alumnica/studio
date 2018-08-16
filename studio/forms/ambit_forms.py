@@ -8,6 +8,9 @@ from alumnica_model.validators import unique_ambit_name_validator, file_size
 
 
 class CreateAmbitForm(forms.ModelForm):
+    """
+    Creates new Ambito
+    """
     name = forms.CharField(required=False, max_length=50, widget=forms.TextInput(attrs={'class': 'text_number'}),
                            validators=[unique_ambit_name_validator])
 
@@ -22,7 +25,7 @@ class CreateAmbitForm(forms.ModelForm):
 
     def save_form(self, user, subjects, tags, color):
         """
-Creates new ambito in database as not temporal object
+        Creates new ambito in database as not temporal object
         :param user: Current AuthUser creating the object
         :param subjects: Subjects string separated by comma
         :param tags: Tags array
@@ -79,7 +82,7 @@ Creates new ambito in database as not temporal object
 
     def save_as_draft(self, user, subjects, tags, color):
         """
-Creates new ambito in database as temporal object
+        Creates new ambito in database as temporal object
         :param user: Current AuthUser creating the object
         :param subjects: Subjects string separated by comma
         :param tags: Tags array
@@ -126,6 +129,9 @@ Creates new ambito in database as temporal object
 
 
 class UpdateAmbitForm(forms.ModelForm):
+    """
+    Updates existing Ambito object
+    """
     name = forms.CharField(required=False, max_length=50, widget=forms.TextInput(attrs={'class': 'text_number'}))
 
     ap = forms.ImageField(required=False, validators=[file_size], widget=forms.FileInput(attrs={'name': 'ap',
@@ -139,7 +145,7 @@ class UpdateAmbitForm(forms.ModelForm):
 
     def save_form(self, subjects, tags, color):
         """
-Updates ambit properties and saves it as not temporal object
+        Updates ambit properties and saves it as not temporal object
         :param subjects: Subjects string separated by comma
         :param tags: Tags array
         :param color: Background color
@@ -200,7 +206,7 @@ Updates ambit properties and saves it as not temporal object
 
     def save_as_draft(self, subjects, tags, color):
         """
-Updates ambit properties and saves it as temporal object
+        Updates ambit properties and saves it as temporal object
         :param subjects: Subjects as string separated by comma
         :param tags: Tags array
         :param color: Background color

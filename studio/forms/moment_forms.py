@@ -6,6 +6,9 @@ from alumnica_model.models.h5p import H5Package
 
 
 class MomentCreateForm(forms.ModelForm):
+    """
+    Saves new Momento object
+    """
     name = forms.CharField(widget=forms.TextInput(attrs={'id': 'h5p-name'}))
     tags = forms.CharField(widget=forms.TextInput(attrs={'id': 'momento-tags',
                                                          'class': 'u-margin-bottom-small selectized'}))
@@ -16,15 +19,6 @@ class MomentCreateForm(forms.ModelForm):
         fields = ['name', 'tags', 'content']
 
     def save_form(self, user, subject_name, oda_name, microoda_type, moment_type, h5p_id):
-        """
-Creates new momento in database
-        :param user: Current AuthUser creating the object
-        :param subject_name: Subject name assigned
-        :param oda_name: Oda name assigned
-        :param microoda_type: MicroODAType name assigned
-        :param moment_type: Momento type
-        :param h5p_id: H5P package job id
-        """
         cleaned_data = super(MomentCreateForm, self).clean()
         moment = super(MomentCreateForm, self).save(commit=False)
         tags = cleaned_data.get('tags').split(',')
@@ -48,6 +42,9 @@ Creates new momento in database
 
 
 class MomentUpdateForm(forms.ModelForm):
+    """
+    Updates existing Momento object
+    """
     name = forms.CharField(widget=forms.TextInput(attrs={'id': 'h5p-name'}))
 
     tags = forms.CharField(widget=forms.TextInput(attrs={'id': 'momento-tags',
@@ -60,14 +57,6 @@ class MomentUpdateForm(forms.ModelForm):
         fields = ['name', 'tags', 'content']
 
     def save_form(self, subject_name, oda_name, microoda_type, moment_type, h5p_url):
-        """
-Updates momento properties
-        :param subject_name: Subject name assigned
-        :param oda_name: Oda name assigned
-        :param microoda_type: MicroODAType name assigned
-        :param moment_type: Momento type
-        :param h5p_url: H5P package job id
-        """
         cleaned_data = super(MomentUpdateForm, self).clean()
         moment = super(MomentUpdateForm, self).save(commit=False)
         tags = cleaned_data.get('tags').split(',')

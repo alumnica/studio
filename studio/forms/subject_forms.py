@@ -10,6 +10,9 @@ from alumnica_model.validators import validate_image_extension, file_size
 
 
 class SubjectForm(forms.ModelForm):
+    """
+    Creates new Subject object
+    """
     tags = forms.CharField(required=False, max_length=60, widget=forms.TextInput(attrs={'id': 'materias-tags',
                                                                                         'name': 'tags-materias'}))
     mp = forms.ImageField(required=False, validators=[validate_image_extension, file_size],
@@ -28,9 +31,6 @@ class SubjectForm(forms.ModelForm):
                                                                      if ambit.subjects.count() < 4])
 
     def clean(self):
-        """
-Verifies if Subject name does not already exist
-        """
         cleaned_data = super(SubjectForm, self).clean()
         name_subject = cleaned_data.get('name')
 
@@ -42,11 +42,6 @@ Verifies if Subject name does not already exist
         return cleaned_data
 
     def save_form(self, user, is_draft=False):
-        """
-Creates new Subject in database
-        :param user: Current AuthUser creating the object
-        :param is_draft: Flag to save the object as temporal
-        """
         cleaned_data = super(SubjectForm, self).clean()
         background_image = cleaned_data.get('mp')
 
@@ -94,6 +89,9 @@ Creates new Subject in database
 
 
 class UpdateSubjectForm(forms.ModelForm):
+    """
+    Updates existing Subject object
+    """
     tags = forms.CharField(required=False,
                            widget=forms.TextInput(attrs={'id': 'materias-tags', 'name': 'tags-materias'}))
     mp = forms.ImageField(required=False, widget=forms.FileInput(attrs={'name': 'mp', 'id': 'materia-u',
@@ -113,10 +111,6 @@ class UpdateSubjectForm(forms.ModelForm):
                                                                      (ambit.subjects.count() < 4 and ambit.is_draft)])
 
     def save_form(self, is_draft=False):
-        """
-Updates existing Subject properties
-        :param is_draft: Flag to save object as temporal
-        """
         cleaned_data = super(UpdateSubjectForm, self).clean()
         background_image = cleaned_data.get('mp')
         subject = super(UpdateSubjectForm, self).save(commit=False)
@@ -170,6 +164,9 @@ Updates existing Subject properties
 
 
 class ImageForm(forms.ModelForm):
+    """
+    Contains Image model file field
+    """
     file = forms.ImageField(required=False, validators=[file_size],
                             widget=forms.FileInput(attrs={'class': 'show-for-sr upload_section', 'type': 'file'}))
 
@@ -179,6 +176,9 @@ class ImageForm(forms.ModelForm):
 
 
 class BaseImageFormset(forms.BaseFormSet):
+    """
+    ImageForm formset
+    """
     def __init__(self, *args, **kwargs):
         if 'form_instances' in kwargs.keys():
             self.form_instances = kwargs.pop('form_instances')
@@ -188,10 +188,6 @@ class BaseImageFormset(forms.BaseFormSet):
         super(BaseImageFormset, self).__init__(*args, **kwargs)
 
     def get_form_kwargs(self, index):
-        """
-Gets Image Model based formset
-        :param index: Formset index
-        """
         kwargs = super(BaseImageFormset, self).get_form_kwargs(index)
 
         if len(self.form_instances) > index:
