@@ -9,6 +9,9 @@ from studio.forms.moment_forms import MomentCreateForm, MomentUpdateForm
 
 
 class MomentsView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
+    """
+    Momentos dashboard view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/momentos.html'
     queryset = Moment.objects.all()
@@ -16,15 +19,14 @@ class MomentsView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, List
 
 
 class CreateMomentView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, CreateView):
+    """
+    Create new Momento object view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/momentos-edit.html'
     form_class = MomentCreateForm
 
     def get_context_data(self, **kwargs):
-        """
-        Gets data needed to create a new Momento
-        :return: Zip containign odas per subject, momentos list, tags list, and momento types list
-        """
         moments_list = Moment.objects.all()
         tags = Tag.objects.all()
         moment_type_list = MomentType.objects.all()
@@ -63,9 +65,6 @@ class CreateMomentView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin,
         return context
 
     def form_valid(self, form):
-        """
-Retrieves data to create new Momento
-        """
         subject = self.request.POST.get('materia-list')
         oda = self.request.POST.get('oda-list')
         microoda = self.request.POST.get('micro-oda')
@@ -76,21 +75,17 @@ Retrieves data to create new Momento
 
 
 class UpdateMomentView(LoginRequiredMixin, UpdateView):
+    """
+    Update existing Momento view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/momentos-edit.html'
     form_class = MomentUpdateForm
 
     def get_object(self, queryset=None):
-        """
-Get Momento object from pk in arguments
-        """
         return Moment.objects.get(pk=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
-        """
-Get available data to update a Momento
-        :return: Zip containign odas per subject, momentos list, tags list, and momento types list
-        """
         moments_list = Moment.objects.all()
         tags = Tag.objects.all()
         moment_type_list = MomentType.objects.all()
@@ -130,9 +125,6 @@ Get available data to update a Momento
         return context
 
     def form_valid(self, form):
-        """
-Retrieves data to update existing Momento
-        """
         subject = self.request.POST.get('materia-list')
         oda = self.request.POST.get('oda-list')
         microoda = self.request.POST.get('micro-oda')

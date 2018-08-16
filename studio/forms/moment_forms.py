@@ -7,7 +7,7 @@ from alumnica_model.models.h5p import H5Package
 
 class MomentCreateForm(forms.ModelForm):
     """
-    Saves new Momento object
+    Save new Momento object form
     """
     name = forms.CharField(widget=forms.TextInput(attrs={'id': 'h5p-name'}))
     tags = forms.CharField(widget=forms.TextInput(attrs={'id': 'momento-tags',
@@ -43,7 +43,7 @@ class MomentCreateForm(forms.ModelForm):
 
 class MomentUpdateForm(forms.ModelForm):
     """
-    Updates existing Momento object
+    Update existing Momento object form
     """
     name = forms.CharField(widget=forms.TextInput(attrs={'id': 'h5p-name'}))
 

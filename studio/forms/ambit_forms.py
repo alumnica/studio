@@ -9,7 +9,7 @@ from alumnica_model.validators import unique_ambit_name_validator, file_size
 
 class CreateAmbitForm(forms.ModelForm):
     """
-    Creates new Ambito
+    Create new Ambito form
     """
     name = forms.CharField(required=False, max_length=50, widget=forms.TextInput(attrs={'class': 'text_number'}),
                            validators=[unique_ambit_name_validator])
@@ -130,7 +130,7 @@ class CreateAmbitForm(forms.ModelForm):
 
 class UpdateAmbitForm(forms.ModelForm):
     """
-    Updates existing Ambito object
+    Update existing Ambito object form
     """
     name = forms.CharField(required=False, max_length=50, widget=forms.TextInput(attrs={'class': 'text_number'}))
 

@@ -11,15 +11,14 @@ from studio.forms.ambit_forms import *
 
 
 class CreateAmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, FormView):
+    """
+    Create new Ambito object view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/ambitos-edit.html'
     form_class = CreateAmbitForm
 
     def get(self, request, *args, **kwargs):
-        """
-Gets data needed to create Ambitos
-        :return: Arguments containing form, temporal Subjects list, tags list, ambitos list and ambitos space flag
-        """
         ambits = Ambit.objects.all()
         subjects = Subject.objects.filter(temporal=False).filter(ambit=None)
         tags = Tag.objects.all()
@@ -28,9 +27,6 @@ Gets data needed to create Ambitos
                                                     'tags': tags, 'ambits': ambits, 'ambit_space': ambit_space})
 
     def post(self, request, *args, **kwargs):
-        """
-Retrieves data from template to create new Ambito
-        """
         subjects = self.request.POST.get('class_name')
         tags = self.request.POST.get('tags-ambito')
         if tags is not None:
@@ -52,14 +48,14 @@ Retrieves data from template to create new Ambito
 
 
 class UpdateAmbitView(LoginRequiredMixin, UpdateView):
+    """
+    Update existing Ambito view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/ambitos-edit.html'
     form_class = UpdateAmbitForm
 
     def dispatch(self, request, *args, **kwargs):
-        """
-Redirects if Ambito to update is published and current user is not allowed to edit it
-        """
         ambit = Ambit.objects.get(pk=self.kwargs['pk'])
         if ambit.is_published:
             if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
@@ -71,16 +67,9 @@ Redirects if Ambito to update is published and current user is not allowed to ed
         return super(UpdateAmbitView, self).dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
-        """
-Gets Ambito object from pk in arguments
-        """
         return Ambit.objects.get(pk=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
-        """
-        Gets all available objects to edit Ambito properties
-        :return: Context containing Subjects without ambito list, tags list, ambitos list and ambitos space flag
-        """
         context = super(UpdateAmbitView, self).get_context_data(**kwargs)
         ambits = Ambit.objects.all().exclude(pk=self.kwargs['pk'])
         subjects = Subject.objects.all().exclude(ambit=self.object).filter(ambit=None)
@@ -90,9 +79,6 @@ Gets Ambito object from pk in arguments
         return context
 
     def post(self, request, *args, **kwargs):
-        """
-Retrieves properties for an existing Ambito
-        """
         subjects = self.request.POST.get('class_name')
         tags = self.request.POST.get('tags-ambito')
         if tags is not None:
@@ -116,6 +102,9 @@ Retrieves properties for an existing Ambito
 
 
 class AmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
+    """
+    Ambit dashboard view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/ambitos.html'
     queryset = Ambit.objects.all()
@@ -123,19 +112,19 @@ class AmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListVi
 
 
 class DeleteAmbitView(View):
+    """
+    Deletes Ambito object
+    """
     def dispatch(self, request, *args, **kwargs):
-        """
-Deletes Ambito from database
-        """
         Ambit.objects.get(pk=self.kwargs['pk']).pre_delete()
         return redirect('ambits_view')
 
 
 class UnPublishAmbitView(View):
+    """
+    Unpublishes Ambito object, changing is_publish flag to false and is_draft flag to true
+    """
     def dispatch(self, request, *args, **kwargs):
-        """
-Changes Ambito to unpublished and draft object:
-        """
         ambit = Ambit.objects.get(pk=self.kwargs['pk'])
         ambit.is_published = False
         ambit.is_draft = True

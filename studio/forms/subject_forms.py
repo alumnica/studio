@@ -11,7 +11,7 @@ from alumnica_model.validators import validate_image_extension, file_size
 
 class SubjectForm(forms.ModelForm):
     """
-    Creates new Subject object
+    Create new Subject object form
     """
     tags = forms.CharField(required=False, max_length=60, widget=forms.TextInput(attrs={'id': 'materias-tags',
                                                                                         'name': 'tags-materias'}))
@@ -90,7 +90,7 @@ class SubjectForm(forms.ModelForm):
 
 class UpdateSubjectForm(forms.ModelForm):
     """
-    Updates existing Subject object
+    Update existing Subject object form
     """
     tags = forms.CharField(required=False,
                            widget=forms.TextInput(attrs={'id': 'materias-tags', 'name': 'tags-materias'}))

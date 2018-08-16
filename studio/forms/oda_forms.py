@@ -18,7 +18,7 @@ class ODAsPositionForm(forms.Form):
 
 class ODACreateForm(forms.ModelForm):
     """
-    Creates new ODA object
+    Create new ODA object form
     """
     name = forms.CharField(widget=forms.TextInput())
     description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-desc'}))
@@ -137,7 +137,7 @@ class ODACreateForm(forms.ModelForm):
 
 class ODAUpdateForm(forms.ModelForm):
     """
-    Updates existing ODA object
+    Update existing ODA object form
     """
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'oda-name'}))
     description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-desc'}))

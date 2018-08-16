@@ -51,7 +51,7 @@ class UserLoginForm(forms.Form):
 
 class CreateUserForm(forms.ModelForm):
     """
-    Creates a new AuthUser object
+    Create new AuthUser object form
     """
     password = forms.CharField(widget=forms.PasswordInput())
 
@@ -84,7 +84,7 @@ class CreateUserForm(forms.ModelForm):
 
 class UpdateUserForm(forms.ModelForm):
     """
-    Updates an existing AuthUser object
+    Update existing AuthUser object form
     """
     password = forms.CharField(widget=forms.PasswordInput())
 

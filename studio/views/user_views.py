@@ -15,18 +15,21 @@ from studio.forms.user_forms import UserLoginForm, CreateUserForm, UpdateUserFor
 
 
 class IndexView(TemplateView):
+    """
+    Home view
+    """
     login_url = 'login_view'
     template_name = 'studio/pages/index.html'
 
 
 class LoginView(FormView):
+    """
+    Login user view
+    """
     form_class = UserLoginForm
     template_name = 'studio/pages/login.html'
 
     def dispatch(self, request, *args, **kwargs):
-        """
-Redirects if user is staff
-        """
         if request.user.is_authenticated:
             if not request.user.is_staff:
                 return redirect(to='dashboard_view')
@@ -36,40 +39,34 @@ Redirects if user is staff
             return super(LoginView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        """
-Logs in a valid user
-        """
         login(self.request, form.get_user())
         return redirect(to='dashboard_view')
 
     def form_invalid(self, form):
-        """
-Creates error messages for invalid users
-        """
         sweetify.error(self.request, form.errors['password'][0], persistent='Ok')
         context = self.get_context_data()
         return self.render_to_response(context)
 
 
 class LogoutView(RedirectView):
+    """
+    Logout user view
+    """
     pattern_name = 'login_view'
 
     def get(self, request, *args, **kwargs):
-        """
-Logs out user
-        """
         logout(request)
         return super(LogoutView, self).get(request, *args, **kwargs)
 
 
 class ProfileView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, FormView):
+    """
+    Profile user view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/dashboard.html'
 
     def get(self, request, *args, **kwargs):
-        """
-Gets general information of created objects
-        """
         ambits = Ambit.objects.all().count()
         ambitsToPublish = Ambit.objects.filter(is_draft=False, is_published=False)
         subjects = Subject.objects.all().count()
@@ -81,6 +78,9 @@ Gets general information of created objects
 
 
 class UsersView(LoginRequiredMixin, OnlySupervisorMixin, ListView):
+    """
+    Users dashboard view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/users.html'
     queryset = AuthUser.objects.filter(Q(user_type=TYPE_SUPERVISOR) | Q(user_type=TYPE_CONTENT_CREATOR))
@@ -88,52 +88,43 @@ class UsersView(LoginRequiredMixin, OnlySupervisorMixin, ListView):
 
 
 class CreateUserView(LoginRequiredMixin, OnlySupervisorMixin, CreateView):
+    """
+    Create new AuthUser object view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/users-edit.html'
     form_class = CreateUserForm
     success_url = reverse_lazy('dashboard_view')
 
     def form_invalid(self, form):
-        """
-Creates error messages in case email field is not valid
-        """
         sweetify.error(self.request, form.errors['email'][0], persistent='Ok')
         context = self.get_context_data()
         return self.render_to_response(context)
 
     def form_valid(self, form):
-        """
-Creates new user
-        """
         user = form.save()
         sweetify.success(self.request, _('User created'), persistent='Ok')
         return super(CreateUserView, self).form_valid(form)
 
 
 class UpdateUserView(LoginRequiredMixin, OnlySupervisorMixin, UpdateView):
+    """
+    Update existing user view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/users-edit.html'
     form_class = UpdateUserForm
     success_url = reverse_lazy('dashboard_view')
 
     def get_object(self, queryset=None):
-        """
-Gets user to update by pk in arguments
-        """
         return AuthUser.objects.get(pk=self.kwargs['pk'])
 
     def form_invalid(self, form):
-        """
-Creates error messages in case email field is not valid
-        """
         sweetify.error(self.request, form.errors['email'][0], persistent='Ok')
         context = self.get_context_data()
         return self.render_to_response(context)
 
     def form_valid(self, form):
-        """
-Updates user data
-        """
         user = form.save()
         sweetify.success(self.request, _('User updated'), persistent='Ok')
         return super(UpdateUserView, self).form_valid(form)
