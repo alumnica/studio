@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
+from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 
 from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
@@ -131,4 +132,13 @@ class UpdateMomentView(LoginRequiredMixin, UpdateView):
         moment_type = self.request.POST.get('tipo-momento')
         h5p_url = self.request.POST.get('url_h5p')
         form.save_form(subject, oda, microoda, moment_type, h5p_url)
+        return redirect(to='momentos_view')
+
+
+class DeleteMomentView(View):
+    """
+    Deletes Momento object
+    """
+    def dispatch(self, request, *args, **kwargs):
+        Moment.objects.get(pk=self.kwargs['pk']).delete()
         return redirect(to='momentos_view')

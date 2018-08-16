@@ -47,7 +47,7 @@
                                                     </span> |
                                                     <span class="borrar">
                                                         {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                                        <a href="#">{% trans "Delete" %}</a>
+                                                        <a href="{% url 'delete_momentos_view' momento.pk %}">{% trans "Delete" %}</a>
                                                     </span>
 
 
@@ -61,7 +61,7 @@
                                         </span> |
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                            <a href="#">{% trans "Delete" %}</a>
+                                            <a href="{% url 'delete_momentos_view' momento.pk %}">{% trans "Delete" %}</a>
                                         </span>
 
                                     </div>
