@@ -16,7 +16,8 @@ $(document).ready(function () {
 
     }
     if(file_name != "" && file_name != null){
-        $('#fileName').html(file_name);
+        file_name = file_name.split('?');
+        $('#fileName').html(file_name[0]);
     }
 
 });
