@@ -58,4 +58,5 @@ urlpatterns += i18n_patterns(
                   path(_('api/jobs/<str:job_id>/'), JobAPIView.as_view(), name='job_detail_view'),
                   path(_('api-auth/'), include('rest_framework.urls', namespace='rest_framework')),
                   path(_('jsi18n/'), JavaScriptCatalog.as_view(), name='javascript-catalog'),
+                  path(_('registration'), include('django.contrib.auth.urls')),
               )

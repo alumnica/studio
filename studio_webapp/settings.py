@@ -33,6 +33,15 @@ DEBUG = not os.environ.get('ON_HEROKU', False)
 
 ALLOWED_HOSTS = ['.herokuapp.com', 'studio.alumnica.org', 'localhost', '127.0.0.1']
 CORS_ORIGIN_ALLOW_ALL = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-relay.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'alumnica@fundacionmanuelmoreno.org'
+EMAIL_HOST_PASSWORD = 'Alumnica1234'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'alumnica@fundacionmanuelmoreno.org'
+
 # Application definition
 
 INSTALLED_APPS = [
