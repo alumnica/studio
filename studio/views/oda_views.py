@@ -280,3 +280,12 @@ class ODAsRedirect(View):
         else:
             return redirect(view, pk=pk, section=(kwargs.get('section') - 1))
 
+
+class DeleteODAView(View):
+    """
+    Deletes ODA object
+    """
+    def dispatch(self, request, *args, **kwargs):
+        ODA.objects.get(pk=self.kwargs['pk']).pre_delete()
+        return redirect('oda_dashboard_view')
+

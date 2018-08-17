@@ -140,5 +140,5 @@ class DeleteMomentView(View):
     Deletes Momento object
     """
     def dispatch(self, request, *args, **kwargs):
-        Moment.objects.get(pk=self.kwargs['pk']).delete()
+        Moment.objects.get(pk=self.kwargs['pk']).pre_delete()
         return redirect(to='momentos_view')
