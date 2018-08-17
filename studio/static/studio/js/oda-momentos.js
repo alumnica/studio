@@ -109,8 +109,9 @@ $('#save-on').on('mouseenter mouseleave', function () {
             apliTexts.push($(this).text());
         });
 
+
         // send to hidden input
-        $('#apli-momentos').val(apliTexts);
+        $('#apli-momentos').val(apliTexts.join('|'));
     });
 
     $(function () {
@@ -119,7 +120,7 @@ $('#save-on').on('mouseenter mouseleave', function () {
         });
 
         // send to hidden input
-        $('#forma-momentos').val(formaTexts);
+        $('#forma-momentos').val(formaTexts.join('|'));
     });
 
     $(function () {
@@ -128,7 +129,7 @@ $('#save-on').on('mouseenter mouseleave', function () {
         });
 
         // send to hidden input
-        $('#activ-momentos').val(activTexts);
+        $('#activ-momentos').val(activTexts.join('|'));
     });
 
     $(function () {
@@ -137,7 +138,7 @@ $('#save-on').on('mouseenter mouseleave', function () {
         });
 
         // send to hidden input
-        $('#ejem-momentos').val(ejemTexts);
+        $('#ejem-momentos').val(ejemTexts.join('|'));
     });
 
     $(function () {
@@ -146,7 +147,7 @@ $('#save-on').on('mouseenter mouseleave', function () {
         });
 
         // send to hidden input
-        $('#sens-momentos').val(sensTexts);
+        $('#sens-momentos').val(sensTexts.join('|'));
     });
 
     $(function () {
@@ -155,7 +156,7 @@ $('#save-on').on('mouseenter mouseleave', function () {
         });
 
         // send to hidden input
-        $('#eval-momentos').val(evalTexts);
+        $('#eval-momentos').val(evalTexts.join('|'));
     });
 
 });

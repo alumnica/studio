@@ -18,7 +18,10 @@ $(document).ready(function () {
        }
    });
 
-    $(":submit").click(function () { $("#action").val(this.name); });
+    $(":submit").click(function () {
+    $("#action").val(this.name);
+     });
+
      $('#materia-a-oda').val(self_subject);
      $('#materia-a-oda').trigger('change');
 
