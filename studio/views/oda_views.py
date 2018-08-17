@@ -68,7 +68,7 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
 
         section += 1
 
-        return redirect(to='odas_position_view', pk=subject.pk, section=section)
+        return redirect(to='update_subject_view', pk=subject.pk)
 
 
 class ODADashboardView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
