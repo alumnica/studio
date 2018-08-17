@@ -214,12 +214,20 @@ class ODAUpdateForm(forms.ModelForm):
                                                    type=MicroODAType.objects.get(moment_object[0]),
                                                    created_by=user, oda=oda)
 
-            moments_names = moment_object[1].split(',')
+            moments_names = moment_object[1].split('|')
 
             for moment in microoda.activities.all():
                 if moment.name not in moments_names:
                     microoda.activities.remove(moment)
                 microoda.save()
+
+            position = 0
+            for moment_name in moments_names:
+                if len(moment_name) > 0:
+                    momento = microoda.activities.filter(name=moment_name).first()
+                    momento.default_position = position
+                    momento.save()
+                    position += 1
 
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='application')), apli_tags)
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='formalization')), forma_tags)

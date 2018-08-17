@@ -103,7 +103,7 @@
 
 
                         let apli= [];
-                        {% for moment in apli_list.all.0.activities.all %}
+                        {% for moment in apli_list.all.0.activities.all|dictsort:"default_position" %}
                                 apli.push({name:"{{ moment.name|safe }}", code:"{{ moment.h5p_package.job_id|safe }}"});
                             {% endfor %}
                         let apli_tags = [];
@@ -112,7 +112,7 @@
                             {% endfor %}
 
                         let forma = [];
-                        {% for moment in forma_list.all.0.activities.all %}
+                        {% for moment in forma_list.all.0.activities.all|dictsort:"default_position" %}
                                 forma.push({name:"{{ moment.name|safe }}", code:"{{ moment.h5p_package.job_id|safe }}"});
                             {% endfor %}
                         let forma_tags = [];
@@ -121,7 +121,7 @@
                             {% endfor %}
 
                         let activa = [];
-                        {% for moment in activ_list.all.0.activities.all %}
+                        {% for moment in activ_list.all.0.activities.all|dictsort:"default_position" %}
                                 activa.push({name:"{{ moment.name|safe }}", code:"{{ moment.h5p_package.job_id|safe }}"});
                             {% endfor %}
                         let activa_tags = [];
@@ -130,7 +130,7 @@
                             {% endfor %}
 
                         let ejem= [];
-                            {% for moment in ejem_list.all.0.activities.all %}
+                            {% for moment in ejem_list.all.0.activities.all|dictsort:"default_position" %}
                                 ejem.push({name:"{{ moment.name|safe }}", code:"{{ moment.h5p_package.job_id|safe }}"});
                             {% endfor %}
                         let ejem_tags = [];
@@ -139,7 +139,7 @@
                             {% endfor %}
 
                         let sens = [];
-                        {% for moment in sens_list.all.0.activities.all %}
+                        {% for moment in sens_list.all.0.activities.all|dictsort:"default_position" %}
                                 sens.push({name:"{{ moment.name|safe }}", code:"{{ moment.h5p_package.job_id|safe }}"});
                             {% endfor %}
                         let sens_tags = [];
