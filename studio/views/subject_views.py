@@ -99,8 +99,10 @@ class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin
     def form_invalid(self, form):
         if form['name'].errors:
             sweetify.error(self.request, form.errors['name'][0], persistent='Ok')
-        if form['mp'].errors:
+        elif form['mp'].errors:
             sweetify.error(self.request, form.errors['mp'][0], persistent='Ok')
+        elif form['tags'].errors:
+            sweetify.error(self.request, _('Tags field error: {}'.format(form.errors['tags'][0])), persistent='OK')
         context = self.get_context_data()
         return render(self.request, self.template_name, context=context)
 
@@ -168,8 +170,10 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
     def form_invalid(self, form):
         if form['name'].errors:
             sweetify.error(self.request, form.errors['name'][0], persistent='Ok')
-        if form['mp'].errors:
+        elif form['mp'].errors:
             sweetify.error(self.request, form.errors['mp'][0], persistent='Ok')
+        elif form['tags'].errors:
+            sweetify.error(self.request, _('Tags field error: {}'.format(form.errors['tags'][0])), persistent='OK')
         context = self.get_context_data()
         return render(self.request, self.template_name, context=context)
 

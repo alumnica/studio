@@ -13,7 +13,7 @@ class SubjectForm(forms.ModelForm):
     """
     Create new Subject object form
     """
-    tags = forms.CharField(required=False, max_length=60, widget=forms.TextInput(attrs={'id': 'materias-tags',
+    tags = forms.CharField(required=False, max_length=100, widget=forms.TextInput(attrs={'id': 'materias-tags',
                                                                                         'name': 'tags-materias'}))
     mp = forms.ImageField(required=False, validators=[validate_image_extension, file_size],
                           widget=forms.FileInput(attrs={'name': 'mp', 'id': 'materia-u', 'class': 'show-for-sr',
@@ -92,7 +92,7 @@ class UpdateSubjectForm(forms.ModelForm):
     """
     Update existing Subject object form
     """
-    tags = forms.CharField(required=False,
+    tags = forms.CharField(required=False, max_length=100,
                            widget=forms.TextInput(attrs={'id': 'materias-tags', 'name': 'tags-materias'}))
     mp = forms.ImageField(required=False, widget=forms.FileInput(attrs={'name': 'mp', 'id': 'materia-u',
                                                                         'class': 'show-for-sr', 'type': 'file'}))

@@ -10,7 +10,6 @@
     <hr>
     <form method="POST" id="materia-init" enctype="multipart/form-data" onsubmit="return is_valid_form_subject()">
         {% csrf_token %}
-    {{ form.errors }}
         <div class="grid-x grid-margin-x">
             <div class="cell medium-6">
                 <label for="titulo-materia">{% trans "Title" %}</label>
