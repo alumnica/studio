@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-27 13:43-0500\n"
+"POT-Creation-Date: 2018-08-20 15:41-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "Can't get profile for invalid user type: {}"
 msgstr ""
 
-#: alumnica_model/models/users.py:175
+#: alumnica_model/models/users.py:178
 msgid "Invalid user type selected: {}"
 msgstr ""
 
-#: alumnica_model/models/users.py:178
+#: alumnica_model/models/users.py:181
 msgid "There was an error creating the profile for user {}."
 msgstr ""
 
@@ -42,129 +42,131 @@ msgstr ""
 msgid "File too large. Size should not exceed 2 MB."
 msgstr ""
 
-#: django_h5p/forms.py:81
+#: django_h5p/forms.py:87
 msgid "Main library {} hasn't been loaded and isn't included in package."
 msgstr ""
 
-#: django_h5p/validators.py:15
+#: django_h5p/validators.py:19
 #, python-brace-format
 msgid "The file must have a .h5p extension. {extension} given"
 msgstr ""
 
-#: django_h5p/validators.py:19
+#: django_h5p/validators.py:23
 msgid "The file isn't a ZIP file"
 msgstr ""
 
-#: django_h5p/validators.py:25
+#: django_h5p/validators.py:29
 msgid "The package is missing the \"h5p.json\" file in its root level"
 msgstr ""
 
-#: django_h5p/validators.py:32
+#: django_h5p/validators.py:36
 #, python-brace-format
 msgid "Invalid JSON format in h5p.json file. Error: {error}"
 msgstr ""
 
-#: django_h5p/validators.py:48
+#: django_h5p/validators.py:56
 #, python-brace-format
 msgid ""
 "The following required fields are missing in the \"h5p.json\" file: {fields}"
 msgstr ""
 
-#: django_h5p/validators.py:54
+#: django_h5p/validators.py:66
 msgid "Library {} doesn't contain a 'library.json' file"
 msgstr ""
 
-#: django_h5p/validators.py:60
+#: django_h5p/validators.py:72
 #, python-brace-format
 msgid "Invalid JSON format in \"library.json\" file. Error: {error}"
 msgstr ""
 
-#: django_h5p/validators.py:73
+#: django_h5p/validators.py:89
 msgid "Empty library title"
 msgstr ""
 
-#: django_h5p/validators.py:76
+#: django_h5p/validators.py:92
 msgid ""
 "A member of the preloaded JavaScripts does not have the \"path\" attribute"
 msgstr ""
 
-#: django_h5p/validators.py:80
+#: django_h5p/validators.py:96
 msgid "A member of the preloaded CSS does not have the \"path\" attribute"
 msgstr ""
 
-#: django_h5p/validators.py:91
+#: django_h5p/validators.py:113
 msgid "The following files are needed but aren't part of the package. {}"
 msgstr ""
 
-#: studio/forms/subject_forms.py:35
+#: studio/forms/subject_forms.py:38
 msgid "Subject already exists."
 msgstr ""
 
-#: studio/forms/user_forms.py:23 studio/forms/user_forms.py:34
+#: studio/forms/user_forms.py:29 studio/forms/user_forms.py:40
 msgid "Invalid password or email."
 msgstr ""
 
-#: studio/forms/user_forms.py:29
+#: studio/forms/user_forms.py:35
 msgid "Invalid credentials"
 msgstr ""
 
-#: studio/forms/user_forms.py:61 studio/forms/user_forms.py:91
+#: studio/forms/user_forms.py:71 studio/forms/user_forms.py:105
 msgid "User with email already exists."
 msgstr ""
 
 #: studio/urls/ambit_urls.py:8
-#, fuzzy
-#| msgid "Ámbitos"
 msgid "create_ambito/"
 msgstr "Ambits"
 
-#: studio/views/ambit_views.py:42 studio/views/ambit_views.py:91
+#: studio/views/ambit_views.py:45 studio/views/ambit_views.py:98
 msgid "Error saving ámbito {}. Not all subjects are finalized"
 msgstr ""
 
-#: studio/views/ambit_views.py:57
+#: studio/views/ambit_views.py:63
 msgid "It is not possible to edit Ámbito {} because is already published"
 msgstr ""
 
-#: studio/views/oda_views.py:25
+#: studio/views/oda_views.py:28
 msgid "It is not possible to position ODAs. Assign an image to a section first"
 msgstr ""
 
-#: studio/views/oda_views.py:199
+#: studio/views/oda_views.py:172
 msgid ""
 "It is not possible to edit oda {} because it belongs to a published ambit"
 msgstr ""
 
-#: studio/views/subject_views.py:76
+#: studio/views/subject_views.py:79
 msgid "Error in section {} image: {}"
 msgstr ""
 
-#: studio/views/subject_views.py:86 studio/views/subject_views.py:227
+#: studio/views/subject_views.py:89 studio/views/subject_views.py:238
 msgid "Error finalizing. There is not any ODA positioned"
 msgstr ""
 
-#: studio/views/subject_views.py:118
+#: studio/views/subject_views.py:105 studio/views/subject_views.py:176
+msgid "Tags field error: {}"
+msgstr ""
+
+#: studio/views/subject_views.py:126
 msgid ""
 "It is not possible to edit subject {} because it belongs to a published ambit"
 msgstr ""
 
-#: studio/views/subject_views.py:216
+#: studio/views/subject_views.py:227
 msgid "Error in section {} file: {}"
 msgstr ""
 
-#: studio/views/user_views.py:85
+#: studio/views/user_views.py:106
 msgid "User created"
 msgstr ""
 
-#: studio/views/user_views.py:105
+#: studio/views/user_views.py:129
 msgid "User updated"
 msgstr ""
 
-#: studio_webapp/settings.py:146
+#: studio_webapp/settings.py:156
 msgid "English"
 msgstr ""
 
-#: studio_webapp/settings.py:147
+#: studio_webapp/settings.py:157
 msgid "Spanish"
 msgstr ""
 
@@ -177,8 +179,6 @@ msgid "supervisor/"
 msgstr ""
 
 #: studio_webapp/urls.py:49
-#, fuzzy
-#| msgid "Ámbitos"
 msgid "ambitos/"
 msgstr "Ambits"
 
@@ -226,6 +226,10 @@ msgstr ""
 msgid "jsi18n/"
 msgstr ""
 
+#: studio_webapp/urls.py:61
+msgid "registration"
+msgstr ""
+
 #: templates/django_h5p/upload_h5p_form.html:12
 #: templates/django_h5p/upload_h5p_library_form.html:12
 msgid "Cargar"
@@ -237,10 +241,8 @@ msgstr ""
 
 #: templates/studio/dashboard/ambitos-edit.html:13
 #: templates/studio/dashboard/ambitos.html:15
-#, fuzzy
-#| msgid "Ámbitos"
 msgid "Create new Ámbito"
-msgstr "Ambits"
+msgstr ""
 
 #: templates/studio/dashboard/ambitos-edit.html:23
 #: templates/studio/dashboard/ambitos.html:23
@@ -271,8 +273,8 @@ msgstr ""
 #: templates/studio/dashboard/ambitos-edit.html:156
 #: templates/studio/dashboard/biblioteca.html:9
 #: templates/studio/dashboard/materias-edit.html:55
-#: templates/studio/navigation/mobile-menu.html:58
-#: templates/studio/navigation/side-bar-menu.html:54
+#: templates/studio/navigation/mobile-menu.html:60
+#: templates/studio/navigation/side-bar-menu.html:56
 msgid "Image library"
 msgstr ""
 
@@ -320,18 +322,16 @@ msgstr ""
 
 #: templates/studio/dashboard/ambitos.html:8
 #: templates/studio/dashboard/dashboard.html:44
-#: templates/studio/navigation/mobile-menu.html:28
-#: templates/studio/navigation/side-bar-menu.html:24
-#, fuzzy
-#| msgid "Ámbitos"
+#: templates/studio/navigation/mobile-menu.html:30
+#: templates/studio/navigation/side-bar-menu.html:26
 msgid "Ámbitos"
 msgstr "Ambits"
 
 #: templates/studio/dashboard/ambitos.html:26
 #: templates/studio/dashboard/dashboard.html:55
 #: templates/studio/dashboard/materias.html:11
-#: templates/studio/navigation/mobile-menu.html:34
-#: templates/studio/navigation/side-bar-menu.html:30
+#: templates/studio/navigation/mobile-menu.html:36
+#: templates/studio/navigation/side-bar-menu.html:32
 msgid "Subjects"
 msgstr ""
 
@@ -431,8 +431,8 @@ msgstr ""
 
 #: templates/studio/dashboard/dashboard.html:77
 #: templates/studio/dashboard/momentos.html:8
-#: templates/studio/navigation/mobile-menu.html:49
-#: templates/studio/navigation/side-bar-menu.html:45
+#: templates/studio/navigation/mobile-menu.html:51
+#: templates/studio/navigation/side-bar-menu.html:47
 msgid "Momentos"
 msgstr ""
 
@@ -446,7 +446,7 @@ msgstr ""
 #: templates/studio/dashboard/materias.html:16
 #, fuzzy
 #| msgid "Ámbitos"
-msgid "Create a new Subject"
+msgid "Create new Subject"
 msgstr "Ambits"
 
 #: templates/studio/dashboard/materias-edit.html:37
@@ -518,7 +518,7 @@ msgstr ""
 msgid "Select file"
 msgstr ""
 
-#: templates/studio/dashboard/momentos-edit.html:118
+#: templates/studio/dashboard/momentos-edit.html:120
 msgid "Save Moment"
 msgstr ""
 
@@ -532,8 +532,6 @@ msgid "in"
 msgstr ""
 
 #: templates/studio/dashboard/odas-edit.html:8
-#, fuzzy
-#| msgid "Ámbitos"
 msgid "Create new ODA"
 msgstr "Ambits"
 
@@ -622,17 +620,34 @@ msgstr ""
 msgid "New ODA"
 msgstr ""
 
-#: templates/studio/navigation/mobile-menu.html:19
-#: templates/studio/navigation/side-bar-menu.html:14
-msgid "Ámbitos to publish"
-msgstr ""
-
-#: templates/studio/navigation/mobile-menu.html:67
-#: templates/studio/navigation/side-bar-menu.html:63
+#: templates/studio/dashboard/users.html:8
+#: templates/studio/navigation/mobile-menu.html:69
+#: templates/studio/navigation/side-bar-menu.html:65
 msgid "Users"
 msgstr ""
 
-#: templates/studio/navigation/mobile-menu.html:76
+#: templates/studio/dashboard/users.html:11
+msgid "New user"
+msgstr ""
+
+#: templates/studio/dashboard/users.html:17
+msgid "Nombre de Usuario"
+msgstr "User name"
+
+#: templates/studio/dashboard/users.html:18
+msgid "Tipo de Usuario"
+msgstr "User type"
+
+#: templates/studio/dashboard/users.html:33
+msgid "Editar"
+msgstr "Edit"
+
+#: templates/studio/navigation/mobile-menu.html:20
+#: templates/studio/navigation/side-bar-menu.html:15
+msgid "Ámbitos to publish"
+msgstr ""
+
+#: templates/studio/navigation/mobile-menu.html:78
 #: templates/studio/navigation/top-bar.html:17
 msgid "Logout"
 msgstr ""
@@ -653,9 +668,10 @@ msgstr ""
 msgid "PASSWORD"
 msgstr ""
 
-#: templates/studio/pages/login.html:22
-msgid "I forgot my password"
-msgstr ""
+#: templates/studio/pages/login.html:20
+msgid "Entrar"
+msgstr "Login"
 
-#~ msgid "Titulo"
-#~ msgstr "Title"
+#: templates/studio/pages/login.html:22
+msgid "¿Olvidaste tu contraseña?"
+msgstr "Forgot password?"

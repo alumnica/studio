@@ -5,17 +5,17 @@
 
 <div class="dashboard container">
     <h1 class="title">
-        <i class="fa fa-users"></i> Usuarios</i>
+        <i class="fa fa-users"></i> {% trans "Users"%}
     </h1>
     <hr>
-    <a href="{% url 'create_user_view' %}" class="button">Crear Usuario</a>
+    <a href="{% url 'create_user_view' %}" class="button">{% trans "New user"%}</a>
     <div class="panel">
 
         <table id="tabla-usuarios" class=" no-wrap">
             <thead>
                 <tr>
-                    <th>Nombre de Usuario</th>
-                    <th>Tipo de Usuario</th>
+                    <th>{% trans "Nombre de Usuario"%}</th>
+                    <th>{% trans "Tipo de Usuario"%}</th>
 
                 </tr>
             </thead>
@@ -30,7 +30,7 @@
                         </div>
                         <div class="title-edit-menu">
                             <span class="editar">
-                                <a href="{% url 'update_user_view' user.pk %}">Editar</a>
+                                <a href="{% url 'update_user_view' user.pk %}">{% trans "Editar" %}</a>
                             </span>
 
                         </div>

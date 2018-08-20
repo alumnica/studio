@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-27 13:45-0500\n"
+"POT-Creation-Date: 2018-08-20 15:37-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: studio/static/studio/js/ambit.js:23 studio/static/studio/js/ambit.js:41
-#: studio/static/studio/js/momentos.js:65
+#: studio/static/studio/js/momentos.js:66
 msgid "The name field is required"
 msgstr ""
 
@@ -47,41 +47,47 @@ msgstr ""
 msgid "Select at least one subject to publish"
 msgstr ""
 
-#: studio/static/studio/js/momentos.js:71
+#: studio/static/studio/js/momentos.js:72
 msgid "The subject field is required"
 msgstr ""
 
-#: studio/static/studio/js/momentos.js:77
+#: studio/static/studio/js/momentos.js:78
 msgid "The ODA field is required"
 msgstr ""
 
-#: studio/static/studio/js/momentos.js:83
+#: studio/static/studio/js/momentos.js:84
 msgid "The Micro ODA field is required"
 msgstr ""
 
-#: studio/static/studio/js/momentos.js:89
+#: studio/static/studio/js/momentos.js:90
 msgid "Select the moment type"
 msgstr ""
 
-#: studio/static/studio/js/momentos.js:95
+#: studio/static/studio/js/momentos.js:96
 msgid "Introduce at least one tag"
 msgstr ""
 
-#: studio/static/studio/js/momentos.js:99
+#: studio/static/studio/js/momentos.js:100
 msgid "/api/zip_files/"
 msgstr "/en/api/zip_files/"
 
-#: studio/static/studio/js/momentos.js:106
+#: studio/static/studio/js/momentos.js:107
 msgid "Any file has been selected"
 msgstr ""
 
-#: studio/static/studio/js/momentos.js:115
+#: studio/static/studio/js/momentos.js:116
 msgid "Select a H5P file"
 msgstr ""
 
-#: studio/static/studio/js/momentos.js:130
-#: studio/static/studio/js/momentos.js:155
-#: studio/static/studio/js/momentos.js:164
-#: studio/static/studio/js/momentos.js:183
+#: studio/static/studio/js/momentos.js:136
+#: studio/static/studio/js/momentos.js:161
+#: studio/static/studio/js/momentos.js:170
+#: studio/static/studio/js/momentos.js:189
 msgid "Failed loading the file, please try later"
+msgstr ""
+
+#: studio/static/studio/js/oda.js:33 studio/static/studio/js/oda.js:46
+#: studio/static/studio/js/oda.js:58 studio/static/studio/js/oda.js:69
+#: studio/static/studio/js/oda.js:81
+msgid "/h5p/package/"
 msgstr ""

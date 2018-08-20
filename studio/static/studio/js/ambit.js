@@ -16,7 +16,24 @@ $(document).ready(function () {
         $("#action").val(this.name);
     });
 
-    function is_valid_form (){
+
+
+    for(let i=0; i<self_materias.length;i++){
+        $("#sortable").append('<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s sorter"></span>' + self_materias[i].name + '</a><span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
+        $("#sortable").sortable('refresh');
+        if ($('ul#sortable li').length > 3) {
+            $('#add-materia-button').hide();
+        }
+    }
+    if (self_color!= null && self_color!="" && self_color != 'None'){
+        radio_btn = document.getElementById(self_color);
+        radio_btn.checked = true;
+        $(radio_btn).trigger('click');
+    }
+
+});
+
+function is_valid_ambit_form (){
         if($('#action').val() == "save"){
             let ambit_name = document.getElementById('id_name').value;
             if (ambit_name == '' || ambit_name == null){
@@ -93,19 +110,3 @@ $(document).ready(function () {
 
 
     }
-
-
-    for(let i=0; i<self_materias.length;i++){
-        $("#sortable").append('<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s sorter"></span>' + self_materias[i].name + '</a><span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
-        $("#sortable").sortable('refresh');
-        if ($('ul#sortable li').length > 3) {
-            $('#add-materia-button').hide();
-        }
-    }
-    if (self_color!= null && self_color!="" && self_color != 'None'){
-        radio_btn = document.getElementById(self_color);
-        radio_btn.checked = true;
-        $(radio_btn).trigger('click');
-    }
-
-});
