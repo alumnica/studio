@@ -533,7 +533,7 @@ msgstr ""
 
 #: templates/studio/dashboard/odas-edit.html:8
 msgid "Create new ODA"
-msgstr "Ambits"
+msgstr ""
 
 #: templates/studio/dashboard/odas-edit.html:31
 msgid "Image A"

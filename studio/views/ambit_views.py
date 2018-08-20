@@ -29,7 +29,7 @@ class CreateAmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, 
     def post(self, request, *args, **kwargs):
         subjects = self.request.POST.get('class_name')
         tags = self.request.POST.get('tags-ambito')
-        if tags is not None:
+        if tags is not None and tags != '':
             tags = tags.split(',')
         color = self.request.POST.get('color')
         action = self.request.POST.get('action')
@@ -81,7 +81,7 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
     def post(self, request, *args, **kwargs):
         subjects = self.request.POST.get('class_name')
         tags = self.request.POST.get('tags-ambito')
-        if tags is not None:
+        if tags is not None and tags != '':
             tags = tags.split(',')
         color = self.request.POST.get('color')
         action = self.request.POST.get('action')
