@@ -1,0 +1,16 @@
+{
+  "title": "Three Sixty Image Viewer",
+  "description": "Displays a 360 Image Panorama",
+  "majorVersion": 1,
+  "minorVersion": 0,
+  "patchVersion": 0,
+  "runnable": 1,
+  "author": "CODE Ing.",
+  "license": "MIT",
+  "machineName": "H5P.ThreeSixtyImage",
+  "preloadedJs": [
+    {
+      "path": "threesixty.js"      
+    }
+  ]
+}

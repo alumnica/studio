@@ -11,10 +11,16 @@ from studio.serializers import ImageHyperlinkedModelSerializer, EvaluationHyperl
 
 
 class ImageViewSet(ModelViewSet):
+    """
+    Retrieves Image objects stored in database
+    """
     queryset = Image.objects.all()
     serializer_class = ImageHyperlinkedModelSerializer
 
     def get_queryset(self):
+        """
+    Gets Image model queryset using filters received in query_params request field
+        """
         raw_filter_data = self.request.query_params.get('statuses')
         if raw_filter_data is None:
             return super(ImageViewSet, self).get_queryset(), []
@@ -35,18 +41,18 @@ class ImageViewSet(ModelViewSet):
                     filter_params.update({'folder__contains': data, 'file_name__contains': data})
             elif action == 'paging':
 
-                    try:
-                        paging = filter['data']['number']
-                        if paging != 'all':
-                            paging_value = int(paging)
-                        else:
-                            paging_value ='all'
-                    except KeyError or ValueError:
-                        pass
-                    try:
-                        current_page = filter['data']['currentPage']
-                    except KeyError:
-                        pass
+                try:
+                    paging = filter['data']['number']
+                    if paging != 'all':
+                        paging_value = int(paging)
+                    else:
+                        paging_value = 'all'
+                except KeyError or ValueError:
+                    pass
+                try:
+                    current_page = filter['data']['currentPage']
+                except KeyError:
+                    pass
 
             elif action == 'sort':
                 pass
@@ -59,8 +65,8 @@ class ImageViewSet(ModelViewSet):
             if paging_value == 'all':
                 queryset = Image.objects.filter(filter)
             else:
-                queryset = Image.objects.filter(filter)[(paging_value*current_page):
-                                                        ((paging_value*current_page)+paging_value)]
+                queryset = Image.objects.filter(filter)[(paging_value * current_page):
+                                                        ((paging_value * current_page) + paging_value)]
             count = len(queryset)
 
             return queryset, count
@@ -69,8 +75,9 @@ class ImageViewSet(ModelViewSet):
                 return \
                     Image.objects.all(), Image.objects.count()
             else:
-                return Image.objects.all()[(paging_value*current_page):((paging_value*current_page)+paging_value)],\
-                   Image.objects.count()
+                return Image.objects.all()[
+                       (paging_value * current_page):((paging_value * current_page) + paging_value)], \
+                       Image.objects.count()
 
     def list(self, request, *args, **kwargs):
         self.object_list, count = self.get_queryset()
@@ -79,5 +86,8 @@ class ImageViewSet(ModelViewSet):
 
 
 class EvaluationViewSet(ModelViewSet):
+    """
+    Retrieves Evaluation objects
+    """
     queryset = Evaluation.objects.all()
     serializer_class = EvaluationHyperlinkedModelSerializer

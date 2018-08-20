@@ -1,11 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView, FormView
+from django.views.generic import FormView
 
 from alumnica_model.models import Ambit, users, Subject, ODA
 
 
 class ApproveToPublishDashboard(LoginRequiredMixin, FormView):
+    """
+    Ambitos to approve dashboard
+    """
     login_url = "login_view"
     template_name = "studio/dashboard/supervisor.html"
 
@@ -30,6 +33,9 @@ class ApproveToPublishDashboard(LoginRequiredMixin, FormView):
 
 
 class AmbitPreviewView(LoginRequiredMixin, FormView):
+    """
+    Ambit cards preview view
+    """
     login_url = "login_view"
     template_name = "studio/dashboard/supervisor-vp-ambito.html"
 
@@ -47,6 +53,9 @@ class AmbitPreviewView(LoginRequiredMixin, FormView):
 
 
 class GridPositionView(LoginRequiredMixin, FormView):
+    """
+    Ambito to publish and Ambitos already published Grid position preview
+    """
     login_url = "login_view"
     template_name = "studio/dashboard/supervisor-drag-drop.html"
 
@@ -80,6 +89,9 @@ class GridPositionView(LoginRequiredMixin, FormView):
 
 
 class ODAsPositionSubjectPreview(LoginRequiredMixin, FormView):
+    """
+    ODAs position in Subject sections preview
+    """
     login_url = "login_view"
     template_name = "studio/dashboard/supervisor-vp-materia.html"
 
@@ -101,11 +113,14 @@ class ODAsPositionSubjectPreview(LoginRequiredMixin, FormView):
 
         zones = ['a', 'b', 'c', 'd']
         subject_zip = zip(section_images_list, zones)
-        context.update({'subject_zip': subject_zip, 'odas_list': odas_list, 'ambit_pk':subject.ambit.pk})
+        context.update({'subject_zip': subject_zip, 'odas_list': odas_list, 'ambit_pk': subject.ambit.pk})
         return context
 
 
 class MicroodaPreview(LoginRequiredMixin, FormView):
+    """
+    Microodas views for ODA pages
+    """
     login_url = "login_view"
     template_name = "studio/dashboard/supervisor-vp-oda.html"
 

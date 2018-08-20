@@ -17,9 +17,9 @@
                                 <label>{% trans "PASSWORD" %}
                                     {{ form.password }}
                                 </label>
-                                <input type="submit" class="button login-btn expanded" value="ENTRAR">
+                                <input type="submit" class="button login-btn expanded" value="{% trans "Entrar" %}">
                             </form>
-                            <a href="#">{% trans "I forgot my password" %}</a>
+                            <a href="{% url 'password_reset' %}">{% trans "¿Olvidaste tu contraseña?" %}</a>
 
                         </div>
                     </div>

@@ -173,15 +173,17 @@ function is_valid_form_subject(){
            let btn_name = $('#action').val();
            let btn = document.getElementsByName(btn_name);
            let img_preview = $(btn).parents('.my_item').find('.img-preview').attr('src');
-           let match_found = img_preview.search('.png');
+           let match_png_found = img_preview.search('.png');
+           let match_jpg_found = img_preview.search('.jpg');
+           let match_jpeg_found = img_preview.search('.jpeg');
 
                 if (img_preview == "" || source_image == null) {
-                    swal("Error", "Sube una imágen PNG ante de editar las posiciones", "error");
+                    swal("Error", "Sube una imagen antes de editar las posiciones", "error");
                     return false;
                 }
 
-                if(match_found == -1){
-                    swal("Error", "Sube una imágen PNG ante de editar las posiciones", "error");
+                if(match_png_found == -1 && match_jpg_found == -1 && match_jpeg_found == -1){
+                    swal("Error", "Sube una imágen antes de editar las posiciones", "error");
                     return false;
                 }
 
@@ -214,28 +216,35 @@ function is_valid_form_subject(){
                 }
                 else {
                 preview_name = 'preview-' + inputs[i].name;
-                let source_image = document.getElementById(preview_name).src;
-                let match_found = source_image.search('.png');
+                let source_image = (document.getElementById(preview_name)).getAttribute('src');
+                let match_png_found = source_image.search('.png');
+                let match_jpg_found = source_image.search('.jpg');
+                let match_jpeg_found = source_image.search('.jpeg');
 
-                if(match_found == -1){
-                    swal("Error", "Debes subir archivos png", "error");
+                if(match_png_found == -1 && match_jpg_found == -1 && match_jpeg_found == -1){
+                    swal("Error", "Debes subir archivos png, jpg o jpeg", "error");
                     return false;
+
                 }
             }
             }
             else {
                 preview_name = 'preview-' + inputs[i].name;
-                let source_image = document.getElementById(preview_name).src;
-                let match_found = source_image.search('.png');
+                let source_image = (document.getElementById(preview_name)).getAttribute('src');
 
                 if (source_image == "" || source_image == null) {
                     swal("Error", "Faltan imágenes por subir", "error");
                     return false;
                 }
 
-                if(match_found == -1){
-                    swal("Error", "Faltan imágenes por subir", "error");
+                let match_png_found = source_image.search('.png');
+                let match_jpg_found = source_image.search('.jpg');
+                let match_jpeg_found = source_image.search('.jpeg');
+
+                if(match_png_found == -1 && match_jpg_found == -1 && match_jpeg_found == -1){
+                    swal("Error", "Debes subir archivos png, jpg o jpeg", "error");
                     return false;
+
                 }
             }
             }

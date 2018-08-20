@@ -1,29 +1,25 @@
-import os
-import xlrd
 import json
+import os
+
+import xlrd
 from django import forms
+
 from alumnica_model.models import ODA
-from alumnica_model.models.content import Subject, Tag, Moment, MicroODA, Image, Evaluation, MicroODAType
+from alumnica_model.models.content import Subject, Tag, MicroODA, Image
 from alumnica_model.models.questions import *
 
 
-class ODAsSectionForm(forms.ModelForm):
-    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
-
-    class Meta:
-        model = Subject
-        fields = ['name']
-
-
 class ODAsPositionForm(forms.Form):
-    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
-
-
-class ODAsPreviewForm(forms.Form):
+    """
+    Contains ODA to be positioned name
+    """
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
 
 
 class ODACreateForm(forms.ModelForm):
+    """
+    Create new ODA object form
+    """
     name = forms.CharField(widget=forms.TextInput())
     description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-desc'}))
     tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
@@ -35,7 +31,7 @@ class ODACreateForm(forms.ModelForm):
                                       widget=forms.FileInput(attrs={'class': 'is-hidden image', 'type': 'file'}))
     evaluation_file = forms.FileField(required=False,
                                       widget=forms.FileInput(attrs={'class': 'is-hidden', 'id': 'evaluation_file',
-                                                                                    'accept': '.xlsx'}))
+                                                                    'accept': '.xlsx'}))
     apli_tags = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                               'id': 'apli-tags'}))
@@ -51,12 +47,12 @@ class ODACreateForm(forms.ModelForm):
     sens_tags = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                               'id': 'sens-tags'}))
+
     class Meta:
         model = ODA
-        fields = ['name', 'description','tags']
+        fields = ['name', 'description', 'tags']
 
     def save_form(self, user, moments, subject, bloque, is_draft=False):
-
         oda = super(ODACreateForm, self).save(commit=False)
         cleaned_data = super(ODACreateForm, self).clean()
 
@@ -89,8 +85,7 @@ class ODACreateForm(forms.ModelForm):
                 oda.tags.add(tag)
         counter = 1
         for moment_object in moments:
-
-            MicroODA.objects.get_or_create(name='{}_oda_{}'.format(oda.name, moment_object[0]),
+            MicroODA.objects.get_or_create(name='{}'.format(moment_object[0]),
                                            created_by=user,
                                            type=MicroODAType.objects.get(name=moment_object[0]),
                                            default_position=counter, oda=oda)
@@ -109,8 +104,8 @@ class ODACreateForm(forms.ModelForm):
 
         if active_icon is not None:
             if isinstance(active_icon, Image):
-                    active_icon_object = Image.objects.get(folder="ODAs", file=active_icon.file)
-                    active_icon_object.name = '{}-oda_active_icon'.format(oda.name)
+                active_icon_object = Image.objects.get(folder="ODAs", file=active_icon.file)
+                active_icon_object.name = '{}-oda_active_icon'.format(oda.name)
             else:
                 active_icon_object = Image.objects.create(name='{}-oda_active_icon'.format(oda.name), folder="ODAs",
                                                           file=active_icon)
@@ -141,6 +136,9 @@ class ODACreateForm(forms.ModelForm):
 
 
 class ODAUpdateForm(forms.ModelForm):
+    """
+    Update existing ODA object form
+    """
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'oda-name'}))
     description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-desc'}))
     tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
@@ -150,8 +148,9 @@ class ODAUpdateForm(forms.ModelForm):
     active_icon = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
     completed_icon = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden',
                                                                                     'type': 'file'}))
-    evaluation_file = forms.FileField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden', 'id': 'evaluation_file',
-                                                                                    'accept': '.xlsx'}))
+    evaluation_file = forms.FileField(required=False,
+                                      widget=forms.FileInput(attrs={'class': 'is-hidden', 'id': 'evaluation_file',
+                                                                    'accept': '.xlsx'}))
     apli_tags = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                               'id': 'apli-tags'}))
@@ -172,7 +171,7 @@ class ODAUpdateForm(forms.ModelForm):
         model = ODA
         fields = ['name', 'description', 'tags']
 
-    def save_form(self, user, moments, subject, bloque, evaluation,  is_draft=False):
+    def save_form(self, user, moments, subject, bloque, evaluation, is_draft=False):
         cleaned_data = super(ODAUpdateForm, self).clean()
 
         tags = cleaned_data.get('tags')
@@ -204,7 +203,6 @@ class ODAUpdateForm(forms.ModelForm):
                 if tag.name not in tags:
                     oda.tags.remove(tag)
 
-
         for moment_object in moments:
 
             try:
@@ -212,16 +210,24 @@ class ODAUpdateForm(forms.ModelForm):
                 microoda.name = '{}_oda_{}'.format(oda.name, moment_object[0])
                 microoda.save()
             except MicroODA.DoesNotExist:
-                microoda = MicroODA.objects.create(name='{}_oda_{}'.format(oda.name, moment_object[0]),
+                microoda = MicroODA.objects.create(name='{}'.format(moment_object[0]),
                                                    type=MicroODAType.objects.get(moment_object[0]),
                                                    created_by=user, oda=oda)
 
-            moments_names = moment_object[1].split(',')
+            moments_names = moment_object[1].split('|')
 
             for moment in microoda.activities.all():
                 if moment.name not in moments_names:
                     microoda.activities.remove(moment)
                 microoda.save()
+
+            position = 0
+            for moment_name in moments_names:
+                if len(moment_name) > 0:
+                    momento = microoda.activities.filter(name=moment_name).first()
+                    momento.default_position = position
+                    momento.save()
+                    position += 1
 
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='application')), apli_tags)
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='formalization')), forma_tags)
@@ -231,8 +237,8 @@ class ODAUpdateForm(forms.ModelForm):
 
         if active_icon is not None:
             if isinstance(active_icon, Image):
-                    active_icon_object = Image.objects.get(folder="ODAs", file=active_icon.file)
-                    active_icon_object.name = '{}-oda_active_icon'.format(oda.name)
+                active_icon_object = Image.objects.get(folder="ODAs", file=active_icon.file)
+                active_icon_object.name = '{}-oda_active_icon'.format(oda.name)
             else:
                 active_icon_object = Image.objects.create(name='{}-oda_active_icon'.format(oda.name), folder="ODAs",
                                                           file=active_icon)
@@ -271,6 +277,11 @@ class ODAUpdateForm(forms.ModelForm):
 
 
 def set_microodas_tags(microoda, tags):
+    """
+    Adds tags to each MicroODA
+    :param microoda: MicroODA object
+    :param tags: Tags string separated by comma
+    """
     if tags is not None and tags is not '':
         tags = tags.split(',')
         for tag_name in tags:
@@ -284,6 +295,11 @@ def set_microodas_tags(microoda, tags):
 
 
 def get_json_from_excel(file, sheet_name):
+    """
+    Gets data stored in excel file as json
+    :param file: File name
+    :param sheet_name: Excel sheet name
+    """
     workbook = xlrd.open_workbook(file_contents=file)
     worksheet = workbook.sheet_by_index(sheet_name)
 
@@ -302,6 +318,10 @@ def get_json_from_excel(file, sheet_name):
 
 
 def set_evaluation(evaluation):
+    """
+    Creates Question objects from file and assigns them to an Evaluation object
+    :param evaluation: Evaluation object
+    """
     file_read = evaluation.file.read()
 
     relationship_questions = get_json_from_excel(file_read, 1)
@@ -398,4 +418,3 @@ def set_evaluation(evaluation):
     for question_in_evaluation in evaluation.pull_down_list_questions.all():
         if question_in_evaluation not in pull_down_list_questions_instances:
             question_in_evaluation.delete()
-

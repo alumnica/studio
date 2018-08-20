@@ -16,7 +16,8 @@ $(document).ready(function () {
 
     }
     if(file_name != "" && file_name != null){
-        $('#fileName').html(file_name);
+        file_name = file_name.split('?');
+        $('#fileName').html(file_name[0]);
     }
 
 });
@@ -96,7 +97,7 @@ let url_status = '';
          return false;
      }
 
-     let url = 'https://django-h5p.herokuapp.com/api/zip_files/';
+     let url = gettext('/api/zip_files/');
      let control = document.getElementById('h5p-upload');
      let data = $('#h5p-upload').val();
      let previous_file = $('#fileName').html();
@@ -115,7 +116,11 @@ let url_status = '';
             swal("Error", gettext("Select a H5P file"), "error");
             return false;
          }
-
+        swal({
+        title: 'Please wait',
+        allowOutsideClick: false,
+        });
+        swal.showLoading();
          let formH5P = new FormData($('#uploadForm')[0]);
          let inputH5P = $('#h5p-upload')[0];
          formH5P.append('package', inputH5P.files[0]);
@@ -127,6 +132,7 @@ let url_status = '';
           contentType: false,
           processData: false,
           error: function(data){
+              swal.close();
               swal("Error", gettext("Failed loading the file, please try later"), 'error');
           }
         });
@@ -143,15 +149,15 @@ let url_status = '';
         swal("Error", data.error, 'error');
         return false;
     }
-    $('#url_h5p').val(data.job.package_url);
+    $('#url_h5p').val(data.job.package_job_id);
     url_status = data.job.job_url;
-    swal('Please wait');
-    swal.showLoading();
+
     $.ajax({
       type: "GET",
       url: url_status,
       success: lookUpURL,
       error: function(data){
+          swal.close();
           swal("Error", gettext("Failed loading the file, please try later"), 'error');
       },
       dataType: 'text'
@@ -165,9 +171,9 @@ function lookUpURL(data) {
         return false;
     }
     if(data_info.is_finished){
-        swal.close();
 
         $('#uploadForm').submit();
+        swal.close();
         return false;
     }
     setTimeout(get_url, 1000)

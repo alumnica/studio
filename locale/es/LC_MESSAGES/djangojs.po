@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-22 19:10-0500\n"
+"POT-Creation-Date: 2018-08-20 15:37-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,34 +18,84 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: studio/static/studio/js/ambit.js:5 studio/static/studio/js/ambit.js:22
+#: studio/static/studio/js/ambit.js:23 studio/static/studio/js/ambit.js:41
+#: studio/static/studio/js/momentos.js:66
 msgid "The name field is required"
 msgstr "El campo de nombre es requerido"
 
-#: studio/static/studio/js/ambit.js:9 studio/static/studio/js/ambit.js:32
+#: studio/static/studio/js/ambit.js:27 studio/static/studio/js/ambit.js:51
 msgid "This name is already taken"
 msgstr "Este nombre ya esta siendo usado"
 
-#: studio/static/studio/js/ambit.js:27
+#: studio/static/studio/js/ambit.js:46
 msgid "Delete an ambit before publish another"
 msgstr "Borra un ámbito antes de añadir otro"
 
-#: studio/static/studio/js/ambit.js:43
+#: studio/static/studio/js/ambit.js:62
 msgid "Select a background color"
 msgstr "Selecciona un color de fondo"
 
-#: studio/static/studio/js/ambit.js:51
+#: studio/static/studio/js/ambit.js:70
 msgid "The size of the file must be less than 10 MB"
 msgstr "El tamaño del archivo debe ser menor a 10 MB"
 
-#: studio/static/studio/js/ambit.js:58 studio/static/studio/js/ambit.js:62
+#: studio/static/studio/js/ambit.js:77 studio/static/studio/js/ambit.js:81
 msgid "Select a PNG image"
 msgstr "Selecciona una imagen PNG"
 
-#: studio/static/studio/js/app.js:22
-msgid "input"
+#: studio/static/studio/js/ambit.js:87
+msgid "Select at least one subject to publish"
 msgstr ""
 
-#: studio/static/studio/js/app.js:22
-msgid "intent"
+#: studio/static/studio/js/momentos.js:72
+#, fuzzy
+#| msgid "The name field is required"
+msgid "The subject field is required"
+msgstr "El campo de nombre es requerido"
+
+#: studio/static/studio/js/momentos.js:78
+#, fuzzy
+#| msgid "The name field is required"
+msgid "The ODA field is required"
+msgstr "El campo de nombre es requerido"
+
+#: studio/static/studio/js/momentos.js:84
+#, fuzzy
+#| msgid "The name field is required"
+msgid "The Micro ODA field is required"
+msgstr "El campo de nombre es requerido"
+
+#: studio/static/studio/js/momentos.js:90
+msgid "Select the moment type"
+msgstr ""
+
+#: studio/static/studio/js/momentos.js:96
+msgid "Introduce at least one tag"
+msgstr ""
+
+#: studio/static/studio/js/momentos.js:100
+msgid "/api/zip_files/"
+msgstr "/es/api/zip_files/"
+
+#: studio/static/studio/js/momentos.js:107
+msgid "Any file has been selected"
+msgstr ""
+
+#: studio/static/studio/js/momentos.js:116
+#, fuzzy
+#| msgid "Select a PNG image"
+msgid "Select a H5P file"
+msgstr "Selecciona una imagen PNG"
+
+#: studio/static/studio/js/momentos.js:136
+#: studio/static/studio/js/momentos.js:161
+#: studio/static/studio/js/momentos.js:170
+#: studio/static/studio/js/momentos.js:189
+msgid "Failed loading the file, please try later"
+msgstr ""
+
+#: studio/static/studio/js/oda.js:33 studio/static/studio/js/oda.js:46
+#: studio/static/studio/js/oda.js:58 studio/static/studio/js/oda.js:69
+#: studio/static/studio/js/oda.js:81
+msgid "/h5p/package/"
 msgstr ""

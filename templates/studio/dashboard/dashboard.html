@@ -85,7 +85,7 @@
         </div>
 
         <!--solo vista por el Supervisor-->
-
+    {% ifequal request.user.user_type 'SUPERVISOR'%}
          <div class="cell medium-6">
                 <div class="cell medium-6">
                     <div class="panel">
@@ -106,7 +106,7 @@
                     </div>
                 </div>
         </div>
-
+    {% endifequal %}
         <!--end solo vista por supervisor -->
 
     </div>

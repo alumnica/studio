@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import FormView, UpdateView, ListView, CreateView
 from sweetify import sweetify
-from django.utils.translation import gettext_lazy as _
 
 from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 from alumnica_model.models import Subject, ODA, Tag, Moment, users
@@ -13,6 +13,9 @@ from studio.forms.oda_forms import ODAsPositionForm, ODACreateForm, \
 
 
 class ODAsPositionView(LoginRequiredMixin, FormView):
+    """
+    Update ODA position view
+    """
     login_url = 'login_view'
     form_class = ODAsPositionForm
     template_name = 'studio/dashboard/materias-edit-position.html'
@@ -65,49 +68,13 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
 
         section += 1
 
-        return redirect(to='odas_position_view', pk=subject.pk, section=section)
-
-
-class ODAsPreviewView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, FormView):
-    login_url = 'login_view'
-    template_name = 'studio/dashboard/materias-edit-preview.html'
-
-    def get(self, request, *args, **kwargs):
-        pk = self.kwargs['pk']
-        subject = Subject.objects.get(pk=self.kwargs['pk'])
-        section_images_list = subject.sections_images.all()
-        odas_list = []
-        section_counter = 1
-        for section in subject.sections_images.all():
-            odas_list.append(subject.odas.all().filter(section=section_counter))
-            section_counter += 1
-
-        content_images = zip(odas_list, section_images_list)
-
-        return render(request, self.template_name, {'content_images': content_images, 'pk': pk})
-
-    def post(self, request, *args, **kwargs):
-        subject = Subject.objects.get(pk=self.kwargs['pk'])
-        for tag in subject.tags.all():
-            tag.temporal = False
-            tag.save()
-
-        for image in subject.sections_images:
-            image.temporal = False
-            image.save()
-
-        for oda_in_subject in subject.odas:
-            oda_in_subject.temporal = False
-            oda_in_subject.active_icon.temporal = False
-            oda_in_subject.active_icon.save()
-            oda_in_subject.completed_icon.temporal = False
-            oda_in_subject.completed_icon.save()
-            oda_in_subject.save()
-
-        return redirect(to='materias_view')
+        return redirect(to='update_subject_view', pk=subject.pk)
 
 
 class ODADashboardView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
+    """
+    ODA dashboard view
+    """
     login_url = 'login_view'
     model = ODA
     template_name = 'studio/dashboard/odas.html'
@@ -116,6 +83,9 @@ class ODADashboardView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin,
 
 
 class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, CreateView):
+    """
+    Create new ODA view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/odas-edit.html'
     form_class = ODACreateForm
@@ -132,7 +102,7 @@ class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Cr
             if subject.ambit is not None:
                 if not subject.ambit.is_draft:
                     continue
-            for section in range(1, subject.number_of_sections+1):
+            for section in range(1, subject.number_of_sections + 1):
                 if len(subject.odas.filter(section=section)) < 8:
                     bloques.append(section)
             if len(bloques) > 0:
@@ -177,13 +147,16 @@ class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Cr
         if action == 'finalize':
             is_draft = False
 
-        oda = form.save_form(self.request.user,  moments, subject, bloque, is_draft)
+        oda = form.save_form(self.request.user, moments, subject, bloque, is_draft)
         if action == 'edit_position':
             return redirect('odas_position_view', pk=oda.subject.pk, section=oda.section)
         return redirect(to='oda_dashboard_view')
 
 
 class ODAUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    Update existing ODA object view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/odas-edit.html'
     form_class = ODAUpdateForm
@@ -228,7 +201,7 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
                 if subject.ambit is not None:
                     if not subject.ambit.is_draft and not subject.temporal:
                         continue
-            for section in range(1, subject.number_of_sections+1):
+            for section in range(1, subject.number_of_sections + 1):
                 if len(subject.odas.filter(section=section)) < 8:
                     bloques.append(section)
                 else:
@@ -287,6 +260,9 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class ODAsRedirect(View):
+    """
+    Redirect to previous page view, depending on actual view name
+    """
     def dispatch(self, request, *args, **kwargs):
         view = kwargs.get('view')
         section = kwargs.get('section')
@@ -305,8 +281,11 @@ class ODAsRedirect(View):
             return redirect(view, pk=pk, section=(kwargs.get('section') - 1))
 
 
-class ODAsView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
-    login_url = 'login_view'
-    template_name = 'studio/pages/test.html'
-    queryset = ODA.objects.all()
-    context_object_name = 'odas_list'
+class DeleteODAView(View):
+    """
+    Deletes ODA object
+    """
+    def dispatch(self, request, *args, **kwargs):
+        ODA.objects.get(pk=self.kwargs['pk']).pre_delete()
+        return redirect('oda_dashboard_view')
+

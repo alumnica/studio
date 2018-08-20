@@ -2,15 +2,18 @@ import os
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 from alumnica_model.models import Subject, Tag
 from alumnica_model.models.content import Image, Ambit
 from alumnica_model.validators import validate_image_extension, file_size
-from django.utils.translation import gettext_lazy as _
 
 
 class SubjectForm(forms.ModelForm):
-    tags = forms.CharField(required=False, max_length=60, widget=forms.TextInput(attrs={'id': 'materias-tags',
+    """
+    Create new Subject object form
+    """
+    tags = forms.CharField(required=False, max_length=100, widget=forms.TextInput(attrs={'id': 'materias-tags',
                                                                                         'name': 'tags-materias'}))
     mp = forms.ImageField(required=False, validators=[validate_image_extension, file_size],
                           widget=forms.FileInput(attrs={'name': 'mp', 'id': 'materia-u', 'class': 'show-for-sr',
@@ -86,7 +89,10 @@ class SubjectForm(forms.ModelForm):
 
 
 class UpdateSubjectForm(forms.ModelForm):
-    tags = forms.CharField(required=False,
+    """
+    Update existing Subject object form
+    """
+    tags = forms.CharField(required=False, max_length=100,
                            widget=forms.TextInput(attrs={'id': 'materias-tags', 'name': 'tags-materias'}))
     mp = forms.ImageField(required=False, widget=forms.FileInput(attrs={'name': 'mp', 'id': 'materia-u',
                                                                         'class': 'show-for-sr', 'type': 'file'}))
@@ -101,8 +107,8 @@ class UpdateSubjectForm(forms.ModelForm):
         self.fields['ambit'].required = False
         self.fields['ambit'].queryset = Ambit.objects.filter(id__in=[ambit.id for ambit in
                                                                      Ambit.objects.all() if
-                                                                     ambit.subjects.count() < 4
-                                                                     and (ambit == subject.ambit or ambit.is_draft)])
+                                                                     ambit == subject.ambit or
+                                                                     (ambit.subjects.count() < 4 and ambit.is_draft)])
 
     def save_form(self, is_draft=False):
         cleaned_data = super(UpdateSubjectForm, self).clean()
@@ -158,6 +164,9 @@ class UpdateSubjectForm(forms.ModelForm):
 
 
 class ImageForm(forms.ModelForm):
+    """
+    Contains Image model file field
+    """
     file = forms.ImageField(required=False, validators=[file_size],
                             widget=forms.FileInput(attrs={'class': 'show-for-sr upload_section', 'type': 'file'}))
 
@@ -167,6 +176,9 @@ class ImageForm(forms.ModelForm):
 
 
 class BaseImageFormset(forms.BaseFormSet):
+    """
+    ImageForm formset
+    """
     def __init__(self, *args, **kwargs):
         if 'form_instances' in kwargs.keys():
             self.form_instances = kwargs.pop('form_instances')

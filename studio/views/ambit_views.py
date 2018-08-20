@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import ListView, FormView, UpdateView
 from sweetify import sweetify
-from django.utils.translation import gettext_lazy as _
 
 from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 from alumnica_model.models import users
@@ -11,6 +11,9 @@ from studio.forms.ambit_forms import *
 
 
 class CreateAmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, FormView):
+    """
+    Create new Ambito object view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/ambitos-edit.html'
     form_class = CreateAmbitForm
@@ -26,7 +29,7 @@ class CreateAmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, 
     def post(self, request, *args, **kwargs):
         subjects = self.request.POST.get('class_name')
         tags = self.request.POST.get('tags-ambito')
-        if tags is not None:
+        if tags is not None and tags != '':
             tags = tags.split(',')
         color = self.request.POST.get('color')
         action = self.request.POST.get('action')
@@ -45,6 +48,9 @@ class CreateAmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, 
 
 
 class UpdateAmbitView(LoginRequiredMixin, UpdateView):
+    """
+    Update existing Ambito view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/ambitos-edit.html'
     form_class = UpdateAmbitForm
@@ -54,7 +60,8 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         if ambit.is_published:
             if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
                 sweetify.error(self.request,
-                               _('It is not possible to edit Ámbito {} because is already published'.format(ambit.name)),
+                               _('It is not possible to edit Ámbito {} because is already published'.format(
+                                   ambit.name)),
                                persistent='Ok')
                 return redirect(to='ambits_view')
         return super(UpdateAmbitView, self).dispatch(request, *args, **kwargs)
@@ -74,7 +81,7 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
     def post(self, request, *args, **kwargs):
         subjects = self.request.POST.get('class_name')
         tags = self.request.POST.get('tags-ambito')
-        if tags is not None:
+        if tags is not None and tags != '':
             tags = tags.split(',')
         color = self.request.POST.get('color')
         action = self.request.POST.get('action')
@@ -95,6 +102,9 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
 
 
 class AmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
+    """
+    Ambit dashboard view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/ambitos.html'
     queryset = Ambit.objects.all()
@@ -102,12 +112,18 @@ class AmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListVi
 
 
 class DeleteAmbitView(View):
+    """
+    Deletes Ambito object
+    """
     def dispatch(self, request, *args, **kwargs):
         Ambit.objects.get(pk=self.kwargs['pk']).pre_delete()
         return redirect('ambits_view')
 
 
 class UnPublishAmbitView(View):
+    """
+    Unpublishes Ambito object, changing is_publish flag to false and is_draft flag to true
+    """
     def dispatch(self, request, *args, **kwargs):
         ambit = Ambit.objects.get(pk=self.kwargs['pk'])
         ambit.is_published = False

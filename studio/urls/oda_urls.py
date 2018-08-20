@@ -8,4 +8,5 @@ urlpatterns = [
     path('dashboard/', ODADashboardView.as_view(), name='oda_dashboard_view'),
     path('update/<int:pk>', ODAUpdateView.as_view(), name='odas_update_view'),
     path('create/', ODACreateView.as_view(), name='odas_create_view'),
+    path('delete_oda/<int:pk>/', DeleteODAView.as_view(), name='delete_oda_view'),
 ]

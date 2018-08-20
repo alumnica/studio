@@ -3,10 +3,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, UpdateView, CreateView, ListView
 from django.views.generic.base import TemplateView, RedirectView
 from sweetify import sweetify
-from django.utils.translation import gettext_lazy as _
+
 from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin, OnlySupervisorMixin
 from alumnica_model.models import Ambit, Subject, Moment, ODA, AuthUser
 from alumnica_model.models.users import TYPE_SUPERVISOR, TYPE_CONTENT_CREATOR
@@ -14,11 +15,17 @@ from studio.forms.user_forms import UserLoginForm, CreateUserForm, UpdateUserFor
 
 
 class IndexView(TemplateView):
+    """
+    Home view
+    """
     login_url = 'login_view'
     template_name = 'studio/pages/index.html'
 
 
 class LoginView(FormView):
+    """
+    Login user view
+    """
     form_class = UserLoginForm
     template_name = 'studio/pages/login.html'
 
@@ -42,6 +49,9 @@ class LoginView(FormView):
 
 
 class LogoutView(RedirectView):
+    """
+    Logout user view
+    """
     pattern_name = 'login_view'
 
     def get(self, request, *args, **kwargs):
@@ -50,6 +60,9 @@ class LogoutView(RedirectView):
 
 
 class ProfileView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, FormView):
+    """
+    Profile user view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/dashboard.html'
 
@@ -59,10 +72,15 @@ class ProfileView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Form
         subjects = Subject.objects.all().count()
         moments = Moment.objects.all().count()
         odas = ODA.objects.all().count()
-        return render(request, self.template_name, {'form': self.form_class, 'ambits': ambits, 'subjects': subjects, 'odas':odas, 'moments': moments, 'ambitsToPublish': ambitsToPublish})
+        return render(request, self.template_name,
+                      {'form': self.form_class, 'ambits': ambits, 'subjects': subjects, 'odas': odas,
+                       'moments': moments, 'ambitsToPublish': ambitsToPublish})
 
 
 class UsersView(LoginRequiredMixin, OnlySupervisorMixin, ListView):
+    """
+    Users dashboard view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/users.html'
     queryset = AuthUser.objects.filter(Q(user_type=TYPE_SUPERVISOR) | Q(user_type=TYPE_CONTENT_CREATOR))
@@ -70,6 +88,9 @@ class UsersView(LoginRequiredMixin, OnlySupervisorMixin, ListView):
 
 
 class CreateUserView(LoginRequiredMixin, OnlySupervisorMixin, CreateView):
+    """
+    Create new AuthUser object view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/users-edit.html'
     form_class = CreateUserForm
@@ -87,6 +108,9 @@ class CreateUserView(LoginRequiredMixin, OnlySupervisorMixin, CreateView):
 
 
 class UpdateUserView(LoginRequiredMixin, OnlySupervisorMixin, UpdateView):
+    """
+    Update existing user view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/users-edit.html'
     form_class = UpdateUserForm

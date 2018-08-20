@@ -8,6 +8,9 @@ from alumnica_model.validators import unique_ambit_name_validator, file_size
 
 
 class CreateAmbitForm(forms.ModelForm):
+    """
+    Create new Ambito form
+    """
     name = forms.CharField(required=False, max_length=50, widget=forms.TextInput(attrs={'class': 'text_number'}),
                            validators=[unique_ambit_name_validator])
 
@@ -21,6 +24,13 @@ class CreateAmbitForm(forms.ModelForm):
         fields = ['name']
 
     def save_form(self, user, subjects, tags, color):
+        """
+        Creates new ambito in database as not temporal object
+        :param user: Current AuthUser creating the object
+        :param subjects: Subjects string separated by comma
+        :param tags: Tags array
+        :param color: Background color
+        """
         cleaned_data = super(CreateAmbitForm, self).clean()
         ambit = super(CreateAmbitForm, self).save(commit=False)
         ambit.created_by = user
@@ -71,6 +81,13 @@ class CreateAmbitForm(forms.ModelForm):
         return ambit, all_subjects_finalized
 
     def save_as_draft(self, user, subjects, tags, color):
+        """
+        Creates new ambito in database as temporal object
+        :param user: Current AuthUser creating the object
+        :param subjects: Subjects string separated by comma
+        :param tags: Tags array
+        :param color: Background color
+        """
         cleaned_data = super(CreateAmbitForm, self).clean()
         ambit = super(CreateAmbitForm, self).save(commit=False)
         ambit.created_by = user
@@ -112,6 +129,9 @@ class CreateAmbitForm(forms.ModelForm):
 
 
 class UpdateAmbitForm(forms.ModelForm):
+    """
+    Update existing Ambito object form
+    """
     name = forms.CharField(required=False, max_length=50, widget=forms.TextInput(attrs={'class': 'text_number'}))
 
     ap = forms.ImageField(required=False, validators=[file_size], widget=forms.FileInput(attrs={'name': 'ap',
@@ -124,6 +144,12 @@ class UpdateAmbitForm(forms.ModelForm):
         fields = ['name']
 
     def save_form(self, subjects, tags, color):
+        """
+        Updates ambit properties and saves it as not temporal object
+        :param subjects: Subjects string separated by comma
+        :param tags: Tags array
+        :param color: Background color
+        """
         cleaned_data = super(UpdateAmbitForm, self).clean()
         ambit = Ambit.objects.get(name=cleaned_data.get('name'))
         ambit.color = color
@@ -179,6 +205,12 @@ class UpdateAmbitForm(forms.ModelForm):
         return ambit, all_subjects_finalized
 
     def save_as_draft(self, subjects, tags, color):
+        """
+        Updates ambit properties and saves it as temporal object
+        :param subjects: Subjects as string separated by comma
+        :param tags: Tags array
+        :param color: Background color
+        """
         cleaned_data = super(UpdateAmbitForm, self).clean()
         ambit = Ambit.objects.get(name=cleaned_data.get('name'))
         ambit.color = color
@@ -203,6 +235,9 @@ class UpdateAmbitForm(forms.ModelForm):
             tag.temporal = True
             tag.save()
             ambit.tags.add(tag)
+        for tag in ambit.tags.all():
+            if tag.name not in tags:
+                ambit.tags.remove(tag)
 
         if subjects is not None:
             subjects = subjects.split(',')
@@ -212,5 +247,8 @@ class UpdateAmbitForm(forms.ModelForm):
                     ambit.subjects.add(subject_model)
                 except Subject.DoesNotExist:
                     pass
+        for subject in ambit.subjects.all():
+            if subject.name not in subjects:
+                ambit.subjects.remove(subject)
         ambit.is_draft = True
         ambit.save()

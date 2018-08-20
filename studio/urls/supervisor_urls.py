@@ -9,4 +9,4 @@ urlpatterns = [
     path('subject_preview/<int:pk>/', ODAsPositionSubjectPreview.as_view(), name='subject_preview_view'),
     path('oda_preview/<int:pk>/', MicroodaPreview.as_view(), name='oda_preview_view'),
     path('ambits_position/<int:pk>', GridPositionView.as_view(), name='ambits_position_view'),
-    ]
+]

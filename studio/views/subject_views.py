@@ -14,6 +14,9 @@ from studio.forms.subject_forms import SubjectForm, BaseImageFormset, ImageForm,
 
 
 class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, CreateView):
+    """
+    Create new Subject object view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/materias-edit.html'
     form_class = SubjectForm
@@ -90,19 +93,24 @@ class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin
             return redirect(to='materias_view')
         else:
             action_array = action.split('-')
-            section = int(action_array[(len(action_array)-1)])
-            return redirect(to='odas_position_view',  pk=subject.pk, section=(section+1))
+            section = int(action_array[(len(action_array) - 1)])
+            return redirect(to='odas_position_view', pk=subject.pk, section=(section + 1))
 
     def form_invalid(self, form):
         if form['name'].errors:
             sweetify.error(self.request, form.errors['name'][0], persistent='Ok')
-        if form['mp'].errors:
+        elif form['mp'].errors:
             sweetify.error(self.request, form.errors['mp'][0], persistent='Ok')
+        elif form['tags'].errors:
+            sweetify.error(self.request, _('Tags field error: {}'.format(form.errors['tags'][0])), persistent='OK')
         context = self.get_context_data()
         return render(self.request, self.template_name, context=context)
 
 
 class UpdateSubjectView(LoginRequiredMixin, UpdateView):
+    """
+    Update existing Subject view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/materias-edit.html'
     model = Subject
@@ -115,7 +123,8 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
                 if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
                     sweetify.error(
                         self.request,
-                        _('It is not possible to edit subject {} because it belongs to a published ambit'.format(subject.name)),
+                        _('It is not possible to edit subject {} because it belongs to a published ambit'.format(
+                            subject.name)),
                         persistent='Ok')
                     return redirect(to='materias_view')
         return super(UpdateSubjectView, self).dispatch(request, *args, **kwargs)
@@ -161,8 +170,10 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
     def form_invalid(self, form):
         if form['name'].errors:
             sweetify.error(self.request, form.errors['name'][0], persistent='Ok')
-        if form['mp'].errors:
+        elif form['mp'].errors:
             sweetify.error(self.request, form.errors['mp'][0], persistent='Ok')
+        elif form['tags'].errors:
+            sweetify.error(self.request, _('Tags field error: {}'.format(form.errors['tags'][0])), persistent='OK')
         context = self.get_context_data()
         return render(self.request, self.template_name, context=context)
 
@@ -231,11 +242,14 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
             return redirect(to='materias_view')
         else:
             action_array = action.split('-')
-            section = int(action_array[(len(action_array)-1)])
-            return redirect(to='odas_position_view',  pk=subject.pk, section=(section+1))
+            section = int(action_array[(len(action_array) - 1)])
+            return redirect(to='odas_position_view', pk=subject.pk, section=(section + 1))
 
 
 class SubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
+    """
+    Subjects dashboard view
+    """
     login_url = 'login_view'
     template_name = 'studio/dashboard/materias.html'
     queryset = Subject.objects.all()
@@ -243,6 +257,9 @@ class SubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, List
 
 
 class DeleteSubjectView(View):
+    """
+    Deletes Subject object
+    """
     def dispatch(self, request, *args, **kwargs):
         Subject.objects.get(pk=self.kwargs['pk']).pre_delete()
         return redirect('materias_view')
