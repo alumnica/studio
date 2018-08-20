@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-20 15:37-0500\n"
+"POT-Creation-Date: 2018-08-20 17:41-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,32 +18,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: studio/static/studio/js/ambit.js:23 studio/static/studio/js/ambit.js:41
+#: studio/static/studio/js/ambit.js:40 studio/static/studio/js/ambit.js:58
 #: studio/static/studio/js/momentos.js:66
 msgid "The name field is required"
 msgstr "El campo de nombre es requerido"
 
-#: studio/static/studio/js/ambit.js:27 studio/static/studio/js/ambit.js:51
+#: studio/static/studio/js/ambit.js:44 studio/static/studio/js/ambit.js:68
 msgid "This name is already taken"
 msgstr "Este nombre ya esta siendo usado"
 
-#: studio/static/studio/js/ambit.js:46
+#: studio/static/studio/js/ambit.js:63
 msgid "Delete an ambit before publish another"
 msgstr "Borra un ámbito antes de añadir otro"
 
-#: studio/static/studio/js/ambit.js:62
+#: studio/static/studio/js/ambit.js:79
 msgid "Select a background color"
 msgstr "Selecciona un color de fondo"
 
-#: studio/static/studio/js/ambit.js:70
+#: studio/static/studio/js/ambit.js:87
 msgid "The size of the file must be less than 10 MB"
 msgstr "El tamaño del archivo debe ser menor a 10 MB"
 
-#: studio/static/studio/js/ambit.js:77 studio/static/studio/js/ambit.js:81
+#: studio/static/studio/js/ambit.js:94 studio/static/studio/js/ambit.js:98
 msgid "Select a PNG image"
 msgstr "Selecciona una imagen PNG"
 
-#: studio/static/studio/js/ambit.js:87
+#: studio/static/studio/js/ambit.js:104
 msgid "Select at least one subject to publish"
 msgstr ""
 
