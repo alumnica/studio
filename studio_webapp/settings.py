@@ -224,6 +224,11 @@ LOGGING = {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
+        'django_h5p': {
+            'handlers': ['console', 'mail'],
+            'level': os.getenv('STUDIO_LOG_LEVEL', 'DEBUG'),
+            'propagate': False
+        },
         'studio': {
             'handlers': ['console', 'mail'],
             'level': os.getenv('STUDIO_LOG_LEVEL', 'DEBUG'),
