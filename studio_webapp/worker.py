@@ -2,14 +2,19 @@ import os
 
 import django
 import redis
+from redis import Redis
 from rq import Worker, Queue, Connection
 
 listen = ['high', 'default', 'low']
 
-redis_url = os.getenv('REDISTOGO_URL',
-                      'redis://redistogo:0f33f80c90ba9c5b5ebd7dd4029c1a65@angelfish.redistogo.com:10112/')
 
-conn = redis.from_url(redis_url)
+redis_url = os.getenv('REDISTOGO_URL')
+
+if not redis_url:
+    redis = Redis('localhost', 6379)
+    conn = redis
+else:
+    conn = redis.from_url(redis_url)
 
 
 def main():

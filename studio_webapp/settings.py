@@ -17,7 +17,7 @@ import sys
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
 
-VERSION_NUMBER = 'v0.11.1'
+VERSION_NUMBER = 'v0.11.2'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -223,6 +223,11 @@ LOGGING = {
         'django': {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+        'django_h5p': {
+            'handlers': ['console', 'mail'],
+            'level': os.getenv('STUDIO_LOG_LEVEL', 'DEBUG'),
+            'propagate': False
         },
         'studio': {
             'handlers': ['console', 'mail'],
