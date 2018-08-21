@@ -2,6 +2,7 @@ import json
 import logging
 import os
 import tempfile
+from concurrent.futures import ThreadPoolExecutor
 from zipfile import ZipFile
 
 import rq
@@ -164,21 +165,26 @@ Creates library object in H5PLibrary table
 
 def _upload_directory_to_aws(content_id, directory_to_upload, path_prefix=''):
     """
-Uploads content to AWS
+    Uploads content to AWS
     """
-    for current_dir, _, filenames in os.walk(directory_to_upload):
-        relative_path_to_root_dir = os.path.relpath(current_dir, directory_to_upload)
-        for file in filenames:
-            f = os.path.join(current_dir, file)
-            with open(f, 'rb') as local_file:
-                file_path_in_aws = os.path.join(
-                    path_prefix,
-                    str(content_id),
-                    relative_path_to_root_dir if relative_path_to_root_dir != '.' else '',
-                    file
-                )
+    with ThreadPoolExecutor() as executor:
+        for current_dir, _, filenames in os.walk(directory_to_upload):
+            relative_path_to_root_dir = os.path.relpath(current_dir, directory_to_upload)
+            for file in filenames:
+                executor.submit(ble, current_dir, file, path_prefix, content_id, relative_path_to_root_dir)
 
-                _logger.info('Uploading {} to {}'.format(local_file.name, file_path_in_aws))
-                remote_file = _s3.open(file_path_in_aws, 'wb')
-                remote_file.write(local_file.read())
-                remote_file.close()
+
+def ble(current_dir, file, path_prefix, content_id, relative_path_to_root_dir):
+    f = os.path.join(current_dir, file)
+    with open(f, 'rb') as local_file:
+        file_path_in_aws = os.path.join(
+            path_prefix,
+            str(content_id),
+            relative_path_to_root_dir if relative_path_to_root_dir != '.' else '',
+            file
+        )
+
+        _logger.info('Uploading {} to {}'.format(local_file.name, file_path_in_aws))
+        remote_file = _s3.open(file_path_in_aws, 'wb')
+        remote_file.write(local_file.read())
+        remote_file.close()
