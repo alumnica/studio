@@ -2,7 +2,7 @@ import json
 import logging
 import os
 import tempfile
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, wait
 from zipfile import ZipFile
 
 import rq
@@ -168,10 +168,14 @@ def _upload_directory_to_aws(content_id, directory_to_upload, path_prefix=''):
     Uploads content to AWS
     """
     with ThreadPoolExecutor() as executor:
+        futures = []
         for current_dir, _, filenames in os.walk(directory_to_upload):
             relative_path_to_root_dir = os.path.relpath(current_dir, directory_to_upload)
             for file in filenames:
-                executor.submit(ble, current_dir, file, path_prefix, content_id, relative_path_to_root_dir)
+                futures.append(
+                    executor.submit(ble, current_dir, file, path_prefix, content_id, relative_path_to_root_dir))
+
+        wait(futures)
 
 
 def ble(current_dir, file, path_prefix, content_id, relative_path_to_root_dir):
