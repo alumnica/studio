@@ -173,11 +173,11 @@ def _upload_directory_to_aws(content_id, directory_to_upload, futures, executor,
         relative_path_to_root_dir = os.path.relpath(current_dir, directory_to_upload)
         for file in filenames:
             futures.append(
-                executor.submit(ble, current_dir, file, path_prefix, content_id, relative_path_to_root_dir)
+                executor.submit(_put_file_in_s3, current_dir, file, path_prefix, content_id, relative_path_to_root_dir)
             )
 
 
-def ble(current_dir, file, path_prefix, content_id, relative_path_to_root_dir):
+def _put_file_in_s3(current_dir, file, path_prefix, content_id, relative_path_to_root_dir):
     f = os.path.join(current_dir, file)
     with open(f, 'rb') as local_file:
         file_path_in_aws = os.path.join(
