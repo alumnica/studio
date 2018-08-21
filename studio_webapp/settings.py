@@ -175,6 +175,7 @@ if all([AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME]):
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_AUTO_CREATE_BUCKET = True
     AWS_S3_FILE_OVERWRITE = True
+    AWS_S3_FILE_BUFFER_SIZE = os.environ.get('AWS_S3_FILE_BUFFER_SIZE', 1024 * 1024 * 15)  # 15 MB
     AWS_S3_OBJECT_PARAMETERS = {
         'CacheControl': 'max-age=86400',
     }
