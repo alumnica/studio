@@ -7,6 +7,7 @@ from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 from alumnica_model.models import Moment, Tag
 from alumnica_model.models.content import MomentType, Subject
 from studio.forms.moment_forms import MomentCreateForm, MomentUpdateForm
+from studio_webapp.settings import AWS_INSTANCE_URL
 
 
 class MomentsView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
@@ -122,7 +123,8 @@ class UpdateMomentView(LoginRequiredMixin, UpdateView):
         context.update({'moments_list': moments_list,
                         'tags': tags,
                         'subject_odas': subject_odas,
-                        'moment_type_list': moment_type_list})
+                        'moment_type_list': moment_type_list,
+                        "aws_url": AWS_INSTANCE_URL})
         return context
 
     def form_valid(self, form):
