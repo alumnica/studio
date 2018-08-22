@@ -7,7 +7,6 @@ from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 from alumnica_model.models import Moment, Tag
 from alumnica_model.models.content import MomentType, Subject
 from studio.forms.moment_forms import MomentCreateForm, MomentUpdateForm
-from studio_webapp.settings import AWS_INSTANCE_URL
 
 
 class MomentsView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):

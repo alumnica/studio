@@ -1,6 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import FormView, UpdateView, ListView, CreateView
 from sweetify import sweetify
@@ -24,9 +23,7 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
         subject = Subject.objects.get(pk=kwargs['pk'])
         if len(subject.sections_images.all()) == 0:
             sweetify.error(
-                self.request,
-                _('It is not possible to position ODAs. Assign an image to a section first'),
-                persistent='Ok')
+                self.request, "Asigna una imágen a esta sección antes de posicionar ODAs", persistent='Ok')
             return redirect(to='update_subject_view', pk=self.kwargs['pk'])
         return super(ODAsPositionView, self).dispatch(request, *args, **kwargs)
 
@@ -169,8 +166,8 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
                     if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
                         sweetify.error(
                             self.request,
-                            _('It is not possible to edit oda {} because it belongs to a published ambit'.format(
-                                oda.name)),
+                            'No puedes editar el ODA {} porque pertenece a un ámbito publicado'.format(
+                                oda.name),
                             persistent='Ok')
                         return redirect(to='oda_dashboard_view')
         return super(ODAUpdateView, self).dispatch(request, *args, **kwargs)
