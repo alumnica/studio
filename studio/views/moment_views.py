@@ -123,8 +123,7 @@ class UpdateMomentView(LoginRequiredMixin, UpdateView):
         context.update({'moments_list': moments_list,
                         'tags': tags,
                         'subject_odas': subject_odas,
-                        'moment_type_list': moment_type_list,
-                        "aws_url": AWS_INSTANCE_URL})
+                        'moment_type_list': moment_type_list})
         return context
 
     def form_valid(self, form):

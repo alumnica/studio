@@ -8,6 +8,7 @@ from django.views.generic import FormView, DetailView, TemplateView
 
 from alumnica_model.models.h5p import H5Package
 from django_h5p.forms import H5PackageForm
+from studio_webapp.settings import AWS_INSTANCE_URL
 
 
 class UploadH5PackageView(FormView):
@@ -60,7 +61,8 @@ class PackageView(DetailView):
             'scripts': list(OrderedSet([
                 script for lib in self.object.preloaded_dependencies.all()
                 for script in lib.get_all_javascripts()
-            ]))
+            ])),
+            "aws_url": AWS_INSTANCE_URL
         })
         return context
 
