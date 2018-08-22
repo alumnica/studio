@@ -51,6 +51,5 @@ urlpatterns = [
                   path('api/zip_files/', PackageUploadAPIView.as_view(), name='package_upload_view'),
                   path('api/jobs/<str:job_id>/', JobAPIView.as_view(), name='job_detail_view'),
                   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-                  path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
                   path('registration', include('django.contrib.auth.urls')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
