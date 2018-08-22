@@ -1,12 +1,13 @@
 {% load studio_extras %}
 {% load i18n %}
 <ul class="vertical menu mobile-menu">
-    <li class="menu-text a-title">Alumnica CCS</li>
+
     <li>
         <button class="close-button" aria-label="Close menu" type="button" data-close>
             <span aria-hidden="true">&times;</span>
         </button>
     </li>
+    <li>&nbsp;</li>
     <li>
         <a href="{% url 'dashboard_view' %}">
             <div class="menu-image fas fa-home"></div>
@@ -18,7 +19,7 @@
             <a href="{% url 'approve_dashboard_view' %}">
                 <div class="menu-image fas fa-share-square"></div>
                 {% trans "Ámbitos to publish" %}
-                <div class="pub-counter">2</div></a>
+
         </li>
     {% endifequal %}
     <li>
