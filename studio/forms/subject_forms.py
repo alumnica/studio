@@ -123,8 +123,8 @@ class UpdateSubjectForm(forms.ModelForm):
         for tag_name in tags:
             tag, created = Tag.objects.get_or_create(name=tag_name)
 
-        if tag not in subject.tags.all():
-            subject.tags.add(tag)
+            if tag not in subject.tags.all():
+                subject.tags.add(tag)
 
         for tag in subject.tags.all():
             if tag.name not in tags:
