@@ -63,37 +63,37 @@ let url_status = '';
 
      let name = document.getElementById('h5p-name').value;
      if (name == "" || name == null){
-         swal("Error", gettext('The name field is required'), 'error');
+         swal("Error", "Introduce un nombre", 'error');
          return false;
      }
 
      let subject = document.getElementById('materia-list').value;
      if (subject == "" || subject == null){
-         swal("Error", gettext('The subject field is required'), 'error');
+         swal("Error", "Selecciona una materia", 'error');
          return false;
      }
 
      let oda = document.getElementById('oda-list').value;
      if (oda == "" || oda == null){
-         swal("Error", gettext('The ODA field is required'), 'error');
+         swal("Error", 'Selecciona un ODA', 'error');
          return false;
      }
 
      let microoda = document.getElementById('micro-oda').value;
      if (microoda == "" || microoda == null){
-         swal("Error", gettext('The Micro ODA field is required'), 'error');
+         swal("Error", "Selecciona un MicroODA", 'error');
          return false;
      }
 
      let moment_type = document.getElementById('tipo-momento').value;
      if (moment_type == "" || moment_type == null){
-         swal("Error", gettext('Select the moment type'), 'error');
+         swal("Error", "Selecciona el tipo de momento", 'error');
          return false;
      }
 
      let tags = document.getElementById('momento-tags').value;
      if (tags == "" || tags == null){
-         swal("Error", gettext('Introduce at least one tag'), 'error');
+         swal("Error", "Escribe al menos un tag", 'error');
          return false;
      }
 
@@ -104,7 +104,7 @@ let url_status = '';
 
      if ((data == "" || data == null) && (previous_file == "" || previous_file == null))
      {
-         swal("Error", gettext('Any file has been selected'), 'error');
+         swal("Error", "Selecciona un archivo H5P", 'error');
          return false;
      }
 
@@ -113,7 +113,7 @@ let url_status = '';
     if (data != "" && data != null){
          let match_found = data.search('.h5p');
          if(match_found == -1){
-            swal("Error", gettext("Select a H5P file"), "error");
+            swal("Error", "Selecciona un archivo H5P", "error");
             return false;
          }
         swal({
@@ -133,7 +133,7 @@ let url_status = '';
           processData: false,
           error: function(data){
               swal.close();
-              swal("Error", gettext("Failed loading the file, please try later"), 'error');
+              swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
           }
         });
     }
@@ -158,7 +158,7 @@ let url_status = '';
       success: lookUpURL,
       error: function(data){
           swal.close();
-          swal("Error", gettext("Failed loading the file, please try later"), 'error');
+          swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
       },
       dataType: 'text'
     });
@@ -167,7 +167,7 @@ function lookUpURL(data) {
     let data_info = JSON.parse(data);
     if (data_info.is_failed){
         swal.close();
-        swal("Error", gettext("Failed loading the file, please try later"), 'error');
+        swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
         return false;
     }
     if(data_info.is_finished){
@@ -186,7 +186,7 @@ function get_url() {
       success: lookUpURL,
       error: function(data){
           swal.close();
-          swal("Error", gettext("Failed loading the file, please try later"), 'error');
+          swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
       },
       dataType: 'text'
     });

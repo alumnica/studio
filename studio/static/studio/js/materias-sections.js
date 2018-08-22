@@ -152,7 +152,7 @@ $(document).ready(function () {
             }
         } // End if
         else {
-            swal("Error", "Sorry, you can only enter a maximum of 4 items.", "error");
+            swal("Error", "Sólo puedes añadir un máximo de 4 bloques", "error");
         }
         return false;
     }
@@ -211,7 +211,7 @@ function is_valid_form_subject(){
                 if (inputs[i].files.length > 0) {
                 let image_size = inputs[i].files[0].size / 1024 / 1024;
                 if (image_size > 10) {
-                    swal("Error", "El archivo de seleccionado excede los 10 MB", "error");
+                    swal("Error", "El archivo seleccionado excede los 10 MB", "error");
                     return false;
                 }
                 else {
