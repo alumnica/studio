@@ -1,6 +1,5 @@
 {% extends "studio/base-main.html" %}
 {% load static %}
-{% load i18n %}
 
 {% block content %}
 
@@ -10,7 +9,7 @@
 
 
     <h1 class="title">
-        {% trans "Create new Ámbito" %}
+        Ámbito
     </h1>
     <hr>
 
@@ -20,7 +19,7 @@
                 {% csrf_token %}
                 <div class="grid-x grid-margin-x">
                     <div class="cell medium-5">
-                        <label for="id_name">{% trans "Title" %}</label>
+                        <label for="id_name">Título</label>
                             {{ form.name }}
 
                         <!-- tags -->
@@ -56,7 +55,7 @@
                         <!-- end tags -->
                         
                         <fieldset id="color-button" class="fieldset color-radio">
-                            <legend>{% trans "Background color" %}</legend>
+                            <legend>Color de fondo</legend>
                             <label class="cc-amarillo">
                                 <input  type="radio" name="color" value="amarillo" class="radio-input" id="amarillo" data-a="amarillo_bg" data-b="amarillo_text">
                                 <div class="color-circle">
@@ -144,16 +143,16 @@
                         {# image preview #}
                         <div class="panel">
                             <div class="panel__title">
-                                {% trans "Ámbito image" %}
+                                Imagen de fondo
                             </div>
                             <!-- botones -->
                             <div class="grid-x grid-margin-x">
                                 <div class="cell small-6">
-                                    <label for="ambito-u" class="button expanded">{% trans "Upload image" %}</label>
+                                    <label for="ambito-u" class="button expanded">Subir imagen</label>
                                     {{ form.ap }}
                                 </div>
                                 <div class="cell small-6">
-                                    <a href="#" class="button expanded">{% trans "Image library" %}</a>
+                                    <a href="#" class="button expanded">Biblioteca de imágenes</a>
                                 </div>
                             </div>
                             <!-- end botones -->
@@ -173,7 +172,7 @@
                     <div class="cell medium-5 medium-offset-1">
                         <div class="panel" id="materias_panel">
                             <div class="panel__title">
-                                <i class="fas fa-clone"></i> {% trans "Assigned subjects" %}
+                                <i class="fas fa-clone"></i> Materias asignadas
                                 <span id="add-materia-button" class="add-materia" data-open="materiasModal">
                                     <i class="fas fa-plus-square"></i>
                                 </span>
@@ -188,11 +187,11 @@
 
                         <br>
                         <div class="panel" id="last_panel">
-                            <div class="panel__title">{% trans "Publication details" %}</div>
+                            <div class="panel__title">Detalles de publicación</div>
                             <p>
                                 <strong>Estado:</strong>
                                 {# Cambia dependiendo si estas editando o creando una nueva#}
-                                <span id="estado">{% trans "Unpublished" %}</span>
+                                <span id="estado">Des-publicar</span>
                             </p>
 
 
@@ -202,18 +201,18 @@
 
 
                             <div class="text-right">
-                                <button type="submit" class="button primary" name="save">{% trans "Save" %}</button>
+                                <button type="submit" class="button primary" name="save">Guardar</button>
                             </div>
                             <input type="hidden" name="action" id="action" />
                         </div>
 
                         <div class="panel">
                             <div class="panel__title">
-                                {% trans "Publish on EVA" %}
+                                Publicar en el EVA
                             </div>
-                            <p>{% trans "When an Ámbito is published, all subjects within it will be added to th EVA in their current form. Please check all sections, ODAs and moments have been added correctly" %}</p>
+                            <p>Cuando un Ámbito es publicado, todas las materuas asignadas a él serán mostradas en el EVA con su contenido actual. Por favor, revisa que todas las secciones, ODAs y Momentos sean añadidos correctamente</p>
                             <div class="text-right">
-                                <button class="button success" name="eva-publish" type="submit"><i class="fas fa-check"></i>{% trans "Publish on EVA" %}</button>
+                                <button class="button success" name="eva-publish" type="submit"><i class="fas fa-check"></i>Publicar en el EVA</button>
                             </div>
                         </div> 
 
@@ -227,11 +226,11 @@
         <!-- modal -->
 
         <div class=" reveal" id="materiasModal" data-reveal>
-            <h4>{% trans "Subject selection" %}</h4>
+            <h4>Elección de materias</h4>
             <br>
 
             {# Cargar lista de Materias #}
-            <label for="select-materias">{% trans "Search in Subject library" %}</label>
+            <label for="select-materias">Buscar en la biblioteca de materias</label>
             <select name="materias-select" id="select-materias"></select>
             <script type="text/javascript">
                         let materiasList = [];
@@ -244,7 +243,7 @@
             <br />
             <br>
             <br>
-            <input id="class-adder" data-close class='button expanded' disabled type='submit' value='{% trans "Add" %}'/>
+            <input id="class-adder" data-close class='button expanded' disabled type='submit' value='Añadir'/>
 
             <button class="close-button" data-close aria-label="Close modal" type="button">
                 <span aria-hidden="true">&times;</span>

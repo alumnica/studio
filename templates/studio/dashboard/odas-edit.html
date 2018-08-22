@@ -1,18 +1,17 @@
 {% extends "studio/base-main.html" %}
 {% load static %}
-{% load i18n %}
 {% block content %}
 
 <div class="dashboard container">
     <h1 class="title">
-        <i class="fas fa-list-alt"></i> {% trans "Create new ODA" %}
+        <i class="fas fa-list-alt"></i> ODA
     </h1>
     <hr>
     <form id="oda-edit" method="POST" enctype="multipart/form-data" onsubmit="return is_valid_form_odas_section()">
     {% csrf_token %}
         <div class="grid-x grid-margin-x ">
             <div class="cell medium-6">
-                <label for="id_name">{% trans "Title" %}</label>
+                <label for="id_name">Título</label>
                 {{ form.name }}
                 <label for="oda-desc">Descripción</label>
                 {{ form.description }}
@@ -28,7 +27,7 @@
                     <div class="cell medium-6">
                         <div class="panel">
                             <div class="panel__title">
-                                {% trans "Image A" %}
+                                Imagen A
                             </div>
                             <div class="grid-x grid-margin-x">
                                 <div class="cell small-6">
@@ -37,11 +36,11 @@
                                     </div>
                                 </div>
                                 <div class="cell small-6 align-self-middle">
-                                    <label for="id_active_icon" class="button small expanded">{% trans "Upload image" %}</label>
+                                    <label for="id_active_icon" class="button small expanded">Subir imagen</label>
                                     {{ form.active_icon }}
 
                                     <button type="button" class="button expanded small">
-                                        <i class="fa fa-th"></i> {% trans "Images" %}
+                                        <i class="fa fa-th"></i> Imágenes
                                     </button>
                                 </div>
                             </div>
@@ -50,7 +49,7 @@
                     <div class="cell medium-6">
                         <div class="panel">
                             <div class="panel__title">
-                                {% trans "Image B" %}
+                                Imagen B
                             </div>
                             <div class="grid-x grid-margin-x">
                                 <div class="cell small-6">
@@ -59,11 +58,11 @@
                                     </div>
                                 </div>
                                 <div class="cell small-6 align-self-middle">
-                                    <label for="id_completed_icon" class="button small expanded">{% trans "Upload image" %}</label>
+                                    <label for="id_completed_icon" class="button small expanded">Subir imagen</label>
                                     {{ form.completed_icon }}
 
                                     <button type="button" class="button expanded small">
-                                        <i class="fa fa-th"></i> {% trans "Images" %}
+                                        <i class="fa fa-th"></i> Imágenes
                                     </button>
                                 </div>
                             </div>
@@ -75,11 +74,11 @@
             <div class="cell medium-6">
                 <div class="panel">
                     <div class="panel__title">
-                        {% trans "Assign current ODA to subject" %}
+                        Asigna este ODA a una materia
                     </div>
-                    <label for="materia-a-oda">{% trans "Select subject" %}</label>
+                    <label for="materia-a-oda">Seleccionar materia</label>
                     <p class="oda-info">
-                        {% trans "Only appears subjects with section spaces for ODAs" %}
+                        Sólo aparecen materias con espacio en bloques para asignar
                     </p>
                 <script type="text/javascript">
                         let odaTags = [];
@@ -164,27 +163,27 @@
                         {% endfor %}
                     </select>
 
-                    <label for="bloque-a-oda">{% trans "Select a section" %}</label>
+                    <label for="bloque-a-oda">Selecciona un bloque</label>
                     <p class="oda-info">
-                        {% trans "Only appears subjects with section spaces for ODAs" %}
+                        Sólo aparecen materias con espacio en bloques para asignar
                     </p>
                     <select name="bloque-a-oda" id="bloque-a-oda">
                         <option disabled selected></option>
                     </select>
                       <button type="submit" name="edit_position" class="button secondary">
-                        <i class="fa fa-pencil-alt"></i> &nbsp; {% trans "Edit this ODA position within the selected Section" %}o
+                        <i class="fa fa-pencil-alt"></i> &nbsp;Editar la posición del ODA en el bloque de la materia
                     </button>
 
                 </div>
             </div>
             <div class="cell medium-12">
                 <hr>
-                <p class="h6">{% trans "Momentos by µODA" %}</p>
+                <p class="h6">Momentos por µODA</p>
             </div>
             <div class="cell medium-4">
                 <div class="panel" id="apli">
                     <div class="panel__title">
-                        {% trans "Aplication" %}
+                        Aplicación
                         <span class="add-materia" data-open="Modal-1">
                             <i class="fas fa-plus-square"></i>
                         </span>
@@ -203,15 +202,16 @@
             <div class="cell medium-4">
                 <div class="panel" id="forma">
                     <div class="panel__title">
-                        {% trans "Formalization" %}
+                        Formalización
                         <span class="add-materia" data-open="Modal-1">
                             <i class="fas fa-plus-square"></i>
                         </span>
                     </div>
                     <div class="panel__content">
-                        <ul class="oda-sort" id="uoda-2"></ul>
+                        <ul class="oda-sort" id="uoda-2">
 
                         </ul>
+
                     </div>
                     <hr>
                     <label for="forma-tags">Tags</label>
@@ -222,7 +222,7 @@
             <div class="cell medium-4">
                 <div class="panel" id="activ">
                     <div class="panel__title">
-                        {% trans "Activation" %}
+                        Activación
                         <span class="add-materia" data-open="Modal-1">
                             <i class="fas fa-plus-square"></i>
                         </span>
@@ -240,7 +240,7 @@
             <div class="cell medium-4">
                 <div class="panel" id="ejemp">
                     <div class="panel__title">
-                        {% trans "Exemplification" %}
+                        Ejemplificación
                         <span class="add-materia" data-open="Modal-1">
                             <i class="fas fa-plus-square"></i>
                         </span>
@@ -259,7 +259,7 @@
             <div class="cell medium-4">
                 <div class="panel" id="sens">
                     <div class="panel__title">
-                        {% trans "Sensitization" %}
+                        Sensibilización
                         <span class="add-materia" data-open="Modal-1">
                             <i class="fas fa-plus-square"></i>
                         </span>
@@ -278,7 +278,7 @@
             <div class="cell medium-4">
                 <div class="panel" id="eval">
                     <div class="panel__title">
-                        {% trans "Evaluation" %}
+                        Evaluación
 
                     </div>
                     <div class="panel__content">
@@ -287,10 +287,10 @@
                         </div>
                         <hr>
                         <div class="text-center">
-                             <label for="evaluation_file" class="button small expanded">{% trans "Upload new evaluation" %}</label>
+                             <label for="evaluation_file" class="button small expanded">Subir archivo de evaluación</label>
                         {{ form.evaluation_file }}
                             <a href="" id="eval-dload" download target="_blank" class="button secondary small expanded">
-                                {% trans "Download current Evaluation" %}
+                                Descargar archivo de evaluación actual
                             </a>
                         </div>
                     </div>
@@ -313,11 +313,11 @@
 
 
                 <button type="submit" class="button" name="save">
-                    <i class="fa fa-save"></i> {% trans "Save" %}</button>
+                    <i class="fa fa-save"></i> Guardar</button>
 
 
                 <button type="submit" class="button success" name="finalize">
-                    <i class="fa fa-check"></i> {% trans "Finalize" %}</button>
+                    <i class="fa fa-check"></i> Finalizar</button>
 
                 <input type="hidden" name="action" id="action" />
             </div>
@@ -330,10 +330,10 @@
 <!-- modal Aplicacion -->
 
 <div class="reveal m-adder" id="Modal-1" data-reveal>
-    <h4>{% trans "Momentos selection" %}</h4>
+    <h4>Seleccionar Momentos</h4>
     <br>
 
-    <label for="momentos-select">{% trans "Search in the Momentos library" %}</label>
+    <label for="momentos-select">Buscar en la biblioteca de Momentos</label>
     <select name="momentos-select" id="select-momentos"></select>
 
 
@@ -362,10 +362,10 @@
 
 
 <div class="reveal" id="evalModal" data-reveal="">
-    <h4>{% trans "Evaluation selection" %}</h4>
+    <h4>Seleccionar evaluación</h4>
     <br>
 
-    <label for="eval-select">{% trans "Search in the evaluation library" %}</label>
+    <label for="eval-select">Buscar en la biblioteca de evaluaciones</label>
     <select name="eval-select" id="eval-select">
         <option value=""></option>
         {% for evaluation in eval_list %}

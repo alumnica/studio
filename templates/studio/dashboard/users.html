@@ -1,21 +1,20 @@
 {% extends "studio/base-main.html" %}
 {% load static %}
-{% load i18n %}
 {% block content %}
 
 <div class="dashboard container">
     <h1 class="title">
-        <i class="fa fa-users"></i> {% trans "Users"%}
+        <i class="fa fa-users"></i> Usuarios
     </h1>
     <hr>
-    <a href="{% url 'create_user_view' %}" class="button">{% trans "New user"%}</a>
+    <a href="{% url 'create_user_view' %}" class="button">Crear nuevo usuario</a>
     <div class="panel">
 
         <table id="tabla-usuarios" class=" no-wrap">
             <thead>
                 <tr>
-                    <th>{% trans "Nombre de Usuario"%}</th>
-                    <th>{% trans "Tipo de Usuario"%}</th>
+                    <th>Nombre de Usuario</th>
+                    <th>Tipo de Usuario}</th>
 
                 </tr>
             </thead>
@@ -30,7 +29,7 @@
                         </div>
                         <div class="title-edit-menu">
                             <span class="editar">
-                                <a href="{% url 'update_user_view' user.pk %}">{% trans "Editar" %}</a>
+                                <a href="{% url 'update_user_view' user.pk %}">Editar</a>
                             </span>
 
                         </div>

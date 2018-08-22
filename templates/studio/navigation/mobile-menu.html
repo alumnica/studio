@@ -1,5 +1,4 @@
 {% load studio_extras %}
-{% load i18n %}
 <ul class="vertical menu mobile-menu">
 
     <li>
@@ -18,8 +17,9 @@
         <li>
             <a href="{% url 'approve_dashboard_view' %}">
                 <div class="menu-image fas fa-share-square"></div>
-                {% trans "Ámbitos to publish" %}
 
+                Ámbitos para publicar
+                <div class="pub-counter">2</div></a>
         </li>
     {% endifequal %}
     <li>
@@ -28,13 +28,13 @@
     <li>
         <a href="{% url 'ambits_view' %}">
             <div class="menu-image fas fa-map"></div>
-            <div>{% trans "Ámbitos" %}</div>
+            <div>Ámbitos</div>
         </a>
     </li>
     <li>
         <a href="{% url 'materias_view' %}">
             <div class="menu-image fas fa-clone"></div>
-            <div>{% trans "Subjects" %}</div>
+            <div>Materias</div>
         </a>
     </li>
     <li>
@@ -49,7 +49,7 @@
     <li>
         <a href="{% url 'momentos_view' %}">
             <div class="menu-image fas fa-play-circle"></div>
-            <div>{% trans "Momentos" %}</div>
+            <div>Momentos</div>
         </a>
     </li>
     <li>
@@ -58,7 +58,7 @@
     <li>
         <a href="{% url 'library_view' %}">
             <div class="menu-image fas fa-images"></div>
-            <div>{% trans "Image library" %}</div>
+            <div>Bilbioteca de imágenes</div>
         </a>
     </li>
     <li>
@@ -67,7 +67,7 @@
     <li>
         <a href="{% url 'users_view' %}">
             <div class="menu-image fas fa-users"></div>
-            <div>{% trans "Users" %}</div>
+            <div>Usuarios</div>
         </a>
     </li>
     <li>
@@ -76,7 +76,7 @@
     <li>
         <a href="#">
             <div class="menu-image fas fa-times-circle"></div>
-            <div>{% trans "Logout" %}</div>
+            <div>Cerrar sesión</div>
         </a>
     </li>
     <li>

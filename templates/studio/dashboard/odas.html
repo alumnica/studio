@@ -1,16 +1,15 @@
 {% extends "studio/base-main.html" %}
 {% load static %}
-{% load i18n %}
 {% block content %}
 
 <div class="dashboard container">
     <h1 class="title">
-        <i class="fas fa-list-alt"></i> ODAs</i>
+        <i class="fas fa-list-alt"></i> ODAs
     </h1>
     <hr>
     <div class="grid-x">
         <div class="cell medium-6">
-            <a href="{% url 'odas_create_view' %}" class="button">{% trans "New ODA" %}</a>
+            <a href="{% url 'odas_create_view' %}" class="button">Crear nuevo ODA</a>
         </div>
 
         <div class="cell medium-12">
@@ -18,15 +17,15 @@
                 <table id="tabla-odas" class=" no-wrap">
                     <thead>
                         <tr>
-                            <th id="titulo-oda" class="all">{% trans "Title" %}</th>
-                            <th id="materia-oda" class="not-mobile">{% trans "Subject" %}</th>
-                            <th id="bloque-oda" class="not-mobile">{% trans "Section" %}</th>
+                            <th id="titulo-oda" class="all">Título</th>
+                            <th id="materia-oda" class="not-mobile">Materia</th>
+                            <th id="bloque-oda" class="not-mobile">Bloque</th>
 {#                            <th id="uoda-oda" class="not-mobile">{% trans "Momentos #" %}</th>#}
                             <th id="tags-oda" class="not-mobile tag-length">Tags</th>
-                            <th id="fecha-oda" class="not-mobile">{% trans "Date" %}</th>
+                            <th id="fecha-oda" class="not-mobile">Fecha</th>
                             <th id="autor-oda" class="not-mobile">Autor</th>
-                            <th id="estado-oda" class="not-mobile">{% trans "State" %}</th>
-                            <th id="eva-oda" class="not-mobile">{% trans "in" %} EVA</th>
+                            <th id="estado-oda" class="not-mobile">Estado</th>
+                            <th id="eva-oda" class="not-mobile">En EVA</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,11 +45,11 @@
                                                 <div class="title-edit-menu">
                                                     <span class="editar">
                                                         {# Link a editar este ambito en especifico #}
-                                                        <a href="{% url 'odas_update_view' oda.pk %}">{% trans "Edit" %}</a>
+                                                        <a href="{% url 'odas_update_view' oda.pk %}">Editar</a>
                                                     </span> |
                                                     <span class="borrar">
                                                         {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                                        <a href="{% url 'delete_oda_view' oda.pk %}">{% trans "Delete" %}</a>
+                                                        <a href="{% url 'delete_oda_view' oda.pk %}">Borrar</a>
                                                     </span>
 
 
@@ -60,11 +59,11 @@
                                     <div class="title-edit-menu">
                                         <span class="editar">
                                             {# Link a editar este ambito en especifico #}
-                                            <a href="{% url 'odas_update_view' oda.pk %}">{% trans "Edit" %}</a>
+                                            <a href="{% url 'odas_update_view' oda.pk %}">Editar</a>
                                         </span> |
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                            <a href="{% url 'delete_oda_view' oda.pk %}">{% trans "Delete" %}</a>
+                                            <a href="{% url 'delete_oda_view' oda.pk %}">Borrar</a>
                                         </span>
 
                                     </div>
@@ -100,9 +99,9 @@
                             <td>
                                 <div class="estado">
                                     {% if oda.temporal %}
-                                        {% trans "Draft" %}
+                                        Borrador
                                     {% else %}
-                                        {% trans "Finalized" %}
+                                        Finalizado
                                     {% endif %}
                                 </div>
                             </td>

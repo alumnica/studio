@@ -1,5 +1,4 @@
 {% extends "studio/base-main.html" %}
-{% load i18n %}
 {% block content %}
 
 <div class="container dashboard">
@@ -12,7 +11,7 @@
     <div class="grid-x">
         <div class="cell medium-6">
             {# Crear nuevo ambito #}
-            <a href="{% url 'create_ambit_view' %}" class="button">{% trans "Create new Ámbito" %}</a>
+            <a href="{% url 'create_ambit_view' %}" class="button">Crear nuevo Ámbito</a>
         </div>
         
         <div class="cell medium-12">
@@ -20,14 +19,14 @@
                 <table id="tabla-ambitos" class=" no-wrap">
                     <thead>
                         <tr>
-                            <th id="titulo-ambito" class="all">{% trans "Title" %}</th>
+                            <th id="titulo-ambito" class="all">Título</th>
                             <th id="numero-ambito" class="not-mobile">#</th>
                             
-                            <th id="materias-ambito" class="not-mobile">{% trans "Subjects" %}</th>
-                            <th id="tags-ambito" class="not-mobile tag-length">{% trans "Tags" %}</th>
-                            <th id="fecha-ambito" class="not-mobile">{% trans "Date" %}</th>
-                            <th id="autor-ambito" class="not-mobile">{% trans "Autor" %}</th>
-                            <th id="estado-ambito" class="not-mobile">{% trans "State" %}</th>
+                            <th id="materias-ambito" class="not-mobile">Materias</th>
+                            <th id="tags-ambito" class="not-mobile tag-length">Tags</th>
+                            <th id="fecha-ambito" class="not-mobile">Fecha</th>
+                            <th id="autor-ambito" class="not-mobile">Autor</th>
+                            <th id="estado-ambito" class="not-mobile">Estado</th>
                             {% ifequal request.user.user_type 'SUPERVISOR'%}
                                 <th id="eva-ambito" class="not-mobile"><i class="fas fa-calendar-times"></i> EVA</th>
                             {% endifequal %}
@@ -47,11 +46,11 @@
                                         <div class="title-edit-menu">
                                         <span class="editar">
                                             {# Link a editar este ambito en especifico #}
-                                            <a href="{% url 'update_ambit_view' ambit.pk %}">{% trans "Edit" %}</a>
+                                            <a href="{% url 'update_ambit_view' ambit.pk %}">Editar</a>
                                         </span> |
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                            <a href="{% url 'delete_ambit_view' ambit.pk %}">{% trans "Delete" %}</a>
+                                            <a href="{% url 'delete_ambit_view' ambit.pk %}">Borrar</a>
                                         </span>
                                         
                                     </div>
@@ -60,11 +59,11 @@
                                     <div class="title-edit-menu">
                                         <span class="editar">
                                             {# Link a editar este ambito en especifico #}
-                                            <a href="{% url 'update_ambit_view' ambit.pk %}">{% trans "Edit" %}</a>
+                                            <a href="{% url 'update_ambit_view' ambit.pk %}">Editar</a>
                                         </span> |
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                            <a href="{% url 'delete_ambit_view' ambit.pk %}">{% trans "Delete" %}</a>
+                                            <a href="{% url 'delete_ambit_view' ambit.pk %}">Borrar</a>
                                         </span>
                                         
                                     </div>
@@ -105,12 +104,12 @@
                             <td>
                                 <div class="estado">
                                     {% if ambit.is_published %}
-                                        {% trans "Published" %}
+                                        Publicado
                                     {% else %}
                                         {% if ambit.is_draft %}
-                                            {% trans "Draft" %}
+                                            Borrador
                                         {% else %}
-                                            {% trans "Waiting for approval" %}
+                                            En espera de aprobación
                                         {% endif %}
                                     {% endif %}
                                 </div>
@@ -119,7 +118,7 @@
                              <td class="text-center">
                              {% if ambit.is_published %}
                                  <div class="button small alert remover">
-                                    <a href="{% url 'unpublish_ambit_view' ambit.pk %}" title="{% trans "Unpublish from EVA" %}">
+                                    <a href="{% url 'unpublish_ambit_view' ambit.pk %}" title="Quitar del EVA">
                                         <i class="fas fa-times"></i>
                                     </a>
                                 </div>

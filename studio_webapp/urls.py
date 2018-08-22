@@ -18,12 +18,9 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from django.conf.urls.i18n import i18n_patterns
-from django.utils.translation import gettext_lazy as _
 
 from django_h5p.api_viewsets import H5PackageViewSet, H5PLibraryViewSet, H5PackageDependencyViewSet, \
     PreloadedCSSViewSet, PreloadedJSViewSet, EmbedTypeViewSet, PackageUploadAPIView, JobAPIView
-from django_h5p.views import ThreeSixtyView
 from studio import api_viewsets
 from studio.views.user_views import IndexView
 from django.views.i18n import JavaScriptCatalog
@@ -38,25 +35,22 @@ router.register(r'preloaded_css', PreloadedCSSViewSet)
 router.register(r'preloaded_js', PreloadedJSViewSet)
 router.register(r'embed_types', EmbedTypeViewSet)
 
-urlpatterns = [
-    path('i18n/', include('django.conf.urls.i18n')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-urlpatterns += i18n_patterns(
+urlpatterns = [
                   path('', IndexView.as_view(), name="index_view"),
-                  path(_('users/'), include('studio.urls.user_urls')),
-                  path(_('supervisor/'), include('studio.urls.supervisor_urls')),
-                  path(_('ambitos/'), include('studio.urls.ambit_urls')),
-                  path(_('subjects/'), include('studio.urls.subject_urls')),
-                  path(_('odas/'), include('studio.urls.oda_urls')),
-                  path(_('images/'), include('studio.urls.image_urls')),
-                  path(_('momentos/'), include('studio.urls.moment_urls')),
-                  path(_('h5p/'), include('django_h5p.urls')),
-                  path(_('admin/'), admin.site.urls),
-                  path(_('api/'), include(router.urls)),
-                  path(_('api/zip_files/'), PackageUploadAPIView.as_view(), name='package_upload_view'),
-                  path(_('api/jobs/<str:job_id>/'), JobAPIView.as_view(), name='job_detail_view'),
-                  path(_('api-auth/'), include('rest_framework.urls', namespace='rest_framework')),
-                  path(_('jsi18n/'), JavaScriptCatalog.as_view(), name='javascript-catalog'),
-                  path(_('registration'), include('django.contrib.auth.urls')),
-              )
+                  path('users/', include('studio.urls.user_urls')),
+                  path('supervisor/', include('studio.urls.supervisor_urls')),
+                  path('ambitos/', include('studio.urls.ambit_urls')),
+                  path('subjects/', include('studio.urls.subject_urls')),
+                  path('odas/', include('studio.urls.oda_urls')),
+                  path('images/', include('studio.urls.image_urls')),
+                  path('momentos/', include('studio.urls.moment_urls')),
+                  path('h5p/', include('django_h5p.urls')),
+                  path('admin/', admin.site.urls),
+                  path('api/', include(router.urls)),
+                  path('api/zip_files/', PackageUploadAPIView.as_view(), name='package_upload_view'),
+                  path('api/jobs/<str:job_id>/', JobAPIView.as_view(), name='job_detail_view'),
+                  path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+                  path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
+                  path('registration', include('django.contrib.auth.urls')),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
