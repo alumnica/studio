@@ -52,4 +52,5 @@ urlpatterns = [
                   path('api/jobs/<str:job_id>/', JobAPIView.as_view(), name='job_detail_view'),
                   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                   path('registration', include('django.contrib.auth.urls')),
+                  path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
