@@ -13,14 +13,6 @@ from alumnica_model.models.users import TYPE_SUPERVISOR, TYPE_CONTENT_CREATOR
 from studio.forms.user_forms import UserLoginForm, CreateUserForm, UpdateUserForm
 
 
-class IndexView(TemplateView):
-    """
-    Home view
-    """
-    login_url = 'login_view'
-    template_name = 'studio/pages/index.html'
-
-
 class LoginView(FormView):
     """
     Login user view

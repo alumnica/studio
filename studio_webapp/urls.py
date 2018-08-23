@@ -22,8 +22,9 @@ from rest_framework import routers
 from django_h5p.api_viewsets import H5PackageViewSet, H5PLibraryViewSet, H5PackageDependencyViewSet, \
     PreloadedCSSViewSet, PreloadedJSViewSet, EmbedTypeViewSet, PackageUploadAPIView, JobAPIView
 from studio import api_viewsets
-from studio.views.user_views import IndexView
 from django.views.i18n import JavaScriptCatalog
+
+from studio.views.user_views import LoginView
 
 router = routers.DefaultRouter()
 router.register(r'images', api_viewsets.ImageViewSet)
@@ -37,7 +38,7 @@ router.register(r'embed_types', EmbedTypeViewSet)
 
 
 urlpatterns = [
-                  path('', IndexView.as_view(), name="index_view"),
+                  path('', LoginView.as_view(), name="login_view"),
                   path('users/', include('studio.urls.user_urls')),
                   path('supervisor/', include('studio.urls.supervisor_urls')),
                   path('ambitos/', include('studio.urls.ambit_urls')),
