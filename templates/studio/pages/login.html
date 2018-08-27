@@ -1,30 +1,29 @@
 {% extends "studio/empty.html" %}
 {% load static%}
 {% block content %}
-    <section class="login-bg">
-        <div class="grid-container">
-            <div class="grid-y window-height">
-                <div class="cell medium-4 hide-for-small">
-                </div>
-                <div class="cell medium-7 small-11">
-                    <div class="grid-x">
-                        <div class="cell medium-4">
-                            <h3>Mi cuenta</h3>
-                            <form class="u-margin-bottom-small" method="POST" role="form">{% csrf_token %}
-                                <label>Correo electrónico
-                                    {{ form.email }}
-                                </label>
-                                <label>Contraseña
-                                    {{ form.password }}
-                                </label>
-                                <input type="submit" class="button login-btn expanded" value="Entrar">
-                            </form>
-                            <a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
-                        </div>
-                    </div>
-                </div>
+    <div class="login-container">
+    <div class="grid-x align-center-middle">
+        <div class="cell medium-3 small-10">
+            <div class="login-logo">
+                <img src="{% static "/studio/img/alumnica-logo-138.png" %}" alt="">
+                <p>studio</p>
+            </div>
+            <div class="login-box">
+                <form class="u-margin-bottom-small" method="POST" role="form">{% csrf_token %}
+                    <label>Correo electrónico
+                        {{ form.email }}
+                    </label>
+                    <label>Contraseña
+                        {{ form.password }}
+                    </label>
+                    <input type="submit" class="button small expanded" value="Entrar">
+                </form>
+            </div>
+            <div class="forgot-password">
+                 <a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
             </div>
         </div>
-    </section>
+    </div>
+    </div>
 
 {% endblock %}
