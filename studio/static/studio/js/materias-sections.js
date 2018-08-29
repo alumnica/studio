@@ -74,13 +74,32 @@ $(document).ready(function () {
 
     function addForm(btn, prefix) {
         let formCount = 0;
+        let hiddenForms = 0;
 
         $(".my_item").each(function () {
            if (this.className.search('is-hidden') == -1){
                formCount += 1;
            }
+           else{
+               hiddenForms += 1;
+           }
         });
-        // You can only submit a maximum of 10 todo items
+        if(hiddenForms > 0){
+            let one_shown = false;
+            $(".my_item").each(function () {
+           if (this.className.search('is-hidden') != -1 && !one_shown){
+               $(this).removeClass('is-hidden');
+               $(this).find('.img-preview').removeAttr('src');
+               $(this).find('.upload_section').val('');
+               id_name = $(this).find('.upload_section').attr('id');
+               number_form= id_name.split('-')[1];
+               $('#form-'+ number_form+ '-DELETE').removeAttr('value');
+               one_shown = true;
+           }
+        });
+        }
+        else{
+             // You can only submit a maximum of 10 todo items
         if (formCount < 4) {
             // Clone a form (without event handlers) from the first form
             let row = "";
@@ -154,6 +173,8 @@ $(document).ready(function () {
         else {
             swal("Error", "Sólo puedes añadir un máximo de 4 bloques", "error");
         }
+        }
+
         return false;
     }
     // Register the click event handlers
