@@ -240,7 +240,6 @@ class ODAUpdateForm(forms.ModelForm):
         cleaned_data = super(ODAUpdateForm, self).clean()
         evaluation_file = cleaned_data.get('evaluation_file')
         if evaluation_file is not None:
-
             try:
                 file_read = evaluation_file.read()
                 workbook = xlrd.open_workbook(file_contents=file_read)
