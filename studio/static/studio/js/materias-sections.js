@@ -1,4 +1,11 @@
 $(document).ready(function () {
+    let fnum = $('.my_item').length;
+    fnum = fnum - 1;
+    if(fnum>0){
+        let theItem = $('.my_item')[fnum]
+        $(theItem).find('.delete').show();
+    }
+
     $(":submit").click(function () { $("#action").val(this.name); });
     // Code adapted from http://djangosnippets.org/snippets/1389/
     let x = 0;
@@ -22,15 +29,19 @@ $(document).ready(function () {
         });
 
         if (formCount > 1) {
-            let row = $(".my_item:first").clone(false).get(0);
+//            let row = $(".my_item:first").clone(false).get(0);
             // Delete the item/form
             id_name = $(btn).parents('.my_item').find('.upload_section').attr('id');
 
             number_form= id_name.split('-')[1];
             $('#form-'+ number_form+ '-DELETE').val('on');
             $(btn).parents('.my_item').addClass('is-hidden');
+//            $(btn).parents('.my_item').find('.delete').removeAttr('style');
+            let numForm = number_form - 1;
+            if (numForm >= 1){
+               $('#id_form-'+numForm+'-file').parents('.my_item').find('.delete').show()
 
-
+            }
             let forms = $('.my_item'); // Get all the forms
             // Update the total number of forms (1 less than before)
             $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
@@ -91,6 +102,10 @@ $(document).ready(function () {
                $(this).removeClass('is-hidden');
                $(this).find('.img-preview').removeAttr('src');
                $(this).find('.upload_section').val('');
+
+            $('#id_form-'+(formCount-1)+'-file').parents('.my_item').find('.delete').hide();
+               $(this).find('.delete').show();
+
                id_name = $(this).find('.upload_section').attr('id');
                number_form= id_name.split('-')[1];
                $('#form-'+ number_form+ '-DELETE').removeAttr('value');
@@ -108,7 +123,7 @@ $(document).ready(function () {
                     row = $(this).clone(false).get(0);
                 }
             });
-
+            $('#id_form-'+(formCount-1)+'-file').parents('.my_item').find('.delete').hide();
             let inputs = row.getElementsByTagName('input');
             for (index = 0; index < inputs.length; ++index) {
                 updateElementIndex(inputs[index], prefix, formCount);
@@ -161,6 +176,9 @@ $(document).ready(function () {
 
             // Add an event handler for the delete item/form link
             $(row).find(".delete").click(function () {
+
+
+
                 return deleteForm(this, prefix);
             });
             // Update the total form count
@@ -178,11 +196,16 @@ $(document).ready(function () {
         return false;
     }
     // Register the click event handlers
-    $("#add").click(function () {
+    $("#add").on('click', function () {
+
+
+
+
         return addForm(this, "form");
     });
 
-    $(".delete").click(function () {
+    $(".delete").on('click', function () {
+
         return deleteForm(this, "form");
     });
 });
