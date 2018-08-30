@@ -11,7 +11,7 @@ $(document).ready(function () {
 
             texts.push(currentLi.text());
         });
-        $('#class_name').val(texts);
+        $('#class_name').val(texts.join('|'));
 
         $("#action").val(this.name);
     });
