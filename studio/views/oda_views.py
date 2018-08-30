@@ -149,6 +149,12 @@ class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Cr
             return redirect('odas_position_view', pk=oda.subject.pk, section=oda.section)
         return redirect(to='oda_dashboard_view')
 
+    def form_invalid(self, form):
+        if form['evaluation_file'].errors:
+            sweetify.error(self.request, form.errors['evaluation_file'][0], persistent='Ok')
+        context = self.get_context_data()
+        return render(self.request, self.template_name, context=context)
+
 
 class ODAUpdateView(LoginRequiredMixin, UpdateView):
     """
@@ -254,6 +260,12 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         if action == 'edit_position':
             return redirect('odas_position_view', pk=oda.subject.pk, section=oda.section)
         return redirect(to='oda_dashboard_view')
+
+    def form_invalid(self, form):
+        if form['evaluation_file'].errors:
+            sweetify.error(self.request, form.errors['evaluation_file'][0], persistent='Ok')
+        context = self.get_context_data()
+        return render(self.request, self.template_name, context=context)
 
 
 class ODAsRedirect(View):
