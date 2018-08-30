@@ -4,6 +4,7 @@ import os
 import xlrd
 from django import forms
 from django.core.exceptions import ValidationError
+
 from xlrd import XLRDError
 
 from alumnica_model.models import ODA
@@ -240,7 +241,6 @@ class ODAUpdateForm(forms.ModelForm):
         cleaned_data = super(ODAUpdateForm, self).clean()
         evaluation_file = cleaned_data.get('evaluation_file')
         if evaluation_file is not None:
-
             file_read = evaluation_file.read()
             workbook = xlrd.open_workbook(file_contents=file_read)
 
