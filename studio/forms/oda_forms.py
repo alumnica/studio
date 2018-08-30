@@ -5,11 +5,6 @@ import xlrd
 from django import forms
 from django.core.exceptions import ValidationError
 
-<<<<<<< HEAD
-=======
-from xlrd import XLRDError
->>>>>>> Fix #99
-
 from alumnica_model.models import ODA
 from alumnica_model.models.content import Subject, Tag, MicroODA, Image
 from alumnica_model.models.questions import *
