@@ -37,7 +37,7 @@
 
 
 
-                                {% if momento.microodas.all.0.oda != None and momento.microodas.all.0.oda.subject != None and momento.microodas.all.0.oda.subject.ambit != None and not momento.microodas.all.0.oda.subject.ambit.is_draft%}
+                                {% if momento.microoda.oda != None and momento.microoda.oda.subject != None and momento.microoda.oda.subject.ambit != None and not momento.microoda.oda.subject.ambit.is_draft%}
                                             {% ifequal request.user.user_type 'SUPERVISOR'%}
                                                 <div class="title-edit-menu">
                                                     <span class="editar">
