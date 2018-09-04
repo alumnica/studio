@@ -4,6 +4,7 @@ import os
 import xlrd
 from django import forms
 from django.core.exceptions import ValidationError
+from xlrd import XLRDError
 
 from alumnica_model.models import ODA
 from alumnica_model.models.content import Subject, Tag, MicroODA, Image
@@ -239,63 +240,69 @@ class ODAUpdateForm(forms.ModelForm):
         cleaned_data = super(ODAUpdateForm, self).clean()
         evaluation_file = cleaned_data.get('evaluation_file')
         if evaluation_file is not None:
-            file_read = evaluation_file.read()
-            workbook = xlrd.open_workbook(file_contents=file_read)
 
-            if len(workbook.sheet_names()) < 6:
+            try:
+                file_read = evaluation_file.read()
+                workbook = xlrd.open_workbook(file_contents=file_read)
+
+                if len(workbook.sheet_names()) < 6:
+                    error = ValidationError("Archivo inválido", code='file_error')
+                    self.add_error('evaluation_file', error)
+                else:
+                    relationship_questions = get_json_from_excel(file_read, 1)
+
+                    for question_data in relationship_questions:
+                        columns_name = ['mODA', 'Enunciado', 'Opciones', 'Respuestas', 'DescripcionOK', 'DescripcionNOK']
+
+                        for element in columns_name:
+                            if element not in question_data:
+                                error = ValidationError("Archivo inválido", code='file_error')
+                                self.add_error('evaluation_file', error)
+                                return cleaned_data
+
+                    multiple_option_questions = get_json_from_excel(file_read, 2)
+                    for question_data in multiple_option_questions:
+                        columns_name = ['mODA', 'Enunciado', 'RespuestaOK', 'RespuestasNOK', 'DescripcionOK', 'DescripcionNOK']
+
+                        for element in columns_name:
+                            if element not in question_data:
+                                error = ValidationError("Archivo inválido", code='file_error')
+                                self.add_error('evaluation_file', error)
+                                return cleaned_data
+
+                    multiple_answer_questions = get_json_from_excel(file_read, 3)
+                    for question_data in multiple_answer_questions:
+                        columns_name = ['mODA', 'Enunciado', 'RespuestasOK', 'RespuestasNOK', 'DescripcionOK', 'DescripcionNOK']
+
+                        for element in columns_name:
+                            if element not in question_data:
+                                error = ValidationError("Archivo inválido", code='file_error')
+                                self.add_error('evaluation_file', error)
+                                return cleaned_data
+
+                    numeric_questions = get_json_from_excel(file_read, 4)
+                    for question_data in numeric_questions:
+                        columns_name = ['mODA', 'Enunciado', 'LimiteMenor', 'LimiteMayor', 'DescripcionOK', 'DescripcionNOK']
+
+                        for element in columns_name:
+                            if element not in question_data:
+                                error = ValidationError("Archivo inválido", code='file_error')
+                                self.add_error('evaluation_file', error)
+                                return cleaned_data
+
+                    pull_down_list_questions = get_json_from_excel(file_read, 5)
+                    for question_data in pull_down_list_questions:
+                        columns_name = ['mODA', 'Enunciado', 'Opciones', 'Respuestas', 'DescripcionOK', 'DescripcionNOK']
+
+                        for element in columns_name:
+                            if element not in question_data:
+                                error = ValidationError("Archivo inválido", code='file_error')
+                                self.add_error('evaluation_file', error)
+                                return cleaned_data
+
+            except XLRDError:
                 error = ValidationError("Archivo inválido", code='file_error')
                 self.add_error('evaluation_file', error)
-            else:
-                relationship_questions = get_json_from_excel(file_read, 1)
-
-                for question_data in relationship_questions:
-                    columns_name = ['mODA', 'Enunciado', 'Opciones', 'Respuestas', 'DescripcionOK', 'DescripcionNOK']
-
-                    for element in columns_name:
-                        if element not in question_data:
-                            error = ValidationError("Archivo inválido", code='file_error')
-                            self.add_error('evaluation_file', error)
-                            return cleaned_data
-
-                multiple_option_questions = get_json_from_excel(file_read, 2)
-                for question_data in multiple_option_questions:
-                    columns_name = ['mODA', 'Enunciado', 'RespuestaOK', 'RespuestasNOK', 'DescripcionOK', 'DescripcionNOK']
-
-                    for element in columns_name:
-                        if element not in question_data:
-                            error = ValidationError("Archivo inválido", code='file_error')
-                            self.add_error('evaluation_file', error)
-                            return cleaned_data
-
-                multiple_answer_questions = get_json_from_excel(file_read, 3)
-                for question_data in multiple_answer_questions:
-                    columns_name = ['mODA', 'Enunciado', 'RespuestasOK', 'RespuestasNOK', 'DescripcionOK', 'DescripcionNOK']
-
-                    for element in columns_name:
-                        if element not in question_data:
-                            error = ValidationError("Archivo inválido", code='file_error')
-                            self.add_error('evaluation_file', error)
-                            return cleaned_data
-
-                numeric_questions = get_json_from_excel(file_read, 4)
-                for question_data in numeric_questions:
-                    columns_name = ['mODA', 'Enunciado', 'LimiteMenor', 'LimiteMayor', 'DescripcionOK', 'DescripcionNOK']
-
-                    for element in columns_name:
-                        if element not in question_data:
-                            error = ValidationError("Archivo inválido", code='file_error')
-                            self.add_error('evaluation_file', error)
-                            return cleaned_data
-
-                pull_down_list_questions = get_json_from_excel(file_read, 5)
-                for question_data in pull_down_list_questions:
-                    columns_name = ['mODA', 'Enunciado', 'Opciones', 'Respuestas', 'DescripcionOK', 'DescripcionNOK']
-
-                    for element in columns_name:
-                        if element not in question_data:
-                            error = ValidationError("Archivo inválido", code='file_error')
-                            self.add_error('evaluation_file', error)
-                            return cleaned_data
         return cleaned_data
 
     def save_form(self, user, moments, subject, bloque, evaluation, is_draft=False):
