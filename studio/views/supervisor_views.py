@@ -113,7 +113,8 @@ class ODAsPositionSubjectPreview(LoginRequiredMixin, FormView):
 
         zones = ['a', 'b', 'c', 'd']
         subject_zip = zip(section_images_list, zones)
-        context.update({'subject_zip': subject_zip, 'odas_list': odas_list, 'ambit_pk': subject.ambit.pk})
+        context.update(
+            {'subject_zip': subject_zip, 'odas_list': odas_list, 'ambit_pk': subject.ambit.pk, 'subject': subject})
         return context
 
 

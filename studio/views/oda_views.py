@@ -23,7 +23,7 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
         subject = Subject.objects.get(pk=kwargs['pk'])
         if len(subject.sections_images.all()) == 0:
             sweetify.error(
-                self.request, "Asigna una imágen a esta sección antes de posicionar ODAs", persistent='Ok')
+                self.request, "Asigna una imagen a esta sección antes de colocar ODAs", persistent='Ok')
             return redirect(to='update_subject_view', pk=self.kwargs['pk'])
         return super(ODAsPositionView, self).dispatch(request, *args, **kwargs)
 
@@ -226,8 +226,8 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         moments = []
 
-        aplication = self.request.POST.get('apli-momentos')
-        template = ['application', aplication]
+        application = self.request.POST.get('apli-momentos')
+        template = ['application', application]
         moments.append(template)
 
         formalization = self.request.POST.get('forma-momentos')

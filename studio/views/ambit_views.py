@@ -41,7 +41,8 @@ class CreateAmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, 
             if not published:
                 sweetify.error(
                     self.request,
-                    'Error guardando el ámbito {}. No todas las materias asignadas están finalizadas'.format(ambit.name), persistent='Ok')
+                    'Error al guardar el ámbito {}. No todas las materias asignadas están finalizadas'.format(
+                        ambit.name), persistent='Ok')
                 return redirect('update_ambit_view', pk=ambit.pk)
         return redirect(to='ambits_view')
 
@@ -94,7 +95,8 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
             if not published:
                 sweetify.error(
                     self.request,
-                    'Error guardando el ámbito {}. No todas las materias asignadas están finalizadas'.format(ambit.name), persistent='Ok')
+                    'Error al guardar el ámbito {}. No todas las materias asignadas están finalizadas'.format(
+                        ambit.name), persistent='Ok')
 
                 return redirect('update_ambit_view', pk=ambit.pk)
         return redirect(to='ambits_view')
@@ -114,6 +116,7 @@ class DeleteAmbitView(View):
     """
     Deletes Ambito object
     """
+
     def dispatch(self, request, *args, **kwargs):
         Ambit.objects.get(pk=self.kwargs['pk']).pre_delete()
         return redirect('ambits_view')
@@ -123,6 +126,7 @@ class UnPublishAmbitView(View):
     """
     Unpublishes Ambito object, changing is_publish flag to false and is_draft flag to true
     """
+
     def dispatch(self, request, *args, **kwargs):
         ambit = Ambit.objects.get(pk=self.kwargs['pk'])
         ambit.is_published = False

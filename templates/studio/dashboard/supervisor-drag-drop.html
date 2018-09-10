@@ -4,7 +4,7 @@
 <div class="container dashboard">
     
     <h1 class="title">
-       Asignar pisicion en pantalla de Ámbitos
+       Asignar posición en pantalla de Ámbitos
     </h1>
     <hr>
 
@@ -18,7 +18,7 @@
 
     <div class="container-of-grid">
         <div class="grid">
-        <!-- cambiar pk y subject-qty por los especificos -->
+        <!-- cambiar pk y subject-qty por los específicos -->
             {% for ambit in ambits_list %}
                 <div class="m-item" pk="{{ ambit.pk }}" subject-qty="{{ ambit.subjects.all|length }}">
                     <div class="item-content {{ ambit.color }}">

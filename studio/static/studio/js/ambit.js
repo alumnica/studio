@@ -65,7 +65,7 @@ function is_valid_ambit_form (){
             }
 
             if(ambits_to_avoid.indexOf(ambit_name.toUpperCase()) != -1){
-                swal("Error", "Este nombren ya está siendo usado", "error");
+                swal("Error", "Este nombre ya está siendo usado", "error");
                 return false;
             }
 

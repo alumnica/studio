@@ -75,7 +75,7 @@ class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin
                 if form['file'].errors:
                     sweetify.error(
                         self.request,
-                        'Error en la imágen de la sección {} '.format(i, form.errors['file'][0]), persistent='Ok')
+                        'Error en la imagen de la sección {} '.format(i, form.errors['file'][0]), persistent='Ok')
                     break
                 i += 1
             return render(self.request, self.template_name, context=context)
@@ -84,7 +84,7 @@ class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin
             if action == 'eva-publish' and not finalized:
                 sweetify.error(
                     self.request,
-                   "Posiciona un ODA antes de finalizar",
+                    "Coloca un ODA antes de finalizar",
                     persistent='Ok'
                 )
                 return redirect('update_subject_view', pk=subject.pk)
@@ -100,7 +100,8 @@ class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin
         elif form['mp'].errors:
             sweetify.error(self.request, form.errors['mp'][0], persistent='Ok')
         elif form['tags'].errors:
-            sweetify.error(self.request,'Error en el campo de tags: {}'.format(form.errors['tags'][0]), persistent='OK')
+            sweetify.error(self.request, 'Error en el campo de tags: {}'.format(form.errors['tags'][0]),
+                           persistent='OK')
         context = self.get_context_data()
         return render(self.request, self.template_name, context=context)
 
@@ -121,7 +122,7 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
                 if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
                     sweetify.error(
                         self.request,
-                       'No puedes editar la materia {} porque pertenece a un ámbito publicado'.format(
+                        'No puedes editar la materia {} porque pertenece a un ámbito publicado'.format(
                             subject.name),
                         persistent='Ok')
                     return redirect(to='materias_view')
@@ -171,7 +172,8 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
         elif form['mp'].errors:
             sweetify.error(self.request, form.errors['mp'][0], persistent='Ok')
         elif form['tags'].errors:
-            sweetify.error(self.request, 'Error en el campo de tags: {}'.format(form.errors['tags'][0]), persistent='OK')
+            sweetify.error(self.request, 'Error en el campo de tags: {}'.format(form.errors['tags'][0]),
+                           persistent='OK')
         context = self.get_context_data()
         return render(self.request, self.template_name, context=context)
 
@@ -233,7 +235,7 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
             if action == 'eva-publish' and not finalized:
                 sweetify.error(
                     self.request,
-                    "Posiciona un ODA antes de finalizar",
+                    "Coloca un ODA antes de finalizar",
                     persistent='Ok'
                 )
                 return redirect('update_subject_view', pk=subject.pk)
@@ -258,6 +260,7 @@ class DeleteSubjectView(View):
     """
     Deletes Subject object
     """
+
     def dispatch(self, request, *args, **kwargs):
         Subject.objects.get(pk=self.kwargs['pk']).pre_delete()
         return redirect('materias_view')

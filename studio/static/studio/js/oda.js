@@ -118,7 +118,7 @@ function is_valid_form_position (){
     let position_inputs = document.getElementById('oda-position');
 
     if(position_inputs.value == "" || position_inputs.value == null){
-        swal("Error", "Posiciona al menos una oda en el bloque para guardar", "error");
+        swal("Error", "Coloca al menos una oda en el bloque para guardar", "error");
         return false;
     }
 

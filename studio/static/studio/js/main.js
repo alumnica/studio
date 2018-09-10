@@ -6,7 +6,7 @@ $('#id_name').keyup(function () {
     $('.ttc2').text(textToChange);
 });
 
-// cambia los colers de el image preiew al dar click en el color
+// cambia los colores de el image preview al dar click en el color
 
 $('#color-button input[type=radio]').click(function () {
     let $this = $(this);
@@ -14,7 +14,7 @@ $('#color-button input[type=radio]').click(function () {
     $('#ttc').attr('class', $this.data('b'));
 });
 
-//Sortable Materias en creacion de  Ambitos
+//Sortable Materias en creación de  Ambitos
 
 $(function () {
     $("#sortable").sortable();
@@ -26,7 +26,7 @@ $(function () {
 
 let numMateria = 1;
 
-// anadir materias en Ambito-edit
+// añadir materias en Ambito-edit
 
 $(document).ready(function () {
     $('#select-materias').change(function () {

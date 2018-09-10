@@ -227,7 +227,7 @@ function is_valid_form_subject(){
                 }
 
                 if(match_png_found == -1 && match_jpg_found == -1 && match_jpeg_found == -1){
-                    swal("Error", "Sube una imágen antes de editar las posiciones", "error");
+                    swal("Error", "Sube una imagen antes de editar las posiciones", "error");
                     return false;
                 }
 

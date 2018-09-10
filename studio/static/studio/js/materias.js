@@ -1,5 +1,5 @@
 
-//Selecion de Materias dentro de Ambitos
+//Selección de Materias dentro de Ambitos
 
 
 var $select = $('#select-materias').selectize({
