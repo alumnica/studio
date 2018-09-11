@@ -1,3 +1,6 @@
+/**
+ * Sets initial momentos data in case it exists for each microoda
+ */
 $(document).ready(function () {
 
     $("input[id='evaluation_file']").change(function (e) {
@@ -113,7 +116,10 @@ $(document).ready(function () {
 
 });
 
-
+/**
+ * Validates at least one object has been positioned in a dropzone to retreives its zone number
+ * @returns {boolean}
+ */
 function is_valid_form_position (){
     let position_inputs = document.getElementById('oda-position');
 
@@ -126,6 +132,13 @@ function is_valid_form_position (){
 
 }
 
+/**
+ * Checks required fields depending on action
+ * The action can be save or finalize.
+ * Saving action only requires title
+ * Finalize requieres all fields filled and at least one momento assigned to each microoda
+ * @returns {boolean}
+ */
 function is_valid_form_odas_section(){
 
     if($('#action').val() == "save"){

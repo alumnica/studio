@@ -143,6 +143,11 @@ let url_status = '';
 
  });
 
+/**
+ * First call looking up for job status
+ * @param data
+ * @returns {boolean}
+ */
  function success(data){
 
     if (data.status == "error"){
@@ -163,7 +168,12 @@ let url_status = '';
       dataType: 'text'
     });
 
-function lookUpURL(data) {
+    /**
+     * Reviews job status to keep asking for h5p file uploading task
+     * @param data
+     * @returns {boolean}
+     */
+    function lookUpURL(data) {
     let data_info = JSON.parse(data);
     if (data_info.is_failed){
         swal.close();
@@ -179,7 +189,10 @@ function lookUpURL(data) {
     setTimeout(get_url, 1000)
 }
 
-function get_url() {
+    /**
+     * Asks for job status
+     */
+    function get_url() {
     $.ajax({
       type: "GET",
       url: url_status,

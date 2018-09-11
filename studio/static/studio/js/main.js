@@ -139,6 +139,10 @@ $(document).ready(function () {
 
 });
 
+/**
+ * Reviews file size before submit
+ * @returns {boolean}
+ */
 function is_valid_form_images (){
     result = true;
     let inputs = $("form input[type='file']");

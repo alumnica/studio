@@ -1,7 +1,9 @@
 // <!-- Example of JavaScript options for PHP server side -->
-
+/**
+ *Initializes jp images lists and sets url to get all images by filter via ajax
+ */
 $('document').ready(function () {
-    var $list = $('#img-jplist .list')
+    let $list = $('#img-jplist .list')
         , template = Handlebars.compile($('#jplist-template').html());
 
     $('#delete_images').on('click', function () {
@@ -56,33 +58,31 @@ $('document').ready(function () {
     });
 
 
-//   var date = $('.date);
+//   let date = $('.date);
 //   date = date.substring(0,10);
 //   $('.date).text(date);
 
 });
-
+/**
+ * Trims file date
+ */
 $(document).ajaxComplete(function () {
     $('.date').each(function () {
-    var dateLong = $(this).text();
+    let dateLong = $(this).text();
     date = dateLong.substring(0, 10);
     $(this).text(date);
 });
 
 $('.img-box .file').each(function(){
 
-/*var fileName = fullPath.replace(/^.*[\\\/]/, '');
-$(this).text(fileName);*/
-
-var checker = $(this).closest('.img-box').find('.deleter');
-
-$(checker).attr('data-name', $('.file_name').text());
+    let checker = $(this).closest('.img-box').find('.deleter');
+    $(checker).attr('data-name', $('.file_name').text());
 
 })
 ;
 
 $('.img-box .complete_file').each(function () {
-    var checker = $(this).closest('.img-box').find('.deleter');
+    let checker = $(this).closest('.img-box').find('.deleter');
     $(checker).val($(this).text())
 });
 
@@ -96,17 +96,17 @@ if ($(this).text() == 'ambits') {
 
 
 $('.img-box').on('click', '.image', function () {
-    var imageUrl = $('.file', this).text();
+    let imageUrl = $('.file', this).text();
     $('#imgModal img').attr('src', imageUrl);
     $('#dloadBtn').attr('href', imageUrl);
 
-    var theName = $('.file_name', this).text();
+    let theName = $('.file_name', this).text();
     $('#nombre').html('<strong>Nombre:</strong> ' + theName);
 
-    var theDate = $('.date', this).text();
+    let theDate = $('.date', this).text();
     $('#fecha').html('<strong>Fecha:</strong> ' + theDate);
 
-    var attachedTo = $('.name', this).text();
+    let attachedTo = $('.name', this).text();
     attachedTo = attachedTo.substring(0, attachedTo.indexOf('-'));
     $('#adjuntoa').html('<strong>Adjunto a:</strong> ' + attachedTo);
 
@@ -116,8 +116,8 @@ $('.img-box').on('click', '.image', function () {
 
 $('#deleterBtn').on('mouseenter mouseleave', function () {
 
-    var texts = [];
-    var names = [];
+    let texts = [];
+    let names = [];
 
     $(function () {
         $("input:checkbox[name=deleter]:checked").each(function () {
@@ -130,7 +130,7 @@ $('#deleterBtn').on('mouseenter mouseleave', function () {
         $('#theNames').val(names);
 
 
-        var str = '<ul>';
+        let str = '<ul>';
 
         names.forEach(function (slide) {
             str += '<li>' + slide + '</li>';
@@ -151,7 +151,6 @@ $(function () {
         } else {
             $('#deleterBtn').prop("disabled", true);
         }
-        ;
     });
 });
 

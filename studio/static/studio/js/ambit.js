@@ -1,5 +1,6 @@
-
-
+/**
+ * Adds color radio buttons click functionality and retrieves assigned subjects list
+ */
 $(document).ready(function () {
 
     $(":submit").on('click', function () {
@@ -7,7 +8,7 @@ $(document).ready(function () {
         let texts = [];
 
         $('#sortable li').each(function () {
-            var currentLi = $(this);
+            let currentLi = $(this);
 
             texts.push(currentLi.text());
         });
@@ -33,6 +34,11 @@ $(document).ready(function () {
 
 });
 
+/**
+ * Reviews required fields depending on the action
+ * Action can be save or finalize. All fields are required for finalize action
+ * @returns {boolean} True if all the action required fields are given
+ */
 function is_valid_ambit_form (){
         if($('#action').val() == "save"){
             let ambit_name = document.getElementById('id_name').value;

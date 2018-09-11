@@ -19,6 +19,12 @@ $(document).ready(function () {
         if (el.name) el.name = el.name.replace(id_regex, replacement);
     }
 
+    /**
+     * Hides selected form and turns on the delete attribute
+     * @param btn
+     * @param prefix
+     * @returns {boolean}
+     */
     function deleteForm(btn, prefix) {
         let formCount = 0;
 
@@ -70,6 +76,10 @@ $(document).ready(function () {
         return false;
     }
 
+    /**
+     * Assigns target attribute to each image input
+     * @param input
+     */
     function readURL(input) {
         if (input.files && input.files[0]) {
             let reader = new FileReader();
@@ -83,6 +93,13 @@ $(document).ready(function () {
         }
     }
 
+    /**
+     * Adds form to formset if the not hidden forms count is less than 4, cloning the first form.
+     * While creating new form, it assigns names and form numbers
+     * @param btn Button clicked
+     * @param prefix Form prefix
+     * @returns {boolean}
+     */
     function addForm(btn, prefix) {
         let formCount = 0;
         let hiddenForms = 0;
@@ -210,7 +227,11 @@ $(document).ready(function () {
     });
 });
 
-
+/**
+ * Reviews all required fields before submit, depending on the action.
+ * Action can be save, requiring only the title, or eva-publish, requiring all fields
+ * @returns {boolean}
+ */
 function is_valid_form_subject(){
     if($('#action').val() != "eva-publish"){
         if($('#action').val() != "save"){
