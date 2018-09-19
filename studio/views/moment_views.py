@@ -105,7 +105,7 @@ class UpdateMomentView(LoginRequiredMixin, UpdateView):
             for oda in subject.odas.all():
                 microodas = []
                 for microoda in oda.microodas.all():
-                    if microoda.activities.all().count() < 3 or microoda != self.object.microoda:
+                    if microoda.activities.all().count() < 3 or microoda == self.object.microoda:
                         microodas.append(microoda.type.name)
 
                 if len(microodas) > 0:

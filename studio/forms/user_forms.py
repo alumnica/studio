@@ -6,7 +6,6 @@ from django.contrib.auth.admin import UserAdmin
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
-from django.utils.translation import gettext_lazy as _
 
 from alumnica_model.models import AuthUser, users
 from alumnica_model.models.users import TYPE_CONTENT_CREATOR, TYPE_SUPERVISOR, ContentCreator, Supervisor, Learner
@@ -26,18 +25,18 @@ class UserLoginForm(forms.Form):
         try:
             user = AuthUser.objects.get(email=email)
             if not user.check_password(password):
-                error = ValidationError(_("Invalid password or email."), code='credentials_error')
+                error = ValidationError("Correo o contraseña inválida", code='credentials_error')
                 self.add_error('password', error)
                 self.add_error('email', error)
 
             if not user.user_type == users.TYPE_CONTENT_CREATOR:
                 if not user.user_type == users.TYPE_SUPERVISOR:
-                    error = ValidationError(_("Invalid credentials"), code='permission denied')
+                    error = ValidationError("Correo o contraseña inválida", code='permission denied')
                     self.add_error('password', error)
                     self.add_error('email', error)
 
         except AuthUser.DoesNotExist:
-            error = ValidationError(_("Invalid password or email."), code='credentials_error')
+            error = ValidationError("Correo o contraseña inválida.", code='credentials_error')
             self.add_error('password', error)
             self.add_error('email', error)
         return cleaned_data
@@ -61,14 +60,14 @@ class CreateUserForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CreateUserForm, self).__init__(*args, **kwargs)
-        self.fields['user_type'].choices = ((TYPE_CONTENT_CREATOR, _(TYPE_CONTENT_CREATOR)),
-                                            (TYPE_SUPERVISOR, _(TYPE_SUPERVISOR)))
+        self.fields['user_type'].choices = ((TYPE_CONTENT_CREATOR, "Creador de contenido",
+                                            (TYPE_SUPERVISOR, "Supervisor")))
 
     def clean(self):
         cleaned_data = super(CreateUserForm, self).clean()
         email = cleaned_data.get('email')
         if AuthUser.objects.filter(email=email).exists():
-            error = ValidationError(_("User with email already exists."), code='email_error')
+            error = ValidationError("Esta cuenta de correo ya está registrada", code='email_error')
             self.add_error('email', error)
             return cleaned_data
         return cleaned_data
@@ -94,15 +93,15 @@ class UpdateUserForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UpdateUserForm, self).__init__(*args, **kwargs)
-        self.fields['user_type'].choices = ((TYPE_CONTENT_CREATOR, _(TYPE_CONTENT_CREATOR)),
-                                            (TYPE_SUPERVISOR, _(TYPE_SUPERVISOR)))
+        self.fields['user_type'].choices = ((TYPE_CONTENT_CREATOR, "Creador de contenido",
+                                            (TYPE_SUPERVISOR, "Supervisor")))
 
     def clean(self):
         cleaned_data = super(UpdateUserForm, self).clean()
         user = super(UpdateUserForm, self).save(commit=False)
         email = cleaned_data.get('email')
         if AuthUser.objects.filter(email=email).exists() and AuthUser.objects.get(email=email) != user:
-            error = ValidationError(_("User with email already exists."), code='email_error')
+            error = ValidationError("Esta cuenta de correo ya está registrada.", code='email_error')
             self.add_error('email', error)
             return cleaned_data
         return cleaned_data

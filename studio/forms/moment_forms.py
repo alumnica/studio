@@ -67,8 +67,8 @@ class MomentUpdateForm(forms.ModelForm):
         moment.folder = 'Momentos'
         moment.type = MomentType.objects.get(name=moment_type)
 
-        if h5p_url is not None:
-            moment.file_name = h5p_url
+        if h5p_url is not None and h5p_url is not '':
+            moment.h5p_package = H5Package.objects.get(job_id=h5p_url)
         moment.microoda = microoda
         moment.save()
 

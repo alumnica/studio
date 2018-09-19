@@ -1,3 +1,6 @@
+/**
+ * Sets initial momentos data in case it exists for each microoda
+ */
 $(document).ready(function () {
 
     $("input[id='evaluation_file']").change(function (e) {
@@ -30,7 +33,7 @@ $(document).ready(function () {
      for (let i=0; i<apli.length; i++){
         let text = apli[i].name;
         let value = apli[i].code;
-        let url = gettext('/h5p/package/'+value);
+        let url = '/h5p/package/'+value;
 
 
         $('#apli ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+url+'"></i>'  + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
@@ -43,7 +46,7 @@ $(document).ready(function () {
     for (let i=0; i<forma.length; i++){
         let text = forma[i].name;
         let value = forma[i].code;
-        let url = gettext('/h5p/package/'+value);
+        let url = '/h5p/package/'+value;
 
         $('#forma ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+url+'"></i>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
         $('#forma ul').sortable('refresh');
@@ -55,7 +58,7 @@ $(document).ready(function () {
     for (let i=0; i<activa.length; i++){
         let text = activa[i].name;
         let value = activa[i].code;
-        let url = gettext('/h5p/package/'+value);
+        let url = '/h5p/package/'+value;
 
         $('#activ ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+url+'"></i>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
         $('#activ ul').sortable('refresh');
@@ -66,7 +69,7 @@ $(document).ready(function () {
     for (let i=0; i<ejem.length; i++){
         let text = ejem[i].name;
         let value = ejem[i].code;
-        let url = gettext('/h5p/package/'+value);
+        let url = '/h5p/package/'+value;
 
         $('#ejemp ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+url+'"></i>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
         $('#ejemp ul').sortable('refresh');
@@ -78,7 +81,7 @@ $(document).ready(function () {
     for (let i=0; i<sens.length; i++){
         let text = sens[i].name;
         let value = sens[i].code;
-        let url = gettext('/h5p/package/'+value);
+        let url = '/h5p/package/'+value;
 
         $('#sens ul').append('<li class="momento-item"><i class="fas fa-external-link-alt mom-preview" data-open="Modal-2" data-url="'+url+'"></i>' + text + '<span class="remove_materia"><a href="#"><i class="fas fa-minus-square"></i></a></span></li>');
         $('#sens ul').sortable('refresh');
@@ -113,12 +116,15 @@ $(document).ready(function () {
 
 });
 
-
+/**
+ * Validates at least one object has been positioned in a dropzone to retreives its zone number
+ * @returns {boolean}
+ */
 function is_valid_form_position (){
     let position_inputs = document.getElementById('oda-position');
 
     if(position_inputs.value == "" || position_inputs.value == null){
-        swal("Error", "Posiciona al menos una oda en el bloque para guardar", "error");
+        swal("Error", "Coloca al menos una oda en el bloque para guardar", "error");
         return false;
     }
 
@@ -126,6 +132,13 @@ function is_valid_form_position (){
 
 }
 
+/**
+ * Checks required fields depending on action
+ * The action can be save or finalize.
+ * Saving action only requires title
+ * Finalize requieres all fields filled and at least one momento assigned to each microoda
+ * @returns {boolean}
+ */
 function is_valid_form_odas_section(){
 
     if($('#action').val() == "save"){

@@ -1,6 +1,5 @@
 {% extends "studio/base-main.html" %}
 {% load static %}
-{% load i18n %}
 
 {% block content %}
 
@@ -21,7 +20,7 @@
                             <i class="fas fa-user"></i> {{ request.user.first_name }} </div>
                         <div class="panel__content">
                             <div class="last-login">
-                                <strong>{% trans "Last session:" %}</strong> {{ request.user.last_login }} </div>
+                                <strong>Última sesión</strong> {{ request.user.last_login }} </div>
                         </div>
                     </div>
                 </div>
@@ -29,7 +28,7 @@
                     <div class="panel">
                         <div class="panel__title">
 
-                            {% trans "Summary of High School" %}
+                            Temario de secundaria
                         </div>
                         <div class="panel__content">
                             <div class="grid-x grid-margin-x grid-margin-y">
@@ -41,7 +40,7 @@
                                         {{ ambits }}
                                     </div>
                                     <div class="d-box__title">
-                                        {% trans "Ámbitos" %}
+                                        Ámbitos
                                     </div>
                                 </a>
 
@@ -52,7 +51,7 @@
                                         {{ subjects }}
                                     </div>
                                     <div class="d-box__title">
-                                        {% trans "Subjects" %}
+                                        Materias
                                     </div>
                                 </a>
 
@@ -74,7 +73,7 @@
                                         {{moments}}
                                     </div>
                                     <div class="d-box__title">
-                                        {% trans "Momentos" %}
+                                        Momentos
                                     </div>
                                 </a>
                             </div>

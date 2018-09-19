@@ -1,6 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import FormView, UpdateView, ListView, CreateView
 from sweetify import sweetify
@@ -24,9 +23,7 @@ class ODAsPositionView(LoginRequiredMixin, FormView):
         subject = Subject.objects.get(pk=kwargs['pk'])
         if len(subject.sections_images.all()) == 0:
             sweetify.error(
-                self.request,
-                _('It is not possible to position ODAs. Assign an image to a section first'),
-                persistent='Ok')
+                self.request, "Asigna una imagen a esta sección antes de colocar ODAs", persistent='Ok')
             return redirect(to='update_subject_view', pk=self.kwargs['pk'])
         return super(ODAsPositionView, self).dispatch(request, *args, **kwargs)
 
@@ -152,6 +149,12 @@ class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Cr
             return redirect('odas_position_view', pk=oda.subject.pk, section=oda.section)
         return redirect(to='oda_dashboard_view')
 
+    def form_invalid(self, form):
+        if form['evaluation_file'].errors:
+            sweetify.error(self.request, form.errors['evaluation_file'][0], persistent='Ok')
+        context = self.get_context_data()
+        return render(self.request, self.template_name, context=context)
+
 
 class ODAUpdateView(LoginRequiredMixin, UpdateView):
     """
@@ -169,8 +172,8 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
                     if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
                         sweetify.error(
                             self.request,
-                            _('It is not possible to edit oda {} because it belongs to a published ambit'.format(
-                                oda.name)),
+                            'No puedes editar el ODA {} porque pertenece a un ámbito publicado'.format(
+                                oda.name),
                             persistent='Ok')
                         return redirect(to='oda_dashboard_view')
         return super(ODAUpdateView, self).dispatch(request, *args, **kwargs)
@@ -223,8 +226,8 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         moments = []
 
-        aplication = self.request.POST.get('apli-momentos')
-        template = ['application', aplication]
+        application = self.request.POST.get('apli-momentos')
+        template = ['application', application]
         moments.append(template)
 
         formalization = self.request.POST.get('forma-momentos')
@@ -257,6 +260,12 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         if action == 'edit_position':
             return redirect('odas_position_view', pk=oda.subject.pk, section=oda.section)
         return redirect(to='oda_dashboard_view')
+
+    def form_invalid(self, form):
+        if form['evaluation_file'].errors:
+            sweetify.error(self.request, form.errors['evaluation_file'][0], persistent='Ok')
+        context = self.get_context_data()
+        return render(self.request, self.template_name, context=context)
 
 
 class ODAsRedirect(View):

@@ -1,6 +1,5 @@
 {% extends "studio/base-main.html" %}
 {% load static %}
-{% load i18n %}
 {% load studio_extras %}
 {% block content %}
 <div class="container dashboard">
@@ -44,10 +43,10 @@
      </script>
         <div class="grid-x grid-margin-x grid-margin-y">
             <div class="cell medium-6">
-                <label for="h5p-name">{% trans "File name" %}</label>
+                <label for="h5p-name">Nombre del paquete</label>
                 {{ form.name }}
                 <!-- materia -->
-                <label for="materia-list">{% trans "Subject" %}</label>
+                <label for="materia-list">Materia</label>
                     <select required name="materia-list" id="materia-list">
                      <option disabled selected></option>
                         {% for subject, odas_zip in subject_odas %}
@@ -78,7 +77,7 @@
 
 
                 <!-- tipo de momento -->
-                <label for="tipo-momento">{% trans "Select the Momento type" %}</label>
+                <label for="tipo-momento">Selecciona el tipo de Momento</label>
                 <select name="tipo-momento" id="tipo-momento"></select>
                 <!-- tags -->
 
@@ -96,12 +95,12 @@
                     <div class="grid-x grid-margin-x grid-margin-y">
                         <div class="cell medium-6">
                             <label for="h5p-upload" class="button expanded">
-                                 <i class="fa fa-upload"></i> {% trans "Select file" %}</label>
+                                 <i class="fa fa-upload"></i> Selecciona un archivo</label>
                              {{ form.content }}
                         </div>
                         <div class="cell medium-6">
                             <p class="h5 thefile" id="fileName">
-                                <small>{% trans "File name" %}</small>
+                                <small>Nombre del archivo</small>
                                 {% with  moment.content.url|split:"/" as path%}
                                     <script type="text/javascript">
                                     file_name = "{{ path|last }}";
@@ -117,7 +116,7 @@
            <div class="cell medium-12">
                <hr>
                 <button class="button" id="submit_button" type="button">
-                <i class="fa fa-save"></i> {% trans "Save Moment" %}</button>
+                <i class="fa fa-save"></i> Guardar</button>
            </div>
         </div>
         <input type="hidden" name="url_h5p" id="url_h5p">

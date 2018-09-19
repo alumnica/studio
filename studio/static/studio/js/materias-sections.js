@@ -1,4 +1,11 @@
 $(document).ready(function () {
+    let fnum = $('.my_item').length;
+    fnum = fnum - 1;
+    if(fnum>0){
+        let theItem = $('.my_item')[fnum]
+        $(theItem).find('.delete').show();
+    }
+
     $(":submit").click(function () { $("#action").val(this.name); });
     // Code adapted from http://djangosnippets.org/snippets/1389/
     let x = 0;
@@ -12,6 +19,12 @@ $(document).ready(function () {
         if (el.name) el.name = el.name.replace(id_regex, replacement);
     }
 
+    /**
+     * Hides selected form and turns on the delete attribute
+     * @param btn
+     * @param prefix
+     * @returns {boolean}
+     */
     function deleteForm(btn, prefix) {
         let formCount = 0;
 
@@ -22,15 +35,19 @@ $(document).ready(function () {
         });
 
         if (formCount > 1) {
-            let row = $(".my_item:first").clone(false).get(0);
+//            let row = $(".my_item:first").clone(false).get(0);
             // Delete the item/form
             id_name = $(btn).parents('.my_item').find('.upload_section').attr('id');
 
             number_form= id_name.split('-')[1];
             $('#form-'+ number_form+ '-DELETE').val('on');
             $(btn).parents('.my_item').addClass('is-hidden');
+//            $(btn).parents('.my_item').find('.delete').removeAttr('style');
+            let numForm = number_form - 1;
+            if (numForm >= 1){
+               $('#id_form-'+numForm+'-file').parents('.my_item').find('.delete').show()
 
-
+            }
             let forms = $('.my_item'); // Get all the forms
             // Update the total number of forms (1 less than before)
             $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
@@ -59,6 +76,10 @@ $(document).ready(function () {
         return false;
     }
 
+    /**
+     * Assigns target attribute to each image input
+     * @param input
+     */
     function readURL(input) {
         if (input.files && input.files[0]) {
             let reader = new FileReader();
@@ -72,15 +93,45 @@ $(document).ready(function () {
         }
     }
 
+    /**
+     * Adds form to formset if the not hidden forms count is less than 4, cloning the first form.
+     * While creating new form, it assigns names and form numbers
+     * @param btn Button clicked
+     * @param prefix Form prefix
+     * @returns {boolean}
+     */
     function addForm(btn, prefix) {
         let formCount = 0;
+        let hiddenForms = 0;
 
         $(".my_item").each(function () {
            if (this.className.search('is-hidden') == -1){
                formCount += 1;
            }
+           else{
+               hiddenForms += 1;
+           }
         });
-        // You can only submit a maximum of 10 todo items
+        if(hiddenForms > 0){
+            let one_shown = false;
+            $(".my_item").each(function () {
+           if (this.className.search('is-hidden') != -1 && !one_shown){
+               $(this).removeClass('is-hidden');
+               $(this).find('.img-preview').removeAttr('src');
+               $(this).find('.upload_section').val('');
+
+            $('#id_form-'+(formCount-1)+'-file').parents('.my_item').find('.delete').hide();
+               $(this).find('.delete').show();
+
+               id_name = $(this).find('.upload_section').attr('id');
+               number_form= id_name.split('-')[1];
+               $('#form-'+ number_form+ '-DELETE').removeAttr('value');
+               one_shown = true;
+           }
+        });
+        }
+        else{
+             // You can only submit a maximum of 10 todo items
         if (formCount < 4) {
             // Clone a form (without event handlers) from the first form
             let row = "";
@@ -89,7 +140,7 @@ $(document).ready(function () {
                     row = $(this).clone(false).get(0);
                 }
             });
-
+            $('#id_form-'+(formCount-1)+'-file').parents('.my_item').find('.delete').hide();
             let inputs = row.getElementsByTagName('input');
             for (index = 0; index < inputs.length; ++index) {
                 updateElementIndex(inputs[index], prefix, formCount);
@@ -142,6 +193,9 @@ $(document).ready(function () {
 
             // Add an event handler for the delete item/form link
             $(row).find(".delete").click(function () {
+
+
+
                 return deleteForm(this, prefix);
             });
             // Update the total form count
@@ -152,21 +206,32 @@ $(document).ready(function () {
             }
         } // End if
         else {
-            swal("Error", "Sorry, you can only enter a maximum of 4 items.", "error");
+            swal("Error", "Sólo puedes añadir un máximo de 4 bloques", "error");
         }
+        }
+
         return false;
     }
     // Register the click event handlers
-    $("#add").click(function () {
+    $("#add").on('click', function () {
+
+
+
+
         return addForm(this, "form");
     });
 
-    $(".delete").click(function () {
+    $(".delete").on('click', function () {
+
         return deleteForm(this, "form");
     });
 });
 
-
+/**
+ * Reviews all required fields before submit, depending on the action.
+ * Action can be save, requiring only the title, or eva-publish, requiring all fields
+ * @returns {boolean}
+ */
 function is_valid_form_subject(){
     if($('#action').val() != "eva-publish"){
         if($('#action').val() != "save"){
@@ -183,7 +248,7 @@ function is_valid_form_subject(){
                 }
 
                 if(match_png_found == -1 && match_jpg_found == -1 && match_jpeg_found == -1){
-                    swal("Error", "Sube una imágen antes de editar las posiciones", "error");
+                    swal("Error", "Sube una imagen antes de editar las posiciones", "error");
                     return false;
                 }
 
@@ -211,7 +276,7 @@ function is_valid_form_subject(){
                 if (inputs[i].files.length > 0) {
                 let image_size = inputs[i].files[0].size / 1024 / 1024;
                 if (image_size > 10) {
-                    swal("Error", "El archivo de seleccionado excede los 10 MB", "error");
+                    swal("Error", "El archivo seleccionado excede los 10 MB", "error");
                     return false;
                 }
                 else {

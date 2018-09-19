@@ -1,5 +1,4 @@
 {% load studio_extras %}
-{% load i18n %}
 
 <ul class="vertical menu sidebar-menu__ul">
     <li id="dash-nav">
@@ -12,7 +11,7 @@
         <li id="supervisor-nav">
             <a href="{% url 'approve_dashboard_view' %}">
                 <div class="menu-image fas fa-share-square"></div>
-                {% trans "Ámbitos to publish" %}
+                Ámbitos para publicar
 
             </a>
         </li>
@@ -23,13 +22,13 @@
     <li id="ambito-nav">
         <a href="{% url 'ambits_view' %}">
             <div class="menu-image fas fa-map"></div>
-            <div>{% trans "Ámbitos" %}</div>
+            <div>Ámbitos</div>
         </a>
     </li>
     <li id="materia-nav">
         <a href="{% url 'materias_view' %}">
             <div class="menu-image fas fa-clone"></div>
-            <div>{% trans "Subjects" %}</div>
+            <div>Materias</div>
         </a>
     </li>
     <li id="oda-nav">
@@ -44,7 +43,7 @@
     <li id="momento-nav">
         <a href="{% url 'momentos_view' %}">
             <div class="menu-image fas fa-play-circle"></div>
-            <div>{% trans "Momentos" %}</div>
+            <div>Momentos</div>
         </a>
     </li>
     <li>
@@ -53,18 +52,20 @@
     <li id="bib-nav">
         <a href="{% url 'library_view' %}">
             <div class="menu-image fas fa-images"></div>
-            <div>{% trans "Image library" %}</div>
+            <div>Biblioteca de imágenes</div>
         </a>
     </li>
     <li>
         &nbsp;
     </li>
-    <li id="users-nav">
-        <a href="{% url 'users_view' %}">
-            <div class="menu-image fas fa-users"></div>
-            <div>{% trans "Users" %}</div>
-        </a>
-    </li>
+    {% ifequal request.user.user_type 'SUPERVISOR'%}
+        <li id="users-nav">
+            <a href="{% url 'users_view' %}">
+                <div class="menu-image fas fa-users"></div>
+                <div>Usuarios</div>
+            </a>
+        </li>
+    {% endifequal %}
 </ul>
 
 

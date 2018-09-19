@@ -3,7 +3,6 @@ import os
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import formset_factory
 from django.shortcuts import redirect, render
-from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 from sweetify import sweetify
@@ -76,8 +75,7 @@ class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin
                 if form['file'].errors:
                     sweetify.error(
                         self.request,
-                        _('Error in section {} image: {}'.format(i, form.errors['file'][0]), persistent='Ok')
-                    )
+                        'Error en la imagen de la sección {} '.format(i, form.errors['file'][0]), persistent='Ok')
                     break
                 i += 1
             return render(self.request, self.template_name, context=context)
@@ -86,7 +84,7 @@ class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin
             if action == 'eva-publish' and not finalized:
                 sweetify.error(
                     self.request,
-                    _("Error finalizing. There is not any ODA positioned"),
+                    "Coloca un ODA antes de finalizar",
                     persistent='Ok'
                 )
                 return redirect('update_subject_view', pk=subject.pk)
@@ -102,7 +100,8 @@ class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin
         elif form['mp'].errors:
             sweetify.error(self.request, form.errors['mp'][0], persistent='Ok')
         elif form['tags'].errors:
-            sweetify.error(self.request, _('Tags field error: {}'.format(form.errors['tags'][0])), persistent='OK')
+            sweetify.error(self.request, 'Error en el campo de tags: {}'.format(form.errors['tags'][0]),
+                           persistent='OK')
         context = self.get_context_data()
         return render(self.request, self.template_name, context=context)
 
@@ -123,8 +122,8 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
                 if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
                     sweetify.error(
                         self.request,
-                        _('It is not possible to edit subject {} because it belongs to a published ambit'.format(
-                            subject.name)),
+                        'No puedes editar la materia {} porque pertenece a un ámbito publicado'.format(
+                            subject.name),
                         persistent='Ok')
                     return redirect(to='materias_view')
         return super(UpdateSubjectView, self).dispatch(request, *args, **kwargs)
@@ -173,7 +172,8 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
         elif form['mp'].errors:
             sweetify.error(self.request, form.errors['mp'][0], persistent='Ok')
         elif form['tags'].errors:
-            sweetify.error(self.request, _('Tags field error: {}'.format(form.errors['tags'][0])), persistent='OK')
+            sweetify.error(self.request, 'Error en el campo de tags: {}'.format(form.errors['tags'][0]),
+                           persistent='OK')
         context = self.get_context_data()
         return render(self.request, self.template_name, context=context)
 
@@ -224,7 +224,7 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
                 if form['file'].errors:
                     sweetify.error(
                         self.request,
-                        _("Error in section {} file: {}".format(i, form.errors['file'][0])),
+                        "Error en el archivo de la sección {}: {}".format(i, form.errors['file'][0]),
                         persistent='Ok'
                     )
                     break
@@ -235,7 +235,7 @@ class UpdateSubjectView(LoginRequiredMixin, UpdateView):
             if action == 'eva-publish' and not finalized:
                 sweetify.error(
                     self.request,
-                    _("Error finalizing. There is not any ODA positioned"),
+                    "Coloca un ODA antes de finalizar",
                     persistent='Ok'
                 )
                 return redirect('update_subject_view', pk=subject.pk)
@@ -260,6 +260,7 @@ class DeleteSubjectView(View):
     """
     Deletes Subject object
     """
+
     def dispatch(self, request, *args, **kwargs):
         Subject.objects.get(pk=self.kwargs['pk']).pre_delete()
         return redirect('materias_view')

@@ -1,0 +1,31 @@
+{% load i18n %}
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alúmnica Studio</title>
+  <link rel="icon" href="{% static "/studio/img/alumnica-favico.png"%}" type="image/png" sizes="16x16">
+  <link rel="stylesheet" href="{% static "/studio/css/app.css" %}">
+
+  
+</head>
+
+<body>
+ 
+    {% block content %}
+    {% endblock %}
+            
+    
+  
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+    <script src="{% static "studio/js/app.js" %}"></script>
+    {% block scripts %}{% endblock %}
+    {% load sweetify %}
+    {% sweetify %}
+    </body>
+    
+    </html>

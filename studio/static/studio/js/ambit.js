@@ -1,5 +1,6 @@
-
-
+/**
+ * Adds color radio buttons click functionality and retrieves assigned subjects list
+ */
 $(document).ready(function () {
 
     $(":submit").on('click', function () {
@@ -7,11 +8,11 @@ $(document).ready(function () {
         let texts = [];
 
         $('#sortable li').each(function () {
-            var currentLi = $(this);
+            let currentLi = $(this);
 
             texts.push(currentLi.text());
         });
-        $('#class_name').val(texts);
+        $('#class_name').val(texts.join('|'));
 
         $("#action").val(this.name);
     });
@@ -33,15 +34,20 @@ $(document).ready(function () {
 
 });
 
+/**
+ * Reviews required fields depending on the action
+ * Action can be save or finalize. All fields are required for finalize action
+ * @returns {boolean} True if all the action required fields are given
+ */
 function is_valid_ambit_form (){
         if($('#action').val() == "save"){
             let ambit_name = document.getElementById('id_name').value;
             if (ambit_name == '' || ambit_name == null){
-                swal("Error", gettext('The name field is required'), "error");
+                swal("Error", 'Escribe el nombre para continuar', "error");
                 return false;
             }
             if(ambits_to_avoid.indexOf(ambit_name.toUpperCase()) != -1){
-                swal("Error", gettext("This name is already taken"), "error");
+                swal("Error", "Este nombre ya está siendo usado", "error");
                 return false;
             }
             return true;
@@ -55,17 +61,17 @@ function is_valid_ambit_form (){
             let subjects_selected = document.getElementById('class_name').value;
 
             if (ambit_name == '' || ambit_name == null){
-                swal("Error", gettext("The name field is required"), "error");
+                swal("Error", 'El campo de nombre es requerido', "error");
                 return false;
             }
 
             if(!(is_published || space_free)){
-                swal("Error", gettext("Delete an ambit before publish another"), "error");
+                swal("Error", "Elimina uno de los Ámbitos antes de crear uno nuevo", "error");
                 return false;
             }
 
             if(ambits_to_avoid.indexOf(ambit_name.toUpperCase()) != -1){
-                swal("Error", gettext("This name is already taken"), "error");
+                swal("Error", "Este nombre ya está siendo usado", "error");
                 return false;
             }
 
@@ -76,7 +82,7 @@ function is_valid_ambit_form (){
             }
 
             if (!color_selected){
-                swal("Error", gettext("Select a background color"), "error");
+                swal("Error", "Selecciona un color de fondo", "error");
                 return false;
             }
 
@@ -84,24 +90,24 @@ function is_valid_ambit_form (){
             if(image_selected.value != null && image_selected.value != ""){
                 let image_size= image_selected.files[0].size / 1024 / 1024;
                 if (image_size > 10){
-                    swal("Error", gettext("The size of the file must be less than 10 MB"), "error");
+                    swal("Error", "El archivo seleccionado excede los 10 MB", "error");
                     return false;
                 }
 
                 let image_selected_regexp = new RegExp('/.png');
                 let match_found = image_selected_source.search('.png');
                 if (image_selected.value == null || image_selected.value == ""){
-                    swal("Error", gettext("Select a PNG image"), "error");
+                    swal("Error", "Selecciona una imagen PNG", "error");
                     return false;
                 }
                 if(match_found == -1){
-                    swal("Error", gettext("Select a PNG image"), "error");
+                    swal("Error", "Selecciona una imagen PNG", "error");
                     return false;
                 }
             }
 
             if (subjects_selected == '' || subjects_selected == null){
-                swal("Error", gettext("Select at least one subject to publish"), "error");
+                swal("Error", "Asigna al menos una materia para publicar", "error");
                 return false;
             }
 

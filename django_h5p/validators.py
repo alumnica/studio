@@ -99,7 +99,7 @@ Verifies content of library.json file
 
 def validate_library_files(preloaded_js, preloaded_css, library_directory):
     """
-Verifies libraries existance
+Verifies libraries existence
     :param preloaded_js: javascripts dependencies
     :param preloaded_css: stylesheets dependencies
     :param library_directory: library directory

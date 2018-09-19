@@ -10,7 +10,7 @@
     preload: true,
 });
 
-//enable sortable for all 6 udas
+//enable sortable for all 6 uodas
 $(function () {
     $("#uoda-1, #uoda-2, #uoda-3, #uoda-4, #uoda-5, #uoda-6").sortable();
     // $( "#sortable" ).disableSelection();

@@ -59,7 +59,7 @@ class CreateAmbitForm(forms.ModelForm):
             ambit.tags.add(tag)
 
         if subjects is not None:
-            subjects = subjects.split(',')
+            subjects = subjects.split('|')
             for subject_name in subjects:
                 try:
                     subject_model = Subject.objects.get(name=subject_name)
@@ -117,7 +117,7 @@ class CreateAmbitForm(forms.ModelForm):
             ambit.tags.add(tag)
 
         if subjects is not None:
-            subjects = subjects.split(',')
+            subjects = subjects.split('|')
             for subject_name in subjects:
                 try:
                     subject_model = Subject.objects.get(name=subject_name)
@@ -179,7 +179,7 @@ class UpdateAmbitForm(forms.ModelForm):
                 ambit.tags.remove(tag)
 
         if subjects is not None:
-            subjects = subjects.split(',')
+            subjects = subjects.split('|')
             for subject_name in subjects:
                 try:
                     subject_model = Subject.objects.get(name=subject_name)
@@ -240,7 +240,7 @@ class UpdateAmbitForm(forms.ModelForm):
                 ambit.tags.remove(tag)
 
         if subjects is not None:
-            subjects = subjects.split(',')
+            subjects = subjects.split('|')
             for subject_name in subjects:
                 try:
                     subject_model = Subject.objects.get(name=subject_name)

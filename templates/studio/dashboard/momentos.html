@@ -1,28 +1,27 @@
 {% extends "studio/base-main.html" %}
 {% load static %}
-{% load i18n %}
 {% block content %}
 
 <div class="container dashboard">
     <h1 class="title">
-        <i class="fas fa-play-circle"></i> {% trans "Momentos" %} </h1>
+        <i class="fas fa-play-circle"></i> Momentos</h1>
     <hr>
     <div class="grid-x">
         <div class="cell medium-6">
             <!--falta poner el HREF correcto-->
-            <a href="{% url 'create_momentos_view' %}" class="button"><i class="fa fa-upload"></i> {% trans "New Moment" %}</a>
+            <a href="{% url 'create_momentos_view' %}" class="button"><i class="fa fa-upload"></i> Crear nuevo Momento</a>
         </div>
         <div class="cell medium-12">
             <div class="panel">
                 <table id="tabla-momentos" class=" no-wrap">
                     <thead>
                         <tr>
-                            <th id="titulo-momento" class="all">{% trans "Title" %}</th>
+                            <th id="titulo-momento" class="all">Título</th>
                             <th id="numero-momento" class="not-mobile">ODA</th>
                             <th id="tags-momento" class="not-mobile tag-length">Tags</th>
-                            <th id="fecha-momento" class="not-mobile">{% trans "Date" %}</th>
+                            <th id="fecha-momento" class="not-mobile">Fecha</th>
                             <th id="autor-momento" class="not-mobile">Autor</th>
-                            <th id="eva-momento" class="not-mobile">{% trans "in" %} EVA</th>
+                            <th id="eva-momento" class="not-mobile">En EVA</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,16 +37,16 @@
 
 
 
-                                {% if momento.microodas.all.0.oda != None and momento.microodas.all.0.oda.subject != None and momento.microodas.all.0.oda.subject.ambit != None and not momento.microodas.all.0.oda.subject.ambit.is_draft%}
+                                {% if momento.microoda.oda != None and momento.microoda.oda.subject != None and momento.microoda.oda.subject.ambit != None and not momento.microoda.oda.subject.ambit.is_draft%}
                                             {% ifequal request.user.user_type 'SUPERVISOR'%}
                                                 <div class="title-edit-menu">
                                                     <span class="editar">
                                                         {# Link a editar este ambito en especifico #}
-                                                        <a href="{% url 'update_momentos_view' momento.pk %}">{% trans "Edit" %}</a>
+                                                        <a href="{% url 'update_momentos_view' momento.pk %}">Editar</a>
                                                     </span> |
                                                     <span class="borrar">
                                                         {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                                        <a href="{% url 'delete_momentos_view' momento.pk %}">{% trans "Delete" %}</a>
+                                                        <a href="{% url 'delete_momentos_view' momento.pk %}">Borrar</a>
                                                     </span>
 
 
@@ -57,11 +56,11 @@
                                     <div class="title-edit-menu">
                                         <span class="editar">
                                             {# Link a editar este ambito en especifico #}
-                                            <a href="{% url 'update_momentos_view' momento.pk %}">{% trans "Edit" %}</a>
+                                            <a href="{% url 'update_momentos_view' momento.pk %}">Editar</a>
                                         </span> |
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                            <a href="{% url 'delete_momentos_view' momento.pk %}">{% trans "Delete" %}</a>
+                                            <a href="{% url 'delete_momentos_view' momento.pk %}">Borrar</a>
                                         </span>
 
                                     </div>

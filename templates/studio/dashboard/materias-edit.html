@@ -1,18 +1,17 @@
 {% extends "studio/base-main.html" %} {% load static %} {% block content %}
 
-{% load i18n %}
 
 <div class="container dashboard">
 
     <h1 class="title">
-        {% trans "Create new Subject" %}
+        Materia
     </h1>
     <hr>
     <form method="POST" id="materia-init" enctype="multipart/form-data" onsubmit="return is_valid_form_subject()">
         {% csrf_token %}
         <div class="grid-x grid-margin-x">
             <div class="cell medium-6">
-                <label for="titulo-materia">{% trans "Title" %}</label>
+                <label for="titulo-materia">Título</label>
                 {{ form.name }}
                 <!--input name="titulo-materia" type="text" placeholder="titulo"-->
 
@@ -34,7 +33,7 @@
                 </script>
                 <!-- end tags -->
                 <br>
-                <label for="seleccion-ambito">{% trans "Select an Ámbito for this Subject" %}</label>
+                <label for="seleccion-ambito">Selecciona un Ámbito para esta materia</label>
                 {{ form.ambit }}
             </div>
             <!-- end first column -->
@@ -42,17 +41,17 @@
             <div class="cell medium-6 ">
                 <!-- panel de imagen -->
                 <div class="panel">
-                    <div class="panel__title ">{% trans "Cover image" %} |
-                        <small>{% trans "Only PNG files. Maximal size 150x300 px" %}</small>
+                    <div class="panel__title ">Imagen de portada |
+                        <small>Tamaño de archivo máximo: 150x300 px</small>
                     </div>
                     <div class="panel__content">
                         <div class="grid-x grid-margin-x  u-margin-bottom-small">
                             <div class="small-6 cell">
-                                <label for="materia-u" class="button expanded">{% trans "Upload image" %}</label>
+                                <label for="materia-u" class="button expanded">Subir imagen</label>
                                 {{ form.mp }}
                             </div>
                             <div class="small-6 cell">
-                                <a href="#" class="button expanded">{% trans "Image library" %}</a>
+                                <a href="#" class="button expanded">Biblioteca de imágenes</a>
                             </div>
                         </div>
                         <div class="materia-preview">
@@ -73,26 +72,26 @@
                     <div class="cell medium-3 my_item" id="seccion-img">
                         <div class="panel">
                             <div class="panel__title">
-                                <span class="section_name">{% trans "Section" %} #{{ forloop.counter }}</span>
-                                 <button class="delete-bloque delete"><i class="fa fa-times"></i></button>
+                                <span class="section_name">Sección #{{ forloop.counter }}</span>
+                                 <button class="delete-bloque delete" style="display:none;"><i class="fa fa-times"></i></button>
 
                             </div>
                             <div class="panel__content">
                                 <div class="grid-x grid-margin-x">
                                     <div class="small-6 cell">
-                                        <label for="id_{{ form.file.html_name }}" class="button small expanded">{% trans "Upload image" %}</label>
+                                        <label for="id_{{ form.file.html_name }}" class="button small expanded">Subir imagen</label>
                                         {{ form.file }}
                                         <input type="hidden" name="{{ form.prefix }}-DELETE" id="{{ form.prefix }}-DELETE" />
                                     </div>
                                     <div class="small-6 cell">
                                         <a href="#" class="button expanded small">
-                                            <i class="fas fa-th"></i> {% trans "Images" %}</a>
+                                            <i class="fas fa-th"></i> Imágenes</a>
                                     </div>
                                 </div>
                                 <div class="section-preview">
                                     <img class="img-preview" src="{{ form.initial.file.url }}" alt="Imagen Bloque 1" />
                                 </div>
-                                <button type="submit" class="button u-margin-top-small small expanded" name="position-{{ form.prefix }}"><i class="fa fa-pencil-alt"></i> {% trans "Edit ODAs position" %}</button>
+                                <button type="submit" class="button u-margin-top-small small expanded" name="position-{{ form.prefix }}"><i class="fa fa-pencil-alt"></i> Editar posición de ODAs</button>
                             </div>
                         </div>
                     </div>
@@ -106,7 +105,7 @@
                     <i class="fa fa-plus"></i>
                 </button>
                 <p>
-                    <small>{% trans "Add section" %}</small>
+                    <small>Añadir sección</small>
                 </p>
             </div>
 
@@ -116,10 +115,10 @@
             <div class="cell medium-12">
                 <hr>
                 <button type="submit" name="save" class="button">
-                    <i class="fa fa-save"></i> {% trans "Save" %}</button>
+                    <i class="fa fa-save"></i> Guardar</button>
 
                 <button type="submit" name="eva-publish" class="button success">
-                    <i class="fa fa-check"></i> {% trans "Finalize" %}</button>
+                    <i class="fa fa-check"></i> Finalizar</button>
 
                 <input type="hidden" name="action" id="action" />
             </div>

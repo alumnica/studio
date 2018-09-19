@@ -1,5 +1,4 @@
 {% extends "studio/base-main.html" %}
-{% load i18n %}
 {% block content %}
 
 
@@ -8,12 +7,12 @@
 
 
         <h1 class="title">
-            <i class="fas fa-clone"></i> {% trans "Subjects" %}  </h1>
+            <i class="fas fa-clone"></i> Materias  </h1>
         <hr>
     
         <div class="grid-x">
             <div class="cell medium-6">
-                <a href="{% url 'create_subject_view' %}" class="button">{% trans "Create new Subject" %}</a>
+                <a href="{% url 'create_subject_view' %}" class="button">Crear nueva materia</a>
             </div>
            
             <div class="cell medium-12">
@@ -21,12 +20,12 @@
                     <table id="tabla-materias" class=" no-wrap">
                         <thead>
                             <tr>
-                                <th id="titulo-materia" class="all">{% trans "Title" %}</th>
-                                <th id="numero-materia" class="not-mobile">{% trans "Ámbito" %}</th>
+                                <th id="titulo-materia" class="all">Título</th>
+                                <th id="numero-materia" class="not-mobile">Ámbito</th>
                                 
                                 <th id="tags-materia" class="not-mobile tag-length">Tags</th>
-                                <th id="fecha-materia" class="not-mobile">{% trans "Date" %}</th>
-                                <th id="estado-materia" class="not-mobile">{% trans "State" %}</th>
+                                <th id="fecha-materia" class="not-mobile">Fecha</th>
+                                <th id="estado-materia" class="not-mobile">Estado</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,11 +44,11 @@
                                         <div class="title-edit-menu">
                                         <span class="editar">
                                             {# Link a editar este ambito en especifico #}
-                                            <a href="{% url 'update_subject_view' subject.pk %}">{% trans "Edit" %}</a>
+                                            <a href="{% url 'update_subject_view' subject.pk %}">Editar</a>
                                         </span> |
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                            <a href="{% url 'delete_subject_view' subject.pk %}">{% trans "Delete" %}</a>
+                                            <a href="{% url 'delete_subject_view' subject.pk %}">Borrar</a>
                                         </span>
 
                                     </div>
@@ -58,11 +57,11 @@
                                     <div class="title-edit-menu">
                                         <span class="editar">
                                             {# Link a editar este ambito en especifico #}
-                                            <a href="{% url 'update_subject_view' subject.pk %}">{% trans "Edit" %}</a>
+                                            <a href="{% url 'update_subject_view' subject.pk %}">Editar</a>
                                         </span> |
                                         <span class="borrar">
                                             {# Link a borrar este ambito en especifico. An alert should pop up warning about the deletion #}
-                                            <a href="{% url 'delete_subject_view' subject.pk %}">{% trans "Delete" %}</a>
+                                            <a href="{% url 'delete_subject_view' subject.pk %}">Borrar</a>
                                         </span>
 
                                     </div>
@@ -87,15 +86,15 @@
                                         {{ subject.created_at }}
                                     </div>
                                     <div id="edit-type">
-                                        {% trans "Edited" %}
+                                        Editado
                                     </div>
                                 </td>
                                 <td>
                                     <div class="estado">
                                          {% if subject.temporal %}
-                                             {% trans "Draft" %}
+                                             Borrador
                                          {% else %}
-                                             {% trans "Finalized" %}
+                                             Finalizado
                                         {% endif %}
                                     </div>
                                 </td>

@@ -1,16 +1,15 @@
 {% extends "studio/base-main.html" %}
 {% load static %}
-{% load i18n %}
 {% block content %}
 <div class="dashboard container">
     <h1 class="title">
-        <i class="fa fa-share-square"></i> Ámbitos a Publicar</i>
+        <i class="fa fa-share-square"></i> Ámbitos a Publicar
     </h1>
     <hr>
     <div class="grid-x">
         <div class="cell medium-12">
-            <p class="inst">Los siguientes Ambitos han sido marcados como ‘Listos para publicar’ por un creador de contenido. Favor revisar
-                contenido y aporbar su publicacionen el EVA</p>
+            <p class="inst">Los siguientes Ambitos han sido marcados como ‘Listos para publicar’ por un creador de contenido. Favor de revisar
+                el contenido y aprobar su publicación en el EVA</p>
             <a href="{% url 'ambits_position_view' 0 %}" class="button">
                 <i class="fa fa-th"></i> Editar Posiciones</a>
         </div>

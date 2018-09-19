@@ -1,6 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
-from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import ListView, FormView, UpdateView
 from sweetify import sweetify
@@ -42,7 +41,8 @@ class CreateAmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, 
             if not published:
                 sweetify.error(
                     self.request,
-                    _('Error saving ámbito {}. Not all subjects are finalized'.format(ambit.name)), persistent='Ok')
+                    'Error al guardar el ámbito {}. No todas las materias asignadas están finalizadas'.format(
+                        ambit.name), persistent='Ok')
                 return redirect('update_ambit_view', pk=ambit.pk)
         return redirect(to='ambits_view')
 
@@ -60,8 +60,8 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         if ambit.is_published:
             if self.request.user.user_type == users.TYPE_CONTENT_CREATOR:
                 sweetify.error(self.request,
-                               _('It is not possible to edit Ámbito {} because is already published'.format(
-                                   ambit.name)),
+                               'No puedes editar el ámbito {} porque ya está publicado'.format(
+                                   ambit.name),
                                persistent='Ok')
                 return redirect(to='ambits_view')
         return super(UpdateAmbitView, self).dispatch(request, *args, **kwargs)
@@ -95,7 +95,8 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
             if not published:
                 sweetify.error(
                     self.request,
-                    _('Error saving ámbito {}. Not all subjects are finalized'.format(ambit.name)), persistent='Ok')
+                    'Error al guardar el ámbito {}. No todas las materias asignadas están finalizadas'.format(
+                        ambit.name), persistent='Ok')
 
                 return redirect('update_ambit_view', pk=ambit.pk)
         return redirect(to='ambits_view')
@@ -115,6 +116,7 @@ class DeleteAmbitView(View):
     """
     Deletes Ambito object
     """
+
     def dispatch(self, request, *args, **kwargs):
         Ambit.objects.get(pk=self.kwargs['pk']).pre_delete()
         return redirect('ambits_view')
@@ -124,6 +126,7 @@ class UnPublishAmbitView(View):
     """
     Unpublishes Ambito object, changing is_publish flag to false and is_draft flag to true
     """
+
     def dispatch(self, request, *args, **kwargs):
         ambit = Ambit.objects.get(pk=self.kwargs['pk'])
         ambit.is_published = False

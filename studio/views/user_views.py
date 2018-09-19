@@ -3,7 +3,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, UpdateView, CreateView, ListView
 from django.views.generic.base import TemplateView, RedirectView
 from sweetify import sweetify
@@ -12,14 +11,6 @@ from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin, OnlySupe
 from alumnica_model.models import Ambit, Subject, Moment, ODA, AuthUser
 from alumnica_model.models.users import TYPE_SUPERVISOR, TYPE_CONTENT_CREATOR
 from studio.forms.user_forms import UserLoginForm, CreateUserForm, UpdateUserForm
-
-
-class IndexView(TemplateView):
-    """
-    Home view
-    """
-    login_url = 'login_view'
-    template_name = 'studio/pages/index.html'
 
 
 class LoginView(FormView):
@@ -103,7 +94,7 @@ class CreateUserView(LoginRequiredMixin, OnlySupervisorMixin, CreateView):
 
     def form_valid(self, form):
         user = form.save()
-        sweetify.success(self.request, _('User created'), persistent='Ok')
+        sweetify.success(self.request, "Usuario creado", persistent='Ok')
         return super(CreateUserView, self).form_valid(form)
 
 
@@ -126,5 +117,5 @@ class UpdateUserView(LoginRequiredMixin, OnlySupervisorMixin, UpdateView):
 
     def form_valid(self, form):
         user = form.save()
-        sweetify.success(self.request, _('User updated'), persistent='Ok')
+        sweetify.success(self.request, "Información de usuario actualizada", persistent='Ok')
         return super(UpdateUserView, self).form_valid(form)
