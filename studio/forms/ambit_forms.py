@@ -143,7 +143,7 @@ class UpdateAmbitForm(forms.ModelForm):
         model = Ambit
         fields = ['name']
 
-    def save_form(self, subjects, tags, color):
+    def save_form(self, subjects, tags, color, pk):
         """
         Updates ambit properties and saves it as not temporal object
         :param subjects: Subjects string separated by comma
@@ -151,9 +151,9 @@ class UpdateAmbitForm(forms.ModelForm):
         :param color: Background color
         """
         cleaned_data = super(UpdateAmbitForm, self).clean()
-        ambit = Ambit.objects.get(name=cleaned_data.get('name'))
+        ambit = Ambit.objects.get(pk=pk)
         ambit.color = color
-
+        ambit.name = cleaned_data.get('name')
         image = cleaned_data.get('ap')
 
         if image is not None:
@@ -204,7 +204,7 @@ class UpdateAmbitForm(forms.ModelForm):
 
         return ambit, all_subjects_finalized
 
-    def save_as_draft(self, subjects, tags, color):
+    def save_as_draft(self, subjects, tags, color, pk):
         """
         Updates ambit properties and saves it as temporal object
         :param subjects: Subjects as string separated by comma
@@ -212,9 +212,9 @@ class UpdateAmbitForm(forms.ModelForm):
         :param color: Background color
         """
         cleaned_data = super(UpdateAmbitForm, self).clean()
-        ambit = Ambit.objects.get(name=cleaned_data.get('name'))
+        ambit = Ambit.objects.get(pk=pk)
         ambit.color = color
-
+        ambit.name = cleaned_data.get('name')
         if cleaned_data.get('ap') is not None:
             image = cleaned_data.get('ap')
             if isinstance(image, Image):

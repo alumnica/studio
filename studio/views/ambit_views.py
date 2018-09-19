@@ -89,9 +89,9 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         form.is_valid()
 
         if action == 'save':
-            form.save_as_draft(subjects, tags, color)
+            form.save_as_draft(subjects, tags, color, self.kwargs['pk'])
         elif action == 'eva-publish':
-            ambit, published = form.save_form(subjects, tags, color)
+            ambit, published = form.save_form(subjects, tags, color, self.kwargs['pk'])
             if not published:
                 sweetify.error(
                     self.request,
