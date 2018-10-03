@@ -19,6 +19,23 @@ class CreateAmbitForm(forms.ModelForm):
                                                                                                 'class': 'is-hidden',
                                                                                                 'type': 'file'}))
 
+    badge_first_version = forms.ImageField(required=False, validators=[file_size],
+                                           widget=forms.FileInput(attrs={'name': 'badge1',
+                                                                         'id': 'ambito-u',
+                                                                         'class': 'is-hidden',
+                                                                         'type': 'file'}))
+    badge_second_version = forms.ImageField(required=False, validators=[file_size],
+                                            widget=forms.FileInput(attrs={'name': 'badge2',
+                                                                          'id': 'ambito-u',
+                                                                          'class': 'is-hidden',
+                                                                          'type': 'file'}))
+    badge_third_version = forms.ImageField(required=False, validators=[file_size],
+                                           widget=forms.FileInput(attrs={'name': 'badge3',
+                                                                         'id': 'ambito-u',
+                                                                         'class': 'is-hidden',
+                                                                         'type': 'file'}))
+
+
     class Meta:
         model = Ambit
         fields = ['name']
@@ -138,6 +155,21 @@ class UpdateAmbitForm(forms.ModelForm):
                                                                                                 'id': 'ambito-u',
                                                                                                 'class': 'is-hidden',
                                                                                                 'type': 'file'}))
+    badge_first_version = forms.ImageField(required=False, validators=[file_size],
+                                           widget=forms.FileInput(attrs={'name': 'badge1',
+                                                                         'id': 'ambito-u',
+                                                                         'class': 'is-hidden',
+                                                                         'type': 'file'}))
+    badge_second_version = forms.ImageField(required=False, validators=[file_size],
+                                            widget=forms.FileInput(attrs={'name': 'badge2',
+                                                                          'id': 'ambito-u',
+                                                                          'class': 'is-hidden',
+                                                                          'type': 'file'}))
+    badge_third_version = forms.ImageField(required=False, validators=[file_size],
+                                           widget=forms.FileInput(attrs={'name': 'badge3',
+                                                                         'id': 'ambito-u',
+                                                                         'class': 'is-hidden',
+                                                                         'type': 'file'}))
 
     class Meta:
         model = Ambit
