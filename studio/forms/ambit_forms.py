@@ -19,16 +19,16 @@ class CreateAmbitForm(forms.ModelForm):
                                                                                                 'class': 'is-hidden',
                                                                                                 'type': 'file'}))
 
-    badge_first_version = forms.ImageField(required=False, validators=[file_size],
-                                           widget=forms.FileInput(attrs={'id': 'ambito_badge_1',
+    aU = forms.ImageField(required=False, validators=[file_size],
+                               widget=forms.FileInput(attrs={'id': 'aUpload',
                                                                          'class': 'is-hidden',
                                                                          'type': 'file'}))
-    badge_second_version = forms.ImageField(required=False, validators=[file_size],
-                                            widget=forms.FileInput(attrs={'id': 'ambito_badge_2',
+    bU = forms.ImageField(required=False, validators=[file_size],
+                                            widget=forms.FileInput(attrs={'id': 'bUpload',
                                                                           'class': 'is-hidden',
                                                                           'type': 'file'}))
-    badge_third_version = forms.ImageField(required=False, validators=[file_size],
-                                           widget=forms.FileInput(attrs={'id': 'ambito_badge_3',
+    cU = forms.ImageField(required=False, validators=[file_size],
+                                           widget=forms.FileInput(attrs={'id': 'cUpload',
                                                                          'class': 'is-hidden',
                                                                          'type': 'file'}))
 
@@ -50,9 +50,9 @@ class CreateAmbitForm(forms.ModelForm):
         ambit.color = color
 
         #Badge creation
-        badge_first_version = cleaned_data.get('badge_first_version')
-        badge_second_version = cleaned_data.get('badge_second_version')
-        badge_third_version = cleaned_data.get('badge_third_version')
+        badge_first_version = cleaned_data.get('aU')
+        badge_second_version = cleaned_data.get('bU')
+        badge_third_version = cleaned_data.get('cU')
 
         badge_image_1 = Image.objects.create(name='{}_badge_first_image'.format(ambit.name), folder="Ambitos",
                                              file=badge_first_version)
@@ -122,9 +122,9 @@ class CreateAmbitForm(forms.ModelForm):
         ambit.color = color
 
         # Badge creation
-        badge_first_version = cleaned_data.get('badge_first_version')
-        badge_second_version = cleaned_data.get('badge_second_version')
-        badge_third_version = cleaned_data.get('badge_third_version')
+        badge_first_version = cleaned_data.get('aU')
+        badge_second_version = cleaned_data.get('bU')
+        badge_third_version = cleaned_data.get('cU')
 
         if ambit.badge is None:
             if badge_first_version is not None:
@@ -203,16 +203,16 @@ class UpdateAmbitForm(forms.ModelForm):
                                                                                                 'id': 'ambito-u',
                                                                                                 'class': 'is-hidden',
                                                                                                 'type': 'file'}))
-    badge_first_version = forms.ImageField(required=False, validators=[file_size],
-                                           widget=forms.FileInput(attrs={'id': 'ambito_badge_1',
+    aU = forms.ImageField(required=False, validators=[file_size],
+                                           widget=forms.FileInput(attrs={'id': 'aUpload',
                                                                          'class': 'is-hidden',
                                                                          'type': 'file'}))
-    badge_second_version = forms.ImageField(required=False, validators=[file_size],
-                                            widget=forms.FileInput(attrs={'id': 'ambito_badge_2',
+    bU = forms.ImageField(required=False, validators=[file_size],
+                                            widget=forms.FileInput(attrs={'id': 'bUpload',
                                                                           'class': 'is-hidden',
                                                                           'type': 'file'}))
-    badge_third_version = forms.ImageField(required=False, validators=[file_size],
-                                           widget=forms.FileInput(attrs={'id': 'ambito_badge_3',
+    cU = forms.ImageField(required=False, validators=[file_size],
+                                           widget=forms.FileInput(attrs={'id': 'cUpload',
                                                                          'class': 'is-hidden',
                                                                          'type': 'file'}))
 
@@ -234,9 +234,9 @@ class UpdateAmbitForm(forms.ModelForm):
         image = cleaned_data.get('ap')
 
         # Badge creation
-        badge_first_version = cleaned_data.get('badge_first_version')
-        badge_second_version = cleaned_data.get('badge_second_version')
-        badge_third_version = cleaned_data.get('badge_third_version')
+        badge_first_version = cleaned_data.get('aU')
+        badge_second_version = cleaned_data.get('bU')
+        badge_third_version = cleaned_data.get('cU')
 
         if ambit.badge is None:
             if badge_first_version is not None:
@@ -333,9 +333,9 @@ class UpdateAmbitForm(forms.ModelForm):
         ambit.name = cleaned_data.get('name')
 
         # Badge creation
-        badge_first_version = cleaned_data.get('badge_first_version')
-        badge_second_version = cleaned_data.get('badge_second_version')
-        badge_third_version = cleaned_data.get('badge_third_version')
+        badge_first_version = cleaned_data.get('aU')
+        badge_second_version = cleaned_data.get('bU')
+        badge_third_version = cleaned_data.get('cU')
 
         if ambit.badge is None:
             if badge_first_version is not None:
@@ -365,7 +365,7 @@ class UpdateAmbitForm(forms.ModelForm):
                 badge_image_2 = Image.objects.create(name='{}_badge_second_image'.format(ambit.name), folder="Ambitos",
                                                      file=badge_second_version)
                 ambit.badge.second_version = badge_image_2
-            if badge_third_version is None:
+            if badge_third_version is not None:
                 badge_image_3 = Image.objects.create(name='{}_badge_third_image'.format(ambit.name), folder="Ambitos",
                                                      file=badge_third_version)
                 ambit.badge.third_version = badge_image_3

@@ -201,37 +201,40 @@
               <div class="panel__title">Insignias</div>
               <div class="grid-x grid-margin-x">
                 <div class="cell small-4 text-center">
-                  Privera Versión
+                  Primera Versión
                   <!-- badge b -->
                   <div class="badge-a">
                     <div id="badge-a-holder">
-                      <img src="#" alt="">
+                      <img src="{{ ambit.badge.first_version.file.url }}" alt="">
                     </div>
                   </div>
                   <label for="aUpload" class="button expanded">Subir Imagen</label>
-                  <input id="aUpload" name="aU" type="file" class="is-hidden">
+{#                  <input id="aUpload" name="aU" type="file" class="is-hidden">#}
+                    {{ form.aU }}
                 </div>
                 <!-- badge b -->
                 <div class="cell small-4 text-center">
                   Segunda Versión
                   <div class="badge-a">
                     <div id="badge-b-holder">
-                      <img src="#" alt="">
+                      <img src="{{ ambit.badge.second_version.file.url }}" alt="">
                     </div>
                   </div>
                   <label for="bUpload" class="button expanded">Subir Imagen</label>
-                  <input id="bUpload" name="bU" type="file" class="is-hidden">
+{#                  <input id="bUpload" name="bU" type="file" class="is-hidden">#}
+                    {{ form.bU }}
                 </div>
 
                 <div class="cell small-4 text-center">
                   Tercera Versión
                   <div class="badge-a">
                     <div id="badge-c-holder">
-                      <img src="#" alt="">
+                      <img src="{{ ambit.badge.third_version.file.url }}" alt="">
                     </div>
                   </div>
                   <label for="cUpload" class="button expanded">Subir Imagen</label>
-                  <input id="cUpload" name="cU" type="file" class="is-hidden">
+{#                  <input id="cUpload" name="cU" type="file" class="is-hidden">#}
+                    {{ form.cU }}
                 </div>
               </div>
             </div>
@@ -293,7 +296,7 @@
 {% endblock content %}
 
 {% block scripts %}
-<script type="text/javascript" src="{% static " studio/js/materias.js" %}"></script>
-<script type="text/javascript" src="{% static " studio/js/tags.js" %}"></script>
-<script type="text/javascript" src="{% static " studio/js/ambit.js" %}"></script>
+    <script type="text/javascript" src="{% static "studio/js/materias.js" %}"></script>
+    <script type="text/javascript" src="{% static "studio/js/tags.js" %}"></script>
+    <script type="text/javascript" src="{% static "studio/js/ambit.js" %}"></script>
 {% endblock %}
