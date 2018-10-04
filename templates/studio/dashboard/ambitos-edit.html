@@ -23,9 +23,6 @@
             {{ form.name }}
 
             <!-- tags -->
-            {% for item in tags %}
-            {{item}}
-            {%endfor%}
             <label for="ambito-tags">Tags</label>
             <input name="tags-ambito" type="text" id="ambito-tags">
             <script type="text/javascript">
@@ -35,11 +32,8 @@
               let ambitoTags = [];
               let ambits_to_avoid = [];
               let self_color = "{{ ambit.color }}";
-              {% for tag in tags %}
-              ambitoTags.push({ name: "{{ tag.name|safe }}", value: "{{ tag.id|safe }}" });
-              {% endfor %}
-              let space_free = {{ ambit_space| yesno: "true,false" }};
-              let is_published = {{ ambit.is_published| yesno: "true,false" }};
+              let space_free = {{ ambit_space|yesno:"true,false" }};
+              let is_published = {{ ambit.is_published|yesno:"true,false" }};
               {% for tag in tags %}
               ambitoTags.push({ name: "{{ tag.name|safe }}", value: "{{ tag.id|safe }}" });
               {% endfor %}
