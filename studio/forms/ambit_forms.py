@@ -249,7 +249,7 @@ class UpdateAmbitForm(forms.ModelForm):
                                                      file=badge_second_version)
             else:
                 badge_image_2 = None
-            if badge_third_version is None:
+            if badge_third_version is not None:
                 badge_image_3 = Image.objects.create(name='{}_badge_third_image'.format(ambit.name), folder="Ambitos",
                                                      file=badge_third_version)
             else:
@@ -266,7 +266,7 @@ class UpdateAmbitForm(forms.ModelForm):
                 badge_image_2 = Image.objects.create(name='{}_badge_second_image'.format(ambit.name), folder="Ambitos",
                                                      file=badge_second_version)
                 ambit.badge.second_version = badge_image_2
-            if badge_third_version is None:
+            if badge_third_version is not None:
                 badge_image_3 = Image.objects.create(name='{}_badge_third_image'.format(ambit.name), folder="Ambitos",
                                                      file=badge_third_version)
                 ambit.badge.third_version = badge_image_3
@@ -348,7 +348,7 @@ class UpdateAmbitForm(forms.ModelForm):
                                                      file=badge_second_version)
             else:
                 badge_image_2 = None
-            if badge_third_version is None:
+            if badge_third_version is not None:
                 badge_image_3 = Image.objects.create(name='{}_badge_third_image'.format(ambit.name), folder="Ambitos",
                                                      file=badge_third_version)
             else:
