@@ -73,15 +73,15 @@ $(document).ready(function() {
 
   $('#badge-a-holder img').attr({
     id: 'preview-aU',
-    class: 'badge-preview',
+    class: 'badge-preview  is-hidden',
   });
   $('#badge-b-holder img').attr({
     id: 'preview-bU',
-    class: 'badge-preview',
+    class: 'badge-preview  is-hidden',
   });
   $('#badge-c-holder img').attr({
     id: 'preview-cU',
-    class: 'badge-preview',
+    class: 'badge-preview  is-hidden',
   });
   // oda-edit
   $('form#oda-edit .active_icon-preview img').attr({
@@ -123,17 +123,20 @@ $(document).ready(function() {
     $('#preview-ap').removeClass('is-hidden');
   });
 
-    // badge a
+  // badge a
   $('#aUpload').change(function() {
     readURL(this);
+    $('#preview-aU').removeClass('is-hidden');
   });
   // badge b
   $('#bUpload').change(function() {
     readURL(this);
+    $('#preview-bU').removeClass('is-hidden');
   });
   // badge c
   $('#cUpload').change(function() {
     readURL(this);
+    $('#preview-cU').removeClass('is-hidden');
   });
 
   $('#id_active_icon').change(function() {
