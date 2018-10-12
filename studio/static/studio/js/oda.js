@@ -173,7 +173,7 @@ function is_valid_form_odas_section(){
                 if (inputs[i].files.length > 0) {
                 let image_size = inputs[i].files[0].size / 1024 / 1024;
                 if (image_size > 10) {
-                    swal("Error", "El archivo de seleccionado excede los 10 MB", "error");
+                    swal("Error", "El archivo seleccionado excede los 10 MB", "error");
                     return false;
                 }
                 else {
