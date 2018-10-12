@@ -198,8 +198,8 @@ function is_valid_form_odas_section(){
                     return false;
                 }
 
-                let match_png_found = source_image.search('.png');
-                let match_gif_found = source_image.search('.gif');
+                let match_png_found = source_image.search('data:image/png');
+                let match_gif_found = source_image.search('data:image/gif');
                 if(match_png_found == -1 &&  match_gif_found == -1){
                     swal("Error", "Faltan imágenes por subir", "error");
                     return false;

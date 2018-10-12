@@ -128,8 +128,11 @@ function is_valid_ambit_form (){
                 }
             }
             else{
-                swal("Error", "Selecciona una imagen PNG para la primera versión de la insignia", "error");
+                let match_found = first_badge_source.search('image/png');
+                if(match_found == -1){
+                    swal("Error", "Selecciona una imagen PNG para la primera versión de la insignia", "error");
                     return false;
+                }
             }
 
 
@@ -141,18 +144,17 @@ function is_valid_ambit_form (){
                 }
 
                 let match_found = second_badge_source.search('image/png');
-                if (second_badge.value == null || second_badge.value == ""){
-                    swal("Error", "Selecciona una imagen PNG para la segunda versión de la insignia", "error");
-                    return false;
-                }
                 if(match_found == -1){
                     swal("Error", "Selecciona una imagen PNG para la segunda versión de la insignia", "error");
                     return false;
                 }
             }
             else{
-                swal("Error", "Selecciona una imagen PNG para la segunda versión de la insignia", "error");
+                let match_found = second_badge_source.search('image/png');
+                if(match_found == -1){
+                    swal("Error", "Selecciona una imagen PNG para la segunda versión de la insignia", "error");
                     return false;
+                }
             }
 
 
@@ -164,18 +166,17 @@ function is_valid_ambit_form (){
                 }
 
                 let match_found = third_badge_source.search('image/png');
-                if (third_badge.value == null || third_badge.value == ""){
-                    swal("Error", "Selecciona una imagen PNG para la tercera versión de la insignia", "error");
-                    return false;
-                }
                 if(match_found == -1){
                     swal("Error", "Selecciona una imagen PNG para la tercera versión de la insignia", "error");
                     return false;
                 }
             }
             else{
-                swal("Error", "Selecciona una imagen PNG para la tercera versión de la insignia", "error");
+                let match_found = third_badge_source.search('image/png');
+                if(match_found == -1){
+                    swal("Error", "Selecciona una imagen PNG para la tercera versión de la insignia", "error");
                     return false;
+                }
             }
 
 
