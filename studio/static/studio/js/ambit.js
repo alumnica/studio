@@ -128,7 +128,7 @@ function is_valid_ambit_form (){
                 }
             }
             else{
-                let match_found = first_badge_source.search('image/png');
+                let match_found = first_badge_source.search('.png');
                 if(match_found == -1){
                     swal("Error", "Selecciona una imagen PNG para la primera versión de la insignia", "error");
                     return false;
@@ -150,7 +150,7 @@ function is_valid_ambit_form (){
                 }
             }
             else{
-                let match_found = second_badge_source.search('image/png');
+                let match_found = second_badge_source.search('.png');
                 if(match_found == -1){
                     swal("Error", "Selecciona una imagen PNG para la segunda versión de la insignia", "error");
                     return false;
@@ -172,7 +172,7 @@ function is_valid_ambit_form (){
                 }
             }
             else{
-                let match_found = third_badge_source.search('image/png');
+                let match_found = third_badge_source.search('.png');
                 if(match_found == -1){
                     swal("Error", "Selecciona una imagen PNG para la tercera versión de la insignia", "error");
                     return false;
