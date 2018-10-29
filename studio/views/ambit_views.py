@@ -17,27 +17,29 @@ class CreateAmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, 
     template_name = 'studio/dashboard/ambitos-edit.html'
     form_class = CreateAmbitForm
 
-    def get(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         ambits = Ambit.objects.all()
         subjects = Subject.objects.filter(temporal=False).filter(ambit=None)
         tags = Tag.objects.all()
         ambit_space = Ambit.objects.all().filter(is_published=True).count() < 30
-        return render(request, self.template_name, {'form': self.form_class, 'subjects': subjects,
-                                                    'tags': tags, 'ambits': ambits, 'ambit_space': ambit_space})
 
-    def post(self, request, *args, **kwargs):
+        context = super(CreateAmbitView, self).get_context_data()
+        context.update({'form': self.form_class, 'subjects': subjects,
+                                                    'tags': tags, 'ambits': ambits, 'ambit_space': ambit_space})
+        return context
+
+    def form_valid(self, form):
         subjects = self.request.POST.get('class_name')
         tags = self.request.POST.get('tags-ambito')
         if tags is not None and tags != '':
             tags = tags.split(',')
         color = self.request.POST.get('color')
         action = self.request.POST.get('action')
-        form = CreateAmbitForm(self.request.POST, self.request.FILES)
-        form.is_valid()
+
         if action == 'save':
-            form.save_as_draft(request.user, subjects, tags, color)
+            form.save_as_draft(self.request.user, subjects, tags, color)
         elif action == 'eva-publish':
-            ambit, published = form.save_form(request.user, subjects, tags, color)
+            ambit, published = form.save_form(self.request.user, subjects, tags, color)
             if not published:
                 sweetify.error(
                     self.request,
@@ -45,6 +47,23 @@ class CreateAmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, 
                         ambit.name), persistent='Ok')
                 return redirect('update_ambit_view', pk=ambit.pk)
         return redirect(to='ambits_view')
+
+    def form_invalid(self, form):
+        error = ''
+        if form['name'].errors:
+            error = form.errors['name'][0]
+        elif form['ap'].errors:
+            error = form.errors['ap'][0]
+        elif form['aU'].errors:
+            error = form.errors['aU'][0]
+        elif form['bU'].errors:
+            error = form.errors['bU'][0]
+        elif form['cU'].errors:
+            error = form.errors['cU'][0]
+
+        sweetify.error(self.request, error, persistent='Ok')
+        context = self.get_context_data()
+        return render(self.request, self.template_name, context=context)
 
 
 class UpdateAmbitView(LoginRequiredMixin, UpdateView):
@@ -78,15 +97,13 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
         context.update({'subjects': subjects, 'tags': tags, 'ambits': ambits, 'ambit_space': ambit_space})
         return context
 
-    def post(self, request, *args, **kwargs):
+    def form_valid(self, form):
         subjects = self.request.POST.get('class_name')
         tags = self.request.POST.get('tags-ambito')
         if tags is not None and tags != '':
             tags = tags.split(',')
         color = self.request.POST.get('color')
         action = self.request.POST.get('action')
-        form = UpdateAmbitForm(self.request.POST, self.request.FILES)
-        form.is_valid()
 
         if action == 'save':
             form.save_as_draft(subjects, tags, color, self.kwargs['pk'])
@@ -97,9 +114,25 @@ class UpdateAmbitView(LoginRequiredMixin, UpdateView):
                     self.request,
                     'Error al guardar el ámbito {}. No todas las materias asignadas están finalizadas'.format(
                         ambit.name), persistent='Ok')
-
                 return redirect('update_ambit_view', pk=ambit.pk)
         return redirect(to='ambits_view')
+
+    def form_invalid(self, form):
+        error = ''
+        if form['name'].errors:
+            error = form.errors['name'][0]
+        elif form['ap'].errors:
+            error = form.errors['ap'][0]
+        elif form['aU'].errors:
+            error = form.errors['aU'][0]
+        elif form['bU'].errors:
+            error = form.errors['bU'][0]
+        elif form['cU'].errors:
+            error = form.errors['cU'][0]
+
+        sweetify.error(self.request, error, persistent='Ok')
+        context = self.get_context_data()
+        return render(self.request, self.template_name, context=context)
 
 
 class AmbitView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
