@@ -551,3 +551,5 @@ def set_evaluation(evaluation):
     for question_in_evaluation in evaluation.pull_down_list_questions.all():
         if question_in_evaluation not in pull_down_list_questions_instances:
             question_in_evaluation.delete()
+
+    evaluation.file.close()
