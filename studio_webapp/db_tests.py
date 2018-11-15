@@ -1,13 +1,10 @@
 import os
-import time
-
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "studio_webapp.settings")
 
 application = get_wsgi_application()
-
+import time
 from studio.forms.oda_forms import set_evaluation
 from studio_webapp.settings import BASE_DIR
 from random import randint
@@ -17,7 +14,7 @@ from model_mommy.recipe import Recipe, foreign_key, related
 from alumnica_model.models.content import MicroODAType, Image, Evaluation, Moment, Ambit, Subject, ODA
 from alumnica_model.models.h5p import H5Package
 from django_h5p.forms import H5PackageForm
-
+from alumnica_model.models.users import TYPE_CONTENT_CREATOR
 
 def get_h5p_package():
     packages = H5Package.objects.all()
@@ -43,7 +40,7 @@ def create_content(subjects, ambits):
 
     microoda_types = list(MicroODAType.objects.all())
 
-    for ambit in ambits:
+    for ambit in ambits[0:1]:
         ambit_recipe = Recipe(Ambit,
                               name=ambit['name'],
                               background_image=ambit['bck_image'],
@@ -53,7 +50,8 @@ def create_content(subjects, ambits):
                               is_draft=False,
                               badge__first_version=ambit['badges'][0],
                               badge__second_version=ambit['badges'][1],
-                              badge__third_version=ambit['badges'][2])
+                              badge__third_version=ambit['badges'][2],
+                              created_by__user_type=TYPE_CONTENT_CREATOR)
 
         ambit_mk = ambit_recipe.make(make_m2m=True,  _create_files=True)
 
@@ -67,7 +65,8 @@ def create_content(subjects, ambits):
                                     background_image=subjects[ambit_index][0]['back_img'],
                                     temporal=False,
                                     number_of_sections=3,
-                                    ambit=ambit_mk
+                                    ambit=ambit_mk,
+                                    created_by__user_type=TYPE_CONTENT_CREATOR
                                     )
 
             subject_mk = subject_recipe.make(make_m2m=True,  _create_files=True)
@@ -87,15 +86,17 @@ def create_content(subjects, ambits):
                                     oda__section=randint(1, 3),
                                     oda__evaluation=evaluation_instance,
                                     temporal=False,
-                                    subject=subject_mk)
+                                    subject=subject_mk,
+                                    created_by__user_type=TYPE_CONTENT_CREATOR)
 
                 oda_mk = oda_recipe.make(make_m2m=True,  _create_files=True)
 
                 for type in microoda_types:
                     moment = Recipe(Moment,
                                     h5p_package=H5Package.objects.get(job_id=get_h5p_package()),
-                                    microoda__type=microoda_types[0],
-                                    microoda__oda=oda_mk)
+                                    microoda__type=type,
+                                    microoda__oda=oda_mk,
+                                    created_by__user_type=TYPE_CONTENT_CREATOR)
                     moment.make(make_m2m=True,  _create_files=True)
         ambit_index += 1
 
