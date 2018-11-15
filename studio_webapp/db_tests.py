@@ -11,7 +11,7 @@ from random import randint
 from django.core.files import File
 from django.core.files.images import ImageFile
 from model_mommy.recipe import Recipe, foreign_key, related
-from alumnica_model.models.content import MicroODAType, Image, Evaluation, Moment, Ambit, Subject, ODA
+from alumnica_model.models.content import MicroODAType, Image, Evaluation, Moment, Ambit, Subject, ODA, MomentType
 from alumnica_model.models.h5p import H5Package
 from django_h5p.forms import H5PackageForm
 from alumnica_model.models.users import TYPE_CONTENT_CREATOR
@@ -34,13 +34,34 @@ def get_h5p_package():
 def create_content(subjects, ambits):
 
     ambit_index = 0
+    subjects_section_imgs = [Image.objects.create(name='subject_section_image',
+                                                  folder="Materias",
+                                                  file=ImageFile(
+                                                      file=open(
+                                                          os.path.join(BASE_DIR, 'studio/tests/subject_section1.png'),
+                                                          'rb'))),
+                             Image.objects.create(name='subject_section_image',
+                                                  folder="Materias",
+                                                  file=ImageFile(
+                                                      file=open(
+                                                          os.path.join(BASE_DIR, 'studio/tests/subject_section2.png'),
+                                                          'rb'))),
+                             Image.objects.create(name='subject_section_image',
+                                                  folder="Materias",
+                                                  file=ImageFile(
+                                                      file=open(
+                                                          os.path.join(BASE_DIR, 'studio/tests/subject_section3.png'),
+                                                          'rb')))
+                             ]
     oda_icons = [Image.objects.create(name='oda_active_icon', folder="ODAs", file=ImageFile(
         file=open(os.path.join(BASE_DIR, 'studio/tests/active_icon.gif'), 'rb'))), Image.objects.create(name='oda_completed_icon', folder="ODAs", file=ImageFile(
         file=open(os.path.join(BASE_DIR, 'studio/tests/completed_icon.gif'), 'rb')))]
-
+    subject_section1 = subjects_section_imgs[0]
+    subject_section2 = subjects_section_imgs[1]
+    subject_section3 = subjects_section_imgs[2]
     microoda_types = list(MicroODAType.objects.all())
 
-    for ambit in ambits[0:1]:
+    for ambit in ambits[0:3]:
         ambit_recipe = Recipe(Ambit,
                               name=ambit['name'],
                               background_image=ambit['bck_image'],
@@ -56,9 +77,6 @@ def create_content(subjects, ambits):
         ambit_mk = ambit_recipe.make(make_m2m=True,  _create_files=True)
 
         for subject in subjects[ambit_index]:
-            subject_section1 = subject['sections'][0]
-            subject_section2 = subject['sections'][1]
-            subject_section3 = subject['sections'][2]
 
             subject_recipe = Recipe(Subject,
                                     name=subjects[ambit_index][0]['name'],
@@ -69,7 +87,7 @@ def create_content(subjects, ambits):
                                     created_by__user_type=TYPE_CONTENT_CREATOR
                                     )
 
-            subject_mk = subject_recipe.make(make_m2m=True,  _create_files=True)
+            subject_mk = subject_recipe.make(_create_files=True)
             subject_mk.sections_images.add(subject_section1, subject_section2, subject_section3)
 
             for number in range(1, 4):
@@ -82,9 +100,9 @@ def create_content(subjects, ambits):
                 oda_recipe = Recipe(ODA,
                                     active_icon=oda_icons[0],
                                     completed_icon=oda_icons[1],
-                                    oda__zone=randint(1, 16),
-                                    oda__section=randint(1, 3),
-                                    oda__evaluation=evaluation_instance,
+                                    zone=randint(1, 16),
+                                    section=randint(1, 3),
+                                    evaluation=evaluation_instance,
                                     temporal=False,
                                     subject=subject_mk,
                                     created_by__user_type=TYPE_CONTENT_CREATOR)
@@ -96,6 +114,7 @@ def create_content(subjects, ambits):
                                     h5p_package=H5Package.objects.get(job_id=get_h5p_package()),
                                     microoda__type=type,
                                     microoda__oda=oda_mk,
+                                    type=MomentType.objects.first(),
                                     created_by__user_type=TYPE_CONTENT_CREATOR)
                     moment.make(make_m2m=True,  _create_files=True)
         ambit_index += 1
@@ -166,61 +185,45 @@ subjects_bck_imgs = [Image.objects.create(name='subject_back_image',
                                 file=open(os.path.join(BASE_DIR, 'studio/tests/subject3.png'), 'rb')))
                      ]
 
-subjects_section_imgs = [Image.objects.create(name='subject_section_image',
-                                folder="Materias",
-                                file=ImageFile(
-                                    file=open(os.path.join(BASE_DIR, 'studio/tests/subject_section1.png'),
-                                              'rb'))),
-                        Image.objects.create(name='subject_section_image',
-                                folder="Materias",
-                                file=ImageFile(
-                                    file=open(os.path.join(BASE_DIR, 'studio/tests/subject_section2.png'),
-                                              'rb'))),
-                        Image.objects.create(name='subject_section_image',
-                                folder="Materias",
-                                file=ImageFile(
-                                    file=open(os.path.join(BASE_DIR, 'studio/tests/subject_section3.png'),
-                                              'rb')))
-                         ]
 
-subjects = [[{'name': 'Epistemología', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[0]},
-             {'name': 'Métodos de investigación científica', 'sections': subjects_section_imgs,
+subjects = [[{'name': 'Epistemología', 'back_img': subjects_bck_imgs[0]},
+             {'name': 'Métodos de investigación científica',
               'back_img': subjects_bck_imgs[1]}],
-            [{'name': 'Álgebra', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[0]},
-             {'name': 'Geometría y trigonometría', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[1]},
-             {'name': 'Tratamiento de la información', 'sections': subjects_section_imgs,
+            [{'name': 'Álgebra', 'back_img': subjects_bck_imgs[0]},
+             {'name': 'Geometría y trigonometría', 'back_img': subjects_bck_imgs[1]},
+             {'name': 'Tratamiento de la información',
               'back_img': subjects_bck_imgs[2]}],
-            [{'name': 'Modelos químicos', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[0]},
-             {'name': 'Leyes de la física', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[1]},
-             {'name': 'Sistemas biológicos', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[2]},
-             {'name': 'Geografía humana', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[0]}],
-            [{'name': 'Lógica', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[0]},
-             {'name': 'Ética y valores', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[1]},
-             {'name': 'Cosmovisiones fisiológicas', 'sections': subjects_section_imgs,
+            [{'name': 'Modelos químicos', 'back_img': subjects_bck_imgs[0]},
+             {'name': 'Leyes de la física', 'back_img': subjects_bck_imgs[1]},
+             {'name': 'Sistemas biológicos', 'back_img': subjects_bck_imgs[2]},
+             {'name': 'Geografía humana', 'back_img': subjects_bck_imgs[0]}],
+            [{'name': 'Lógica', 'back_img': subjects_bck_imgs[0]},
+             {'name': 'Ética y valores', 'back_img': subjects_bck_imgs[1]},
+             {'name': 'Cosmovisiones fisiológicas',
               'back_img': subjects_bck_imgs[2]}],
-            [{'name': 'Acontecimientos históricos', 'sections': subjects_section_imgs,
+            [{'name': 'Acontecimientos históricos',
               'back_img': subjects_bck_imgs[0]},
-             {'name': 'Sociología económica', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[1]},
-             {'name': 'Derecho y sociedad', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[2]}],
-            [{'name': 'Etimologías mexicanas y grecolatinas', 'sections': subjects_section_imgs,
+             {'name': 'Sociología económica', 'back_img': subjects_bck_imgs[1]},
+             {'name': 'Derecho y sociedad', 'back_img': subjects_bck_imgs[2]}],
+            [{'name': 'Etimologías mexicanas y grecolatinas',
               'back_img': subjects_bck_imgs[0]},
-             {'name': 'Lenguaje simbólico', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[1]}],
-            [{'name': 'Ortografía', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[0]},
-             {'name': 'Redacción', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[1]},
-             {'name': 'Argumentación', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[2]}],
-            [{'name': 'Corrientes artísticas', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[0]},
-             {'name': 'Apreciación estética', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[1]},
-             {'name': 'Comunicaciñon visual', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[2]}],
-            [{'name': 'Sociedad del conocimiento', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[0]},
-             {'name': 'Cambio y empoderamiento social', 'sections': subjects_section_imgs,
+             {'name': 'Lenguaje simbólico', 'back_img': subjects_bck_imgs[1]}],
+            [{'name': 'Ortografía', 'back_img': subjects_bck_imgs[0]},
+             {'name': 'Redacción', 'back_img': subjects_bck_imgs[1]},
+             {'name': 'Argumentación', 'back_img': subjects_bck_imgs[2]}],
+            [{'name': 'Corrientes artísticas', 'back_img': subjects_bck_imgs[0]},
+             {'name': 'Apreciación estética', 'back_img': subjects_bck_imgs[1]},
+             {'name': 'Comunicaciñon visual', 'back_img': subjects_bck_imgs[2]}],
+            [{'name': 'Sociedad del conocimiento', 'back_img': subjects_bck_imgs[0]},
+             {'name': 'Cambio y empoderamiento social',
               'back_img': subjects_bck_imgs[1]}],
-            [{'name': 'Finanzas personales', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[0]},
-             {'name': 'Derechos y obligaciones personales', 'sections': subjects_section_imgs,
+            [{'name': 'Finanzas personales', 'back_img': subjects_bck_imgs[0]},
+             {'name': 'Derechos y obligaciones personales',
               'back_img': subjects_bck_imgs[1]},
-             {'name': 'Talento personal', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[2]}],
-            [{'name': 'Productos de ofimática', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[0]},
-             {'name': 'Producción de identidad visual', 'sections': subjects_section_imgs,
+             {'name': 'Talento personal', 'back_img': subjects_bck_imgs[2]}],
+            [{'name': 'Productos de ofimática', 'back_img': subjects_bck_imgs[0]},
+             {'name': 'Producción de identidad visual',
               'back_img': subjects_bck_imgs[1]},
-             {'name': 'Inventos tecnológicos', 'sections': subjects_section_imgs, 'back_img': subjects_bck_imgs[2]}]]
+             {'name': 'Inventos tecnológicos', 'back_img': subjects_bck_imgs[2]}]]
 
 create_content(ambits=ambits, subjects=subjects)
