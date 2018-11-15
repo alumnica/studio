@@ -79,8 +79,8 @@ def create_content(subjects, ambits):
         for subject in subjects[ambit_index]:
 
             subject_recipe = Recipe(Subject,
-                                    name=subjects[ambit_index][0]['name'],
-                                    background_image=subjects[ambit_index][0]['back_img'],
+                                    name=subject['name'],
+                                    background_image=subject['back_img'],
                                     temporal=False,
                                     number_of_sections=3,
                                     ambit=ambit_mk,
