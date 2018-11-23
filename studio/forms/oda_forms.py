@@ -13,7 +13,7 @@ class ODAsPositionForm(forms.Form):
     """
     Contains ODA to be positioned name
     """
-    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'is-hidden'}))
+    name = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'is-hidden'}))
 
 
 class ODACreateForm(forms.ModelForm):

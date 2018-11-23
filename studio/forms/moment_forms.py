@@ -9,8 +9,8 @@ class MomentCreateForm(forms.ModelForm):
     """
     Save new Momento object form
     """
-    name = forms.CharField(widget=forms.TextInput(attrs={'id': 'h5p-name'}))
-    tags = forms.CharField(widget=forms.TextInput(attrs={'id': 'momento-tags',
+    name = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'id': 'h5p-name'}))
+    tags = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'id': 'momento-tags',
                                                          'class': 'u-margin-bottom-small selectized'}))
     content = forms.FileField(widget=forms.FileInput(attrs={'class': 'show-for-sr', 'id': 'h5p-upload'}))
 
