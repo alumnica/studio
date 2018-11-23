@@ -1,3 +1,4 @@
+import asyncio
 import json
 import logging
 import os
@@ -13,7 +14,7 @@ from alumnica_model.models.h5p import EmbedType, PreloadedJS, PreloadedCSS, H5PL
 from studio_webapp import worker
 
 _logger = logging.getLogger('django_h5p')
-
+files_array = []
 _s3 = S3Boto3Storage()
 
 
@@ -92,6 +93,31 @@ Opens H5p package and saves the content
                 package_content_dir = os.path.join(package, 'content')
 
                 _upload_directory_to_aws(h5p.pk, package_content_dir, futures, executor, path_prefix='content')
+        #check_futures(futures)
+        check_all_files()
+
+
+async def wait_for_futures(futures):
+    await check_futures(futures)
+
+
+def check_futures(futures):
+    all_futures_done = False
+    while not all_futures_done:
+        _logger.info('Checking futures done...........')
+        all_futures_done = True
+        for future in futures:
+            if not future.done():
+                all_futures_done = False
+                break
+
+
+def check_all_files():
+    for file in files_array:
+        response = _s3.exists(file['path'])
+
+        if not response:
+            _logger.info('Checking {} exists: {}'.format(file['path'], response))
 
 
 def _save_package_dependency(package, dependency, futures, executor):
@@ -175,6 +201,12 @@ def _upload_directory_to_aws(content_id, directory_to_upload, futures, executor,
             futures.append(
                 executor.submit(_put_file_in_s3, current_dir, file, path_prefix, content_id, relative_path_to_root_dir)
             )
+            files_array.append({'file': file, 'path': os.path.join(
+                path_prefix,
+                str(content_id),
+                relative_path_to_root_dir if relative_path_to_root_dir != '.' else '',
+                file
+            )})
 
 
 def _put_file_in_s3(current_dir, file, path_prefix, content_id, relative_path_to_root_dir):

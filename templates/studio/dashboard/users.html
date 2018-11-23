@@ -23,7 +23,7 @@
                 <tr>
                     <td>
                         <div class="titulo_lista">
-                            <a href="users-edit.html">
+                            <a href="{% url 'update_user_view' user.pk %}">
                                 <strong>{{ user.first_name }} {{ user.last_name }}</strong>
                             </a>
                         </div>
