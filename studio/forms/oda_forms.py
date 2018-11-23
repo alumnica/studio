@@ -4,8 +4,6 @@ import os
 import xlrd
 from django import forms
 from django.core.exceptions import ValidationError
-
-
 from alumnica_model.models import ODA
 from alumnica_model.models.content import Subject, Tag, MicroODA, Image
 from alumnica_model.models.questions import *
@@ -78,7 +76,8 @@ class ODACreateForm(forms.ModelForm):
 
                 multiple_option_questions = get_json_from_excel(file_read, 2)
                 for question_data in multiple_option_questions:
-                    columns_name = ['mODA', 'Enunciado', 'RespuestaOK', 'RespuestasNOK', 'DescripcionOK', 'DescripcionNOK']
+                    columns_name = ['mODA', 'Enunciado', 'RespuestaOK', 'RespuestasNOK', 'DescripcionOK',
+                                    'DescripcionNOK']
 
                     for element in columns_name:
                         if element not in question_data:
@@ -88,7 +87,8 @@ class ODACreateForm(forms.ModelForm):
 
                 multiple_answer_questions = get_json_from_excel(file_read, 3)
                 for question_data in multiple_answer_questions:
-                    columns_name = ['mODA', 'Enunciado', 'RespuestasOK', 'RespuestasNOK', 'DescripcionOK', 'DescripcionNOK']
+                    columns_name = ['mODA', 'Enunciado', 'RespuestasOK', 'RespuestasNOK', 'DescripcionOK',
+                                    'DescripcionNOK']
 
                     for element in columns_name:
                         if element not in question_data:
@@ -98,7 +98,8 @@ class ODACreateForm(forms.ModelForm):
 
                 numeric_questions = get_json_from_excel(file_read, 4)
                 for question_data in numeric_questions:
-                    columns_name = ['mODA', 'Enunciado', 'LimiteMenor', 'LimiteMayor', 'DescripcionOK', 'DescripcionNOK']
+                    columns_name = ['mODA', 'Enunciado', 'LimiteMenor', 'LimiteMayor', 'DescripcionOK',
+                                    'DescripcionNOK']
 
                     for element in columns_name:
                         if element not in question_data:
@@ -260,7 +261,8 @@ class ODAUpdateForm(forms.ModelForm):
 
                 multiple_option_questions = get_json_from_excel(file_read, 2)
                 for question_data in multiple_option_questions:
-                    columns_name = ['mODA', 'Enunciado', 'RespuestaOK', 'RespuestasNOK', 'DescripcionOK', 'DescripcionNOK']
+                    columns_name = ['mODA', 'Enunciado', 'RespuestaOK', 'RespuestasNOK', 'DescripcionOK',
+                                    'DescripcionNOK']
 
                     for element in columns_name:
                         if element not in question_data:
@@ -270,7 +272,8 @@ class ODAUpdateForm(forms.ModelForm):
 
                 multiple_answer_questions = get_json_from_excel(file_read, 3)
                 for question_data in multiple_answer_questions:
-                    columns_name = ['mODA', 'Enunciado', 'RespuestasOK', 'RespuestasNOK', 'DescripcionOK', 'DescripcionNOK']
+                    columns_name = ['mODA', 'Enunciado', 'RespuestasOK', 'RespuestasNOK', 'DescripcionOK',
+                                    'DescripcionNOK']
 
                     for element in columns_name:
                         if element not in question_data:
@@ -280,7 +283,8 @@ class ODAUpdateForm(forms.ModelForm):
 
                 numeric_questions = get_json_from_excel(file_read, 4)
                 for question_data in numeric_questions:
-                    columns_name = ['mODA', 'Enunciado', 'LimiteMenor', 'LimiteMayor', 'DescripcionOK', 'DescripcionNOK']
+                    columns_name = ['mODA', 'Enunciado', 'LimiteMenor', 'LimiteMayor', 'DescripcionOK',
+                                    'DescripcionNOK']
 
                     for element in columns_name:
                         if element not in question_data:
