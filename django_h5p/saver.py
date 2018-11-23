@@ -94,7 +94,7 @@ Opens H5p package and saves the content
 
                 _upload_directory_to_aws(h5p.pk, package_content_dir, futures, executor, path_prefix='content')
         #check_futures(futures)
-        check_all_files()
+        #check_all_files()
 
 
 async def wait_for_futures(futures):

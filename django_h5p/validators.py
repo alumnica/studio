@@ -51,8 +51,8 @@ Validates h5p.json file
     ]
 
     missing_fields = set(required_fields).symmetric_difference(h5p_json.keys())
-
-    if len(missing_fields) > 0:
+    keys = h5p_json.keys()
+    if len(missing_fields) > 0 and missing_fields in required_fields:
         raise ValidationError(_('The following required fields are missing in the "h5p.json" file: '
                                 '{fields}'.format(fields=missing_fields)), code='missing_h5p_json_fields')
 
