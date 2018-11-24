@@ -15,6 +15,7 @@ from studio_webapp import worker
 
 _logger = logging.getLogger('django_h5p')
 files_array = []
+content_futures = []
 _s3 = S3Boto3Storage()
 
 
@@ -93,23 +94,20 @@ Opens H5p package and saves the content
                 package_content_dir = os.path.join(package, 'content')
 
                 _upload_directory_to_aws(h5p.pk, package_content_dir, futures, executor, path_prefix='content')
-        #check_futures(futures)
-        #check_all_files()
+                check_futures()
 
 
-async def wait_for_futures(futures):
-    await check_futures(futures)
-
-
-def check_futures(futures):
+def check_futures():
     all_futures_done = False
     while not all_futures_done:
         _logger.info('Checking futures done...........')
         all_futures_done = True
-        for future in futures:
+        for future in content_futures:
             if not future.done():
                 all_futures_done = False
                 break
+            else:
+                content_futures.remove(future)
 
 
 def check_all_files():
@@ -198,15 +196,9 @@ def _upload_directory_to_aws(content_id, directory_to_upload, futures, executor,
     for current_dir, _, filenames in os.walk(directory_to_upload):
         relative_path_to_root_dir = os.path.relpath(current_dir, directory_to_upload)
         for file in filenames:
-            futures.append(
-                executor.submit(_put_file_in_s3, current_dir, file, path_prefix, content_id, relative_path_to_root_dir)
-            )
-            files_array.append({'file': file, 'path': os.path.join(
-                path_prefix,
-                str(content_id),
-                relative_path_to_root_dir if relative_path_to_root_dir != '.' else '',
-                file
-            )})
+            future = executor.submit(_put_file_in_s3, current_dir, file, path_prefix, content_id, relative_path_to_root_dir)
+            futures.append(future)
+            content_futures.append(future)
 
 
 def _put_file_in_s3(current_dir, file, path_prefix, content_id, relative_path_to_root_dir):
