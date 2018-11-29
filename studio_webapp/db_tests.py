@@ -17,6 +17,9 @@ from django_h5p.forms import H5PackageForm
 from alumnica_model.models.users import TYPE_CONTENT_CREATOR
 
 def get_h5p_package():
+    """
+    Gets an H5P test package
+    """
     packages = H5Package.objects.all()
     package = File(file=open(os.path.join(BASE_DIR, 'studio/tests/agamotto.h5p'), 'rb'))
     form = H5PackageForm(None, {'package': package})
@@ -32,6 +35,11 @@ def get_h5p_package():
 
 
 def create_content(subjects, ambits):
+    """
+    Creates test content
+    :param subjects: Subjects array
+    :param ambits: Ámbitos array
+    """
 
     ambit_index = 0
     subjects_section_imgs = [Image.objects.create(name='subject_section_image',
