@@ -102,11 +102,14 @@ function is_valid_ambit_form (){
                 }
 
                 let image_selected_regexp = new RegExp('/.png');
-                let match_found = image_selected_source.search('/.png');
-                if (image_selected.value == null || image_selected.value == ""){
+                let match_found = image_selected_source.search('image/png');
+                if(match_found == -1){
                     swal("Error", "Selecciona una imagen PNG", "error");
                     return false;
                 }
+            }
+            else{
+                let match_found = image_selected_source.search('.png');
                 if(match_found == -1){
                     swal("Error", "Selecciona una imagen PNG", "error");
                     return false;
