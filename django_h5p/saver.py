@@ -98,6 +98,9 @@ Opens H5p package and saves the content
 
 
 def check_futures():
+    """
+    Checks all futures are done
+    """
     all_futures_done = False
     while not all_futures_done:
         _logger.info('Checking futures done...........')
@@ -108,14 +111,6 @@ def check_futures():
                 break
             else:
                 content_futures.remove(future)
-
-
-def check_all_files():
-    for file in files_array:
-        response = _s3.exists(file['path'])
-
-        if not response:
-            _logger.info('Checking {} exists: {}'.format(file['path'], response))
 
 
 def _save_package_dependency(package, dependency, futures, executor):
