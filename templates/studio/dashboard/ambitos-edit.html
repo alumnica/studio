@@ -8,257 +8,295 @@
 <div class="container dashboard">
 
 
-    <h1 class="title">
-        Ámbito
-    </h1>
-    <hr>
+  <h1 class="title">
+    Ámbito
+  </h1>
+  <hr>
 
-    <div class="grid-x">
-        <div class="cell medium-12">
-            <form method="POST" id="ambito-creation" enctype="multipart/form-data" onsubmit="return is_valid_ambit_form()">
-                {% csrf_token %}
-                <div class="grid-x grid-margin-x">
-                    <div class="cell medium-5">
-                        <label for="id_name">Título</label>
-                            {{ form.name }}
+  <div class="grid-x">
+    <div class="cell medium-12">
+      <form method="POST" id="ambito-creation" enctype="multipart/form-data" onsubmit="return is_valid_ambit_form()">
+        {% csrf_token %}
+        <div class="grid-x grid-margin-x">
+          <div class="cell medium-5">
+            <label for="id_name">Título</label>
+            {{ form.name }}
 
-                        <!-- tags -->
-
-                        <label for="ambito-tags">Tags</label>
-                        <input name="tags-ambito" type="text" id="ambito-tags">
-                        <script type="text/javascript">
-                        let materiasTags = [];
-                        let self_materias = [];
-                        let self_tags_selectize = [];
-                        let ambitoTags = [];
-                        let ambits_to_avoid = [];
-                        let self_color = "{{ ambit.color }}";
-                        let space_free = {{ ambit_space|yesno:"true,false" }};
-                        let is_published = {{ ambit.is_published|yesno:"true,false" }};
-                            {% for tag in tags %}
-                                ambitoTags.push({name:"{{ tag.name|safe }}", value:"{{ tag.id|safe }}"});
-                            {% endfor %}
-
-                        {% for tag in ambit.tags.all %}
-                                self_tags_selectize.push("{{ tag.name|safe }}");
-                            {% endfor %}
-
-                        {% for subject in ambit.subjects.all %}
-                                self_materias.push({name:"{{ subject.name|safe }}", pk:{{subject.pk|safe}}});
-                        {% endfor %}
-
-                        {% for ambit in ambits %}
-                                ambits_to_avoid.push("{{ ambit.name|safe }}");
-                        {% endfor %}
-
-                        </script>
-                        <!-- end tags -->
-                        
-                        <fieldset id="color-button" class="fieldset color-radio">
-                            <legend>Color de fondo</legend>
-                            <label class="cc-amarillo">
-                                <input  type="radio" name="color" value="amarillo" class="radio-input" id="amarillo" data-a="amarillo_bg" data-b="amarillo_text">
-                                <div class="color-circle">
-                                    <span></span>
-                                </div>
-                            </label>
-
-                            <label class="cc-rojiso">
-                                <input  type="radio" name="color" value="rojiso" class="radio-input" id="rojiso" data-a="rojiso_bg" data-b="rojiso_text">
-                                <div class="color-circle">
-                                    <span></span>
-                                </div>
-                            </label>
-
-                            <label class="cc-azul">
-                                <input  type="radio" name="color" value="azul" class="radio-input" id="azul" data-a="azul_bg" data-b="azul_text">
-                                <div class="color-circle">
-                                    <span></span>
-                                </div>
-                            </label>
-
-                            <label class="cc-naranja">
-                                <input  type="radio" name="color" value="naranja" class="radio-input" id="naranja" data-a="naranja_bg" data-b="naranja_text">
-                                <div class="color-circle">
-                                    <span></span>
-                                </div>
-                            </label>
-
-                            <label class="cc-morado">
-                                <input  type="radio" name="color" value="morado" class="radio-input" id="morado" data-a="morado_bg" data-b="morado_text">
-                                <div class="color-circle">
-                                    <span></span>
-                                </div>
-                            </label>
-
-                            <label class="cc-bluegreen">
-                                <input  type="radio" name="color" value="bluegreen" class="radio-input" id="bluegreen" data-a="bluegreen_bg" data-b="bluegreen_text">
-                                <div class="color-circle">
-                                    <span></span>
-                                </div>
-                            </label>
-
-                            <label class="cc-amarillo-sol">
-                                <input  type="radio" name="color" value="amarillo-sol" class="radio-input" id="amarillo-sol" data-a="amarillo-sol_bg" data-b="amarillo-sol_text">
-                                <div class="color-circle">
-                                    <span></span>
-                                </div>
-                            </label>
-
-                            <label class="cc-naranja-obscuro">
-                                <input  type="radio" name="color" value="naranja-obscuro" class="radio-input" id="naranja-obscuro" data-a="naranja-obscuro_bg" data-b="naranja-obscuro_text">
-                                <div class="color-circle">
-                                    <span></span>
-                                </div>
-                            </label>
-
-                            <label class="cc-violeta">
-                                <input  type="radio" name="color" value="violeta" class="radio-input" id="violeta" data-a="violeta_bg" data-b="violeta_text">
-                                <div class="color-circle">
-                                    <span></span>
-                                </div>
-                            </label>
-
-                            <label class="cc-azul-obscuro">
-                                <input  type="radio" name="color" value="azul-obscuro" class="radio-input" id="azul-obscuro" data-a="azul-obscuro_bg" data-b="azul-obscuro_text">
-                                <div class="color-circle">
-                                    <span></span>
-                                </div>
-                            </label>
-
-                            <label class="cc-verde">
-                                <input  type="radio" name="color" value="verde" class="radio-input" id="verde" data-a="verde_bg" data-b="verde_text">
-                                <div class="color-circle">
-                                    <span></span>
-                                </div>
-                            </label>
-
-                            <label class="cc-verde-limon">
-                                <input  type="radio" name="color" value="verde-limon" class="radio-input" id="verde-limon" data-a="verde-limon_bg" data-b="verde-limon_text">
-                                <div class="color-circle">
-                                    <span></span>
-                                </div>
-                            </label>
-                        </fieldset>
-                        {# image preview #}
-                        <div class="panel">
-                            <div class="panel__title">
-                                Imagen de fondo
-                            </div>
-                            <!-- botones -->
-                            <div class="grid-x grid-margin-x">
-                                <div class="cell small-6">
-                                    <label for="ambito-u" class="button expanded">Subir imagen</label>
-                                    {{ form.ap }}
-                                </div>
-                                <div class="cell small-6">
-                                    <a href="#" class="button expanded">Biblioteca de imágenes</a>
-                                </div>
-                            </div>
-                            <!-- end botones -->
-
-                            <!-- start image preview -->
-                            <div class="image-wrapper">
-                                <div id="image-holder">
-                                    <img src="{{ ambit.background_image.file.url }}" alt="">
-                                </div>
-                                <div id="ttc">
-                                    <span class="ttc2">{{ ambit.name }}</span>
-                                </div>
-                            </div>
-                                <!-- end image preview -->
-                        </div>                        
-                    </div>
-                    <div class="cell medium-5 medium-offset-1">
-                        <div class="panel" id="materias_panel">
-                            <div class="panel__title">
-                                <i class="fas fa-clone"></i> Materias asignadas
-                                <span id="add-materia-button" class="add-materia" data-open="materiasModal">
-                                    <i class="fas fa-plus-square"></i>
-                                </span>
-                            </div>
-                            <ul id="sortable">
-
-                            </ul>
-                        </div>
-
-                        {# this sends the Materias in the correct order in the POST#}
-                        <input type="hidden" name="class_name" id="class_name">
-
-                        <br>
-                        <div class="panel" id="last_panel">
-                            <div class="panel__title">Detalles de publicación</div>
-                            <p>
-                                <strong>Estado:</strong>
-                                {# Cambia dependiendo si estas editando o creando una nueva#}
-                                <span id="estado">No publicado</span>
-                            </p>
-
-
-                            
-                            {#Este POST debe guardar el Ambito #}    
-                           
-
-
-                            <div class="text-right">
-                                <button type="submit" class="button primary" name="save">Guardar</button>
-                            </div>
-                            <input type="hidden" name="action" id="action" />
-                        </div>
-
-                        <div class="panel">
-                            <div class="panel__title">
-                                Publicar en el EVA
-                            </div>
-                            <p>Cuando un Ámbito es publicado, todas las materias asignadas a él serán mostradas en el EVA con su contenido actual. Por favor, revisa que todas las secciones, ODAs y Momentos sean añadidos correctamente</p>
-                            <div class="text-right">
-                                <button class="button success" name="eva-publish" type="submit"><i class="fas fa-check"></i>Publicar en el EVA</button>
-                            </div>
-                        </div> 
-
-                    </div>
-                </div>
-            </form>
-            </div>
-        </div>
-
-
-        <!-- modal -->
-
-        <div class=" reveal" id="materiasModal" data-reveal>
-            <h4>Elección de materias</h4>
-            <br>
-
-            {# Cargar lista de Materias #}
-            <label for="select-materias">Buscar en la biblioteca de materias</label>
-            <select name="materias-select" id="select-materias"></select>
+            <!-- tags -->
+            <label for="ambito-tags">Tags</label>
+            <input name="tags-ambito" type="text" id="ambito-tags">
             <script type="text/javascript">
-                        let materiasList = [];
-                            {% for subject in subjects %}
-                                materiasList.push({name:"{{ subject.name|safe }}", value:"{{ subject.id|safe }}"});
-                            {% endfor %}
+              let materiasTags = [];
+              let self_materias = [];
+              let self_tags_selectize = [];
+              let ambitoTags = [];
+              let ambits_to_avoid = [];
+              let self_color = "{{ ambit.color }}";
+              let space_free = {{ ambit_space|yesno:"true,false" }};
+              let is_published = {{ ambit.is_published|yesno:"true,false" }};
+              {% for tag in tags %}
+              ambitoTags.push({ name: "{{ tag.name|safe }}", value: "{{ tag.id|safe }}" });
+              {% endfor %}
+
+              {% for tag in ambit.tags.all %}
+              self_tags_selectize.push("{{ tag.name|safe }}");
+              {% endfor %}
+
+              {% for subject in ambit.subjects.all %}
+              self_materias.push({ name: "{{ subject.name|safe }}", pk: {{ subject.pk | safe }}});
+              {% endfor %}
+
+              {% for ambit in ambits %}
+              ambits_to_avoid.push("{{ ambit.name|safe }}");
+              {% endfor %}
 
             </script>
-            
-            <br />
-            <br>
-            <br>
-            <input id="class-adder" data-close class='button expanded' disabled type='submit' value='Añadir'/>
+            <!-- end tags -->
 
-            <button class="close-button" data-close aria-label="Close modal" type="button">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <fieldset id="color-button" class="fieldset color-radio">
+              <legend>Color de fondo</legend>
+              <label class="cc-amarillo">
+                <input type="radio" name="color" value="amarillo" class="radio-input" id="amarillo" data-a="amarillo_bg"
+                  data-b="amarillo_text">
+                <div class="color-circle">
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="cc-rojiso">
+                <input type="radio" name="color" value="rojiso" class="radio-input" id="rojiso" data-a="rojiso_bg"
+                  data-b="rojiso_text">
+                <div class="color-circle">
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="cc-azul">
+                <input type="radio" name="color" value="azul" class="radio-input" id="azul" data-a="azul_bg" data-b="azul_text">
+                <div class="color-circle">
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="cc-naranja">
+                <input type="radio" name="color" value="naranja" class="radio-input" id="naranja" data-a="naranja_bg"
+                  data-b="naranja_text">
+                <div class="color-circle">
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="cc-morado">
+                <input type="radio" name="color" value="morado" class="radio-input" id="morado" data-a="morado_bg"
+                  data-b="morado_text">
+                <div class="color-circle">
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="cc-bluegreen">
+                <input type="radio" name="color" value="bluegreen" class="radio-input" id="bluegreen" data-a="bluegreen_bg"
+                  data-b="bluegreen_text">
+                <div class="color-circle">
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="cc-amarillo-sol">
+                <input type="radio" name="color" value="amarillo-sol" class="radio-input" id="amarillo-sol" data-a="amarillo-sol_bg"
+                  data-b="amarillo-sol_text">
+                <div class="color-circle">
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="cc-naranja-obscuro">
+                <input type="radio" name="color" value="naranja-obscuro" class="radio-input" id="naranja-obscuro"
+                  data-a="naranja-obscuro_bg" data-b="naranja-obscuro_text">
+                <div class="color-circle">
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="cc-violeta">
+                <input type="radio" name="color" value="violeta" class="radio-input" id="violeta" data-a="violeta_bg"
+                  data-b="violeta_text">
+                <div class="color-circle">
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="cc-azul-obscuro">
+                <input type="radio" name="color" value="azul-obscuro" class="radio-input" id="azul-obscuro" data-a="azul-obscuro_bg"
+                  data-b="azul-obscuro_text">
+                <div class="color-circle">
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="cc-verde">
+                <input type="radio" name="color" value="verde" class="radio-input" id="verde" data-a="verde_bg" data-b="verde_text">
+                <div class="color-circle">
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="cc-verde-limon">
+                <input type="radio" name="color" value="verde-limon" class="radio-input" id="verde-limon" data-a="verde-limon_bg"
+                  data-b="verde-limon_text">
+                <div class="color-circle">
+                  <span></span>
+                </div>
+              </label>
+            </fieldset>
+            {# image preview #}
+            <div class="panel">
+              <div class="panel__title">
+                Imagen de fondo
+              </div>
+              <!-- botones -->
+              <div class="grid-x grid-margin-x">
+                <div class="cell small-6">
+                  <label for="ambito-u" class="button expanded">Subir imagen</label>
+                  {{ form.ap }}
+                </div>
+                <div class="cell small-6">
+                  <a href="#" class="button expanded">Biblioteca de imágenes</a>
+                </div>
+              </div>
+              <!-- end botones -->
+
+              <!-- start image preview -->
+              <div class="image-wrapper">
+                <div id="image-holder">
+                  <img src="{{ ambit.background_image.file.url }}" alt="">
+                </div>
+                <div id="ttc">
+                  <span class="ttc2">{{ ambit.name }}</span>
+                </div>
+              </div>
+              <!-- end image preview -->
+            </div>
+          </div>
+          <div class="cell medium-5 medium-offset-1">
+            <div class="panel" id="materias_panel">
+              <div class="panel__title">
+                <i class="fas fa-clone"></i> Materias asignadas
+                <span id="add-materia-button" class="add-materia" data-open="materiasModal">
+                  <i class="fas fa-plus-square"></i>
+                </span>
+              </div>
+              <ul id="sortable">
+
+              </ul>
+            </div>
+
+            {# this sends the Materias in the correct order in the POST#}
+            <input type="hidden" name="class_name" id="class_name">
+
+            <br>
+
+            <!-- start insigias panel -->
+            <div class="panel" id="last_panel">
+              <div class="panel__title">Insignias</div>
+              <div class="grid-x grid-margin-x">
+                <div class="cell small-4 text-center">
+                  Primera Versión
+                  <!-- badge b -->
+                  <div class="badge-a">
+                    <div id="badge-a-holder">
+                      <img src="{{ ambit.badge.first_version.file.url }}" alt="">
+                    </div>
+                  </div>
+                  <label for="aUpload" class="button expanded">Subir Imagen</label>
+{#                  <input id="aUpload" name="aU" type="file" class="is-hidden">#}
+                    {{ form.aU }}
+                </div>
+                <!-- badge b -->
+                <div class="cell small-4 text-center">
+                  Segunda Versión
+                  <div class="badge-a">
+                    <div id="badge-b-holder">
+                      <img src="{{ ambit.badge.second_version.file.url }}" alt="">
+                    </div>
+                  </div>
+                  <label for="bUpload" class="button expanded">Subir Imagen</label>
+{#                  <input id="bUpload" name="bU" type="file" class="is-hidden">#}
+                    {{ form.bU }}
+                </div>
+
+                <div class="cell small-4 text-center">
+                  Tercera Versión
+                  <div class="badge-a">
+                    <div id="badge-c-holder">
+                      <img src="{{ ambit.badge.third_version.file.url }}" alt="">
+                    </div>
+                  </div>
+                  <label for="cUpload" class="button expanded">Subir Imagen</label>
+{#                  <input id="cUpload" name="cU" type="file" class="is-hidden">#}
+                    {{ form.cU }}
+                </div>
+              </div>
+            </div>
+            <!-- start publish panel -->
+            <div class="panel">
+              <div class="panel__title">
+                Publicar en el EVA
+              </div>
+              <p>Cuando un Ámbito es publicado, todas las materias asignadas a él serán mostradas en el
+                EVA con su contenido actual. Por favor, revisa que todas las secciones, ODAs y Momentos
+                sean añadidos correctamente</p>
+              <input type="hidden" name="action" id="action" />
+              <div>
+                <button type="submit" class="button primary" name="save">Guardar</button>
+                <button class="button success float-right" name="eva-publish" type="submit"><i class="fas fa-check"></i>Publicar
+                  en el EVA</button>
+              </div>
+            </div>
+
+          </div>
         </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- modal -->
+
+  <div class=" reveal" id="materiasModal" data-reveal>
+    <h4>Elección de materias</h4>
+    <br>
+
+    {# Cargar lista de Materias #}
+    <label for="select-materias">Buscar en la biblioteca de materias</label>
+    <select name="materias-select" id="select-materias"></select>
+    <script type="text/javascript">
+      let materiasList = [];
+      {% for subject in subjects %}
+      materiasList.push({ name: "{{ subject.name|safe }}", value: "{{ subject.id|safe }}" });
+      {% endfor %}
+
+    </script>
+
+    <br />
+    <br>
+    <br>
+    <input id="class-adder" data-close class='button expanded' disabled type='submit' value='Añadir' />
+
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 </div>
 
 <!-- makes sidebar menu active -->
 <script>
-    document.querySelector('#ambito-nav').classList.add("is-active");
+  document.querySelector('#ambito-nav').classList.add("is-active");
 </script>
 {% endblock content %}
 
 {% block scripts %}
-    <script  type="text/javascript"  src="{% static "studio/js/materias.js" %}"></script>
-    <script  type="text/javascript"  src="{% static "studio/js/tags.js" %}"></script>
-    <script  type="text/javascript"  src="{% static "studio/js/ambit.js" %}"></script>
+    <script type="text/javascript" src="{% static "studio/js/materias.js" %}"></script>
+    <script type="text/javascript" src="{% static "studio/js/tags.js" %}"></script>
+    <script type="text/javascript" src="{% static "studio/js/ambit.js" %}"></script>
 {% endblock %}

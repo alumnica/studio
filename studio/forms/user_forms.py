@@ -60,8 +60,8 @@ class CreateUserForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CreateUserForm, self).__init__(*args, **kwargs)
-        self.fields['user_type'].choices = ((TYPE_CONTENT_CREATOR, "Creador de contenido",
-                                            (TYPE_SUPERVISOR, "Supervisor")))
+        self.fields['user_type'].choices = ((TYPE_CONTENT_CREATOR, "Creador de contenido"),
+                                            (TYPE_SUPERVISOR, "Supervisor"))
 
     def clean(self):
         cleaned_data = super(CreateUserForm, self).clean()
@@ -93,8 +93,9 @@ class UpdateUserForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UpdateUserForm, self).__init__(*args, **kwargs)
-        self.fields['user_type'].choices = ((TYPE_CONTENT_CREATOR, "Creador de contenido",
-                                            (TYPE_SUPERVISOR, "Supervisor")))
+        self.fields['user_type'].choices = ((TYPE_CONTENT_CREATOR, "Creador de contenido"),
+                                            (TYPE_SUPERVISOR, "Supervisor"))
+        self.fields['user_type'].initial = kwargs['instance'].user_type
 
     def clean(self):
         cleaned_data = super(UpdateUserForm, self).clean()

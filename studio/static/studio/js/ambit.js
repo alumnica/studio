@@ -60,6 +60,13 @@ function is_valid_ambit_form (){
             let ambit_name = document.getElementById('id_name').value;
             let subjects_selected = document.getElementById('class_name').value;
 
+            let first_badge = document.getElementById('aUpload');
+            let first_badge_source = document.getElementById('preview-aU').src;
+            let second_badge = document.getElementById('bUpload');
+            let second_badge_source = document.getElementById('preview-bU').src;
+            let third_badge = document.getElementById('cUpload');
+            let third_badge_source = document.getElementById('preview-cU').src;
+
             if (ambit_name == '' || ambit_name == null){
                 swal("Error", 'El campo de nombre es requerido', "error");
                 return false;
@@ -95,16 +102,86 @@ function is_valid_ambit_form (){
                 }
 
                 let image_selected_regexp = new RegExp('/.png');
-                let match_found = image_selected_source.search('.png');
-                if (image_selected.value == null || image_selected.value == ""){
-                    swal("Error", "Selecciona una imagen PNG", "error");
-                    return false;
-                }
+                let match_found = image_selected_source.search('image/png');
                 if(match_found == -1){
                     swal("Error", "Selecciona una imagen PNG", "error");
                     return false;
                 }
             }
+            else{
+                let match_found = image_selected_source.search('.png');
+                if(match_found == -1){
+                    swal("Error", "Selecciona una imagen PNG", "error");
+                    return false;
+                }
+            }
+
+
+            if(first_badge.value != null && first_badge.value != ""){
+                let image_size= first_badge.files[0].size / 1024 / 1024;
+                if (image_size > 10){
+                    swal("Error", "El archivo seleccionado para la primera versión de la insignia excede los 10 MB", "error");
+                    return false;
+                }
+
+                let match_found = first_badge_source.search('image/png');
+                if(match_found == -1){
+                    swal("Error", "Selecciona una imagen PNG para la primera versión de la insignia", "error");
+                    return false;
+                }
+            }
+            else{
+                let match_found = first_badge_source.search('.png');
+                if(match_found == -1){
+                    swal("Error", "Selecciona una imagen PNG para la primera versión de la insignia", "error");
+                    return false;
+                }
+            }
+
+
+            if(second_badge.value != null && second_badge.value != ""){
+                let image_size= first_badge.files[0].size / 1024 / 1024;
+                if (image_size > 10){
+                    swal("Error", "El archivo seleccionado para la segunda versión de la insignia excede los 10 MB", "error");
+                    return false;
+                }
+
+                let match_found = second_badge_source.search('image/png');
+                if(match_found == -1){
+                    swal("Error", "Selecciona una imagen PNG para la segunda versión de la insignia", "error");
+                    return false;
+                }
+            }
+            else{
+                let match_found = second_badge_source.search('.png');
+                if(match_found == -1){
+                    swal("Error", "Selecciona una imagen PNG para la segunda versión de la insignia", "error");
+                    return false;
+                }
+            }
+
+
+            if(third_badge.value != null && third_badge.value != ""){
+                let image_size= first_badge.files[0].size / 1024 / 1024;
+                if (image_size > 10){
+                    swal("Error", "El archivo seleccionado para la tercera versión de la insignia excede los 10 MB", "error");
+                    return false;
+                }
+
+                let match_found = third_badge_source.search('image/png');
+                if(match_found == -1){
+                    swal("Error", "Selecciona una imagen PNG para la tercera versión de la insignia", "error");
+                    return false;
+                }
+            }
+            else{
+                let match_found = third_badge_source.search('.png');
+                if(match_found == -1){
+                    swal("Error", "Selecciona una imagen PNG para la tercera versión de la insignia", "error");
+                    return false;
+                }
+            }
+
 
             if (subjects_selected == '' || subjects_selected == null){
                 swal("Error", "Asigna al menos una materia para publicar", "error");
