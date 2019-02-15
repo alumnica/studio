@@ -7,6 +7,19 @@
         <i class="fas fa-list-alt"></i> ODAs
     </h1>
     <hr>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="{{ message.tags }}" data-closable="slide-out-right">  
+     
+      {{ message }}
+      <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
     <div class="grid-x">
         <div class="cell medium-6">
             <a href="{% url 'odas_create_view' %}" class="button">Crear nuevo ODA</a>
