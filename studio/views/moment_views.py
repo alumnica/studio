@@ -1,12 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views import View
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView, DetailView
 
 from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 from alumnica_model.models import Moment, Tag
 from alumnica_model.models.content import MomentType, Subject
 from studio.forms.moment_forms import MomentCreateForm, MomentUpdateForm
+from django.utils.decorators import method_decorator
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 
 class MomentsView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, ListView):
@@ -19,7 +21,7 @@ class MomentsView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, List
     context_object_name = 'moments_list'
 
 
-class CreateMomentView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, CreateView):
+class CreateMomentView(LoginRequiredMixin, CreateView):
     """
     Create new Momento object view
     """
@@ -28,6 +30,8 @@ class CreateMomentView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin,
     form_class = MomentCreateForm
 
     def get_context_data(self, **kwargs):
+        print ('create momentos')
+        #print (**kwargs)        
         moments_list = Moment.objects.all()
         tags = Tag.objects.all()
         moment_type_list = MomentType.objects.all()
@@ -56,26 +60,31 @@ class CreateMomentView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin,
                 odas_list.append(odas_zip)
                 subjects_list.append(subject)
 
+        print ('Zip files')
         subject_odas = zip(subjects_list, odas_list)
+        print (subject_odas)
 
         context = super(CreateMomentView, self).get_context_data(**kwargs)
+        print (context)
         context.update({'moments_list': moments_list,
                         'tags': tags,
                         'subject_odas': subject_odas,
                         'moment_type_list': moment_type_list})
+        print (context)
         return context
 
     def form_valid(self, form):
+        print (' valud save data after upload files ')
         subject = self.request.POST.get('materia-list')
         oda = self.request.POST.get('oda-list')
         microoda = self.request.POST.get('micro-oda')
         moment_type = self.request.POST.get('tipo-momento')
-        h5p_job_id = self.request.POST.get('url_h5p')
-        form.save_form(self.request.user, subject, oda, microoda, moment_type, h5p_job_id)
+        #h5p_job_id = self.request.POST.get('url_h5p')
+        form.save_form(self.request.user, subject, oda, microoda, moment_type) # h5p_job_id)
         return redirect(to='momentos_view')
 
 
-class UpdateMomentView(LoginRequiredMixin, UpdateView):
+class UpdateMomentView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, UpdateView):
     """
     Update existing Momento view
     """
@@ -87,6 +96,7 @@ class UpdateMomentView(LoginRequiredMixin, UpdateView):
         return Moment.objects.get(pk=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
+        print ('update momentos')
         moments_list = Moment.objects.all()
         tags = Tag.objects.all()
         moment_type_list = MomentType.objects.all()
@@ -123,15 +133,17 @@ class UpdateMomentView(LoginRequiredMixin, UpdateView):
                         'tags': tags,
                         'subject_odas': subject_odas,
                         'moment_type_list': moment_type_list})
+        print (context)
         return context
 
     def form_valid(self, form):
+        print ("print update momento form")
         subject = self.request.POST.get('materia-list')
         oda = self.request.POST.get('oda-list')
         microoda = self.request.POST.get('micro-oda')
         moment_type = self.request.POST.get('tipo-momento')
-        h5p_url = self.request.POST.get('url_h5p')
-        form.save_form(subject, oda, microoda, moment_type, h5p_url)
+        #h5p_url = self.request.POST.get('url_h5p')
+        form.save_form(subject, oda, microoda, moment_type ) #, h5p_url)
         return redirect(to='momentos_view')
 
 
@@ -142,3 +154,23 @@ class DeleteMomentView(View):
     def dispatch(self, request, *args, **kwargs):
         Moment.objects.get(pk=self.kwargs['pk']).pre_delete()
         return redirect(to='momentos_view')
+
+
+@method_decorator(xframe_options_exempt, name='dispatch')
+class MomentView(DetailView):
+    """
+    Displays uploaded H5P package
+    """
+    template_name = 'packages/package_view.html'
+    model = Moment
+    context_object_name = 'package'
+
+    def get_object(self, queryset=None):
+        print ('in get object')
+        if 'pk' in self.kwargs.keys():
+            print (self.model.objects.get(pk=self.kwargs['pk']))
+            return self.model.objects.get(pk=self.kwargs['pk'])   
+        else:
+            raise ValueError('Neither pk nor moment_id were given as parameters')
+
+    

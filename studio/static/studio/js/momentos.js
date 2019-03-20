@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    console.log('ready momentos js');
     if(self_subject != "" && self_subject!= null){
         $('#materia-list').val(self_subject);
         $('#materia-list').trigger('change');
@@ -15,19 +16,20 @@ $(document).ready(function () {
         }
 
     }
-    if(file_name != "" && file_name != null){
+    /*if(file_name != "" && file_name != null){
         file_name = file_name.split('?');
         $('#fileName').html(file_name[0]);
-    }
+    }*/
 
 });
 
 
 $('#h5p-upload').change( function(){
     let value =  $('#h5p-upload');
-    var filename = $('#h5p-upload').val().split('\\').pop();
+    console.log('changue h5p-upload')
+    //var filename = $('#h5p-upload').val().split('\\').pop();
 
-    $('#fileName').html(filename);
+    //$('#fileName').html(filename);
 });
 let url_status = '';
 
@@ -60,6 +62,7 @@ let url_status = '';
    });
 
  $('#submit_button').on('click', function () {
+    console.log('Se va guardar la oda');
 
      let name = document.getElementById('h5p-name').value;
      if (name == "" || name == null){
@@ -97,7 +100,24 @@ let url_status = '';
          return false;
      }
 
+     let frame_url = document.getElementById('h5p-upload').value;
+     if (frame_url == "" || frame_url == null){
+         swal("Error", "Escribe la url del frame", 'error');
+         return false;
+     }
+
+     let script_url = document.getElementById('h5p-upload-library').value;
+     if (script_url == "" || script_url == null){
+         swal("Error", "Escribe la url del script", 'error');
+         return false;
+     }
+     
+    console.log ('todo es correcto')
+    $('#uploadForm').submit();
+
+     /*
      let url = gettext('/api/zip_files/');
+     console.log('url ' + url)
      let control = document.getElementById('h5p-upload');
      let data = $('#h5p-upload').val();
      let previous_file = $('#fileName').html();
@@ -132,14 +152,16 @@ let url_status = '';
           contentType: false,
           processData: false,
           error: function(data){
+              console.log('error en upload h5p');
               swal.close();
               swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
           }
         });
-    }
-    else{
-        $('#uploadForm').submit();
-    }
+      }
+      else{
+         alert ('send only form')
+          $('#uploadForm').submit();
+      }*/
 
  });
 
@@ -149,13 +171,14 @@ let url_status = '';
  * @returns {boolean}
  */
  function success(data){
-
+    console.log('success function');
     if (data.status == "error"){
         swal("Error", data.error, 'error');
         return false;
     }
     $('#url_h5p').val(data.job.package_job_id);
     url_status = data.job.job_url;
+    console.log(url_status)
 
     $.ajax({
       type: "GET",
@@ -174,6 +197,7 @@ let url_status = '';
      * @returns {boolean}
      */
     function lookUpURL(data) {
+      console.log('todo salio bien')
     let data_info = JSON.parse(data);
     if (data_info.is_failed){
         swal.close();
@@ -181,7 +205,7 @@ let url_status = '';
         return false;
     }
     if(data_info.is_finished){
-
+        console.log('se manda a guardar form')
         $('#uploadForm').submit();
         swal.close();
         return false;

@@ -31,7 +31,7 @@ SECURE_SSL_REDIRECT = bool(os.environ.get('FORCE_SSL', False))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not os.environ.get('ON_HEROKU', False)
 
-ALLOWED_HOSTS = ['54.153.4.110','ec2-54-153-4-110.us-west-1.compute.amazonaws.com',  '.herokuapp.com', '.alumnica.org', '127.0.0.1']
+ALLOWED_HOSTS = ['54.153.4.110','ec2-54-153-4-110.us-west-1.compute.amazonaws.com', '.alumnica.org', '127.0.0.1']
 CORS_ORIGIN_ALLOW_ALL = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'studio.apps.StudioConfig',
     'django_use_email_as_username.apps.DjangoUseEmailAsUsernameConfig',
     'alumnica_model.apps.AlumnicaModelConfig',
-    'django_h5p.apps.DjangoH5PConfig',
+    #'django_h5p.apps.DjangoH5PConfig',
     'sweetify',
     'storages',
     'rest_framework',
@@ -213,11 +213,11 @@ LOGGING = {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
-        'django_h5p': {
-            'handlers': ['console', 'mail'],
-            'level': os.getenv('STUDIO_LOG_LEVEL', 'DEBUG'),
-            'propagate': False
-        },
+        # 'django_h5p': {
+        #     'handlers': ['console', 'mail'],
+        #     'level': os.getenv('STUDIO_LOG_LEVEL', 'DEBUG'),
+        #     'propagate': False
+        # },
         'studio': {
             'handlers': ['console', 'mail'],
             'level': os.getenv('STUDIO_LOG_LEVEL', 'DEBUG'),

@@ -90,26 +90,19 @@
             <div class="cell medium-6">
                 <div class="panel">
                     <div class="panel__title">
-                        Paquete H5P
+                        Paquete H5P Edit
                     </div>
                     <div class="grid-x grid-margin-x grid-margin-y">
                         <div class="cell medium-6">
-                            <label for="h5p-upload" class="button expanded">
-                                 <i class="fa fa-upload"></i> Selecciona un archivo</label>
-                             {{ form.content }}
-                        </div>
+                            <label for="h5p-upload">
+                                 Ingrese la url frame</label>
+                                {{ form.url }}
+                        </div>                     
                         <div class="cell medium-6">
-                            <p class="h5 thefile" id="fileName">
-                                <small>Nombre del archivo</small>
-                                {% with  moment.content.url|split:"/" as path%}
-                                    <script type="text/javascript">
-                                    file_name = "{{ path|last }}";
-                                    </script>
-
-                                {% endwith %}
-                            </p>
-
-                        </div>
+                            <label for="h5p-upload-library">
+                                 Ingrese la url library</label>
+                                {{ form.library }}
+                        </div>                        
                     </div>
                 </div>
             </div>

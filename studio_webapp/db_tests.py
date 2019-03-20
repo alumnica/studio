@@ -12,26 +12,10 @@ from django.core.files import File
 from django.core.files.images import ImageFile
 from model_mommy.recipe import Recipe, foreign_key, related
 from alumnica_model.models.content import MicroODAType, Image, Evaluation, Moment, Ambit, Subject, ODA, MomentType
-from alumnica_model.models.h5p import H5Package
-from django_h5p.forms import H5PackageForm
+
 from alumnica_model.models.users import TYPE_CONTENT_CREATOR
 
-def get_h5p_package():
-    """
-    Gets an H5P test package
-    """
-    packages = H5Package.objects.all()
-    package = File(file=open(os.path.join(BASE_DIR, 'studio/tests/agamotto.h5p'), 'rb'))
-    form = H5PackageForm(None, {'package': package})
-    if form.is_valid():
-        job = form.save()
 
-        while not H5Package.objects.filter(job_id=job.id).exists():
-            pass
-        time.sleep(10)
-        return '{}'.format(job.id)
-    else:
-        return False
 
 
 def create_content(subjects, ambits):
@@ -119,7 +103,7 @@ def create_content(subjects, ambits):
 
                 for type in microoda_types:
                     moment = Recipe(Moment,
-                                    h5p_package=H5Package.objects.get(job_id=get_h5p_package()),
+                                    #h5p_package=H5Package.objects.get(job_id=get_h5p_package()),
                                     microoda__type=type,
                                     microoda__oda=oda_mk,
                                     type=MomentType.objects.first(),

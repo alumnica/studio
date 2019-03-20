@@ -103,7 +103,7 @@
 
                         let apli= [];
                         {% for moment in apli_list.all.0.activities.all|dictsort:"default_position" %}
-                                apli.push({name:"{{ moment.name|safe }}", code:"{{ moment.h5p_package.job_id|safe }}"});
+                                apli.push({name:"{{ moment.name|safe }}", code:"{{ moment.id|safe }}"});
                             {% endfor %}
                         let apli_tags = [];
                         {% for tag in apli_list.all.0.tags.all %}
@@ -112,7 +112,7 @@
 
                         let forma = [];
                         {% for moment in forma_list.all.0.activities.all|dictsort:"default_position" %}
-                                forma.push({name:"{{ moment.name|safe }}", code:"{{ moment.h5p_package.job_id|safe }}"});
+                                forma.push({name:"{{ moment.name|safe }}", code:"{{ moment.id|safe }}"});
                             {% endfor %}
                         let forma_tags = [];
                         {% for tag in forma_list.all.0.tags.all %}
@@ -121,7 +121,7 @@
 
                         let activa = [];
                         {% for moment in activ_list.all.0.activities.all|dictsort:"default_position" %}
-                                activa.push({name:"{{ moment.name|safe }}", code:"{{ moment.h5p_package.job_id|safe }}"});
+                                activa.push({name:"{{ moment.name|safe }}", code:"{{ moment.id|safe }}"});
                             {% endfor %}
                         let activa_tags = [];
                         {% for tag in activ_list.all.0.tags.all %}
@@ -130,7 +130,7 @@
 
                         let ejem= [];
                             {% for moment in ejem_list.all.0.activities.all|dictsort:"default_position" %}
-                                ejem.push({name:"{{ moment.name|safe }}", code:"{{ moment.h5p_package.job_id|safe }}"});
+                                ejem.push({name:"{{ moment.name|safe }}", code:"{{ moment.id|safe }}"});
                             {% endfor %}
                         let ejem_tags = [];
                         {% for tag in ejem_list.all.0.tags.all %}
@@ -139,7 +139,7 @@
 
                         let sens = [];
                         {% for moment in sens_list.all.0.activities.all|dictsort:"default_position" %}
-                                sens.push({name:"{{ moment.name|safe }}", code:"{{ moment.h5p_package.job_id|safe }}"});
+                                sens.push({name:"{{ moment.name|safe }}", code:"{{ moment.id|safe }}"});
                             {% endfor %}
                         let sens_tags = [];
                         {% for tag in sens_list.all.0.tags.all %}
