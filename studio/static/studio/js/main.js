@@ -47,7 +47,7 @@ $('input').alphanum({
 });
 
 // quit alphanum
-$('#id_email, #id_password , #h5p-upload , #h5p-upload-library').off('.alphanum');
+$('#id_email, #id_password , #url_h5p , #library_h5p').off('.alphanum');
 // Image file upload preview for Materias
 
 $(document).ready(function() {

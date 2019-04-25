@@ -5,7 +5,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DetailView
 
 from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 from alumnica_model.models import Moment, Tag
-from alumnica_model.models.content import MomentType, Subject
+from alumnica_model.models.content import typeMoment, Subject
 from studio.forms.moment_forms import MomentCreateForm, MomentUpdateForm
 from django.utils.decorators import method_decorator
 from django.views.decorators.clickjacking import xframe_options_exempt
@@ -29,12 +29,36 @@ class CreateMomentView(LoginRequiredMixin, CreateView):
     template_name = 'studio/dashboard/momentos-edit.html'
     form_class = MomentCreateForm
 
+    # def _save_content(self):
+    #     content = self['content']
+    #     print ('in _save_content')
+    #     print (content)
+
+    #     #s3 = S3Boto3Storage()
+
+    #     s3_filename = os.path.join('temp', str(uuid.uuid4()))
+    #     with s3.open(s3_filename, 'wb') as s3_file:
+    #         _logger.debug('Uploading {} to {}'.format(content.name, s3_filename))
+    #         for chunk in content.chunks(chunk_size=s3_file.buffer_size):
+    #             wrote = s3_file.write(chunk)
+    #             _logger.debug('Transmitted {} bytes to S3'.format(filesizeformat(wrote)))
+
+        #q = Queue(connection=worker.conn)
+    #  return #q.enqueue(save_h5package, s3_filename, timeout=600)
+
+
     def get_context_data(self, **kwargs):
         print ('create momentos')
-        #print (**kwargs)        
+        print (self)
+        print (kwargs)
+        print (kwargs.get('name'))
+        print (kwargs.get('h5p-name'))
+        
+             
         moments_list = Moment.objects.all()
         tags = Tag.objects.all()
-        moment_type_list = MomentType.objects.all()
+        moment_type_list = typeMoment.values() #MomentType.objects.all()
+        print (moment_type_list)
         subjects_list = []
         odas_list = []
 
@@ -58,11 +82,9 @@ class CreateMomentView(LoginRequiredMixin, CreateView):
             if len(odas) > 0:
                 odas_zip = zip(odas, microodas_list)
                 odas_list.append(odas_zip)
-                subjects_list.append(subject)
-
-        print ('Zip files')
+                subjects_list.append(subject)        
         subject_odas = zip(subjects_list, odas_list)
-        print (subject_odas)
+        #print (subject_odas)
 
         context = super(CreateMomentView, self).get_context_data(**kwargs)
         print (context)
@@ -70,7 +92,7 @@ class CreateMomentView(LoginRequiredMixin, CreateView):
                         'tags': tags,
                         'subject_odas': subject_odas,
                         'moment_type_list': moment_type_list})
-        print (context)
+        print ('out get_context_data')
         return context
 
     def form_valid(self, form):
@@ -79,6 +101,9 @@ class CreateMomentView(LoginRequiredMixin, CreateView):
         oda = self.request.POST.get('oda-list')
         microoda = self.request.POST.get('micro-oda')
         moment_type = self.request.POST.get('tipo-momento')
+        print (moment_type)
+        #if moment_type == typeMoment.mp3 or moment_type == typeMoment.img:
+         #   self._save_content()
         #h5p_job_id = self.request.POST.get('url_h5p')
         form.save_form(self.request.user, subject, oda, microoda, moment_type) # h5p_job_id)
         return redirect(to='momentos_view')
@@ -99,7 +124,7 @@ class UpdateMomentView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin,
         print ('update momentos')
         moments_list = Moment.objects.all()
         tags = Tag.objects.all()
-        moment_type_list = MomentType.objects.all()
+        moment_type_list = typeMoment.values #MomentType.objects.all()
         subjects_list = []
         odas_list = []
 
@@ -133,7 +158,7 @@ class UpdateMomentView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin,
                         'tags': tags,
                         'subject_odas': subject_odas,
                         'moment_type_list': moment_type_list})
-        print (context)
+        print ('out get_context_data')
         return context
 
     def form_valid(self, form):

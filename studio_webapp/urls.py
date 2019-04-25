@@ -20,6 +20,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 
+
 from studio import api_viewsets
 from django.views.i18n import JavaScriptCatalog
 
@@ -28,6 +29,7 @@ from studio.views.user_views import LoginView
 router = routers.DefaultRouter()
 router.register(r'images', api_viewsets.ImageViewSet)
 router.register(r'evaluations', api_viewsets.EvaluationViewSet)
+router.register(r'content', api_viewsets.ContentUploadAPIView)
 
 
 urlpatterns = [
