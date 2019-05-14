@@ -43,7 +43,7 @@
      </script>
         <div class="grid-x grid-margin-x grid-margin-y">
             <div class="cell medium-6">
-                <label for="h5p-name">Nombre del paquete</label>
+                <label for="name">Nombre del paquete</label>
                 {{ form.name }}
                 <!-- materia -->
                 <label for="materia-list">Materia</label>
@@ -85,7 +85,6 @@
                 {{ form.tags }}
 
                 <!-- end tags -->
-
             </div>
             <div class="cell medium-6" id="div_h5p">
                 <div class="panel">
@@ -96,12 +95,57 @@
                         <div class="cell medium-6">
                             <label for="url_h5p">
                                  Ingrese la url frame</label>
-                                <input type="text" name="name" id="url_h5p" maxlength="500"/>
+                                {{ content.url_h5p }}
                         </div>                     
                         <div class="cell medium-6">
                             <label for="library_h5p">
                                  Ingrese la url library</label>
-                                <input type="text" name="name" id="library_h5p" maxlength="500"/>
+                                {{ content.library_h5p }}
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+             <div class="cell medium-6" id="div_content">
+                <div class="panel">
+                    <div class="panel__title">
+                        Contenido
+                    </div>
+                    <div class="grid-x grid-margin-x grid-margin-y">
+                        <div class="cell medium-6">
+                            <label for="content" class="button expanded">
+                                 <i class="fa fa-upload"></i> Selecciona un archivo</label>
+                             {{ content.content }}
+                        </div>
+                        <div class="cell medium-6">
+                            <p class="h5 thefile" id="fileName">
+                                <small>Nombre del archivo</small>
+                                {% with  content_file|split:"/" as path%}
+                                    <script type="text/javascript">
+                                    file_name = "{{ path|last }}";
+                                    </script>
+
+                                {% endwith %}
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--div class="cell medium-6" id="div_h5p">
+                <div class="panel">
+                    <div class="panel__title">
+                        Metadatos H5P
+                    </div>
+                    <div class="grid-x grid-margin-x grid-margin-y">
+                        <div class="cell medium-6">
+                            <label for="url_h5p">
+                                 Ingrese la url frame</label>
+                                <input type="text" name="url_h5p" id="url_h5p" maxlength="500"/>
+                        </div>                     
+                        <div class="cell medium-6">
+                            <label for="library_h5p">
+                                 Ingrese la url library</label>
+                                <input type="text" name="library_h5p" id="library_h5p" maxlength="500"/>
                         </div>                        
                     </div>
                 </div>
@@ -131,7 +175,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div-->
 
 
            <div class="cell medium-12">
@@ -140,7 +184,7 @@
                 <i class="fa fa-save"></i>Guardar</button>
            </div>
         </div>
-        <!--input type="hidden" name="url_h5p" id="url_h5p"-->
+        <input type="hidden" name="id_content" id="id_content">
 
     </form>
 </div>

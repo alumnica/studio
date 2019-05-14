@@ -16,9 +16,20 @@ $(document).ready(function () {
         }
 
     }
-
-    $('#div_content').hide();
-    $('#div_h5p').hide();
+    alert (self_type);
+    if (self_type===''){
+      $('#div_content').hide();
+      $('#div_h5p').hide();
+    }
+    else if ( self_type==='h5p'){
+      $('#div_content').hide();
+      $('#div_h5p').show();
+    }
+    else {
+      $('#div_content').show();
+      $('#div_h5p').hide();  
+    }
+    
     
     if(file_name != "" && file_name != null){
         file_name = file_name.split('?');
@@ -68,7 +79,7 @@ let url_status = '';
  $('#submit_button').on('click', function () {
     console.log('Se va guardar la oda');
 
-     let name = document.getElementById('h5p-name').value;
+     let name = document.getElementById('name').value;
      if (name == "" || name == null){
          swal("Error", "Introduce un nombre", 'error');
          return false;
@@ -154,8 +165,7 @@ let url_status = '';
                 swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
             }
           });
-           alert ('se va guardar la forma')
-           $('#uploadForm').submit();
+                      
         }
         else{
            alert ('send only form')
@@ -176,7 +186,7 @@ let url_status = '';
              return false;
          }
 
-           alert ('send only form because type is mp4')
+           alert ('send only form because type is h5p')
             $('#uploadForm').submit();
         }
 
@@ -196,8 +206,12 @@ let url_status = '';
     
     //alret ('se va guardar la forma 2')
     swal.close();
-    //alert ('se va guardar la forma')
-    //$('#uploadForm').submit();
+    console.log(data);
+    console.log( data.url.split("/"))
+    $('#id_content').val(data.url.split("/")[5]);
+
+    alert ('se va guardar la forma')
+    $('#uploadForm').submit();
     console.log('success upload data');
     return false;
   
@@ -261,7 +275,7 @@ $('#tipo-momento').selectize({
 
 $('#tipo-momento').change(function () {
       let type_name = this.value;
-      alert ('change type ' + type_name);
+      //alert ('change type ' + type_name);
       
 
       if (type_name=="h5p") {      

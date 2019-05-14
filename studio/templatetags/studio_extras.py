@@ -11,4 +11,7 @@ def version_number():
 
 @register.filter(name='split')
 def split(value, arg):
+    print ('insploit ')
+    print (value)
+    print (arg)
     return value.split(arg)
