@@ -7,7 +7,7 @@ from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.clickjacking import xframe_options_exempt
-from studio.services.moment import get_context_data, form_valid
+from studio.services.moment import get_context_data, get_context_data_update, form_valid
 from alumnica_model.models import Moment
 from studio.forms.moment_forms import MomentCreateForm, MomentUpdateForm, ContentForm
 from alumnica_model.models.content import Content
@@ -59,7 +59,7 @@ class UpdateMomentView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin,
 
     def get_context_data(self, **kwargs):
         context = super(UpdateMomentView, self).get_context_data(**kwargs)
-        get_context_data(context,**kwargs)
+        get_context_data_update(self.object, context,**kwargs)
         content = Content.objects.get(pk=self.get_object().content.id)        
         context['content'] =  ContentForm(instance=content)
         context['content_file']=content.content.name

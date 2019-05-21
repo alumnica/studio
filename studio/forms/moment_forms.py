@@ -6,8 +6,8 @@ from alumnica_model.models.content import MomentType, Subject, MicroODAType, Con
 
 
 class ContentForm(forms.ModelForm):
-    url_h5p = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'id': 'url_h5p'}))
-    library_h5p = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'id': 'library_h5p'}))
+    url_h5p = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'id': 'url_h5p'}))
+    library_h5p = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'id': 'library_h5p'}))
     content = forms.FileField(required=False,
                               widget=forms.FileInput(attrs={'class': 'show-for-sr', 'id': 'content'}))
 
@@ -43,8 +43,7 @@ class MomentCreateForm(forms.ModelForm):
 
         moment.folder = 'Momentos'
         moment.created_by = user
-        moment.type = moment_type # MomentType.objects.get(name=moment_type)
-        #moment.h5p_package = H5Package.objects.get(job_id=h5p_id)
+        moment.type = moment_type 
         moment.microoda = microoda
         moment.content = Content.objects.get(pk=int (content_id))
         moment.save()
@@ -72,7 +71,7 @@ class MomentUpdateForm(forms.ModelForm):
         model = Moment
         fields = ['name', 'tags']
 
-    def save_form(self, subject_name, oda_name, microoda_type, moment_type, h5p_id = None):
+    def save_form(self, user, subject_name, oda_name, microoda_type, moment_type, content_id):
         print ('in update form')
         cleaned_data = super(MomentUpdateForm, self).clean()
         moment = super(MomentUpdateForm, self).save(commit=False)
@@ -83,6 +82,7 @@ class MomentUpdateForm(forms.ModelForm):
         microoda = oda.microodas.get(type=MicroODAType.objects.get(name=microoda_type))
 
         moment.folder = 'Momentos'
+        moment.update_by = user
         moment.type = moment_type #MomentType.objects.get(name=moment_type)
 
         #if h5p_url is not None and h5p_url is not '':

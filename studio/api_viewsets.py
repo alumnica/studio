@@ -99,8 +99,7 @@ class ContentUploadAPIView(ModelViewSet):
     """
     Receives H5P file to save
     """
-    queryset = Content.objects.all()
-    #extra_actions = viewset.get_extra_actions()
+    queryset = Content.objects.all()    
     serializer_class = ContentUploadFileSerializer
 
     # def post(self, request, version, format=None):

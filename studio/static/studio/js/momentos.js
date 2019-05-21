@@ -16,18 +16,19 @@ $(document).ready(function () {
         }
 
     }
-    alert (self_type);
-    if (self_type===''){
-      $('#div_content').hide();
-      $('#div_h5p').hide();
-    }
-    else if ( self_type==='h5p'){
-      $('#div_content').hide();
-      $('#div_h5p').show();
-    }
-    else {
-      $('#div_content').show();
-      $('#div_h5p').hide();  
+    if (self_type!= undefined){
+      if (self_type===''){
+        $('#div_content').hide();
+        $('#div_h5p').hide();
+      }
+      else if ( self_type==='h5p'){
+        $('#div_content').hide();
+        $('#div_h5p').show();
+      }
+      else {
+        $('#div_content').show();
+        $('#div_h5p').hide();  
+      }
     }
     
     
@@ -64,6 +65,8 @@ let url_status = '';
 
  $('#materia-list').change(function () {
        let subject_name = this.value;
+       //alert(this.value);
+       console.log(subject_odas);
        let subject = subject_odas.filter(x => x.name === subject_name);
        let odas = subject[0].odas;
        let select_odas = $('#oda-list');
@@ -120,55 +123,49 @@ let url_status = '';
     
     type_moment = document.getElementById('tipo-momento').value;
 
-    if (type_moment!="h5p"){
+    if (type_moment!="h5p"){               
+        let url = gettext('/api/content/');
+        console.log('url ' + url)
+        let control = document.getElementById('content');
+        let data = $('#content').val();
+        let previous_file = $('#fileName').html();
 
-      
-       
-       let url = gettext('/api/content/');
-       console.log('url ' + url)
-       let control = document.getElementById('content');
-       let data = $('#content').val();
-       let previous_file = $('#fileName').html();
-
-       if ((data == "" || data == null) && (previous_file == "" || previous_file == null))
-       {
+        if ((data == "" || data == null) && (previous_file == "" || previous_file == null))
+        {
            swal("Error", "Selecciona un archivo", 'error');
            return false;
-       }
-
-
-
-      if (data != "" && data != null){
-           let match_found = data.search('.mp4');
-           if(match_found == -1){
-              swal("Error", "Selecciona un archivo MP4", "error");
-              return false;
-           }
-          swal({
-          title: 'Please wait',
-          allowOutsideClick: false,
-          });
-          swal.showLoading();
-           let formH5P = new FormData($('#uploadForm')[0]);
-           let inputH5P = $('#content')[0];
-           formH5P.append('package', inputH5P.files[0]);
-           $.ajax({
-            type: "POST",
-            url: url,
-            data: formH5P,
-            success: success,
-            contentType: false,
-            processData: false,
-            error: function(data){
-                console.log('error en upload');
-                swal.close();
-                swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
-            }
-          });
+        }
+        if (data != "" && data != null){
+             let match_found = data.search('.mp4');
+             /*if(match_found == -1){
+                swal("Error", "Selecciona un archivo MP4", "error");
+                return false;
+             }*/
+            swal({
+              title: 'Please wait',
+              allowOutsideClick: false,
+            });
+            swal.showLoading();
+               let formH5P = new FormData($('#uploadForm')[0]);
+               let inputH5P = $('#content')[0];
+               formH5P.append('package', inputH5P.files[0]);
+               $.ajax({
+                type: "POST",
+                url: url,
+                data: formH5P,
+                success: success,
+                contentType: false,
+                processData: false,
+                error: function(data){
+                    console.log('error en upload');
+                    swal.close();
+                    swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
+                }
+            });
                       
         }
         else{
-           alert ('send only form')
+           //alert ('send only form')
             $('#uploadForm').submit();
         }
     }
@@ -186,8 +183,29 @@ let url_status = '';
              return false;
          }
 
-           alert ('send only form because type is h5p')
-            $('#uploadForm').submit();
+            //alert ('send only form because type is h5p')
+            let url = gettext('/api/content/');
+            swal({
+              title: 'Please wait',
+              allowOutsideClick: false,
+            });
+            swal.showLoading();
+            let formH5P = new FormData($('#uploadForm')[0]);
+             
+             
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: formH5P,
+                success: success,
+                contentType: false,
+                processData: false,
+                error: function(data){
+                    console.log('error en upload');
+                    swal.close();
+                    swal("Error", "El content h5p no pudo cargarse, por favor intenta más tarde", 'error');
+                }
+            });            
         }
 
  });
@@ -210,7 +228,7 @@ let url_status = '';
     console.log( data.url.split("/"))
     $('#id_content').val(data.url.split("/")[5]);
 
-    alert ('se va guardar la forma')
+    //alert ('se va guardar la forma')
     $('#uploadForm').submit();
     console.log('success upload data');
     return false;
