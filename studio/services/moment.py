@@ -26,8 +26,8 @@ def get_context_data(context, **kwargs):
         for oda in subject.odas.all():
             microodas = []
             for microoda in oda.microodas.all():
-                if microoda.activities.all().count() < 3:
-                    microodas.append(microoda.type.name)
+                #if microoda.activities.all().count() < 10:
+                microodas.append(microoda.type.name)
 
             if len(microodas) > 0:
                 odas.append(oda)
@@ -63,7 +63,8 @@ def get_context_data_update(obj, context, **kwargs):
         for oda in subject.odas.all():
             microodas = []
             for microoda in oda.microodas.all():
-                if microoda.activities.all().count() < 3 or microoda == obj.microoda:
+                #if microoda.activities.all().count() < 10 or microoda == obj.microoda:
+                if microoda == obj.microoda:
                     microodas.append(microoda.type.name)
 
             if len(microodas) > 0:
