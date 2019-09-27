@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    console.log('ready momentos js');
     if(self_subject != "" && self_subject!= null){
         $('#materia-list').val(self_subject);
         $('#materia-list').trigger('change');
@@ -53,11 +52,18 @@ let url_status = '';
        let oda_name = this.value;
        let oda = oda_microodas.filter(x => x.name === oda_name);
        let microoda = oda[0].microodas;
+       let mapping_microodas = {
+            'application': 'Integrar', 
+            'formalization': 'Modelar',
+            'activation': 'Aplicar', 
+            'exemplification': 'Explorar', 
+            'sensitization': 'Conectar', 
+       };
        let select_microodas = $('#micro-oda');
        select_microodas.empty();
        select_microodas.append('<option disabled selected></option>');
        for(let i=0; i<microoda.length; i++){
-           option = $('<option></option>').attr("value", microoda[i]).text(microoda[i]);
+           option = $('<option></option>').attr("value", microoda[i]).text(mapping_microodas[microoda[i]]);
            select_microodas.append(option);
        }
    });
@@ -65,8 +71,6 @@ let url_status = '';
 
  $('#materia-list').change(function () {
        let subject_name = this.value;
-       //alert(this.value);
-       console.log(subject_odas);
        let subject = subject_odas.filter(x => x.name === subject_name);
        let odas = subject[0].odas;
        let select_odas = $('#oda-list');
@@ -80,7 +84,6 @@ let url_status = '';
    });
 
  $('#submit_button').on('click', function () {
-    console.log('Se va guardar la oda');
 
      let name = document.getElementById('name').value;
      if (name == "" || name == null){
@@ -119,7 +122,6 @@ let url_status = '';
      }
 
      
-    console.log ('todo es correcto')
     
     type_moment = document.getElementById('tipo-momento').value;
 
@@ -157,7 +159,6 @@ let url_status = '';
                 contentType: false,
                 processData: false,
                 error: function(data){
-                    console.log('error en upload');
                     swal.close();
                     swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
                 }
@@ -201,7 +202,6 @@ let url_status = '';
                 contentType: false,
                 processData: false,
                 error: function(data){
-                    console.log('error en upload');
                     swal.close();
                     swal("Error", "El content h5p no pudo cargarse, por favor intenta más tarde", 'error');
                 }
@@ -216,7 +216,6 @@ let url_status = '';
  * @returns {boolean}
  */
  function success(data){
-    console.log('success function');
     if (data.status == "error"){
         swal("Error", data.error, 'error');
         return false;
@@ -224,13 +223,10 @@ let url_status = '';
     
     //alret ('se va guardar la forma 2')
     swal.close();
-    console.log(data);
-    console.log( data.url.split("/"))
     $('#id_content').val(data.url.split("/")[5]);
 
     //alert ('se va guardar la forma')
     $('#uploadForm').submit();
-    console.log('success upload data');
     return false;
   
 
