@@ -1,6 +1,6 @@
-from rest_framework.serializers import HyperlinkedModelSerializer
+from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializer
 
-from alumnica_model.models.content import Image, Evaluation
+from alumnica_model.models.content import Image, Evaluation, Content
 
 
 class ImageHyperlinkedModelSerializer(HyperlinkedModelSerializer):
@@ -13,3 +13,11 @@ class EvaluationHyperlinkedModelSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Evaluation
         fields = '__all__'
+
+
+
+class ContentUploadFileSerializer(HyperlinkedModelSerializer):
+    class Meta:
+        model = Content
+        fields = '__all__'
+

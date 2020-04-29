@@ -1,9 +1,0 @@
-[
-  {
-    "label": "360 image",
-    "name": "image",
-    "type": "image",
-    "optional": false,
-    "description": "360 image shown on viewer."
-  }
-]

@@ -43,11 +43,11 @@ $(document).ready(function() {
 // alphanum for all inputs
 
 $('input').alphanum({
-  allow: ',-_',
+  allow: ';.,-_:"()¿?!¡[]{}',
 });
 
 // quit alphanum
-$('#id_email, #id_password').off('.alphanum');
+$('#id_email, #id_password , #url_h5p , #library_h5p').off('.alphanum');
 // Image file upload preview for Materias
 
 $(document).ready(function() {

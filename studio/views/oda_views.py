@@ -9,7 +9,9 @@ from alumnica_model.models import Subject, ODA, Tag, Moment, users
 from alumnica_model.models.content import Evaluation, MicroODAType
 from studio.forms.oda_forms import ODAsPositionForm, ODACreateForm, \
     ODAUpdateForm
-
+from django.http import HttpResponse
+from django.db import models
+from django.contrib import messages
 
 class ODAsPositionView(LoginRequiredMixin, FormView):
     """
@@ -88,6 +90,7 @@ class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Cr
     form_class = ODACreateForm
 
     def get(self, request, *args, **kwargs):
+        print ('in create')
         tags_list = Tag.objects.all()
         moments_list = Moment.objects.filter(microoda=None)
         subjects_list = []
@@ -295,6 +298,10 @@ class DeleteODAView(View):
     Deletes ODA object
     """
     def dispatch(self, request, *args, **kwargs):
-        ODA.objects.get(pk=self.kwargs['pk']).pre_delete()
-        return redirect('oda_dashboard_view')
+        try:
+            ODA.objects.get(pk=self.kwargs['pk']).pre_delete()
+            return redirect('oda_dashboard_view')
+        except models.ProtectedError as ex:
+            messages.error(request, 'Error: la oda tiene registrado avances en el aprendizaje de los usuarios en la plataforma del EVA.',  extra_tags='callout small')
+            return redirect('oda_dashboard_view')
 

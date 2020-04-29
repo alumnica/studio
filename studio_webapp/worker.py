@@ -9,6 +9,7 @@ listen = ['high', 'default', 'low']
 
 
 redis_url = os.getenv('REDISTOGO_URL')
+print ('redis_url -> ' + str (redis_url))
 
 if not redis_url:
     redis = Redis('localhost', 6379)
@@ -22,6 +23,7 @@ def main():
     django.setup(set_prefix=False)
 
     with Connection(conn):
+        print ('connection queue')
         worker = Worker(map(Queue, listen))
         worker.work()
 

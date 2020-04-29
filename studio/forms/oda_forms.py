@@ -4,7 +4,7 @@ import xlrd
 from django import forms
 from django.core.exceptions import ValidationError
 from alumnica_model.models import ODA
-from alumnica_model.models.content import Subject, Tag, MicroODA, Image
+from alumnica_model.models.content import Subject, Tag, MicroODA, Image, DICT_MOMENTS
 from alumnica_model.models.questions import *
 
 
@@ -120,7 +120,6 @@ class ODACreateForm(forms.ModelForm):
     def save_form(self, user, moments, subject, bloque, is_draft=False):
         oda = super(ODACreateForm, self).save(commit=False)
         cleaned_data = super(ODACreateForm, self).clean()
-
         tags = cleaned_data.get('tags')
         apli_tags = cleaned_data.get('apli_tags')
         forma_tags = cleaned_data.get('forma_tags')
@@ -193,7 +192,7 @@ class ODACreateForm(forms.ModelForm):
             evaluation_instance = Evaluation.objects.create(
                 name='{}_evaluation'.format(oda.name),
                 file=evaluation_file,
-                file_name=evaluation_file.name)
+                file_name="oda_" + str (oda.id) + "_" + evaluation_file.name)
             set_evaluation(evaluation_instance)
             oda.evaluation = evaluation_instance
         oda.save()
@@ -304,7 +303,6 @@ class ODAUpdateForm(forms.ModelForm):
 
     def save_form(self, user, moments, subject, bloque, evaluation, is_draft=False):
         cleaned_data = super(ODAUpdateForm, self).clean()
-
         tags = cleaned_data.get('tags')
         apli_tags = cleaned_data.get('apli_tags')
         forma_tags = cleaned_data.get('forma_tags')
@@ -389,13 +387,13 @@ class ODAUpdateForm(forms.ModelForm):
             oda.completed_icon = completed_icon_object
 
         if evaluation_file is not None:
-            if oda.evaluation is None:
-                evaluation_instance = Evaluation.objects.create(
-                    name='{}_evaluation'.format(oda.name),
-                    file=evaluation_file,
-                    file_name=evaluation_file.name)
-            else:
-                evaluation_instance = oda.evaluation
+            #if oda.evaluation is None:
+            evaluation_instance = Evaluation.objects.create(
+                name='{}_evaluation'.format(oda.name),
+                file=evaluation_file,
+                file_name="oda_" + str (oda.id) + "_" + evaluation_file.name)
+            #else:
+             #   evaluation_instance = oda.evaluation
 
             set_evaluation(evaluation_instance)
             oda.evaluation = evaluation_instance
@@ -459,8 +457,10 @@ def set_evaluation(evaluation):
     """
     file_read = evaluation.file.read()
 
+
     relationship_questions = get_json_from_excel(file_read, 1)
     relationship_questions_instances = []
+
 
     for question_data in relationship_questions:
         question, created = RelationShipQuestion.objects.get_or_create(

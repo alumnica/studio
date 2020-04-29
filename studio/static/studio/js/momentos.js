@@ -15,6 +15,22 @@ $(document).ready(function () {
         }
 
     }
+    if (self_type!= undefined){
+      if (self_type===''){
+        $('#div_content').hide();
+        $('#div_h5p').hide();
+      }
+      else if ( self_type==='h5p'){
+        $('#div_content').hide();
+        $('#div_h5p').show();
+      }
+      else {
+        $('#div_content').show();
+        $('#div_h5p').hide();  
+      }
+    }
+    
+    
     if(file_name != "" && file_name != null){
         file_name = file_name.split('?');
         $('#fileName').html(file_name[0]);
@@ -23,23 +39,31 @@ $(document).ready(function () {
 });
 
 
-$('#h5p-upload').change( function(){
-    let value =  $('#h5p-upload');
-    var filename = $('#h5p-upload').val().split('\\').pop();
+$('#content').change( function(){
+    let value =  $('#content');
+    var filename = $('#content').val().split('\\').pop();
 
     $('#fileName').html(filename);
 });
+
 let url_status = '';
 
  $('#oda-list').change(function () {
        let oda_name = this.value;
        let oda = oda_microodas.filter(x => x.name === oda_name);
        let microoda = oda[0].microodas;
+       let mapping_microodas = {
+            'application': 'Integrar', 
+            'formalization': 'Modelar',
+            'activation': 'Aplicar', 
+            'exemplification': 'Explorar', 
+            'sensitization': 'Conectar', 
+       };
        let select_microodas = $('#micro-oda');
        select_microodas.empty();
        select_microodas.append('<option disabled selected></option>');
        for(let i=0; i<microoda.length; i++){
-           option = $('<option></option>').attr("value", microoda[i]).text(microoda[i]);
+           option = $('<option></option>').attr("value", microoda[i]).text(mapping_microodas[microoda[i]]);
            select_microodas.append(option);
        }
    });
@@ -61,7 +85,7 @@ let url_status = '';
 
  $('#submit_button').on('click', function () {
 
-     let name = document.getElementById('h5p-name').value;
+     let name = document.getElementById('name').value;
      if (name == "" || name == null){
          swal("Error", "Introduce un nombre", 'error');
          return false;
@@ -97,49 +121,92 @@ let url_status = '';
          return false;
      }
 
-     let url = gettext('/api/zip_files/');
-     let control = document.getElementById('h5p-upload');
-     let data = $('#h5p-upload').val();
-     let previous_file = $('#fileName').html();
+     
+    
+    type_moment = document.getElementById('tipo-momento').value;
 
-     if ((data == "" || data == null) && (previous_file == "" || previous_file == null))
-     {
-         swal("Error", "Selecciona un archivo H5P", 'error');
-         return false;
-     }
+    if (type_moment!="h5p"){               
+        let url = gettext('/api/content/');
+        console.log('url ' + url)
+        let control = document.getElementById('content');
+        let data = $('#content').val();
+        let previous_file = $('#fileName').html();
 
-
-
-    if (data != "" && data != null){
-         let match_found = data.search('.h5p');
-         if(match_found == -1){
-            swal("Error", "Selecciona un archivo H5P", "error");
-            return false;
-         }
-        swal({
-        title: 'Please wait',
-        allowOutsideClick: false,
-        });
-        swal.showLoading();
-         let formH5P = new FormData($('#uploadForm')[0]);
-         let inputH5P = $('#h5p-upload')[0];
-         formH5P.append('package', inputH5P.files[0]);
-         $.ajax({
-          type: "POST",
-          url: url,
-          data: formH5P,
-          success: success,
-          contentType: false,
-          processData: false,
-          error: function(data){
-              swal.close();
-              swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
-          }
-        });
+        if ((data == "" || data == null) && (previous_file == "" || previous_file == null))
+        {
+           swal("Error", "Selecciona un archivo", 'error');
+           return false;
+        }
+        if (data != "" && data != null){
+             let match_found = data.search('.mp4');
+             /*if(match_found == -1){
+                swal("Error", "Selecciona un archivo MP4", "error");
+                return false;
+             }*/
+            swal({
+              title: 'Please wait',
+              allowOutsideClick: false,
+            });
+            swal.showLoading();
+               let formH5P = new FormData($('#uploadForm')[0]);
+               let inputH5P = $('#content')[0];
+               formH5P.append('package', inputH5P.files[0]);
+               $.ajax({
+                type: "POST",
+                url: url,
+                data: formH5P,
+                success: success,
+                contentType: false,
+                processData: false,
+                error: function(data){
+                    swal.close();
+                    swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
+                }
+            });
+                      
+        }
+        else{
+           //alert ('send only form')
+            $('#uploadForm').submit();
+        }
     }
     else{
-        $('#uploadForm').submit();
-    }
+
+        let frame_url = document.getElementById('url_h5p').value;
+        if (frame_url == "" || frame_url == null){
+             swal("Error", "Escribe la url del frame", 'error');
+             return false;
+         }
+
+         let script_url = document.getElementById('library_h5p').value;
+         if (script_url == "" || script_url == null){
+             swal("Error", "Escribe la url del script", 'error');
+             return false;
+         }
+
+            //alert ('send only form because type is h5p')
+            let url = gettext('/api/content/');
+            swal({
+              title: 'Please wait',
+              allowOutsideClick: false,
+            });
+            swal.showLoading();
+            let formH5P = new FormData($('#uploadForm')[0]);
+             
+             
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: formH5P,
+                success: success,
+                contentType: false,
+                processData: false,
+                error: function(data){
+                    swal.close();
+                    swal("Error", "El content h5p no pudo cargarse, por favor intenta más tarde", 'error');
+                }
+            });            
+        }
 
  });
 
@@ -149,61 +216,19 @@ let url_status = '';
  * @returns {boolean}
  */
  function success(data){
-
     if (data.status == "error"){
         swal("Error", data.error, 'error');
         return false;
     }
-    $('#url_h5p').val(data.job.package_job_id);
-    url_status = data.job.job_url;
+    
+    //alret ('se va guardar la forma 2')
+    swal.close();
+    $('#id_content').val(data.url.split("/")[5]);
 
-    $.ajax({
-      type: "GET",
-      url: url_status,
-      success: lookUpURL,
-      error: function(data){
-          swal.close();
-          swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
-      },
-      dataType: 'text'
-    });
-
-    /**
-     * Reviews job status to keep asking for h5p file uploading task
-     * @param data
-     * @returns {boolean}
-     */
-    function lookUpURL(data) {
-    let data_info = JSON.parse(data);
-    if (data_info.is_failed){
-        swal.close();
-        swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
-        return false;
-    }
-    if(data_info.is_finished){
-
-        $('#uploadForm').submit();
-        swal.close();
-        return false;
-    }
-    setTimeout(get_url, 1000)
-}
-
-    /**
-     * Asks for job status
-     */
-    function get_url() {
-    $.ajax({
-      type: "GET",
-      url: url_status,
-      success: lookUpURL,
-      error: function(data){
-          swal.close();
-          swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
-      },
-      dataType: 'text'
-    });
-}
+    //alert ('se va guardar la forma')
+    $('#uploadForm').submit();
+    return false;
+  
 
  }
 
@@ -260,3 +285,20 @@ $('#tipo-momento').selectize({
     },
     maxOptions: 4,
 });
+
+
+$('#tipo-momento').change(function () {
+      let type_name = this.value;
+      //alert ('change type ' + type_name);
+      
+
+      if (type_name=="h5p") {      
+        $('#div_h5p').show();
+        $('#div_content').hide();
+      }
+      else{
+        $('#div_content').show();
+        $('#div_h5p').hide();
+      }
+
+   });

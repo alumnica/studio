@@ -23,7 +23,7 @@
         let self_subject = "{{ moment.microoda.oda.subject.name|safe }}";
         let self_oda = "{{ moment.microoda.oda.name|safe }}";
         let self_microoda = "{{ moment.microoda.type.name|safe }}";
-        let self_type = "{{ moment.type.name|safe }}";
+        let self_type = "{{ moment.type|safe }}";
         {% for tag in tags %}
         momentoTags.push({ name: "{{ tag.name|safe }}"});
         {% endfor %}
@@ -37,13 +37,13 @@
         {% endfor %}
 
         {% for type in moment_type_list %}
-        typeList.push({ name: "{{ type.name|safe }}"});
+        typeList.push({ name: "{{ type|safe }}"});
         {% endfor %}
 
      </script>
         <div class="grid-x grid-margin-x grid-margin-y">
             <div class="cell medium-6">
-                <label for="h5p-name">Nombre del paquete</label>
+                <label for="name">Nombre del paquete</label>
                 {{ form.name }}
                 <!-- materia -->
                 <label for="materia-list">Materia</label>
@@ -77,31 +77,49 @@
 
 
                 <!-- tipo de momento -->
-                <label for="tipo-momento">Selecciona el tipo de Momento</label>
+                <label for="tipo-momento">Selecciona el formato de Momento</label>
                 <select name="tipo-momento" id="tipo-momento"></select>
                 <!-- tags -->
 
-                <label for="tags-momento">Tags</label>
+                <label for="momento-tags">Tags</label>
                 {{ form.tags }}
 
                 <!-- end tags -->
-
             </div>
-            <div class="cell medium-6">
+            <div class="cell medium-6" id="div_h5p">
                 <div class="panel">
                     <div class="panel__title">
-                        Paquete H5P
+                        Metadatos H5P
                     </div>
                     <div class="grid-x grid-margin-x grid-margin-y">
                         <div class="cell medium-6">
-                            <label for="h5p-upload" class="button expanded">
+                            <label for="url_h5p">
+                                 Ingrese la url frame</label>
+                                {{ content.url_h5p }}
+                        </div>                     
+                        <div class="cell medium-6">
+                            <label for="library_h5p">
+                                 Ingrese la url library</label>
+                                {{ content.library_h5p }}
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+             <div class="cell medium-6" id="div_content">
+                <div class="panel">
+                    <div class="panel__title">
+                        Contenido
+                    </div>
+                    <div class="grid-x grid-margin-x grid-margin-y">
+                        <div class="cell medium-6">
+                            <label for="content" class="button expanded">
                                  <i class="fa fa-upload"></i> Selecciona un archivo</label>
-                             {{ form.content }}
+                             {{ content.content }}
                         </div>
                         <div class="cell medium-6">
                             <p class="h5 thefile" id="fileName">
                                 <small>Nombre del archivo</small>
-                                {% with  moment.content.url|split:"/" as path%}
+                                {% with  content_file|split:"/" as path%}
                                     <script type="text/javascript">
                                     file_name = "{{ path|last }}";
                                     </script>
@@ -112,14 +130,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>            
            <div class="cell medium-12">
                <hr>
                 <button class="button" id="submit_button" type="button">
-                <i class="fa fa-save"></i> Guardar</button>
+                <i class="fa fa-save"></i>Guardar</button>
            </div>
         </div>
-        <input type="hidden" name="url_h5p" id="url_h5p">
+        <input type="hidden" name="id_content" id="id_content">
 
     </form>
 </div>

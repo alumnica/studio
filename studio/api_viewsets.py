@@ -5,9 +5,10 @@ from django.db.models import Q
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import APIView
 
-from alumnica_model.models.content import Image, Evaluation
-from studio.serializers import ImageHyperlinkedModelSerializer, EvaluationHyperlinkedModelSerializer
+from alumnica_model.models.content import Image, Evaluation,Content
+from studio.serializers import ContentUploadFileSerializer, ImageHyperlinkedModelSerializer, EvaluationHyperlinkedModelSerializer
 
 
 class ImageViewSet(ModelViewSet):
@@ -91,3 +92,26 @@ class EvaluationViewSet(ModelViewSet):
     """
     queryset = Evaluation.objects.all()
     serializer_class = EvaluationHyperlinkedModelSerializer
+
+
+
+class ContentUploadAPIView(ModelViewSet):
+    """
+    Receives H5P file to save
+    """
+    queryset = Content.objects.all()    
+    serializer_class = ContentUploadFileSerializer
+
+    # def post(self, request, version, format=None):
+
+    #         serializer = ContentUploadFileSerializer(data=request.DATA, files=request.FILES)
+    #         print (serializer)
+    #         if serializer.is_valid():
+    #             print ('is valid')
+    #             serializer.save()       
+    #             return Response(status=status.HTTP_200_OK)
+    #         else:
+    #             print ('no valid')
+    #             return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+
