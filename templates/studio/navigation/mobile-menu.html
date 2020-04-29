@@ -13,7 +13,7 @@
             <div class="m-text">Dashboard</div>
         </a>
     </li>
-    {% ifequal request.user.user_type 'SUPERVISOR'%}
+    {% ifequal request.user.user_type 'supervisor'%}
         <li>
             <a href="{% url 'approve_dashboard_view' %}">
                 <div class="menu-image fas fa-share-square"></div>

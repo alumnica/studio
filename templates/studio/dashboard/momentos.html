@@ -38,7 +38,7 @@
 
 
                                 {% if momento.microoda.oda != None and momento.microoda.oda.subject != None and momento.microoda.oda.subject.ambit != None and not momento.microoda.oda.subject.ambit.is_draft%}
-                                            {% ifequal request.user.user_type 'SUPERVISOR'%}
+                                            {% ifequal request.user.user_type 'supervisor'%}
                                                 <div class="title-edit-menu">
                                                     <span class="editar">
                                                         {# Link a editar este ambito en especifico #}
@@ -116,6 +116,7 @@
     let self_subject = null;
     let typeList = null;
     let file_name = null;
+    let self_type = null;
 </script>
 
 

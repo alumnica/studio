@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import sys
+#import pyrebase
 
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
@@ -235,3 +236,44 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
 }
+
+print (BASE_DIR)
+
+# CONFIG_FIREBASE = {
+#     'apiKey': "AIzaSyDIC-Z71vk5QG5rgnRBCl9WtySWghUT4Iw",
+#     'authDomain': "alumnica-app.firebaseapp.com",
+#     'databaseURL': "https://alumnica-app.firebaseio.com",
+#     'projectId': "alumnica-app",
+#     'storageBucket': "alumnica-app.appspot.com",
+#     'messagingSenderId': "804465192747",
+#     'appId': "1:804465192747:web:77d5d6257c21940b22df6e",
+#     'measurementId': "G-45CRE7JS83",
+#     'serviceAccount': BASE_DIR + "/alumnica-app-firebase-adminsdk-w2lxi-0d9945b073.json"
+# }
+
+# firebase = pyrebase.initialize_app(CONFIG_FIREBASE)
+
+
+
+# auth = firebase.auth()
+
+# # Log the user in
+# user = auth.sign_in_with_email_and_password('karazu20@gmail.com', 'P4$$w0rd')
+# print (user)
+# print ('user success')
+
+
+# db = firebase.database()
+
+# # data to save
+# data = {
+#     "name": "Fisico Matematicas"
+# }
+
+# # Pass the user's idToken to the push method
+# results = db.child("ambitos").push(data ) #, user['idToken'])
+
+# print (results)
+# print ('ambito guardado')
+
+# storage = firebase.storage() 

@@ -52,13 +52,16 @@ class ODACreateForm(forms.ModelForm):
         fields = ['name', 'description', 'tags']
 
     def clean(self):
+        print ('create clean')
         cleaned_data = super(ODACreateForm, self).clean()
         evaluation_file = cleaned_data.get('evaluation_file')
         if evaluation_file is not None:
             file_read = evaluation_file.read()
             workbook = xlrd.open_workbook(file_contents=file_read)
-
+            print (1)
             if len(workbook.sheet_names()) < 6:
+                print (workbook.sheet_names())
+                print (2)
                 error = ValidationError("Archivo inválido", code='file_error')
                 self.add_error('evaluation_file', error)
             else:
@@ -236,13 +239,17 @@ class ODAUpdateForm(forms.ModelForm):
         fields = ['name', 'description', 'tags']
 
     def clean(self):
+        print ('clean update')
         cleaned_data = super(ODAUpdateForm, self).clean()
         evaluation_file = cleaned_data.get('evaluation_file')
         if evaluation_file is not None:
             file_read = evaluation_file.read()
             workbook = xlrd.open_workbook(file_contents=file_read)
 
+            print (1)
             if len(workbook.sheet_names()) < 6:
+                print (workbook.sheet_names())
+                print (2)
                 error = ValidationError("Archivo inválido", code='file_error')
                 self.add_error('evaluation_file', error)
             else:
@@ -252,7 +259,10 @@ class ODAUpdateForm(forms.ModelForm):
                     columns_name = ['mODA', 'Enunciado', 'Opciones', 'Respuestas', 'DescripcionOK', 'DescripcionNOK']
 
                     for element in columns_name:
+                        print (element, columns_name)
                         if element not in question_data:
+                            print (element, question_data)
+                            print (3)
                             error = ValidationError("Archivo inválido", code='file_error')
                             self.add_error('evaluation_file', error)
                             return cleaned_data
@@ -264,6 +274,7 @@ class ODAUpdateForm(forms.ModelForm):
 
                     for element in columns_name:
                         if element not in question_data:
+                            print (4)
                             error = ValidationError("Archivo inválido", code='file_error')
                             self.add_error('evaluation_file', error)
                             return cleaned_data
@@ -275,6 +286,7 @@ class ODAUpdateForm(forms.ModelForm):
 
                     for element in columns_name:
                         if element not in question_data:
+                            print (5)
                             error = ValidationError("Archivo inválido", code='file_error')
                             self.add_error('evaluation_file', error)
                             return cleaned_data
@@ -286,6 +298,7 @@ class ODAUpdateForm(forms.ModelForm):
 
                     for element in columns_name:
                         if element not in question_data:
+                            print (6)
                             error = ValidationError("Archivo inválido", code='file_error')
                             self.add_error('evaluation_file', error)
                             return cleaned_data

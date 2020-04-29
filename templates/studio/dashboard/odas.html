@@ -54,7 +54,7 @@
                                 </div>
 
                                 {% if oda.subject != None and oda.subject.ambit != None and not oda.subject.ambit.is_draft%}
-                                            {% ifequal request.user.user_type 'SUPERVISOR'%}
+                                            {% ifequal request.user.user_type 'supervisor'%}
                                                 <div class="title-edit-menu">
                                                     <span class="editar">
                                                         {# Link a editar este ambito en especifico #}

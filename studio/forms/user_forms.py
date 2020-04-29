@@ -22,8 +22,12 @@ class UserLoginForm(forms.Form):
         cleaned_data = super(UserLoginForm, self).clean()
         email = cleaned_data.get('email').lower()
         password = cleaned_data.get('password')
+        print ('cleaned data')
+        print (email)
+        print (password)
         try:
             user = AuthUser.objects.get(email=email)
+            print (user)
             if not user.check_password(password):
                 error = ValidationError("Correo o contraseña inválida", code='credentials_error')
                 self.add_error('password', error)
@@ -31,20 +35,25 @@ class UserLoginForm(forms.Form):
 
             if not user.user_type == users.TYPE_CONTENT_CREATOR:
                 if not user.user_type == users.TYPE_SUPERVISOR:
-                    error = ValidationError("Correo o contraseña inválida", code='permission denied')
+
+                    print (user.user_type)
+                    print (users.TYPE_CONTENT_CREATOR,users.TYPE_SUPERVISOR)
+                    error = ValidationError("Permisos invalidos", code='permission denied')
                     self.add_error('password', error)
                     self.add_error('email', error)
 
         except AuthUser.DoesNotExist:
-            error = ValidationError("Correo o contraseña inválida.", code='credentials_error')
+            error = ValidationError("No existe el usuario.", code='credentials_error')
             self.add_error('password', error)
             self.add_error('email', error)
         return cleaned_data
 
     def get_user(self):
+        print ('in get user')
         cleaned_data = super(UserLoginForm, self).clean()
         email = cleaned_data.get('email').lower()
         user = AuthUser.objects.get(email=email)
+        print (user)
         return user
 
 

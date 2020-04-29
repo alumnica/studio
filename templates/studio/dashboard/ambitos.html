@@ -27,7 +27,7 @@
                             <th id="fecha-ambito" class="not-mobile">Fecha</th>
                             <th id="autor-ambito" class="not-mobile">Autor</th>
                             <th id="estado-ambito" class="not-mobile">Estado</th>
-                            {% ifequal request.user.user_type 'SUPERVISOR'%}
+                            {% ifequal request.user.user_type 'supervisor'%}
                                 <th id="eva-ambito" class="not-mobile"><i class="fas fa-calendar-times"></i> EVA</th>
                             {% endifequal %}
 
@@ -42,7 +42,7 @@
                                     {{ ambit.name }}
                                 </div>
                                 {% if not ambit.is_draft %}
-                                    {% ifequal request.user.user_type 'SUPERVISOR'%}
+                                    {% ifequal request.user.user_type 'supervisor'%}
                                         <div class="title-edit-menu">
                                         <span class="editar">
                                             {# Link a editar este ambito en especifico #}
@@ -114,7 +114,7 @@
                                     {% endif %}
                                 </div>
                             </td>
-                         {% ifequal request.user.user_type 'SUPERVISOR'%}
+                         {% ifequal request.user.user_type 'supervisor'%}
                              <td class="text-center">
                              {% if ambit.is_published %}
                                  <div class="button small alert remover">
