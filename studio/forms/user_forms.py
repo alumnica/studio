@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.utils.encoding import smart_str
 
 from alumnica_model.models import AuthUser, users
-from alumnica_model.models.users import TYPE_CONTENT_CREATOR, TYPE_SUPERVISOR, ContentCreator, Supervisor, Learner
+from alumnica_model.models.users import TYPE_ADMINISTRATOR, TYPE_CONTENT_CREATOR, TYPE_SUPERVISOR, ContentCreator, Supervisor, Learner, Administrator
 
 
 class UserLoginForm(forms.Form):
@@ -29,8 +29,9 @@ class UserLoginForm(forms.Form):
                 self.add_error('password', error)
                 self.add_error('email', error)
 
-            if not user.user_type == users.TYPE_CONTENT_CREATOR:
-                if not user.user_type == users.TYPE_SUPERVISOR:
+            if not (user.user_type == users.TYPE_CONTENT_CREATOR or
+                    user.user_type == users.TYPE_SUPERVISOR or
+                    user.user_type == users.TYPE_ADMINISTRATOR):
                     error = ValidationError("Correo o contraseña inválida", code='permission denied')
                     self.add_error('password', error)
                     self.add_error('email', error)
@@ -61,7 +62,8 @@ class CreateUserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CreateUserForm, self).__init__(*args, **kwargs)
         self.fields['user_type'].choices = ((TYPE_CONTENT_CREATOR, "Creador de contenido"),
-                                            (TYPE_SUPERVISOR, "Supervisor"))
+                                            (TYPE_SUPERVISOR, "Supervisor"),
+                                            (TYPE_ADMINISTRATOR, "Administrador"))
 
     def clean(self):
         cleaned_data = super(CreateUserForm, self).clean()
@@ -94,7 +96,8 @@ class UpdateUserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UpdateUserForm, self).__init__(*args, **kwargs)
         self.fields['user_type'].choices = ((TYPE_CONTENT_CREATOR, "Creador de contenido"),
-                                            (TYPE_SUPERVISOR, "Supervisor"))
+                                            (TYPE_SUPERVISOR, "Supervisor"),
+                                            (TYPE_ADMINISTRATOR, "Administrador"))
         self.fields['user_type'].initial = kwargs['instance'].user_type
 
     def clean(self):
@@ -121,6 +124,8 @@ class UpdateUserForm(forms.ModelForm):
                     obj = ContentCreator.objects.create(auth_user=user_original)
                 elif user.user_type == TYPE_SUPERVISOR:
                     obj = Supervisor.objects.create(auth_user=user_original)
+                elif user.user_type == TYPE_ADMINISTRATOR:
+                    obj = Administrator.objects.create(auth_user=user_original)
             user.save()
         return user
 

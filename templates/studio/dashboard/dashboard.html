@@ -106,6 +106,21 @@
                 </div>
         </div>
     {% endifequal %}
+
+     {% ifequal request.user.user_type 'ADMINISTRATOR'%}
+         <div class="cell medium-6">
+                <div class="cell medium-6">
+                    <div class="panel">
+                        <div class="panel__title">
+                            Sincronizar Firestore
+                        </div>
+                        <div class="panel__content text-center">                            
+                                <a href="{% url 'sync_firestore_view' %}" class=" button medium text-center">Sincronizar</a></th>                                
+                        </div>
+                    </div>
+                </div>
+        </div>
+    {% endifequal %}
         <!--end solo vista por supervisor -->
 
     </div>

@@ -34,7 +34,8 @@ router.register(r'content', api_viewsets.ContentUploadAPIView)
 
 urlpatterns = [
                   path('', LoginView.as_view(), name="login_view"),
-                  path('users/', include('studio.urls.user_urls')),
+                  path('profile/', include('studio.urls.user_urls')),
+                  path('administrator/', include('studio.urls.admin_urls')),
                   path('supervisor/', include('studio.urls.supervisor_urls')),
                   path('ambitos/', include('studio.urls.ambit_urls')),
                   path('subjects/', include('studio.urls.subject_urls')),

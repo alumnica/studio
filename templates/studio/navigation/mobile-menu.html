@@ -64,12 +64,14 @@
     <li>
         &nbsp;
     </li>
-    <li>
-        <a href="{% url 'users_view' %}">
-            <div class="menu-image fas fa-users"></div>
-            <div>Usuarios</div>
-        </a>
-    </li>
+    {% ifequal request.user.user_type 'ADMINISTRATOR'%}
+        <li>
+            <a href="{% url 'users_view' %}">
+                <div class="menu-image fas fa-users"></div>
+                <div>Usuarios</div>
+            </a>
+        </li>
+    {% endifequal %}
     <li>
         &nbsp;
     </li>
