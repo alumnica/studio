@@ -31,11 +31,9 @@ class MomentCreateForm(forms.ModelForm):
         fields = ['name', 'tags']
 
     def save_form(self, user, subject_name, oda_name, microoda_type, moment_type, content_id ):
-        print ('In create moment')
 
         cleaned_data = super(MomentCreateForm, self).clean()
         moment = super(MomentCreateForm, self).save(commit=False)
-        print (moment)
         tags = cleaned_data.get('tags').split(',')
         subject = Subject.objects.get(name=subject_name)
         oda = subject.odas.get(name=oda_name)
@@ -72,10 +70,8 @@ class MomentUpdateForm(forms.ModelForm):
         fields = ['name', 'tags']
 
     def save_form(self, user, subject_name, oda_name, microoda_type, moment_type, content_id):
-        print ('in update form')
         cleaned_data = super(MomentUpdateForm, self).clean()
         moment = super(MomentUpdateForm, self).save(commit=False)
-        print (moment)
         tags = cleaned_data.get('tags').split(',')
         subject = Subject.objects.get(name=subject_name)
         oda = subject.odas.get(name=oda_name)

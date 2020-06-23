@@ -4,6 +4,10 @@ from django.views.generic import FormView
 
 from alumnica_model.models import Ambit, users, Subject, ODA
 
+from alumnica_model.models import content 
+import requests
+from django.forms.models import model_to_dict
+
 
 class ApproveToPublishDashboard(LoginRequiredMixin, FormView):
     """
@@ -75,15 +79,33 @@ class GridPositionView(LoginRequiredMixin, FormView):
         context.update({'ambits_list': ambits_list})
         return context
 
+    def sync_ambit (self, ambit):                
+        subject_pub = ambit.subjects.all()
+        for  subject in subject_pub:            
+            odas_pub = subject.odas.all()
+            for oda in odas_pub:                
+                oda.is_published=True
+                oda.save()                        
+                microodas_pub = oda.microodas.all()
+                for microoda in microodas_pub:                    
+                    moments_pub = microoda.activities.all()
+                    for moment in moments_pub:                        
+                        moment.is_published=True
+                        moment.save()                        
+
     def post(self, request, *args, **kwargs):
         position_array = self.request.POST.get('order').split(',')
         counter = 1
+        print ('post Grid position')
         for element in position_array:
             ambit = Ambit.objects.get(pk=int(element))
+            if not ambit.is_published:
+                self.sync_ambit(ambit)
             ambit.position = counter
             ambit.is_draft = False
             ambit.is_published = True
             ambit.save()
+
             counter += 1
         return redirect(to="dashboard_view")
 

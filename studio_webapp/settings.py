@@ -17,6 +17,10 @@ import sys
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
 
+import firebase_admin 
+from  firebase_admin  import credentials, firestore, storage
+
+
 VERSION_NUMBER = 'v0.12.0'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -235,3 +239,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
 }
+
+
+#Init DB firebase
+
+cred = credentials.Certificate(BASE_DIR + "/alumnica-platform-firebase-adminsdk.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client() 
+bucket = storage.bucket('alumnica-platform.appspot.com') 
