@@ -3,15 +3,11 @@ from alumnica_model.models.content import typeMoment, Subject, Content
 from studio.forms.moment_forms import MomentCreateForm, MomentUpdateForm
 
 def get_context_data(context, **kwargs):
-    print ('create momentos')    
-    print (kwargs)
-    print (kwargs.get('name'))    
     
          
     moments_list = Moment.objects.all()
     tags = Tag.objects.all()
-    moment_type_list = typeMoment.values() #MomentType.objects.all()
-    print (moment_type_list)
+    moment_type_list = typeMoment.values() 
     subjects_list = []
     odas_list = []
 
@@ -25,10 +21,8 @@ def get_context_data(context, **kwargs):
 
         for oda in subject.odas.all():
             microodas = []
-            for microoda in oda.microodas.all():
-                #if microoda.activities.all().count() < 10:
+            for microoda in oda.microodas.all():                
                 microodas.append(microoda.type.name)
-
             if len(microodas) > 0:
                 odas.append(oda)
                 microodas_list.append(microodas)
@@ -40,8 +34,7 @@ def get_context_data(context, **kwargs):
     context.update({'moments_list': moments_list,
                     'tags': tags,
                     'subject_odas': subject_odas,
-                    'moment_type_list': moment_type_list}) 
-    print (context)
+                    'moment_type_list': moment_type_list})     
     return context
 
 def get_context_data_update(obj, context, **kwargs):
@@ -62,9 +55,7 @@ def get_context_data_update(obj, context, **kwargs):
 
         for oda in subject.odas.all():
             microodas = []
-            for microoda in oda.microodas.all():
-                #if microoda.activities.all().count() < 10 or microoda == obj.microoda:
-                #if microoda == obj.microoda:
+            for microoda in oda.microodas.all():                
                 microodas.append(microoda.type.name)
 
             if len(microodas) > 0:
@@ -82,16 +73,13 @@ def get_context_data_update(obj, context, **kwargs):
                     'moment_type_list': moment_type_list})
     return context
 
-def form_valid(request, form):
-    print (' valud save data after upload files ')    
+def form_valid(request, form):    
     subject = request.POST.get('materia-list')
     oda = request.POST.get('oda-list')
     microoda = request.POST.get('micro-oda')
-    moment_type = request.POST.get('tipo-momento')
-    #if moment_type=='h5p':
+    moment_type = request.POST.get('tipo-momento')    
     id_content = request.POST.get('id_content')
-    print (moment_type)
-    print (id_content)    
+    
 
     form.save_form(request.user, subject, oda, microoda, moment_type, id_content) 
     return 

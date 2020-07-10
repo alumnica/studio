@@ -90,7 +90,6 @@ class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Cr
     form_class = ODACreateForm
 
     def get(self, request, *args, **kwargs):
-        print ('in create')
         tags_list = Tag.objects.all()
         moments_list = Moment.objects.filter(microoda=None)
         subjects_list = []

@@ -102,16 +102,4 @@ class ContentUploadAPIView(ModelViewSet):
     queryset = Content.objects.all()    
     serializer_class = ContentUploadFileSerializer
 
-    # def post(self, request, version, format=None):
-
-    #         serializer = ContentUploadFileSerializer(data=request.DATA, files=request.FILES)
-    #         print (serializer)
-    #         if serializer.is_valid():
-    #             print ('is valid')
-    #             serializer.save()       
-    #             return Response(status=status.HTTP_200_OK)
-    #         else:
-    #             print ('no valid')
-    #             return Response(status=status.HTTP_400_BAD_REQUEST)
-        
-
+  

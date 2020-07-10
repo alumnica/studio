@@ -63,14 +63,11 @@ class UpdateMomentView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin,
         content = Content.objects.get(pk=self.get_object().content.id)        
         context['content'] =  ContentForm(instance=content)
         context['content_file']=content.content.name
-        print (context)
-        print ('-------------------')
         return context
 
 
 
     def form_valid(self, form):
-        print ("print update momento form")
         form_valid(self.request,form)
         return redirect(to='momentos_view')
 
@@ -94,9 +91,7 @@ class MomentView(DetailView):
     context_object_name = 'package'
 
     def get_object(self, queryset=None):
-        print ('in get object')
         if 'pk' in self.kwargs.keys():
-            print (self.model.objects.get(pk=self.kwargs['pk']))
             return self.model.objects.get(pk=self.kwargs['pk'])   
         else:
             raise ValueError('Neither pk nor moment_id were given as parameters')

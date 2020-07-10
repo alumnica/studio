@@ -50,7 +50,6 @@ class CreateSubjectView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin
     def form_valid(self, form):
         context = self.get_context_data()
         action = self.request.POST.get('action')
-
         subject, finalized = form.save_form(self.request.user, action == 'save')
         formset = context['formset']
         section = 1

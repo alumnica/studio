@@ -29,23 +29,23 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'd4$itpp&epvrm)%4(dd&qox0$wwv21g!fo3c$^y8ta^e@d((bt')
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
 SECURE_SSL_REDIRECT = bool(os.environ.get('FORCE_SSL', False))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False #not os.environ.get('ON_HEROKU', False)
 
-
-ALLOWED_HOSTS = ['54.153.4.110','ec2-54-153-4-110.us-west-1.compute.amazonaws.com', '.alumnica.org', '127.0.0.1']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',')
 CORS_ORIGIN_ALLOW_ALL = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-relay.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'alumnica@fundacionmanuelmoreno.org'
-EMAIL_HOST_PASSWORD = 'Alumnica1234'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') 
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') 
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'alumnica@fundacionmanuelmoreno.org'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') 
 
 # Application definition
 
@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     'studio.apps.StudioConfig',
     'django_use_email_as_username.apps.DjangoUseEmailAsUsernameConfig',
     'alumnica_model.apps.AlumnicaModelConfig',
-    #'django_h5p.apps.DjangoH5PConfig',
     'sweetify',
     'storages',
     'rest_framework',
@@ -243,7 +242,11 @@ REST_FRAMEWORK = {
 
 #Init DB firebase
 
-cred = credentials.Certificate(BASE_DIR + "/alumnica-platform-firebase-adminsdk.json")
+CREDENTIAL_FIREBASE = os.environ.get('CREDENTIAL_FIREBASE')
+NAME_BUCKET = os.environ.get('NAME_BUCKET')
+
+cred = credentials.Certificate(BASE_DIR + CREDENTIAL_FIREBASE)
 firebase_admin.initialize_app(cred)
-db = firestore.client() 
-bucket = storage.bucket('alumnica-platform.appspot.com') 
+DB = firestore.client() 
+BUCKET = storage.bucket(NAME_BUCKET) 
+
