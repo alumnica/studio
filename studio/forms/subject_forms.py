@@ -47,7 +47,7 @@ class SubjectForm(forms.ModelForm):
         subject = super(SubjectForm, self).save(commit=False)
         subject.created_by = user
 
-        if background_image != None:
+        if background_image is not None:
             if isinstance(background_image, Image):
                 subject.background_image = Image.objects.get(folder=background_image.folder, file=background_image.file)
                 subject.background_image.name = '{}-subject_background_image'.format(subject.name)
@@ -116,7 +116,7 @@ class UpdateSubjectForm(forms.ModelForm):
 
         tags = cleaned_data.get('tags')
 
-        if tags != None and tags != '':
+        if tags is not None and tags != '':
             tags = tags.split(',')
 
         tag = None
@@ -130,7 +130,7 @@ class UpdateSubjectForm(forms.ModelForm):
             if tag.name not in tags:
                 subject.tags.remove(tag)
 
-        if background_image != None:
+        if background_image is not None:
             if isinstance(background_image, Image):
                 subject.background_image = Image.objects.get(folder=background_image.folder, file=background_image.file)
                 subject.background_image.name = '{}-subject_background_image'.format(subject.name)
