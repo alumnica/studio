@@ -54,7 +54,7 @@ class ODACreateForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(ODACreateForm, self).clean()
         evaluation_file = cleaned_data.get('evaluation_file')
-        if evaluation_file is not None:
+        if evaluation_file != None:
             file_read = evaluation_file.read()
             workbook = xlrd.open_workbook(file_contents=file_read)
 
@@ -134,15 +134,15 @@ class ODACreateForm(forms.ModelForm):
         oda.temporal = is_draft
         oda.save()
 
-        if subject is not None:
+        if subject != None:
             subject_model = Subject.objects.get(name=subject)
             subject_model.odas.add(oda)
             subject_model.save()
 
-        if bloque is not None:
+        if bloque != None:
             oda.section = bloque
 
-        if tags is not None and tags is not '':
+        if tags != None and tags != '':
             tags = tags.split(',')
             for tag_name in tags:
                 tag, created = Tag.objects.get_or_create(name=tag_name)
@@ -155,18 +155,18 @@ class ODACreateForm(forms.ModelForm):
                                            default_position=counter, oda=oda)
             counter += 1
 
-        if apli_tags is not None:
+        if apli_tags != None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='application')), apli_tags)
-        if forma_tags is not None:
+        if forma_tags != None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='formalization')), forma_tags)
-        if activ_tags is not None:
+        if activ_tags != None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='activation')), activ_tags)
-        if ejemp_tags is not None:
+        if ejemp_tags != None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='exemplification')), ejemp_tags)
-        if sens_tags is not None:
+        if sens_tags != None:
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='sensitization')), sens_tags)
 
-        if active_icon is not None:
+        if active_icon != None:
             if isinstance(active_icon, Image):
                 active_icon_object = Image.objects.get(folder="ODAs", file=active_icon.file)
                 active_icon_object.name = '{}-oda_active_icon'.format(oda.name)
@@ -177,7 +177,7 @@ class ODACreateForm(forms.ModelForm):
             active_icon_object.save()
             oda.active_icon = active_icon_object
 
-        if completed_icon is not None:
+        if completed_icon != None:
             if isinstance(completed_icon, Image):
                 completed_icon_object = Image.objects.get(folder="ODAs", file=completed_icon.file)
                 completed_icon_object.name = '{}-oda_completed_icon'.format(oda.name)
@@ -188,7 +188,7 @@ class ODACreateForm(forms.ModelForm):
             completed_icon_object.save()
             oda.completed_icon = completed_icon_object
 
-        if evaluation_file is not None:
+        if evaluation_file != None:
             evaluation_instance = Evaluation.objects.create(
                 name='{}_evaluation'.format(oda.name),
                 file=evaluation_file,
@@ -238,7 +238,7 @@ class ODAUpdateForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(ODAUpdateForm, self).clean()
         evaluation_file = cleaned_data.get('evaluation_file')
-        if evaluation_file is not None:
+        if evaluation_file != None:
             file_read = evaluation_file.read()
             workbook = xlrd.open_workbook(file_contents=file_read)
 
@@ -314,15 +314,15 @@ class ODAUpdateForm(forms.ModelForm):
         evaluation_file = cleaned_data.get('evaluation_file')
         oda = super(ODAUpdateForm, self).save(commit=False)
 
-        if subject is not None:
+        if subject != None:
             subject_model = Subject.objects.get(name=subject)
             subject_model.odas.add(oda)
             subject_model.save()
 
-        if bloque is not None:
+        if bloque != None:
             oda.section = bloque
 
-        if tags is not None and tags is not '':
+        if tags != None and tags != '':
             tags = tags.split(',')
             for tag_name in tags:
                 tag, created = Tag.objects.get_or_create(name=tag_name)
@@ -364,7 +364,7 @@ class ODAUpdateForm(forms.ModelForm):
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='exemplification')), ejemp_tags)
             set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='sensitization')), sens_tags)
 
-        if active_icon is not None:
+        if active_icon != None:
             if isinstance(active_icon, Image):
                 active_icon_object = Image.objects.get(folder="ODAs", file=active_icon.file)
                 active_icon_object.name = '{}-oda_active_icon'.format(oda.name)
@@ -375,7 +375,7 @@ class ODAUpdateForm(forms.ModelForm):
             active_icon_object.save()
             oda.active_icon = active_icon_object
 
-        if completed_icon is not None:
+        if completed_icon != None:
             if isinstance(completed_icon, Image):
                 completed_icon_object = Image.objects.get(folder="ODAs", file=completed_icon.file)
                 completed_icon_object.name = '{}-oda_completed_icon'.format(oda.name)
@@ -386,7 +386,7 @@ class ODAUpdateForm(forms.ModelForm):
             completed_icon_object.save()
             oda.completed_icon = completed_icon_object
 
-        if evaluation_file is not None:
+        if evaluation_file != None:
             #if oda.evaluation is None:
             evaluation_instance = Evaluation.objects.create(
                 name='{}_evaluation'.format(oda.name),
@@ -411,7 +411,7 @@ def set_microodas_tags(microoda, tags):
     :param microoda: MicroODA object
     :param tags: Tags string separated by comma
     """
-    if tags is not None and tags is not '':
+    if tags != None and tags != '':
         tags = tags.split(',')
         for tag_name in tags:
             tag, created = Tag.objects.get_or_create(name=tag_name)
