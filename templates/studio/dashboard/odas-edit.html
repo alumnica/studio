@@ -16,6 +16,9 @@
                 <label for="oda-desc">Descripción</label>
                 {{ form.description }}
 
+                <label for="oda-learning_objective">Objetivo de aprendizaje</label>
+                {{ form.learning_objective }}
+
                 <!-- tags -->
 
                 <label for="tags-oda">Tags</label>
@@ -23,6 +26,14 @@
 {#                <input name="tags-oda" type="text" id="oda-tags" class="u-margin-bottom-small">#}
 
                 <!-- end tags -->
+                
+
+                <label for="references-oda">Referencias</label>
+                {{ form.references }}
+{#                <input name="references-oda" type="text" id="oda-references" class="u-margin-bottom-small">#}
+
+                
+
                 <div class="grid-x grid-margin-x grid-margin-y">
                     <div class="cell medium-6">
                         <div class="panel">
@@ -68,6 +79,51 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="cell medium-6">
+                        <div class="panel">
+                            <div class="panel__title">
+                                Imagen ODA
+                            </div>
+                            <div class="grid-x grid-margin-x">
+                                <div class="cell small-6">
+                                    <div class="img_oda-preview">
+                                        <img src="{{ oda.img_oda.file.url }}" alt="ODA IMG" />
+                                    </div>
+                                </div>
+                                <div class="cell small-6 align-self-middle">
+                                    <label for="id_img_oda" class="button small expanded">Subir imagen</label>
+                                    {{ form.img_oda }}
+
+                                    <button type="button" class="button expanded small">
+                                        <i class="fa fa-th"></i> Imágenes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cell medium-6">
+                        <div class="panel">
+                            <div class="panel__title">
+                                Imagen Portada
+                            </div>
+                            <div class="grid-x grid-margin-x">
+                                <div class="cell small-6">
+                                    <div class="img_portada-preview">
+                                        <img src="{{ oda.img_portada.file.url }}" alt="ODA Portada" />
+                                    </div>
+                                </div>
+                                <div class="cell small-6 align-self-middle">
+                                    <label for="id_img_portada" class="button small expanded">Subir imagen</label>
+                                    {{ form.img_portada }}
+
+                                    <button type="button" class="button expanded small">
+                                        <i class="fa fa-th"></i> Imágenes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -82,18 +138,30 @@
                     </p>
                 <script type="text/javascript">
                         let odaTags = [];
+                        let odaReferences = [];
                         let self_tags_selectize = [];
+                        let self_references_selectize = [];
                         let subject_bloques = [];
                         let momentosList = [];
                         let self_subject = "{{ oda.subject.name }}";
                         let self_section = "{{ oda.section }}";
+                        
+
 
                         {% for tag in tags_list %}
                             odaTags.push({name:"{{ tag.name|safe }}", value:"{{ tag.id|safe }}"});
                         {% endfor %}
 
+                        {% for reference in references_list %}
+                            odaReferences.push({name:"{{ reference.name|safe }}", value:"{{ reference.id|safe }}"});
+                        {% endfor %}
+
                         {% for tag in oda.tags.all %}
                             self_tags_selectize.push("{{ tag.name|safe }}");
+                        {% endfor %}
+
+                        {% for reference in oda.references.all %}
+                            self_references_selectize.push("{{ reference.name|safe }}");
                         {% endfor %}
 
                         {% for moment in moments_list %}
@@ -104,11 +172,13 @@
                         let apli= [];
                         {% for moment in apli_list.all.0.activities.all|dictsort:"default_position" %}
                                 apli.push({name:"{{ moment.name|safe }}", code:"{{ moment.id|safe }}"});
-                            {% endfor %}
+                            {% endfor %}                        
                         let apli_tags = [];
                         {% for tag in apli_list.all.0.tags.all %}
                                 apli_tags.push("{{ tag.name|safe }}");
                             {% endfor %}
+                        let apli_description = "{{apli_list.all.0.description}}"
+
 
                         let forma = [];
                         {% for moment in forma_list.all.0.activities.all|dictsort:"default_position" %}
@@ -118,6 +188,7 @@
                         {% for tag in forma_list.all.0.tags.all %}
                                 forma_tags.push("{{ tag.name|safe }}");
                             {% endfor %}
+                        let forma_description = "{{forma_list.all.0.description}}"
 
                         let activa = [];
                         {% for moment in activ_list.all.0.activities.all|dictsort:"default_position" %}
@@ -127,6 +198,7 @@
                         {% for tag in activ_list.all.0.tags.all %}
                                 activa_tags.push("{{ tag.name|safe }}");
                             {% endfor %}
+                        let activ_description = "{{activ_list.all.0.description}}"
 
                         let ejem= [];
                             {% for moment in ejem_list.all.0.activities.all|dictsort:"default_position" %}
@@ -136,6 +208,7 @@
                         {% for tag in ejem_list.all.0.tags.all %}
                                 ejem_tags.push("{{ tag.name|safe }}");
                             {% endfor %}
+                        let ejemp_description = "{{ejem_list.all.0.description}}"
 
                         let sens = [];
                         {% for moment in sens_list.all.0.activities.all|dictsort:"default_position" %}
@@ -145,6 +218,8 @@
                         {% for tag in sens_list.all.0.tags.all %}
                                 sens_tags.push("{{ tag.name|safe }}");
                             {% endfor %}
+                        let sens_description = "{{sens_list.all.0.description}}"                        
+
                         let evalu = null;
                         {% if oda.evaluation != None %}
                             evalu =  ({name:"{{ oda.evaluation.name|safe }}", pk:"{{ oda.evaluation.pk|safe }}"});
@@ -184,9 +259,7 @@
                 <div class="panel" id="apli">
                     <div class="panel__title">
                         Integrar
-                        <!--span class="add-materia" data-open="Modal-1">
-                            <i class="fas fa-plus-square"></i>
-                        </span-->
+                        
                     </div>
                     <div class="panel__content">
                         <ul class="oda-sort" id="uoda-1">
@@ -196,6 +269,9 @@
                      <hr>
                     <label for="apli-tags">Tags</label>
                     {{ form.apli_tags }}
+                    
+                    <label for="apli-desc">Descripción</label>
+                    {{ form.apli_description }}
                 </div>
 
             </div>
@@ -213,6 +289,8 @@
                     <hr>
                     <label for="forma-tags">Tags</label>
                     {{ form.forma_tags }}
+                    <label for="forma-desc">Descripción</label>
+                    {{ form.forma_description }}
                 </div>
 
             </div>
@@ -229,6 +307,8 @@
                      <hr>
                     <label for="activ-tags">Tags</label>
                     {{ form.activ_tags }}
+                    <label for="activ-desc">Descripción</label>
+                    {{ form.activ_description }}
                 </div>
             </div>
             <div class="cell medium-4">
@@ -244,6 +324,8 @@
                     <hr>
                     <label for="ejemp-tags">Tags</label>
                     {{ form.ejemp_tags }}
+                    <label for="ejemp-desc">Descripción</label>
+                    {{ form.ejemp_description }}
                 </div>
 
             </div>
@@ -260,6 +342,8 @@
                     <hr>
                     <label for="sens-tags">Tags</label>
                     {{ form.sens_tags }}
+                    <label for="sens-desc">Descripción</label>
+                    {{ form.sens_description }}
                 </div>
 
             </div>
@@ -383,5 +467,6 @@
     {% block scripts %}
         <script src="{% static "studio/js/oda-momentos.js" %}"></script>
         <script src="{% static "studio/js/oda-tags.js" %}"></script>
+        <script src="{% static "studio/js/oda-references.js" %}"></script>
         <script src="{% static "studio/js/oda.js" %}"></script>
     {% endblock %}

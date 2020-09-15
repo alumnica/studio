@@ -21,6 +21,13 @@ $(document).ready(function () {
        }
    });
 
+    $('#apli-desc').val(apli_description);
+    $('#forma-desc').val(forma_description);
+    $('#activ-desc').val(activ_description);
+    $('#ejemp-desc').val(ejemp_description);
+    $('#sens-desc').val(sens_description);
+
+
     $(":submit").click(function () {
     $("#action").val(this.name);
      });

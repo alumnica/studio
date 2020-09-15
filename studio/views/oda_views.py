@@ -5,7 +5,7 @@ from django.views.generic import FormView, UpdateView, ListView, CreateView
 from sweetify import sweetify
 
 from alumnica_model.mixins import OnlyContentCreatorAndSupervisorMixin
-from alumnica_model.models import Subject, ODA, Tag, Moment, users
+from alumnica_model.models import Subject, ODA, Tag, Moment, users, Reference
 from alumnica_model.models.content import Evaluation, MicroODAType
 from studio.forms.oda_forms import ODAsPositionForm, ODACreateForm, \
     ODAUpdateForm
@@ -91,6 +91,7 @@ class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Cr
 
     def get(self, request, *args, **kwargs):
         tags_list = Tag.objects.all()
+        references_list = Reference.objects.all()
         moments_list = Moment.objects.filter(microoda=None)
         subjects_list = []
 
@@ -112,7 +113,7 @@ class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Cr
         eval_list = Evaluation.objects.filter(oda=None)
 
         return render(request, self.template_name,
-                      {'form': self.form_class, 'tags_list': tags_list, 'moments_list': moments_list,
+                      {'form': self.form_class, 'tags_list': tags_list, 'references_list': references_list, 'moments_list': moments_list,
                        'subjects_sections': subjects_sections, 'eval_list': eval_list})
 
     def form_valid(self, form):
@@ -186,10 +187,11 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ODAUpdateView, self).get_context_data(**kwargs)
         tags_list = Tag.objects.all()
+        references_list = Reference.objects.all()
         moments_list = Moment.objects.filter(microoda=None)
         self_tags = self.object.tags.all()
 
-        apli_list = self.object.microodas.filter(type=MicroODAType.objects.get(name='application'))
+        apli_list = self.object.microodas.filter(type=MicroODAType.objects.get(name='application'))        
         forma_list = self.object.microodas.filter(type=MicroODAType.objects.get(name='formalization'))
         activ_list = self.object.microodas.filter(type=MicroODAType.objects.get(name='activation'))
         ejem_list = self.object.microodas.filter(type=MicroODAType.objects.get(name='exemplification'))
@@ -219,7 +221,7 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
         subjects_sections = zip(subjects_list, bloques_list)
 
         context.update(
-            {'subjects_sections': subjects_sections, 'tags_list': tags_list, 'moments_list': moments_list,
+            {'subjects_sections': subjects_sections, 'tags_list': tags_list, 'references_list': references_list, 'moments_list': moments_list,
              'self_tags': self_tags, 'apli_list': apli_list, 'forma_list': forma_list,
              'activ_list': activ_list, 'ejem_list': ejem_list,
              'sens_list': sens_list, 'eval_list': eval_list})

@@ -4,7 +4,7 @@ import xlrd
 from django import forms
 from django.core.exceptions import ValidationError
 from alumnica_model.models import ODA
-from alumnica_model.models.content import Subject, Tag, MicroODA, Image, DICT_MOMENTS
+from alumnica_model.models.content import Subject, Tag, MicroODA, Image, DICT_MOMENTS, Reference
 from alumnica_model.models.questions import *
 
 
@@ -21,35 +21,57 @@ class ODACreateForm(forms.ModelForm):
     """
     name = forms.CharField(widget=forms.TextInput())
     description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-desc'}))
+    learning_objective = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-learning_objective'}))
     tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                          'id': 'oda-tags'}))
+    references = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
+                                                                         'id': 'oda-references'}))
 
     active_icon = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden image',
                                                                                  'type': 'file'}))
     completed_icon = forms.ImageField(required=False,
                                       widget=forms.FileInput(attrs={'class': 'is-hidden image', 'type': 'file'}))
+    
+    img_oda = forms.ImageField(required=False,
+                                      widget=forms.FileInput(attrs={'class': 'is-hidden image', 'type': 'file'}))
+    img_portada = forms.ImageField(required=False,
+                                      widget=forms.FileInput(attrs={'class': 'is-hidden image', 'type': 'file'}))
+
     evaluation_file = forms.FileField(required=False,
                                       widget=forms.FileInput(attrs={'class': 'is-hidden', 'id': 'evaluation_file',
                                                                     'accept': '.xlsx'}))
     apli_tags = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                               'id': 'apli-tags'}))
+    apli_description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'apli-desc'}))
+
+    
     forma_tags = forms.CharField(required=False,
                                  widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                'id': 'forma-tags'}))
+    forma_description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'forma-desc'}))
+
+    
     activ_tags = forms.CharField(required=False,
                                  widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                'id': 'activ-tags'}))
+    activ_description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'activ-desc'}))
+
+    
     ejemp_tags = forms.CharField(required=False,
                                  widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                'id': 'ejemp-tags'}))
+    ejemp_description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'ejemp-desc'}))
+
+    
     sens_tags = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                               'id': 'sens-tags'}))
+    sens_description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'sens-desc'}))
 
     class Meta:
         model = ODA
-        fields = ['name', 'description', 'tags']
+        fields = ['name', 'description', 'learning_objective', 'tags', 'references']
 
     def clean(self):
         cleaned_data = super(ODACreateForm, self).clean()
@@ -121,18 +143,30 @@ class ODACreateForm(forms.ModelForm):
         oda = super(ODACreateForm, self).save(commit=False)
         cleaned_data = super(ODACreateForm, self).clean()
         tags = cleaned_data.get('tags')
+        references = cleaned_data.get('references')
         apli_tags = cleaned_data.get('apli_tags')
+        apli_description = cleaned_data.get('apli_description')
         forma_tags = cleaned_data.get('forma_tags')
+        forma_description = cleaned_data.get('forma_description')
         activ_tags = cleaned_data.get('activ_tags')
+        activ_description = cleaned_data.get('activ_description')
         ejemp_tags = cleaned_data.get('ejemp_tags')
+        ejemp_description = cleaned_data.get('ejemp_description')
         sens_tags = cleaned_data.get('sens_tags')
+        sens_description = cleaned_data.get('sens_description')
         completed_icon = cleaned_data.get('completed_icon')
         active_icon = cleaned_data.get('active_icon')
+        img_oda = cleaned_data.get('img_oda')
+        img_portada = cleaned_data.get('img_portada')
         evaluation_file = cleaned_data.get('evaluation_file')
+        learning_objective=cleaned_data.get('learning_objective')
+        oda.learning_objective =learning_objective
 
         oda.created_by = user
         oda.temporal = is_draft
         oda.save()
+
+
 
         if subject is not None:
             subject_model = Subject.objects.get(name=subject)
@@ -147,6 +181,13 @@ class ODACreateForm(forms.ModelForm):
             for tag_name in tags:
                 tag, created = Tag.objects.get_or_create(name=tag_name)
                 oda.tags.add(tag)
+
+        if references is not None and references != '':
+            references = references.split(',')
+            for reference_name in references:
+                reference, created = Reference.objects.get_or_create(name=reference_name)
+                oda.references.add(tag)
+
         counter = 1
         for moment_object in moments:
             MicroODA.objects.get_or_create(name='{}'.format(moment_object[0]),
@@ -155,16 +196,11 @@ class ODACreateForm(forms.ModelForm):
                                            default_position=counter, oda=oda)
             counter += 1
 
-        if apli_tags is not None:
-            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='application')), apli_tags)
-        if forma_tags is not None:
-            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='formalization')), forma_tags)
-        if activ_tags is not None:
-            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='activation')), activ_tags)
-        if ejemp_tags is not None:
-            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='exemplification')), ejemp_tags)
-        if sens_tags is not None:
-            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='sensitization')), sens_tags)
+        set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='application')), apli_tags, apli_description)
+        set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='formalization')), forma_tags, forma_description)
+        set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='activation')), activ_tags, activ_description)
+        set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='exemplification')), ejemp_tags, ejemp_description)
+        set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='sensitization')), sens_tags, ejemp_description)
 
         if active_icon is not None:
             if isinstance(active_icon, Image):
@@ -176,6 +212,28 @@ class ODACreateForm(forms.ModelForm):
                 active_icon_object.file_name = os.path.basename(active_icon_object.file.name)
             active_icon_object.save()
             oda.active_icon = active_icon_object
+
+        if img_oda is not None:
+            if isinstance(img_oda, Image):
+                img_oda_object = Image.objects.get(folder="ODAs", file=img_oda.file)
+                img_oda_object.name = '{}-img_oda'.format(oda.name)
+            else:
+                img_oda_object = Image.objects.create(name='{}-img_oda'.format(oda.name), folder="ODAs",
+                                                          file=img_oda)
+                img_oda_object.file_name = os.path.basename(img_oda_object.file.name)
+            img_oda_object.save()
+            oda.img_oda = img_oda_object
+
+        if img_portada is not None:
+            if isinstance(img_portada, Image):
+                img_portada_object = Image.objects.get(folder="ODAs", file=img_portada.file)
+                img_portada_object.name = '{}-img_portada'.format(oda.name)
+            else:
+                img_portada_object = Image.objects.create(name='{}-img_portada'.format(oda.name), folder="ODAs",
+                                                          file=img_portada)
+                img_portada_object.file_name = os.path.basename(img_portada_object.file.name)
+            img_portada_object.save()
+            oda.img_portada = img_portada_object
 
         if completed_icon is not None:
             if isinstance(completed_icon, Image):
@@ -205,11 +263,21 @@ class ODAUpdateForm(forms.ModelForm):
     """
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'oda-name'}))
     description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-desc'}))
+    learning_objective = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'oda-learning_objective'}))
     tags = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                          'id':
                                                                              'oda-tags'}))
 
+    references = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
+                                                                         'id':
+                                                                             'oda-references'}))
+
+
     active_icon = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden', 'type': 'file'}))
+    
+    img_oda = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden image', 'type': 'file'}))
+    img_portada = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden image', 'type': 'file'}))
+
     completed_icon = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'is-hidden',
                                                                                     'type': 'file'}))
     evaluation_file = forms.FileField(required=False,
@@ -218,22 +286,35 @@ class ODAUpdateForm(forms.ModelForm):
     apli_tags = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                               'id': 'apli-tags'}))
+    apli_description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'apli-desc'}))
+
+    
     forma_tags = forms.CharField(required=False,
                                  widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                'id': 'forma-tags'}))
+    forma_description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'forma-desc'}))
+
+    
     activ_tags = forms.CharField(required=False,
                                  widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                'id': 'activ-tags'}))
+    activ_description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'activ-desc'}))
+
+    
     ejemp_tags = forms.CharField(required=False,
                                  widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                                'id': 'ejemp-tags'}))
+    ejemp_description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'ejemp-desc'}))
+
+    
     sens_tags = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'class': 'u-margin-bottom-small selectized',
                                                               'id': 'sens-tags'}))
+    sens_description = forms.CharField(required=False, widget=forms.TextInput(attrs={'id': 'sens-desc'}))
 
     class Meta:
         model = ODA
-        fields = ['name', 'description', 'tags']
+        fields = ['name', 'description', 'learning_objective', 'tags', 'references']
 
     def clean(self):
         cleaned_data = super(ODAUpdateForm, self).clean()
@@ -304,15 +385,25 @@ class ODAUpdateForm(forms.ModelForm):
     def save_form(self, user, moments, subject, bloque, evaluation, is_draft=False):
         cleaned_data = super(ODAUpdateForm, self).clean()
         tags = cleaned_data.get('tags')
+        references = cleaned_data.get('references')
         apli_tags = cleaned_data.get('apli_tags')
+        apli_description = cleaned_data.get('apli_description')
         forma_tags = cleaned_data.get('forma_tags')
+        forma_description = cleaned_data.get('forma_description')
         activ_tags = cleaned_data.get('activ_tags')
+        activ_description = cleaned_data.get('activ_description')
         ejemp_tags = cleaned_data.get('ejemp_tags')
+        ejemp_description = cleaned_data.get('ejemp_description')
         sens_tags = cleaned_data.get('sens_tags')
+        sens_description = cleaned_data.get('sens_description')
         completed_icon = cleaned_data.get('completed_icon')
         active_icon = cleaned_data.get('active_icon')
+        img_oda = cleaned_data.get('img_oda')
+        img_portada = cleaned_data.get('img_portada')
         evaluation_file = cleaned_data.get('evaluation_file')
         oda = super(ODAUpdateForm, self).save(commit=False)
+        learning_objective=cleaned_data.get('learning_objective')
+        oda.learning_objective =learning_objective
 
         if subject is not None:
             subject_model = Subject.objects.get(name=subject)
@@ -331,6 +422,16 @@ class ODAUpdateForm(forms.ModelForm):
             for tag in oda.tags.all():
                 if tag.name not in tags:
                     oda.tags.remove(tag)
+
+        if references is not None and references != '':
+            references = references.split(',')
+            for reference_name in references:
+                reference, created = Reference.objects.get_or_create(name=reference_name)
+                if reference not in oda.references.all():
+                    oda.references.add(reference)
+            for reference in oda.references.all():
+                if reference.name not in references:
+                    oda.references.remove(reference)
 
         for moment_object in moments:
 
@@ -358,11 +459,11 @@ class ODAUpdateForm(forms.ModelForm):
                     momento.save()
                     position += 1
 
-            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='application')), apli_tags)
-            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='formalization')), forma_tags)
-            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='activation')), activ_tags)
-            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='exemplification')), ejemp_tags)
-            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='sensitization')), sens_tags)
+            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='application')), apli_tags, apli_description)
+            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='formalization')), forma_tags, forma_description)
+            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='activation')), activ_tags, activ_description)
+            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='exemplification')), ejemp_tags, ejemp_description)
+            set_microodas_tags(oda.microodas.get(type=MicroODAType.objects.get(name='sensitization')), sens_tags, ejemp_description)
 
         if active_icon is not None:
             if isinstance(active_icon, Image):
@@ -374,6 +475,28 @@ class ODAUpdateForm(forms.ModelForm):
                 active_icon_object.file_name = os.path.basename(active_icon_object.file.name)
             active_icon_object.save()
             oda.active_icon = active_icon_object
+
+        if img_oda is not None:
+            if isinstance(img_oda, Image):
+                img_oda_object = Image.objects.get(folder="ODAs", file=img_oda.file)
+                img_oda_object.name = '{}-img_oda'.format(oda.name)
+            else:
+                img_oda_object = Image.objects.create(name='{}-img_oda'.format(oda.name), folder="ODAs",
+                                                          file=img_oda)
+                img_oda_object.file_name = os.path.basename(img_oda_object.file.name)
+            img_oda_object.save()
+            oda.img_oda = img_oda_object
+
+        if img_portada is not None:
+            if isinstance(img_portada, Image):
+                img_portada_object = Image.objects.get(folder="ODAs", file=img_portada.file)
+                img_portada_object.name = '{}-img_portada'.format(oda.name)
+            else:
+                img_portada_object = Image.objects.create(name='{}-img_portada'.format(oda.name), folder="ODAs",
+                                                          file=img_portada)
+                img_portada_object.file_name = os.path.basename(img_portada_object.file.name)
+            img_portada_object.save()
+            oda.img_portada = img_portada_object
 
         if completed_icon is not None:
             if isinstance(completed_icon, Image):
@@ -405,12 +528,16 @@ class ODAUpdateForm(forms.ModelForm):
         return oda
 
 
-def set_microodas_tags(microoda, tags):
+def set_microodas_tags(microoda, tags, desc):
     """
     Adds tags to each MicroODA
     :param microoda: MicroODA object
     :param tags: Tags string separated by comma
     """
+    if desc is not None:
+        microoda.description=desc 
+        microoda.save()
+
     if tags is not None and tags != '':
         tags = tags.split(',')
         for tag_name in tags:
