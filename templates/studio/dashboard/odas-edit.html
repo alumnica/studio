@@ -178,6 +178,7 @@
                                 apli_tags.push("{{ tag.name|safe }}");
                             {% endfor %}
                         let apli_description = "{{apli_list.all.0.description}}"
+                        let apli_name = "{{apli_list.all.0.name}}"
 
 
                         let forma = [];
@@ -189,6 +190,7 @@
                                 forma_tags.push("{{ tag.name|safe }}");
                             {% endfor %}
                         let forma_description = "{{forma_list.all.0.description}}"
+                        let forma_name = "{{forma_list.all.0.name}}"
 
                         let activa = [];
                         {% for moment in activ_list.all.0.activities.all|dictsort:"default_position" %}
@@ -199,6 +201,7 @@
                                 activa_tags.push("{{ tag.name|safe }}");
                             {% endfor %}
                         let activ_description = "{{activ_list.all.0.description}}"
+                        let activ_name = "{{activ_list.all.0.name}}"
 
                         let ejem= [];
                             {% for moment in ejem_list.all.0.activities.all|dictsort:"default_position" %}
@@ -209,6 +212,7 @@
                                 ejem_tags.push("{{ tag.name|safe }}");
                             {% endfor %}
                         let ejemp_description = "{{ejem_list.all.0.description}}"
+                        let ejemp_name = "{{ejem_list.all.0.name}}"
 
                         let sens = [];
                         {% for moment in sens_list.all.0.activities.all|dictsort:"default_position" %}
@@ -218,7 +222,8 @@
                         {% for tag in sens_list.all.0.tags.all %}
                                 sens_tags.push("{{ tag.name|safe }}");
                             {% endfor %}
-                        let sens_description = "{{sens_list.all.0.description}}"                        
+                        let sens_description = "{{sens_list.all.0.description}}"
+                        let sens_name = "{{sens_list.all.0.name}}"                        
 
                         let evalu = null;
                         {% if oda.evaluation != None %}
@@ -270,6 +275,8 @@
                     <label for="apli-tags">Tags</label>
                     {{ form.apli_tags }}
                     
+                    <label for="apli-name">Nombre</label>
+                    {{ form.apli_name }}
                     <label for="apli-desc">Descripción</label>
                     {{ form.apli_description }}
                 </div>
@@ -289,6 +296,8 @@
                     <hr>
                     <label for="forma-tags">Tags</label>
                     {{ form.forma_tags }}
+                    <label for="forma-name">Nombre</label>
+                    {{ form.forma_name }}
                     <label for="forma-desc">Descripción</label>
                     {{ form.forma_description }}
                 </div>
@@ -307,6 +316,8 @@
                      <hr>
                     <label for="activ-tags">Tags</label>
                     {{ form.activ_tags }}
+                    <label for="activ-name">Nombre</label>
+                    {{ form.activ_name }}
                     <label for="activ-desc">Descripción</label>
                     {{ form.activ_description }}
                 </div>
@@ -324,6 +335,8 @@
                     <hr>
                     <label for="ejemp-tags">Tags</label>
                     {{ form.ejemp_tags }}
+                    <label for="ejemp-name">Nombre</label>
+                    {{ form.ejemp_name }}
                     <label for="ejemp-desc">Descripción</label>
                     {{ form.ejemp_description }}
                 </div>
@@ -342,6 +355,8 @@
                     <hr>
                     <label for="sens-tags">Tags</label>
                     {{ form.sens_tags }}
+                    <label for="sens-name">Nombre</label>
+                    {{ form.sens_name }}
                     <label for="sens-desc">Descripción</label>
                     {{ form.sens_description }}
                 </div>
@@ -384,12 +399,20 @@
                 <input type="hidden" id="eval-momentos" name="eval-momentos">
 
 
-                <button type="submit" class="button" name="save">
+                <button type="submit" class="button" name="save" id="save" data-loading-start>
                     <i class="fa fa-save"></i> Guardar</button>
 
+                <button type="button" class="button hide" id="procesando" data-loading-end> 
+                    <i class='fa fa-spinner fa-spin'></i> Procesando 
+                </button>
 
-                <button type="submit" class="button success" name="finalize">
+
+                <button type="submit" class="button success" name="finalize" id="finalize" data-loading-start>
                     <i class="fa fa-check"></i> Finalizar</button>
+
+                <button type="submit" class="button success hide"  id="finalizando" data-loading-end> 
+                    <i class='fa fa-spinner fa-spin'></i> Finalizando 
+                </button>
 
                 <input type="hidden" name="action" id="action" />
             </div>

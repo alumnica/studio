@@ -8,9 +8,10 @@ $('#oda-references').selectize({
     createOnBlur: true,
     delimiter: '|',
     create: function(input) {
+
         return {
-            value: input,
-            name: input
+            value: input ,
+            name: input 
         }
     },
     options: odaReferences,

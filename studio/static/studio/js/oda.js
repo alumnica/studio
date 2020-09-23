@@ -27,6 +27,13 @@ $(document).ready(function () {
     $('#ejemp-desc').val(ejemp_description);
     $('#sens-desc').val(sens_description);
 
+    $('#apli-name').val(apli_name);
+    $('#forma-name').val(forma_name);
+    $('#activ-name').val(activ_name);
+    $('#ejemp-name').val(ejemp_name);
+    $('#sens-name').val(sens_name);
+
+
 
     $(":submit").click(function () {
     $("#action").val(this.name);
@@ -148,8 +155,12 @@ function is_valid_form_position (){
  */
 function is_valid_form_odas_section(){
 
-    if($('#action').val() == "save"){
+    if($('#action').val() == "save"){        
+        $('#save').addClass('hide')
+        $('#procesando').removeClass('hide')
+
         return true;
+
     }
     else{
         //tags
@@ -294,6 +305,8 @@ function is_valid_form_odas_section(){
             }
 
         }
+        $('#finalize').addClass('hide')
+        $('#finalizando').removeClass('hide')
         return true;
     }
 

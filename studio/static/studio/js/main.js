@@ -43,7 +43,7 @@ $(document).ready(function() {
 // alphanum for all inputs
 
 $('input').alphanum({
-  allow: ';.,-_:"()¿?!¡[]{}',
+  allow: ';.,-_:"()¿?!¡[]{}|',
 });
 
 // quit alphanum
