@@ -186,7 +186,7 @@ function is_valid_form_odas_section(){
 
         //images
         let inputs = $("input.image:file");
-        for (let i=0; i<inputs.length; i++) {
+        /*for (let i=0; i<inputs.length; i++) {
             if (!$(inputs[i]).parents('.my_item').hasClass('is-hidden')){
                 if (inputs[i].files.length > 0) {
                 let image_size = inputs[i].files[0].size / 1024 / 1024;
@@ -226,7 +226,7 @@ function is_valid_form_odas_section(){
             }
 
 
-        }
+        }*/
 
 
         //microodas
