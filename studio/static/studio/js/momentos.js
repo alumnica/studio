@@ -16,17 +16,25 @@ $(document).ready(function () {
 
     }
     if (self_type!= undefined){
-      if (self_type===''){
+      if (self_type==''){
         $('#div_content').hide();
         $('#div_h5p').hide();
+        $('#div_text_free').hide();
       }
-      else if ( self_type==='h5p'){
+      else if ( self_type=='h5p'){
         $('#div_content').hide();
+        $('#div_text_free').hide();
         $('#div_h5p').show();
+      }
+      else if ( self_type=='text'){
+        $('#div_content').hide();
+        $('#div_h5p').hide();
+        $('#div_text_free').show();
       }
       else {
         $('#div_content').show();
-        $('#div_h5p').hide();  
+        $('#div_h5p').hide();
+        $('#div_text_free').hide();  
       }
     }
     
@@ -125,53 +133,7 @@ let url_status = '';
     
     type_moment = document.getElementById('tipo-momento').value;
 
-    if (type_moment!="h5p"){               
-        let url = gettext('/api/content/');
-        console.log('url ' + url)
-        let control = document.getElementById('content');
-        let data = $('#content').val();
-        let previous_file = $('#fileName').html();
-
-        if ((data == "" || data == null) && (previous_file == "" || previous_file == null))
-        {
-           swal("Error", "Selecciona un archivo", 'error');
-           return false;
-        }
-        if (data != "" && data != null){
-             let match_found = data.search('.mp4');
-             /*if(match_found == -1){
-                swal("Error", "Selecciona un archivo MP4", "error");
-                return false;
-             }*/
-            swal({
-              title: 'Please wait',
-              allowOutsideClick: false,
-            });
-            swal.showLoading();
-               let formH5P = new FormData($('#uploadForm')[0]);
-               let inputH5P = $('#content')[0];
-               formH5P.append('package', inputH5P.files[0]);
-               $.ajax({
-                type: "POST",
-                url: url,
-                data: formH5P,
-                success: success,
-                contentType: false,
-                processData: false,
-                error: function(data){
-                    swal.close();
-                    swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
-                }
-            });
-                      
-        }
-        else{
-           //alert ('send only form')
-            $('#uploadForm').submit();
-        }
-    }
-    else{
-
+    if (type_moment=="h5p"){
         let frame_url = document.getElementById('url_h5p').value;
         if (frame_url == "" || frame_url == null){
              swal("Error", "Escribe la url del frame", 'error');
@@ -205,7 +167,89 @@ let url_status = '';
                     swal.close();
                     swal("Error", "El content h5p no pudo cargarse, por favor intenta más tarde", 'error');
                 }
-            });            
+            }); 
+    }
+    else if (type_moment=="text"){        
+
+        let text_free = document.getElementById('text_free').value;
+        if (text_free == "" || text_free == null){
+             swal("Error", "Escribe el texto libre", 'error');
+             return false;
+         }
+
+         
+
+        //alert ('send only form because type is h5p')
+        let url = gettext('/api/content/');
+        swal({
+          title: 'Please wait',
+          allowOutsideClick: false,
+        });
+        swal.showLoading();
+        let formH5P = new FormData($('#uploadForm')[0]);
+         
+         
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formH5P,
+            success: success,
+            contentType: false,
+            processData: false,
+            error: function(data){
+                swal.close();
+                swal("Error", "El content texto libre no pudo cargarse, por favor intenta más tarde", 'error');
+            }
+        });        
+        
+    }
+    else{ //Content file -> mp4, gif, img
+
+        let url = gettext('/api/content/');
+          console.log('url ' + url)
+          let control = document.getElementById('content');
+          let data = $('#content').val();
+          let previous_file = $('#fileName').html();
+
+          if ((data == "" || data == null) && (previous_file == "" || previous_file == null))
+          {
+             swal("Error", "Selecciona un archivo", 'error');
+             return false;
+          }
+          if (data != "" && data != null){
+               let match_found = data.search('.mp4');
+               /*if(match_found == -1){
+                  swal("Error", "Selecciona un archivo MP4", "error");
+                  return false;
+               }*/
+              swal({
+                title: 'Please wait',
+                allowOutsideClick: false,
+              });
+              swal.showLoading();
+                 let formH5P = new FormData($('#uploadForm')[0]);
+                 let inputH5P = $('#content')[0];
+                 formH5P.append('package', inputH5P.files[0]);
+                 $.ajax({
+                  type: "POST",
+                  url: url,
+                  data: formH5P,
+                  success: success,
+                  contentType: false,
+                  processData: false,
+                  error: function(data){
+                      swal.close();
+                      swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
+                  }
+              });
+                        
+          }
+          else{
+             //alert ('send only form')
+              $('#uploadForm').submit();
+          }
+
+                   
         }
 
  });
@@ -283,7 +327,7 @@ $('#tipo-momento').selectize({
         let selectize = this;
         selectize.setValue(self_type)
     },
-    maxOptions: 4,
+    maxOptions: 10,
 });
 
 
@@ -292,13 +336,20 @@ $('#tipo-momento').change(function () {
       //alert ('change type ' + type_name);
       
 
-      if (type_name=="h5p") {      
-        $('#div_h5p').show();
+      if ( type_name=='h5p'){
         $('#div_content').hide();
+        $('#div_text_free').hide();
+        $('#div_h5p').show();
       }
-      else{
+      else if ( type_name=='text'){
+        $('#div_content').hide();
+        $('#div_h5p').hide();
+        $('#div_text_free').show();
+      }
+      else {
         $('#div_content').show();
         $('#div_h5p').hide();
+        $('#div_text_free').hide();  
       }
 
    });

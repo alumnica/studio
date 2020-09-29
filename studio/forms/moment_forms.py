@@ -8,12 +8,13 @@ from alumnica_model.models.content import MomentType, Subject, MicroODAType, Con
 class ContentForm(forms.ModelForm):
     url_h5p = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'id': 'url_h5p'}))
     library_h5p = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'id': 'library_h5p'}))
+    text = forms.CharField(max_length=1000, widget=forms.Textarea(attrs={'id': 'text_free'}))
     content = forms.FileField(required=False,
                               widget=forms.FileInput(attrs={'class': 'show-for-sr', 'id': 'content'}))
 
     class Meta:
         model = Content
-        fields = ['url_h5p', 'library_h5p', 'content']
+        fields = ['url_h5p', 'library_h5p', 'content', 'text']
 
 class MomentCreateForm(forms.ModelForm):
     """
