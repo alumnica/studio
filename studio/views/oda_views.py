@@ -99,11 +99,11 @@ class ODACreateView(LoginRequiredMixin, OnlyContentCreatorAndSupervisorMixin, Cr
 
         for subject in Subject.objects.filter(temporal=True):
             bloques = []
-            if subject.ambit is not None:
-                if not subject.ambit.is_draft:
-                    continue
+            #if subject.ambit is not None:
+                #if not subject.ambit.is_draft:
+               # continue
             for section in range(1, subject.number_of_sections + 1):
-                if len(subject.odas.filter(section=section)) < 8:
+                if len(subject.odas.filter(section=section)) < 16:
                     bloques.append(section)
             if len(bloques) > 0:
                 subjects_list.append(subject)
@@ -205,11 +205,11 @@ class ODAUpdateView(LoginRequiredMixin, UpdateView):
             bloques = []
 
             if self.object.subject != subject:
-                if subject.ambit is not None:
-                    if not subject.ambit.is_draft and not subject.temporal:
-                        continue
+                #if subject.ambit is not None:
+                    #if not subject.ambit.is_draft and not subject.temporal:
+                continue
             for section in range(1, subject.number_of_sections + 1):
-                if len(subject.odas.filter(section=section)) < 8:
+                if len(subject.odas.filter(section=section)) < 16:
                     bloques.append(section)
                 else:
                     if self.object.subworld == subject and self.object.section == section:
