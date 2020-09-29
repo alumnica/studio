@@ -16,8 +16,8 @@ def get_context_data(context, **kwargs):
         microodas_list = []
 
         if subject.ambit is not None:
-            if not subject.ambit.is_draft:
-                continue
+            #if not subject.ambit.is_draft:
+            continue
 
         for oda in subject.odas.all():
             microodas = []
@@ -50,8 +50,8 @@ def get_context_data_update(obj, context, **kwargs):
 
         if subject.ambit is not None:
             if obj.microoda is not None:
-                if not subject.ambit.is_draft and obj.microoda.oda.subject != subject:
-                    continue
+                #if not subject.ambit.is_draft and obj.microoda.oda.subject != subject:
+                continue
 
         for oda in subject.odas.all():
             microodas = []
