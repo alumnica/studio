@@ -146,9 +146,14 @@
                 </div>
             </div>            
            <div class="cell medium-12">
-               <hr>
-                <button class="button" id="submit_button" type="button">
-                <i class="fa fa-save"></i>Guardar</button>
+               <hr>               
+                <button type="submit" class="button" name="save" id="submit_button" data-loading-start>
+                    <i class="fa fa-save"></i> Guardar</button>
+
+                <button type="button" class="button hide" id="procesando" data-loading-end> 
+                    <i class='fa fa-spinner fa-spin'></i> Procesando 
+                </button>
+
            </div>
         </div>
         <input type="hidden" name="id_content" id="id_content">

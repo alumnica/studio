@@ -93,6 +93,9 @@ let url_status = '';
 
  $('#submit_button').on('click', function () {
 
+    $('#submit_button').addClass('hide')
+    $('#procesando').removeClass('hide')
+
      let name = document.getElementById('name').value;
      if (name == "" || name == null){
          swal("Error", "Introduce un nombre", 'error');
