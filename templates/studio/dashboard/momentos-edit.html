@@ -20,10 +20,12 @@
         let oda_microodas = [];
         let odaList = [];
         let typeList = [];
+        let answersList = [];
         let self_subject = "{{ moment.microoda.oda.subject.name|safe }}";
         let self_oda = "{{ moment.microoda.oda.name|safe }}";
         let self_microoda = "{{ moment.microoda.type.name|safe }}";
         let self_type = "{{ moment.type|safe }}";
+        let correct_answer = "{{ moment.content.correct_answer|safe }}";
         {% for tag in tags %}
         momentoTags.push({ name: "{{ tag.name|safe }}"});
         {% endfor %}
@@ -38,6 +40,10 @@
 
         {% for type in moment_type_list %}
         typeList.push({ name: "{{ type|safe }}"});
+        {% endfor %}
+
+        {% for answer in answers_correct_list %}
+        answersList.push({ name: "{{ answer|safe }}"});
         {% endfor %}
 
      </script>
@@ -86,8 +92,9 @@
 
                 <!-- end tags -->
             </div>
-            <div class="cell medium-6" id="div_h5p">
-                <div class="panel">
+         
+             <div class="cell medium-6" >
+                <div class="panel" id="div_h5p">
                     <div class="panel__title">
                         Metadatos H5P
                     </div>
@@ -104,23 +111,8 @@
                         </div>                        
                     </div>
                 </div>
-            </div>
-             <div class="cell medium-6" id="div_text_free">
-                <div class="panel">
-                    <div class="panel__title">
-                        Texto Libre
-                    </div>
-                    <div class="grid-x grid-margin-x grid-margin-y">
-                        <div class="cell medium-6">
-                            <label for="text_free">
-                                 Ingrese el texto</label>
-                                {{ content.text }}
-                        </div>                                             
-                    </div>
-                </div>
-            </div>
-             <div class="cell medium-6" id="div_content">
-                <div class="panel">
+
+                <div class="panel" id="div_content">
                     <div class="panel__title">
                         Contenido
                     </div>
@@ -144,7 +136,94 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+
+                 <div class="panel" id="div_text_free">
+                    <div class="panel__title">
+                        Texto Libre
+                    </div>
+                    <div class="grid-x grid-margin-x grid-margin-y">
+                        <div class="cell medium-12">
+                            <label for="text_free">
+                                 Ingrese el texto</label>
+                                {{ content.text }}
+                        </div>                                             
+                    </div>
+                </div>
+
+                 <div class="panel" id="div_question">
+                    <div class="panel__title">
+                        Pregunta
+                    </div>
+                    <div class="grid-x grid-margin-x grid-margin-y">
+                        <div class="cell medium-12">
+                            <label for="question" >
+                                 Escriba la pregunta</label>
+                             {{ content.question }}
+                        </div>
+                        <div class="cell medium-12">
+                            <label for="answer1">
+                                 Escriba la respuesta 1</label>
+                             {{ content.answer1 }}
+                        </div>
+                        <div class="cell medium-12">
+                            <label for="answer2">
+                                 Escriba la respuesta 2</label>
+                             {{ content.answer2 }}
+                        </div>
+                        <div class="cell medium-12">
+                            <label for="answer3">
+                                 Escriba la respuesta 3</label>
+                             {{ content.answer3 }}
+                        </div>
+                        <div class="cell medium-12">
+                            <label for="positive_retro">
+                                 Escriba la retro positiva</label>
+                             {{ content.positive_retro }}
+                        </div>
+                        <div class="cell medium-12">
+                            <label for="negative_retro">
+                                 Escriba la retro negativa</label>
+                             {{ content.negative_retro }}
+                        </div>
+                        <div class="cell medium-12">
+                            <label for="correct_answer">
+                                 Seleccione la respuesta correcta</label>
+                             <select name="correct_answer" id="correct_answer"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel" id="div_hotspots">
+                    <div class="panel__title">
+                        Coordenadas
+                    </div>
+                    <div class="grid-x grid-margin-x grid-margin-y">
+                        <div class="cell medium-6">
+                            <label for="coordenada1" >
+                                 Escriba la Coordenada 1</label>
+                             {{ content.coordenada1 }}
+                        </div>
+                        <div class="cell medium-6">
+                            <label for="coordenada2">
+                                 Escriba la Coordenada 2</label>
+                             {{ content.coordenada2 }}
+                        </div>
+                        <div class="cell medium-6">
+                            <label for="coordenada3">
+                                 Escriba la Coordenada 3</label>
+                             {{ content.coordenada3 }}
+                        </div>
+                        <div class="cell medium-6">
+                            <label for="coordenada4">
+                                 Escriba la Coordenada 4</label>
+                             {{ content.coordenada4 }}
+                        </div>                        
+                    </div>
+                </div>
+
+            </div>
+
+            
            <div class="cell medium-12">
                <hr>               
                 <button type="submit" class="button" name="save" id="submit_button" data-loading-start>

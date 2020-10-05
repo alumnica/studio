@@ -1,7 +1,7 @@
 from django import forms
 
 from alumnica_model.models import Moment, Tag
-from alumnica_model.models.content import MomentType, Subject, MicroODAType, Content
+from alumnica_model.models.content import MomentType, Subject, MicroODAType, Content, answerCorrect
 #from alumnica_model.models.h5p import H5Package
 
 
@@ -9,12 +9,27 @@ class ContentForm(forms.ModelForm):
     url_h5p = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'id': 'url_h5p'}))
     library_h5p = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'id': 'library_h5p'}))
     text = forms.CharField(max_length=1000, widget=forms.Textarea(attrs={'id': 'text_free'}))
+    
+    question = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'id': 'question'}))
+    answer1 = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'id': 'answer1'}))
+    answer2 = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'id': 'answer2'}))
+    answer3 = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'id': 'answer3'}))
+    correct_answer = forms.ChoiceField(widget=forms.Select(attrs={'id': 'correct_answer'}))
+    positive_retro = forms.CharField(max_length=350, widget=forms.TextInput(attrs={'id': 'positive_retro'}))
+    negative_retro = forms.CharField(max_length=350, widget=forms.TextInput(attrs={'id': 'negative_retro'}))
+
+    coordenada1 = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'id': 'coordenada1'}))
+    coordenada2 = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'id': 'coordenada2'}))
+    coordenada3 = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'id': 'coordenada3'}))
+    coordenada4 = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'id': 'coordenada4'}))
+
     content = forms.FileField(required=False,
                               widget=forms.FileInput(attrs={'class': 'show-for-sr', 'id': 'content'}))
 
     class Meta:
         model = Content
-        fields = ['url_h5p', 'library_h5p', 'content', 'text']
+        fields = ['url_h5p', 'library_h5p', 'content', 'text', 'question', 'answer1', 'answer2', 'answer3', 'correct_answer',
+                'positive_retro', 'negative_retro', 'coordenada1', 'coordenada2', 'coordenada3', 'coordenada4']
 
 class MomentCreateForm(forms.ModelForm):
     """

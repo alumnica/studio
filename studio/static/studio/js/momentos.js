@@ -15,26 +15,44 @@ $(document).ready(function () {
         }
 
     }
+
+    //self_type
     if (self_type!= undefined){
-      if (self_type==''){
-        $('#div_content').hide();
-        $('#div_h5p').hide();
-        $('#div_text_free').hide();
-      }
-      else if ( self_type=='h5p'){
+      if ( self_type=='h5p'){
         $('#div_content').hide();
         $('#div_text_free').hide();
+        $('#div_question').hide();
+        $('#div_hotspots').hide();
         $('#div_h5p').show();
       }
-      else if ( self_type=='text'){
+      else if (self_type=='text'){
         $('#div_content').hide();
-        $('#div_h5p').hide();
+        $('#div_h5p').hide();        
+        $('#div_question').hide();
+        $('#div_hotspots').hide();
         $('#div_text_free').show();
       }
-      else {
+      else if (self_type=='question'){
+        $('#div_content').hide();
+        $('#div_h5p').hide();
+        $('#div_text_free').hide();
+        $('#div_hotspots').hide();
+        $('#div_question').show();
+      }
+      else if (self_type=='hotspots'){
+        $('#div_content').show();
+        $('#div_h5p').hide();
+        $('#div_text_free').show();        
+        $('#div_question').hide();
+        $('#div_hotspots').show();
+      }
+
+      else { //Img. mp4, gif, timeline, twine
         $('#div_content').show();
         $('#div_h5p').hide();
         $('#div_text_free').hide();  
+        $('#div_question').hide();
+        $('#div_hotspots').hide();
       }
     }
     
@@ -135,6 +153,7 @@ let url_status = '';
      
     
     type_moment = document.getElementById('tipo-momento').value;
+    
 
     if (type_moment=="h5p"){
         let frame_url = document.getElementById('url_h5p').value;
@@ -206,7 +225,124 @@ let url_status = '';
         });        
         
     }
-    else{ //Content file -> mp4, gif, img
+
+    else if (type_moment=="hotspots"){        
+
+         let text_free = document.getElementById('text_free').value;
+        if (text_free == "" || text_free == null){
+             swal("Error", "Escribe el texto libre", 'error');
+             return false;
+         }
+
+
+         let coordenada1 = document.getElementById('coordenada1').value;
+         let coordenada2 = document.getElementById('coordenada2').value;
+         let coordenada3 = document.getElementById('coordenada3').value;
+         let coordenada4 = document.getElementById('coordenada4').value;
+        if ((coordenada1 == "" || coordenada1 == null)&&(coordenada2 == "" || coordenada2 == null)&&
+          (coordenada3 == "" || coordenada3 == null)&&(coordenada4 == "" || coordenada4 == null)){
+             swal("Error", "Escribe Las coordenadas de la imagen", 'error');
+             return false;
+         }
+
+        let url = gettext('/api/content/');
+        console.log('url ' + url)
+        let control = document.getElementById('content');
+        let data = $('#content').val();
+        let previous_file = $('#fileName').html();
+
+        if ((data == "" || data == null) && (previous_file == "" || previous_file == null))
+        {
+           swal("Error", "Selecciona un archivo", 'error');
+           return false;
+        }
+        if (data != "" && data != null){
+           
+            swal({
+              title: 'Please wait',
+              allowOutsideClick: false,
+            });
+            swal.showLoading();
+               let formH5P = new FormData($('#uploadForm')[0]);
+               let inputH5P = $('#content')[0];
+               formH5P.append('package', inputH5P.files[0]);
+               $.ajax({
+                type: "POST",
+                url: url,
+                data: formH5P,
+                success: success,
+                contentType: false,
+                processData: false,
+                error: function(data){
+                    swal.close();
+                    swal("Error", "El archivo no pudo subirse, por favor intenta más tarde", 'error');
+                }
+            });
+                      
+          }
+          else{
+             //alert ('send only form')
+              $('#uploadForm').submit();
+          }
+        
+    }
+
+    else if (type_moment== "question"){        
+
+        let question = document.getElementById('question').value;
+        if (question == "" || question == null){
+             swal("Error", "Escribe la pregunta", 'error');
+             return false;
+         }
+
+         let answer1 = document.getElementById('answer1').value;
+         let answer2 = document.getElementById('answer2').value;
+        if ((answer1 == "" || answer1 == null)&&(answer2 == "" || answer2 == null)){
+             swal("Error", "Escribe al menos dos respuesta", 'error');
+             return false;
+         }
+
+         let positive_retro = document.getElementById('positive_retro').value;
+         let negative_retro = document.getElementById('negative_retro').value;
+        if ((positive_retro == "" || positive_retro == null)&&(negative_retro == "" || negative_retro == null)){
+             swal("Error", "Escribe la retroalimentación para la pregunta", 'error');
+             return false;
+         }
+
+         let correct_answer = document.getElementById('correct_answer').value;
+         console.log (correct_answer)
+        if (correct_answer == "" || correct_answer == null){
+             swal("Error", "Escribe la respuesta correcta", 'error');
+             return false;
+         }
+
+                  
+
+        //alert ('send only form because type is h5p')
+        let url = gettext('/api/content/');
+        swal({
+          title: 'Please wait',
+          allowOutsideClick: false,
+        });
+        swal.showLoading();
+        let formH5P = new FormData($('#uploadForm')[0]);
+         
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formH5P,
+            success: success,
+            contentType: false,
+            processData: false,
+            error: function(data){
+                swal.close();
+                swal("Error", "El content de Pregunta no pudo cargarse, por favor intenta más tarde", 'error');
+            }
+        });        
+        
+    }
+
+    else{ //Content file -> mp4, gif, img, twine, timeline
 
         let url = gettext('/api/content/');
           console.log('url ' + url)
@@ -220,11 +356,7 @@ let url_status = '';
              return false;
           }
           if (data != "" && data != null){
-               let match_found = data.search('.mp4');
-               /*if(match_found == -1){
-                  swal("Error", "Selecciona un archivo MP4", "error");
-                  return false;
-               }*/
+              
               swal({
                 title: 'Please wait',
                 allowOutsideClick: false,
@@ -333,6 +465,20 @@ $('#tipo-momento').selectize({
     maxOptions: 10,
 });
 
+$('#correct_answer').selectize({
+    maxItems: 1,
+    labelField: 'name',
+    valueField: 'name',
+    searchField: 'name',
+    options: answersList,
+    preload: true,
+    onInitialize: function() {
+        let selectize = this;
+        selectize.setValue(correct_answer)
+    },
+    maxOptions: 4,
+});
+
 
 $('#tipo-momento').change(function () {
       let type_name = this.value;
@@ -342,17 +488,38 @@ $('#tipo-momento').change(function () {
       if ( type_name=='h5p'){
         $('#div_content').hide();
         $('#div_text_free').hide();
+        $('#div_question').hide();
+        $('#div_hotspots').hide();
         $('#div_h5p').show();
       }
-      else if ( type_name=='text'){
+      else if (type_name=='text'){
         $('#div_content').hide();
-        $('#div_h5p').hide();
+        $('#div_h5p').hide();        
+        $('#div_question').hide();
+        $('#div_hotspots').hide();
         $('#div_text_free').show();
       }
-      else {
+      else if (type_name=='question'){
+        $('#div_content').hide();
+        $('#div_h5p').hide();
+        $('#div_text_free').hide();
+        $('#div_hotspots').hide();
+        $('#div_question').show();
+      }
+      else if (type_name=='hotspots'){
+        $('#div_content').show();
+        $('#div_h5p').hide();
+        $('#div_text_free').show();        
+        $('#div_question').hide();
+        $('#div_hotspots').show();
+      }
+
+      else { //Img. mp4, gif, timeline, twine
         $('#div_content').show();
         $('#div_h5p').hide();
         $('#div_text_free').hide();  
+        $('#div_question').hide();
+        $('#div_hotspots').hide();
       }
 
    });

@@ -1,5 +1,5 @@
 from alumnica_model.models import Moment, Tag
-from alumnica_model.models.content import typeMoment, Subject, Content
+from alumnica_model.models.content import typeMoment, Subject, Content, answerCorrect
 from studio.forms.moment_forms import MomentCreateForm, MomentUpdateForm
 
 def get_context_data(context, **kwargs):
@@ -7,7 +7,8 @@ def get_context_data(context, **kwargs):
          
     moments_list = Moment.objects.all()
     tags = Tag.objects.all()
-    moment_type_list = typeMoment.values() 
+    moment_type_list = typeMoment.values()
+    answers_correct_list = answerCorrect.values()
     subjects_list = []
     odas_list = []
 
@@ -34,13 +35,15 @@ def get_context_data(context, **kwargs):
     context.update({'moments_list': moments_list,
                     'tags': tags,
                     'subject_odas': subject_odas,
-                    'moment_type_list': moment_type_list})     
+                    'moment_type_list': moment_type_list, 
+                    'answers_correct_list':answers_correct_list})     
     return context
 
 def get_context_data_update(obj, context, **kwargs):
     moments_list = Moment.objects.all()
     tags = Tag.objects.all()
     moment_type_list = typeMoment.values()
+    answers_correct_list = answerCorrect.values()
     subjects_list = []
     odas_list = []
 
@@ -70,7 +73,8 @@ def get_context_data_update(obj, context, **kwargs):
     context.update({'moments_list': moments_list,
                     'tags': tags,
                     'subject_odas': subject_odas,
-                    'moment_type_list': moment_type_list})
+                    'moment_type_list': moment_type_list,
+                    'answers_correct_list':answers_correct_list})     
     return context
 
 def form_valid(request, form):    
